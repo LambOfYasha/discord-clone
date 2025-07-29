@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { ActionTooltip } from "@/components/action-tooltip";
+import { useNavigationStore } from "@/hooks/use-navigation-store";
 
 interface navigationItemProps {
   id: string;
@@ -14,11 +15,14 @@ interface navigationItemProps {
 export const NavigationItem = ({ id, imageUrl, name }: navigationItemProps) => {
   const params = useParams();
   const router = useRouter();
+  const { isCollapsed } = useNavigationStore();
+  
   const onClick = () => {
     if (params?.serverId !== id) {
       router.push(`/servers/${id}`);
     }
   };
+  
   return (
     <ActionTooltip side="right" align="center" label={name}>
       <button onClick={onClick} className="group flex relative items-center">

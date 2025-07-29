@@ -2,9 +2,9 @@ import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import FriendsPageClient from "@/components/friends/friends-page-client";
+import MessageRequestsPageClient from "@/components/message-requests/message-requests-page-client";
 
-const FriendsPage = async () => {
+const MessageRequestsPage = async () => {
   const profile = await currentProfile();
   if (!profile) {
     const authInstance = await auth();
@@ -22,8 +22,8 @@ const FriendsPage = async () => {
     },
   });
 
-  // Show the friends interface with servers (if any)
-  return <FriendsPageClient servers={servers} />;
+  // Show the message requests interface with servers (if any)
+  return <MessageRequestsPageClient servers={servers} />;
 };
 
-export default FriendsPage; 
+export default MessageRequestsPage; 

@@ -5,9 +5,11 @@ import { ActionTooltip } from "@/components/action-tooltip";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useNavigationStore } from "@/hooks/use-navigation-store";
 
 export const NavigationFriends = () => {
   const pathname = usePathname();
+  const { isCollapsed } = useNavigationStore();
   const isActive = pathname === "/friends";
 
   return (

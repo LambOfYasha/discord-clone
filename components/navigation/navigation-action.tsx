@@ -3,9 +3,12 @@
 import { Plus } from "lucide-react";
 import { ActionTooltip } from "@/components/action-tooltip";
 import { useModal } from "@/hooks/use-modal-store";
+import { useNavigationStore } from "@/hooks/use-navigation-store";
 
 export const NavigationAction = () => {
   const { onOpen } = useModal();
+  const { isCollapsed } = useNavigationStore();
+  
   return (
     <div>
       <ActionTooltip side="right" align="center" label="Add a server">

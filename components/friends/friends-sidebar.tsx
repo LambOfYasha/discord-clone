@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -14,9 +13,15 @@ import {
   Hash,
   Globe,
   Users,
-  Inbox
+  Inbox,
+  Home,
+  Compass,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 import { useModal } from "@/hooks/use-modal-store";
+import { useState } from "react";
+import { UserProfile } from "@/components/user/user-profile";
 
 interface FriendsSidebarProps {
   servers?: Array<{
@@ -24,65 +29,30 @@ interface FriendsSidebarProps {
     name: string;
     imageUrl: string;
   }>;
+  collapsed?: boolean;
+  onToggleCollapse?: () => void;
 }
 
-export const FriendsSidebar = ({ servers = [] }: FriendsSidebarProps) => {
+export const FriendsSidebar = ({ servers = [], collapsed = false, onToggleCollapse }: FriendsSidebarProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const { onOpen } = useModal();
 
   return (
-    <div className="flex flex-col h-full">
-      {/* Search Bar */}
-      <div className="p-3 border-b border-[#1E1F22]">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-          <Input
-            placeholder="Find or start a conversation"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-[#1E1F22] border-[#1E1F22] text-white placeholder:text-gray-400"
-          />
-        </div>
-      </div>
-
-      <ScrollArea className="flex-1">
-        <div className="p-3 space-y-4">
-          {/* Friends Section */}
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-semibold text-white flex items-center">
-                <User className="h-4 w-4 mr-2" />
-                Friends
-              </h3>
+    <div className={`flex flex-col h-full transition-all duration-300 ${collapsed ? 'w-16' : 'w-60'}`}>
+      {/* Navigation Header */}
+      <div className="p-3 border-b border-[#1E1F22] bg-[#1E1F22]">
+        <div className="flex items-center justify-between mb-3">
+          <Link href="/">
+            <div className="flex items-center space-x-2 cursor-pointer hover:opacity-80">
+              <div className="w-8 h-8 bg-[#5865F2] rounded flex items-center justify-center">
+                <span className="text-white text-lg font-bold">D</span>
+              </div>
+              {!collapsed && <span className="text-white font-semibold">Discord</span>}
             </div>
-            
-            <div className="space-y-1">
-              <Button
-                variant="ghost"
-                className="w-full justify-start text-gray-300 hover:text-white hover:bg-[#1E1F22]"
-              >
-                <MessageSquare className="h-4 w-4 mr-2" />
-                Message Requests
-              </Button>
-              
-              <Button
-                variant="ghost"
-                className="w-full justify-start text-gray-300 hover:text-white hover:bg-[#1E1F22]"
-                onClick={() => onOpen("inbox")}
-              >
-                <Inbox className="h-4 w-4 mr-2" />
-                Inbox
-              </Button>
-            </div>
-          </div>
-
-          <Separator className="bg-[#1E1F22]" />
-
-          {/* My Servers Section */}
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-semibold text-white">My Servers</h3>
-              <div className="flex items-center space-x-1">
+          </Link>
+          <div className="flex items-center space-x-1">
+            {!collapsed && (
+              <>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -91,37 +61,75 @@ export const FriendsSidebar = ({ servers = [] }: FriendsSidebarProps) => {
                 >
                   <Plus className="h-4 w-4" />
                 </Button>
+                <Link href="/discovery">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 w-6 p-0 text-gray-400 hover:text-white"
+                  >
+                    <Compass className="h-4 w-4" />
+                  </Button>
+                </Link>
+              </>
+            )}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-6 w-6 p-0 text-gray-400 hover:text-white"
+              onClick={onToggleCollapse}
+            >
+              {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+            </Button>
+          </div>
+        </div>
+        
+        {/* Search Bar */}
+        {!collapsed && (
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Input
+              placeholder="Find or start a conversation"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 bg-[#1E1F22] border-[#1E1F22] text-white placeholder:text-gray-400"
+            />
+          </div>
+        )}
+      </div>
+
+      <ScrollArea className="flex-1">
+        <div className="p-3 space-y-4">
+          {/* Friends Section */}
+          <div>
+            <Link href="/friends">
+              <div className="flex items-center justify-between mb-2 p-2 rounded hover:bg-[#1E1F22] cursor-pointer">
+                <h3 className="text-sm font-semibold text-white flex items-center">
+                  <User className="h-4 w-4 mr-2" />
+                  {!collapsed && "Friends"}
+                </h3>
+              </div>
+            </Link>
+            
+            {!collapsed && (
+              <div className="space-y-1">
+                <Link href="/message-requests">
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start text-gray-300 hover:text-white hover:bg-[#1E1F22]"
+                  >
+                    <MessageSquare className="h-4 w-4 mr-2" />
+                    Message Requests
+                  </Button>
+                </Link>
+                
                 <Button
                   variant="ghost"
-                  size="sm"
-                  className="h-6 w-6 p-0 text-gray-400 hover:text-white"
-                  onClick={() => onOpen("invite")}
+                  className="w-full justify-start text-gray-300 hover:text-white hover:bg-[#1E1F22]"
+                  onClick={() => onOpen("inbox")}
                 >
-                  <Globe className="h-4 w-4" />
+                  <Inbox className="h-4 w-4 mr-2" />
+                  Inbox
                 </Button>
-              </div>
-            </div>
-            
-            {servers.length > 0 ? (
-              <div className="space-y-1">
-                {servers.map((server) => (
-                  <Link key={server.id} href={`/servers/${server.id}`}>
-                    <div className="flex items-center space-x-2 p-2 rounded hover:bg-[#1E1F22] cursor-pointer">
-                      <div className="w-8 h-8 bg-[#5865F2] rounded-full flex items-center justify-center">
-                        <span className="text-white text-sm font-semibold">
-                          {server.name.charAt(0).toUpperCase()}
-                        </span>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm text-white truncate">{server.name}</p>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            ) : (
-              <div className="space-y-2 p-2">
-                <p className="text-xs text-gray-400">No servers yet</p>
               </div>
             )}
           </div>
@@ -131,23 +139,25 @@ export const FriendsSidebar = ({ servers = [] }: FriendsSidebarProps) => {
           {/* Direct Messages Section */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-semibold text-white">Direct Messages</h3>
-              <div className="flex items-center space-x-1">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-6 w-6 p-0 text-gray-400 hover:text-white"
-                >
-                  <Plus className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-6 w-6 p-0 text-gray-400 hover:text-white"
-                >
-                  <Users className="h-4 w-4" />
-                </Button>
-              </div>
+              <h3 className="text-sm font-semibold text-white">{!collapsed && "Direct Messages"}</h3>
+              {!collapsed && (
+                <div className="flex items-center space-x-1">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 w-6 p-0 text-gray-400 hover:text-white"
+                  >
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 w-6 p-0 text-gray-400 hover:text-white"
+                  >
+                    <Users className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
             </div>
             
             <div className="space-y-1">
@@ -157,9 +167,11 @@ export const FriendsSidebar = ({ servers = [] }: FriendsSidebarProps) => {
                   <div className="w-8 h-8 bg-[#5865F2] rounded-full flex items-center justify-center">
                     <span className="text-white text-sm font-semibold">D</span>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-white truncate">Davyon כוח</p>
-                  </div>
+                  {!collapsed && (
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-white truncate">Davyon כוח</p>
+                    </div>
+                  )}
                 </div>
               </Link>
               
@@ -168,9 +180,11 @@ export const FriendsSidebar = ({ servers = [] }: FriendsSidebarProps) => {
                   <div className="w-8 h-8 bg-[#5865F2] rounded-full flex items-center justify-center">
                     <span className="text-white text-sm font-semibold">J</span>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-white truncate">Jonathan</p>
-                  </div>
+                  {!collapsed && (
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-white truncate">Jonathan</p>
+                    </div>
+                  )}
                 </div>
               </Link>
               
@@ -179,9 +193,11 @@ export const FriendsSidebar = ({ servers = [] }: FriendsSidebarProps) => {
                   <div className="w-8 h-8 bg-[#5865F2] rounded-full flex items-center justify-center">
                     <span className="text-white text-sm font-semibold">K</span>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-white truncate">kaymingss</p>
-                  </div>
+                  {!collapsed && (
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-white truncate">kaymingss</p>
+                    </div>
+                  )}
                 </div>
               </Link>
               
@@ -190,9 +206,11 @@ export const FriendsSidebar = ({ servers = [] }: FriendsSidebarProps) => {
                   <div className="w-8 h-8 bg-[#5865F2] rounded-full flex items-center justify-center">
                     <span className="text-white text-sm font-semibold">G</span>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-white truncate">GodHatesChristmas</p>
-                  </div>
+                  {!collapsed && (
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-white truncate">GodHatesChristmas</p>
+                    </div>
+                  )}
                 </div>
               </Link>
               
@@ -201,13 +219,15 @@ export const FriendsSidebar = ({ servers = [] }: FriendsSidebarProps) => {
                   <div className="w-8 h-8 bg-[#5865F2] rounded-full flex items-center justify-center">
                     <span className="text-white text-sm font-semibold">D</span>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-white truncate">Discord</p>
-                    <div className="flex items-center space-x-1">
-                      <span className="text-xs bg-blue-500 text-white px-1 rounded">✓ OFFICIAL</span>
-                      <span className="text-xs text-gray-400">Official Discord Message</span>
+                  {!collapsed && (
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-white truncate">Discord</p>
+                      <div className="flex items-center space-x-1">
+                        <span className="text-xs bg-blue-500 text-white px-1 rounded">✓ OFFICIAL</span>
+                        <span className="text-xs text-gray-400">Official Discord Message</span>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </Link>
             </div>
@@ -215,29 +235,8 @@ export const FriendsSidebar = ({ servers = [] }: FriendsSidebarProps) => {
         </div>
       </ScrollArea>
 
-      {/* User Status Bar */}
-      <div className="p-3 border-t border-[#1E1F22] bg-[#1E1F22]">
-        <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
-            <span className="text-white text-sm font-semibold">א</span>
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm text-white truncate">אביר (Brian)</p>
-            <p className="text-xs text-gray-400">Idle</p>
-          </div>
-          <div className="flex items-center space-x-1">
-            <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
-              <span className="text-white text-xs">🔇</span>
-            </div>
-            <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
-              <span className="text-white text-xs">🔇</span>
-            </div>
-            <div className="w-4 h-4 bg-gray-600 rounded flex items-center justify-center">
-              <span className="text-white text-xs">⚙️</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* User Profile */}
+      <UserProfile collapsed={collapsed} variant="friends" />
     </div>
   );
 }; 

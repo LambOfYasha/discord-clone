@@ -1,10 +1,8 @@
 import { currentProfile } from "@/lib/current-profile";
+import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { FriendsSidebar } from "@/components/friends/friends-sidebar";
-import { DirectMessagesSidebar } from "@/components/friends/direct-messages-sidebar";
-import { ActiveNowSidebar } from "@/components/friends/active-now-sidebar";
-import { DirectMessagesList } from "@/components/friends/direct-messages-list";
+import DirectMessagesPageClient from "@/components/direct-messages/direct-messages-page-client";
 
 const DirectMessagesPage = async () => {
   const profile = await currentProfile();
@@ -25,28 +23,7 @@ const DirectMessagesPage = async () => {
   });
 
   // Show the friends interface with servers (if any)
-  return (
-    <div className="h-full flex">
-      {/* Friends & Direct Messages Sidebar */}
-      <div className="w-60 flex-shrink-0 bg-[#2B2D31] border-r border-[#1E1F22]">
-        <div className="flex flex-col h-full">
-          {/* Friends Section */}
-          <FriendsSidebar servers={servers} />
-          
-          {/* Direct Messages Section */}
-          <DirectMessagesSidebar />
-        </div>
-      </div>
-
-      {/* Main Content Area */}
-      <div className="flex-1 bg-[#313338]">
-        <DirectMessagesList />
-      </div>
-
-      {/* Active Now Sidebar */}
-      <ActiveNowSidebar />
-    </div>
-  );
+  return <DirectMessagesPageClient servers={servers} />;
 };
 
 export default DirectMessagesPage; 
