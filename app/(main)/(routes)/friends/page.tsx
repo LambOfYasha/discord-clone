@@ -1,14 +1,19 @@
-import { InitialModal } from "@/components/modals/initial-modal";
-import { db } from "@/lib/db";
-import { initialProfile } from "@/lib/initial.profile";
+import { currentProfile } from "@/lib/current-profile";
+import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { FriendsSidebar } from "@/components/friends/friends-sidebar";
 import { DirectMessagesSidebar } from "@/components/friends/direct-messages-sidebar";
 import { ActiveNowSidebar } from "@/components/friends/active-now-sidebar";
 import { FriendsList } from "@/components/friends/friends-list";
 
-const SetupPage = async () => {
-  const profile = await initialProfile();
+const FriendsPage = async () => {
+  const profile = await currentProfile();
+  if (!profile) {
+    const authInstance = await auth();
+    return authInstance.redirectToSignIn();
+  }
+
+  // Get user's servers to redirect if they have any
   const servers = await db.server.findMany({
     where: {
       members: {
@@ -24,7 +29,6 @@ const SetupPage = async () => {
     return redirect(`/servers/${servers[0].id}`);
   }
 
-  // If user has no servers, show the friends interface
   return (
     <div className="h-full flex">
       {/* Friends & Direct Messages Sidebar */}
@@ -49,4 +53,4 @@ const SetupPage = async () => {
   );
 };
 
-export default SetupPage;
+export default FriendsPage; 
