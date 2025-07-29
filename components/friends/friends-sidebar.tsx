@@ -9,12 +9,12 @@ import Link from "next/link";
 import { 
   User, 
   MessageSquare, 
-  Crown, 
-  ShoppingCart,
   Plus,
   Search,
   Hash,
-  Globe
+  Globe,
+  Users,
+  Inbox
 } from "lucide-react";
 import { useModal } from "@/hooks/use-modal-store";
 
@@ -68,23 +68,10 @@ export const FriendsSidebar = ({ servers = [] }: FriendsSidebarProps) => {
               <Button
                 variant="ghost"
                 className="w-full justify-start text-gray-300 hover:text-white hover:bg-[#1E1F22]"
+                onClick={() => onOpen("inbox")}
               >
-                <Crown className="h-4 w-4 mr-2" />
-                Nitro Home
-                <span className="ml-auto bg-[#5865F2] text-white text-xs px-2 py-1 rounded">
-                  REWARD
-                </span>
-              </Button>
-              
-              <Button
-                variant="ghost"
-                className="w-full justify-start text-gray-300 hover:text-white hover:bg-[#1E1F22]"
-              >
-                <ShoppingCart className="h-4 w-4 mr-2" />
-                Shop
-                <span className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded">
-                  NEW
-                </span>
+                <Inbox className="h-4 w-4 mr-2" />
+                Inbox
               </Button>
             </div>
           </div>
@@ -95,14 +82,24 @@ export const FriendsSidebar = ({ servers = [] }: FriendsSidebarProps) => {
           <div>
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-sm font-semibold text-white">My Servers</h3>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-6 w-6 p-0 text-gray-400 hover:text-white"
-                onClick={() => onOpen("createServer")}
-              >
-                <Plus className="h-4 w-4" />
-              </Button>
+              <div className="flex items-center space-x-1">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 w-6 p-0 text-gray-400 hover:text-white"
+                  onClick={() => onOpen("createServer")}
+                >
+                  <Plus className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 w-6 p-0 text-gray-400 hover:text-white"
+                  onClick={() => onOpen("invite")}
+                >
+                  <Globe className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
             
             {servers.length > 0 ? (
@@ -125,25 +122,6 @@ export const FriendsSidebar = ({ servers = [] }: FriendsSidebarProps) => {
             ) : (
               <div className="space-y-2 p-2">
                 <p className="text-xs text-gray-400">No servers yet</p>
-                <div className="flex space-x-1">
-                  <Button
-                    size="sm"
-                    className="flex-1 bg-[#5865F2] hover:bg-[#4752C4] text-white text-xs"
-                    onClick={() => onOpen("createServer")}
-                  >
-                    <Plus className="h-3 w-3 mr-1" />
-                    Create
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="flex-1 border-[#1E1F22] text-white hover:bg-[#1E1F22] text-xs"
-                    onClick={() => onOpen("invite")}
-                  >
-                    <Globe className="h-3 w-3 mr-1" />
-                    Join
-                  </Button>
-                </div>
               </div>
             )}
           </div>
@@ -154,13 +132,22 @@ export const FriendsSidebar = ({ servers = [] }: FriendsSidebarProps) => {
           <div>
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-sm font-semibold text-white">Direct Messages</h3>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-6 w-6 p-0 text-gray-400 hover:text-white"
-              >
-                <Plus className="h-4 w-4" />
-              </Button>
+              <div className="flex items-center space-x-1">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 w-6 p-0 text-gray-400 hover:text-white"
+                >
+                  <Plus className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 w-6 p-0 text-gray-400 hover:text-white"
+                >
+                  <Users className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
             
             <div className="space-y-1">

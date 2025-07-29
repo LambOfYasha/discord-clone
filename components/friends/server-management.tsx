@@ -42,27 +42,7 @@ export const ServerManagement = () => {
         </div>
       </div>
 
-      {/* Create Server Section */}
-      <div className="p-4 border-b border-[#1E1F22] bg-[#2B2D31]">
-        <div className="bg-[#1E1F22] rounded-lg p-4">
-          <div className="flex items-center space-x-3 mb-3">
-            <div className="w-12 h-12 bg-[#5865F2] rounded-full flex items-center justify-center">
-              <Plus className="h-6 w-6 text-white" />
-            </div>
-            <div>
-              <h3 className="text-white font-semibold">Create Your Server</h3>
-              <p className="text-sm text-gray-400">Bring your community together</p>
-            </div>
-          </div>
-          <Button
-            onClick={() => onOpen("createServer")}
-            className="w-full bg-[#5865F2] hover:bg-[#4752C4] text-white"
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            Create Server
-          </Button>
-        </div>
-      </div>
+
 
       {/* Join Server Section */}
       <div className="p-4 border-b border-[#1E1F22] bg-[#2B2D31]">

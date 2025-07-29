@@ -40,7 +40,7 @@ const FriendsPage = async () => {
 
       {/* Main Content Area */}
       <div className="flex-1 bg-[#313338]">
-        <FriendsList servers={servers} />
+        <FriendsList />
       </div>
 
       {/* Active Now Sidebar */}
