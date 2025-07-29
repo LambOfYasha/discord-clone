@@ -100,9 +100,15 @@ export default async function handler(
         },
       });
     }
+
+    const directMessageWithMember = {
+      ...directMessage,
+      member: member,
+    };
+
     const updateKey = `chat:${conversation.id}:messages:update`;
-    (res.socket as any).server.io.emit(updateKey, directMessage);
-    return res.status(200).json(directMessage);
+    (res.socket as any).server.io.emit(updateKey, directMessageWithMember);
+    return res.status(200).json(directMessageWithMember);
   } catch (error) {
     console.log("[MESSAGE_ID]", error);
     return res.status(500).json({ message: "Internal error" });

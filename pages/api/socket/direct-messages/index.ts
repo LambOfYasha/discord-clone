@@ -68,12 +68,17 @@ export default async function handler(
       },
     });
 
+    const messageWithMember = {
+      ...message,
+      member: member,
+    };
+
     const channelKey = `chat:${conversationId}:messages`;
     if (res?.socket?.server?.io) {
-      res.socket.server.io.emit(channelKey, message);
+      res.socket.server.io.emit(channelKey, messageWithMember);
     }
 
-    return res.status(200).json({ message });
+    return res.status(200).json({ message: messageWithMember });
   } catch (error) {
     console.error("[DIRECT_MESSAGES_POST]", error);
     return res.status(500).json({ error: "Internal error" });

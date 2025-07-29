@@ -61,7 +61,13 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json(message);
+    // Add member data to the response
+    const messageWithMember = {
+      ...message,
+      member: member,
+    };
+
+    return NextResponse.json(messageWithMember);
   } catch (error) {
     console.log("[DIRECT_MESSAGES_POST]", error);
     return new NextResponse("Internal error", { status: 500 });

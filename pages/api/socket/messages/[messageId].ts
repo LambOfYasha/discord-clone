@@ -92,9 +92,25 @@ export default async function handler(
         },
       });
     }
+
+    // Fetch member data with profile for the updated message
+    const memberWithProfile = await postgres.member.findUnique({
+      where: {
+        id: message.memberId,
+      },
+      include: {
+        profile: true,
+      },
+    });
+
+    const messageWithMember = {
+      ...message,
+      member: memberWithProfile,
+    };
+
     const updateKey = `chat:${channelId}:messages:update`;
-    (res.socket as any).server.io.emit(updateKey, message);
-    return res.status(200).json(message);
+    (res.socket as any).server.io.emit(updateKey, messageWithMember);
+    return res.status(200).json(messageWithMember);
   } catch (error) {
     console.log("[MESSAGE_ID]", error);
     return res.status(500).json({ message: "Internal error" });
