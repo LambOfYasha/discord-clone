@@ -5,7 +5,7 @@ import { MediaRoom } from "@/components/media-room";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
-import { ChannelType } from "../../../../prisma/generated/postgres";
+import { ChannelType } from "@/prisma/generated/postgres";
 import { redirect } from "next/navigation";
 
 type Params = Promise<{ channelId: string; serverId: string }>;
