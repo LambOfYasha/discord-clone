@@ -24,18 +24,14 @@ const DirectMessagesPage = async () => {
     },
   });
 
-  // If user has servers, redirect to the first one
-  if (servers.length > 0) {
-    return redirect(`/servers/${servers[0].id}`);
-  }
-
+  // Show the friends interface with servers (if any)
   return (
     <div className="h-full flex">
       {/* Friends & Direct Messages Sidebar */}
       <div className="w-60 flex-shrink-0 bg-[#2B2D31] border-r border-[#1E1F22]">
         <div className="flex flex-col h-full">
           {/* Friends Section */}
-          <FriendsSidebar />
+          <FriendsSidebar servers={servers} />
           
           {/* Direct Messages Section */}
           <DirectMessagesSidebar />

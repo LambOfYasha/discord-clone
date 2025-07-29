@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { NavigationAction } from "@/components/navigation/navigation-action";
 import { NavigationFriends } from "@/components/navigation/navigation-friends";
 import { NavigationHome } from "@/components/navigation/navigation-home";
+import { NavigationDiscovery } from "@/components/navigation/navigation-discovery";
 import { ModeToggle } from "@/components/mode-toggle";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Separator } from "@/components/ui/separator";
@@ -30,6 +31,7 @@ export const NavigationSidebar = async () => {
       <NavigationHome />
       <NavigationAction />
       <NavigationFriends />
+      <NavigationDiscovery />
       <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto" />
       <ScrollArea className="flex-1 w-full">
         {servers.map((server) => (

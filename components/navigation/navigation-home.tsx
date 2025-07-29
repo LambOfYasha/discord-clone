@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 export const NavigationHome = () => {
   const pathname = usePathname();
-  const isActive = pathname === "/" || pathname === "/friends" || pathname === "/direct-messages" || pathname === "/setup";
+  const isActive = pathname === "/" || pathname === "/friends" || pathname === "/direct-messages" || pathname === "/setup" || pathname === "/discovery";
 
   return (
     <div>

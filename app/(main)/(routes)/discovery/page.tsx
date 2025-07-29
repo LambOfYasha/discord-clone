@@ -1,12 +1,13 @@
 import { currentProfile } from "@/lib/current-profile";
+import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { FriendsSidebar } from "@/components/friends/friends-sidebar";
 import { DirectMessagesSidebar } from "@/components/friends/direct-messages-sidebar";
 import { ActiveNowSidebar } from "@/components/friends/active-now-sidebar";
-import { FriendsList } from "@/components/friends/friends-list";
+import { ServerManagement } from "@/components/friends/server-management";
 
-const FriendsPage = async () => {
+const DiscoveryPage = async () => {
   const profile = await currentProfile();
   if (!profile) {
     const authInstance = await auth();
@@ -40,7 +41,7 @@ const FriendsPage = async () => {
 
       {/* Main Content Area */}
       <div className="flex-1 bg-[#313338]">
-        <FriendsList servers={servers} />
+        <ServerManagement />
       </div>
 
       {/* Active Now Sidebar */}
@@ -49,4 +50,4 @@ const FriendsPage = async () => {
   );
 };
 
-export default FriendsPage; 
+export default DiscoveryPage; 

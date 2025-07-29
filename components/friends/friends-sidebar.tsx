@@ -12,11 +12,23 @@ import {
   Crown, 
   ShoppingCart,
   Plus,
-  Search
+  Search,
+  Hash,
+  Globe
 } from "lucide-react";
+import { useModal } from "@/hooks/use-modal-store";
 
-export const FriendsSidebar = () => {
+interface FriendsSidebarProps {
+  servers?: Array<{
+    id: string;
+    name: string;
+    imageUrl: string;
+  }>;
+}
+
+export const FriendsSidebar = ({ servers = [] }: FriendsSidebarProps) => {
   const [searchQuery, setSearchQuery] = useState("");
+  const { onOpen } = useModal();
 
   return (
     <div className="flex flex-col h-full">
@@ -75,6 +87,65 @@ export const FriendsSidebar = () => {
                 </span>
               </Button>
             </div>
+          </div>
+
+          <Separator className="bg-[#1E1F22]" />
+
+          {/* My Servers Section */}
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-semibold text-white">My Servers</h3>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-6 w-6 p-0 text-gray-400 hover:text-white"
+                onClick={() => onOpen("createServer")}
+              >
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
+            
+            {servers.length > 0 ? (
+              <div className="space-y-1">
+                {servers.map((server) => (
+                  <Link key={server.id} href={`/servers/${server.id}`}>
+                    <div className="flex items-center space-x-2 p-2 rounded hover:bg-[#1E1F22] cursor-pointer">
+                      <div className="w-8 h-8 bg-[#5865F2] rounded-full flex items-center justify-center">
+                        <span className="text-white text-sm font-semibold">
+                          {server.name.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm text-white truncate">{server.name}</p>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-2 p-2">
+                <p className="text-xs text-gray-400">No servers yet</p>
+                <div className="flex space-x-1">
+                  <Button
+                    size="sm"
+                    className="flex-1 bg-[#5865F2] hover:bg-[#4752C4] text-white text-xs"
+                    onClick={() => onOpen("createServer")}
+                  >
+                    <Plus className="h-3 w-3 mr-1" />
+                    Create
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="flex-1 border-[#1E1F22] text-white hover:bg-[#1E1F22] text-xs"
+                    onClick={() => onOpen("invite")}
+                  >
+                    <Globe className="h-3 w-3 mr-1" />
+                    Join
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
 
           <Separator className="bg-[#1E1F22]" />

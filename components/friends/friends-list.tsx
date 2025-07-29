@@ -9,12 +9,24 @@ import {
   MessageSquare, 
   MoreVertical,
   Search,
-  Plus
+  Plus,
+  Globe,
+  Hash
 } from "lucide-react";
+import { useModal } from "@/hooks/use-modal-store";
 
-export const FriendsList = () => {
+interface FriendsListProps {
+  servers?: Array<{
+    id: string;
+    name: string;
+    imageUrl: string;
+  }>;
+}
+
+export const FriendsList = ({ servers = [] }: FriendsListProps) => {
   const [activeTab, setActiveTab] = useState("online");
   const [searchQuery, setSearchQuery] = useState("");
+  const { onOpen } = useModal();
 
   return (
     <div className="h-full flex flex-col">
@@ -63,13 +75,23 @@ export const FriendsList = () => {
           </Button>
         </div>
         
-        <Button
-          size="sm"
-          className="ml-auto bg-[#5865F2] hover:bg-[#4752C4] text-white"
-        >
-          <Plus className="h-4 w-4 mr-1" />
-          Add Friend
-        </Button>
+        <div className="flex items-center space-x-2">
+          <Button
+            size="sm"
+            className="bg-[#5865F2] hover:bg-[#4752C4] text-white"
+            onClick={() => onOpen("createServer")}
+          >
+            <Plus className="h-4 w-4 mr-1" />
+            Create Server
+          </Button>
+          <Button
+            size="sm"
+            className="bg-[#5865F2] hover:bg-[#4752C4] text-white"
+          >
+            <Plus className="h-4 w-4 mr-1" />
+            Add Friend
+          </Button>
+        </div>
       </div>
 
       {/* Search */}
@@ -181,6 +203,103 @@ export const FriendsList = () => {
               <p className="text-gray-400">No blocked users</p>
             </div>
           )}
+
+          {/* My Servers Section */}
+          <div className="mt-8 p-4 bg-[#1E1F22] rounded-lg">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-3">
+                <Hash className="h-5 w-5 text-white" />
+                <h3 className="text-white font-semibold">My Servers</h3>
+              </div>
+              <Button
+                size="sm"
+                className="bg-[#5865F2] hover:bg-[#4752C4] text-white"
+                onClick={() => onOpen("createServer")}
+              >
+                <Plus className="h-4 w-4 mr-1" />
+                Create
+              </Button>
+            </div>
+            
+            {servers.length > 0 ? (
+              <div className="space-y-2">
+                {servers.map((server) => (
+                  <div key={server.id} className="flex items-center justify-between p-2 rounded hover:bg-[#2B2D31] cursor-pointer">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 bg-[#5865F2] rounded-full flex items-center justify-center">
+                        <span className="text-white text-sm font-semibold">
+                          {server.name.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="text-white text-sm font-medium">{server.name}</p>
+                        <p className="text-xs text-gray-400">Server</p>
+                      </div>
+                    </div>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="h-6 w-6 p-0 text-gray-400 hover:text-white"
+                    >
+                      <MoreVertical className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-4">
+                <p className="text-gray-400 text-sm mb-3">No servers yet</p>
+                <div className="flex space-x-2">
+                  <Button
+                    size="sm"
+                    className="bg-[#5865F2] hover:bg-[#4752C4] text-white"
+                    onClick={() => onOpen("createServer")}
+                  >
+                    <Plus className="h-4 w-4 mr-1" />
+                    Create Server
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="border-[#1E1F22] text-white hover:bg-[#1E1F22]"
+                    onClick={() => onOpen("invite")}
+                  >
+                    <Globe className="h-4 w-4 mr-1" />
+                    Join Server
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Server Discovery Section */}
+          <div className="mt-4 p-4 bg-[#1E1F22] rounded-lg">
+            <div className="flex items-center space-x-3 mb-4">
+              <Globe className="h-5 w-5 text-white" />
+              <h3 className="text-white font-semibold">Server Discovery</h3>
+            </div>
+            <p className="text-gray-400 text-sm mb-4">
+              Find and join amazing communities, or create your own server to bring people together.
+            </p>
+            <div className="flex space-x-2">
+              <Button
+                size="sm"
+                className="bg-[#5865F2] hover:bg-[#4752C4] text-white"
+                onClick={() => onOpen("createServer")}
+              >
+                <Plus className="h-4 w-4 mr-1" />
+                Create Server
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                className="border-[#1E1F22] text-white hover:bg-[#1E1F22]"
+              >
+                <Globe className="h-4 w-4 mr-1" />
+                Explore Servers
+              </Button>
+            </div>
+          </div>
         </div>
       </ScrollArea>
     </div>
