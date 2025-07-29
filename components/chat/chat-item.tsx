@@ -1,6 +1,6 @@
 "use client";
 
-import { Member, MemberRole, Profile } from "@prisma/client";
+import { Member, MemberRole, Profile } from "../../prisma/generated/postgres";
 import { UserAvatar } from "@/components/user-avatar";
 import { ActionTooltip } from "@/components/action-tooltip";
 import { Edit, FileIcon, ShieldCheck, Trash } from "lucide-react";

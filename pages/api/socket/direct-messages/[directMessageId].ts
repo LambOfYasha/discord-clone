@@ -1,6 +1,6 @@
 import { currentProfilePages } from "@/lib/current-profile-pages";
 import { db } from "@/lib/db";
-import { MemberRole } from "@prisma/client";
+import { MemberRole } from "../../../../prisma/generated/postgres";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(

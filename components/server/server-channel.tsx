@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Channel, ChannelType, MemberRole, Server } from "@prisma/client";
+import { Channel, ChannelType, MemberRole, Server } from "../../prisma/generated/postgres";
 import { Edit, Hash, Lock, Mic, Trash, Video } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";

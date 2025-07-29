@@ -1,6 +1,6 @@
 import { currentProfile } from "@/lib/current-profile";
 import { mongo } from "@/lib/db";
-import { Message } from "../../../prisma/generated/mongo";
+import { Message } from "../../prisma/generated/mongo";
 import { NextResponse } from "next/server";
 
 const MESSAGES_BATCH = 10;

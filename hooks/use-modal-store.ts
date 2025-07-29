@@ -1,4 +1,4 @@
-import { Channel, ChannelType, Server } from "@prisma/client";
+import { Channel, ChannelType, Server } from "../../prisma/generated/postgres";
 import { create } from "zustand";
 export type ModalType =
   | "createServer"

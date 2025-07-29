@@ -1,7 +1,7 @@
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
-import { ChannelType, MemberRole } from "@prisma/client";
+import { ChannelType, MemberRole } from "../../prisma/generated/postgres";
 import { ServerHeader } from "@/components/server/server-header";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ServerSearch } from "@/components/server/server-search";

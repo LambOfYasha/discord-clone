@@ -1,5 +1,5 @@
-import { PrismaClient as PostgresClient } from "../../prisma/generated/postgres";
-import { PrismaClient as MongoClient } from "../../prisma/generated/mongo";
+import { PrismaClient as PostgresClient } from "../prisma/generated/postgres";
+import { PrismaClient as MongoClient } from "../prisma/generated/mongo";
 
 declare global {
   var postgres: PostgresClient | undefined;
