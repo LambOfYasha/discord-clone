@@ -5,7 +5,11 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "db:generate": "prisma generate --schema=./prisma/postgres/schema.prisma",
+    "db:push": "prisma db push --schema=./prisma/postgres/schema.prisma",
+    "db:migrate": "prisma migrate dev --schema=./prisma/postgres/schema.prisma",
+    "db:studio": "prisma studio --schema=./prisma/postgres/schema.prisma"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.23.3",

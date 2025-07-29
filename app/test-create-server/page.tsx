@@ -158,14 +158,18 @@ export default function TestCreateServerPage() {
         return;
       }
       
-      await axios.post("/api/servers", values);
+      console.log("Making API call to /api/servers...");
+      const response = await axios.post("/api/servers", values);
+      console.log("Server creation response:", response.data);
+      
       form.reset();
       setTimeout(() => {
         setIsPopupOpen(true);
       }, 500);
     } catch (error: any) {
-      console.error(error);
-      setError(error?.response?.data?.error || "Something went wrong. Please try again.");
+      console.error("Server creation error:", error);
+      console.error("Error response:", error.response?.data);
+      setError(error?.response?.data || error?.message || "Something went wrong. Please try again.");
     }
   };
 
