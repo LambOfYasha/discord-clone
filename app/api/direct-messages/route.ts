@@ -1,64 +1,69 @@
 import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/db";
-import { DirectMessage } from "@prisma/client";
+import { postgres, mongo } from "@/lib/db";
+import { DirectMessage } from "../../../prisma/generated/mongo";
 import { NextResponse } from "next/server";
-const MESSAGES_BATCH = 10;
 
-export async function GET(req: Request) {
+export async function POST(req: Request) {
   try {
     const profile = await currentProfile();
+    const { content, fileUrl } = await req.json();
     const { searchParams } = new URL(req.url);
-    const cursor = searchParams.get("cursor");
     const conversationId = searchParams.get("conversationId");
+
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
+
     if (!conversationId) {
       return new NextResponse("Conversation ID missing", { status: 400 });
     }
-    let messages: DirectMessage[] = [];
-    if (cursor) {
-      messages = await db.directMessage.findMany({
-        take: MESSAGES_BATCH,
-        skip: 1,
-        cursor: {
-          id: cursor,
-        },
-        where: { conversationId },
-        include: {
-          member: {
-            include: {
-              profile: true,
-            },
+
+    if (!content) {
+      return new NextResponse("Content missing", { status: 400 });
+    }
+
+    // Get conversation from PostgreSQL
+    const conversation = await postgres.conversation.findUnique({
+      where: {
+        id: conversationId,
+      },
+      include: {
+        memberOne: {
+          include: {
+            profile: true,
           },
         },
-        orderBy: {
-          createdAt: "desc",
-        },
-      });
-    } else {
-      messages = await db.directMessage.findMany({
-        take: MESSAGES_BATCH,
-        where: { conversationId },
-        include: {
-          member: {
-            include: {
-              profile: true,
-            },
+        memberTwo: {
+          include: {
+            profile: true,
           },
         },
-        orderBy: {
-          createdAt: "desc",
-        },
-      });
+      },
+    });
+
+    if (!conversation) {
+      return new NextResponse("Conversation not found", { status: 404 });
     }
-    let nextCursor = null;
-    if (messages.length === MESSAGES_BATCH) {
-      nextCursor = messages[MESSAGES_BATCH - 1].id;
+
+    const member = conversation.memberOne.profileId === profile.id ? conversation.memberOne : conversation.memberTwo;
+
+    if (!member) {
+      return new NextResponse("Member not found", { status: 404 });
     }
-    return NextResponse.json({ items: messages, nextCursor });
+
+    // Create message in MongoDB
+    const message = await mongo.directMessage.create({
+      data: {
+        content,
+        fileUrl,
+        conversationId,
+        memberId: member.id,
+      },
+    });
+
+    return NextResponse.json(message);
   } catch (error) {
-    console.log("[DIRECT_MESSAGES_GET]", error);
+    console.log("[DIRECT_MESSAGES_POST]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }

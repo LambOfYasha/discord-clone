@@ -1,5 +1,6 @@
 import { currentUser, auth } from "@clerk/nextjs/server";
-import { db } from "@/lib/db";
+import { postgres } from "@/lib/db";
+
 export const initialProfile = async () => {
   const user = await currentUser();
   if (!user) {
@@ -7,7 +8,7 @@ export const initialProfile = async () => {
     return authInstance.redirectToSignIn();
   }
 
-  const profile = await db.profile.findUnique({
+  const profile = await postgres.profile.findUnique({
     where: {
       userId: user.id,
     },
@@ -17,7 +18,7 @@ export const initialProfile = async () => {
     return profile;
   }
 
-  const newProfile = await db.profile.create({
+  const newProfile = await postgres.profile.create({
     data: {
       userId: user.id,
       name: `${user.firstName} ${user.lastName}`,

@@ -1,6 +1,6 @@
 import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/db";
-import { MemberRole } from "@prisma/client";
+import { postgres } from "@/lib/db";
+import { MemberRole } from "../../../prisma/generated/postgres";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     if (name === "general") {
       return new NextResponse("Name cannot be 'general'", { status: 400 });
     }
-    const server = await db.server.update({
+    const server = await postgres.server.update({
       where: {
         id: serverId,
         members: {

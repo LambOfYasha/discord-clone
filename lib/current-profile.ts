@@ -1,9 +1,11 @@
 import { auth } from "@clerk/nextjs/server";
-import { db } from "@/lib/db";
+import { postgres } from "@/lib/db";
+
 export const currentProfile = async () => {
   const { userId } = await auth();
   if (!userId) return null;
-  const profile = await db.profile.findUnique({
+  
+  const profile = await postgres.profile.findUnique({
     where: {
       userId,
     },
