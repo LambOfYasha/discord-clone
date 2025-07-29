@@ -1,5 +1,5 @@
 import { currentProfilePages } from "@/lib/current-profile-pages";
-import { db } from "@/lib/db";
+import { postgres, mongo } from "@/lib/db";
 import { NextApiResponseServerIo } from "@/types";
 import { NextApiRequest } from "next";
 
@@ -22,7 +22,7 @@ export default async function handler(
       return res.status(400).json({ error: "Channel ID missing" });
     if (!content) return res.status(400).json({ error: "Content missing" });
 
-    const server = await db.server.findFirst({
+    const server = await postgres.server.findFirst({
       where: {
         id: serverId as string,
         members: {
@@ -37,7 +37,7 @@ export default async function handler(
     });
     if (!server) return res.status(404).json({ error: "Server not found" });
 
-    const channel = await db.channel.findFirst({
+    const channel = await postgres.channel.findFirst({
       where: {
         id: channelId as string,
         serverId: server.id as string,
@@ -50,19 +50,12 @@ export default async function handler(
     );
     if (!member) return res.status(404).json({ error: "Member not found" });
 
-    const message = await db.message.create({
+    const message = await mongo.message.create({
       data: {
         content,
         fileUrl,
         channelId: channelId as string,
         memberId: member.id,
-      },
-      include: {
-        member: {
-          include: {
-            profile: true,
-          },
-        },
       },
     });
 

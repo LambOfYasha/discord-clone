@@ -1,6 +1,6 @@
 import { currentProfile } from "@/lib/current-profile";
 import { mongo } from "@/lib/db";
-import { Message } from "../../prisma/generated/mongo";
+import { Message } from "@/prisma/generated/mongo";
 import { NextResponse } from "next/server";
 
 const MESSAGES_BATCH = 10;
@@ -29,13 +29,6 @@ export async function GET(req: Request) {
           id: cursor,
         },
         where: { channelId },
-        include: {
-          member: {
-            include: {
-              profile: true,
-            },
-          },
-        },
         orderBy: {
           createdAt: "desc",
         },
@@ -44,13 +37,6 @@ export async function GET(req: Request) {
       messages = await mongo.message.findMany({
         take: MESSAGES_BATCH,
         where: { channelId },
-        include: {
-          member: {
-            include: {
-              profile: true,
-            },
-          },
-        },
         orderBy: {
           createdAt: "desc",
         },

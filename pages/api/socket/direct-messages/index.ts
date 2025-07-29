@@ -1,5 +1,5 @@
 import { currentProfilePages } from "@/lib/current-profile-pages";
-import { db } from "@/lib/db";
+import { postgres, mongo } from "@/lib/db";
 import { NextApiResponseServerIo } from "@/types";
 import { NextApiRequest } from "next";
 
@@ -20,7 +20,7 @@ export default async function handler(
     if (!conversationId)
       return res.status(400).json({ error: "Conversation ID missing" });
     if (!content) return res.status(400).json({ error: "Content missing" });
-    const conversation = await db.conversation.findFirst({
+    const conversation = await postgres.conversation.findFirst({
       where: {
         id: conversationId as string,
         OR: [
@@ -59,19 +59,12 @@ export default async function handler(
         : conversation.memberTwo;
     if (!member) return res.status(404).json({ error: "Member not found" });
 
-    const message = await db.directMessage.create({
+    const message = await mongo.directMessage.create({
       data: {
         content,
         fileUrl,
         conversationId: conversationId as string,
         memberId: member.id,
-      },
-      include: {
-        member: {
-          include: {
-            profile: true,
-          },
-        },
       },
     });
 

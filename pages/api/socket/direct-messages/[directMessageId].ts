@@ -1,6 +1,6 @@
 import { currentProfilePages } from "@/lib/current-profile-pages";
-import { db } from "@/lib/db";
-import { MemberRole } from "../../../../prisma/generated/postgres";
+import { postgres, mongo } from "@/lib/db";
+import { MemberRole } from "@/prisma/generated/postgres";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -20,7 +20,7 @@ export default async function handler(
     if (!conversationId) {
       return res.status(400).json({ error: "Conversation ID missing" });
     }
-    const conversation = await db.conversation.findFirst({
+    const conversation = await postgres.conversation.findFirst({
       where: {
         id: conversationId as string,
         OR: [
@@ -59,15 +59,10 @@ export default async function handler(
     if (!member) {
       return res.status(404).json({ error: "Member not found" });
     }
-    let directMessage = await db.directMessage.findFirst({
+    let directMessage = await mongo.directMessage.findFirst({
       where: {
         id: directMessageId as string,
         conversationId: conversationId as string,
-      },
-      include: {
-        member: {
-          include: { profile: true },
-        },
       },
     });
     if (!directMessage || directMessage.deleted) {
@@ -81,7 +76,7 @@ export default async function handler(
       return res.status(401).json({ error: "Unauthorized" });
     }
     if (req.method === "DELETE") {
-      directMessage = await db.directMessage.update({
+      directMessage = await mongo.directMessage.update({
         where: {
           id: directMessageId as string,
         },
@@ -90,32 +85,18 @@ export default async function handler(
           content: "This message has been deleted",
           deleted: true,
         },
-        include: {
-          member: {
-            include: {
-              profile: true,
-            },
-          },
-        },
       });
     }
     if (req.method === "PATCH") {
       if (!isMessageOwner) {
         return res.status(401).json({ error: "Unauthorized" });
       }
-      directMessage = await db.directMessage.update({
+      directMessage = await mongo.directMessage.update({
         where: {
           id: directMessageId as string,
         },
         data: {
           content,
-        },
-        include: {
-          member: {
-            include: {
-              profile: true,
-            },
-          },
         },
       });
     }
