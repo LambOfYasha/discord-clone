@@ -9,9 +9,10 @@ interface FileUploadProps {
   onChange: (url?: string) => void;
   value: string;
   endpoint: "messageFile" | "serverImage";
+  onUploadError?: (error: Error) => void;
 }
 
-export const FileUpload = ({ endpoint, onChange, value }: FileUploadProps) => {
+export const FileUpload = ({ endpoint, onChange, value, onUploadError }: FileUploadProps) => {
   const fileType = value?.split(".").pop();
 
   const isPdf = fileType === "pdf";
@@ -66,6 +67,7 @@ export const FileUpload = ({ endpoint, onChange, value }: FileUploadProps) => {
       }}
       onUploadError={(error: Error) => {
         console.error(error);
+        onUploadError?.(error);
       }}
     />
   );
