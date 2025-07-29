@@ -1,6 +1,6 @@
 "use client";
 import { Member, Profile } from "../../prisma/generated/postgres";
-import { Message } from "../../prisma/generated/mongo";
+import { Message } from "../../generated/mongo";
 import { ChatWelcome } from "./chat-welcome";
 import { useChatQuery } from "@/hooks/use-chat-query";
 import { Loader2, ServerCrash } from "lucide-react";
