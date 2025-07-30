@@ -1,9 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { LiveKitRoom, useLocalParticipant, useParticipants, useRoomContext } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { useUser } from "@clerk/nextjs";
-import { Loader2, Mic, MicOff, Video, VideoOff, Phone, PhoneOff, Monitor, MessageSquare, Users, Volume2, VolumeX, Crown, Shield, MoreVertical, UserX, Volume1 } from "lucide-react";
+import { Loader2, Mic, MicOff, Video, VideoOff, Phone, PhoneOff, Monitor, MessageSquare, Users, Volume2, VolumeX, Crown, Shield, MoreVertical, UserX, Volume1, Maximize2, Minimize2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -110,11 +110,10 @@ const VoiceChannelInterface = () => {
   const { localParticipant } = useLocalParticipant();
   const participants = useParticipants();
   const { user } = useUser();
-     const [isAudioEnabled, setIsAudioEnabled] = useState(true);
-   const [isVideoEnabled, setIsVideoEnabled] = useState(false);
-   const [isScreenSharing, setIsScreenSharing] = useState(false);
-   const [permissionError, setPermissionError] = useState<string | null>(null);
-   const [isConnected, setIsConnected] = useState(false);
+       const [isAudioEnabled, setIsAudioEnabled] = useState(true);
+  const [isVideoEnabled, setIsVideoEnabled] = useState(false);
+  const [isScreenSharing, setIsScreenSharing] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
 
 
@@ -131,103 +130,251 @@ const VoiceChannelInterface = () => {
 
   // Set up video element when camera is enabled
   useEffect(() => {
-    if (isVideoEnabled && localParticipant) {
-      const videoElement = document.getElementById('local-video') as HTMLVideoElement;
-      if (videoElement) {
-        // Get user media directly for the video element
-        navigator.mediaDevices.getUserMedia({ video: true })
-          .then(stream => {
-            videoElement.srcObject = stream;
-            console.log("Video stream set up successfully");
-          })
-          .catch(error => {
-            console.error("Error setting up video stream:", error);
-          });
-      }
+    if (isVideoEnabled && localParticipant && videoElementRef.current) {
+      // Get user media directly for the video element
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          videoElementRef.current!.srcObject = stream;
+          console.log("Video stream set up successfully");
+        })
+        .catch(error => {
+          console.error("Error setting up video stream:", error);
+        });
     }
   }, [isVideoEnabled, localParticipant]);
 
+  // Audio level detection for visual feedback - using refs to avoid re-renders
+  const audioLevelRef = useRef(0);
+  const isSpeakingRef = useRef(false);
+  const videoElementRef = useRef<HTMLVideoElement>(null);
+  const audioDetectionRef = useRef<{
+    audioContext: AudioContext | null;
+    analyser: AnalyserNode | null;
+    microphone: MediaStreamAudioSourceNode | null;
+    animationId: number | null;
+    stream: MediaStream | null;
+  }>({
+    audioContext: null,
+    analyser: null,
+    microphone: null,
+    animationId: null,
+    stream: null
+  });
+
+  useEffect(() => {
+    const cleanup = () => {
+      const detection = audioDetectionRef.current;
+      
+      // Stop animation frame
+      if (detection.animationId) {
+        cancelAnimationFrame(detection.animationId);
+        detection.animationId = null;
+      }
+      
+      // Clean up audio resources
+      if (detection.stream) {
+        detection.stream.getTracks().forEach(track => track.stop());
+        detection.stream = null;
+      }
+      if (detection.microphone) {
+        detection.microphone.disconnect();
+        detection.microphone = null;
+      }
+      if (detection.audioContext) {
+        detection.audioContext.close();
+        detection.audioContext = null;
+      }
+      detection.analyser = null;
+      
+      // Reset states
+      audioLevelRef.current = 0;
+      isSpeakingRef.current = false;
+      
+      // Remove border classes
+      const videoElement = videoElementRef.current;
+      if (videoElement) {
+        videoElement.classList.remove('ring-4', 'ring-green-400', 'ring-opacity-75', 'animate-pulse');
+      }
+    };
+
+    const setupAudioLevelDetection = async () => {
+      try {
+        // Clean up any existing audio detection first
+        cleanup();
+        
+        // Get user media directly for audio level detection
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        audioDetectionRef.current.stream = stream;
+        
+        const audioContext = new AudioContext();
+        audioDetectionRef.current.audioContext = audioContext;
+        
+        const analyser = audioContext.createAnalyser();
+        audioDetectionRef.current.analyser = analyser;
+        
+        const microphone = audioContext.createMediaStreamSource(stream);
+        audioDetectionRef.current.microphone = microphone;
+        
+        analyser.fftSize = 256;
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+        
+        microphone.connect(analyser);
+        
+        const updateAudioLevel = () => {
+          const detection = audioDetectionRef.current;
+          
+          // Check if audio is still enabled
+          if (!detection.analyser || !isAudioEnabled) {
+            cleanup();
+            return;
+          }
+          
+          detection.analyser.getByteFrequencyData(dataArray);
+          const average = dataArray.reduce((a, b) => a + b) / bufferLength;
+          const level = average / 255; // Normalize to 0-1
+          
+          const newIsSpeaking = level > 0.1;
+          
+          // Only update if there's a significant change
+          if (Math.abs(level - audioLevelRef.current) > 0.01 || newIsSpeaking !== isSpeakingRef.current) {
+            audioLevelRef.current = level;
+            isSpeakingRef.current = newIsSpeaking;
+            
+            // Update border
+            const videoElement = videoElementRef.current;
+            if (videoElement) {
+              if (newIsSpeaking) {
+                videoElement.classList.add('ring-4', 'ring-green-400', 'ring-opacity-75', 'animate-pulse');
+              } else {
+                videoElement.classList.remove('ring-4', 'ring-green-400', 'ring-opacity-75', 'animate-pulse');
+              }
+            }
+          }
+          
+          // Continue animation only if still enabled
+          if (isAudioEnabled) {
+            detection.animationId = requestAnimationFrame(updateAudioLevel);
+          }
+        };
+        
+        updateAudioLevel();
+      } catch (error) {
+        console.error("Error setting up audio level detection:", error);
+        cleanup();
+      }
+    };
+
+    if (isAudioEnabled) {
+      setupAudioLevelDetection();
+    } else {
+      cleanup();
+    }
+
+    return cleanup;
+  }, [isAudioEnabled]);
+
+  // Handle fullscreen change events
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('msfullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
     const toggleAudio = async () => {
      try {
-       console.log("Toggle audio clicked, room state:", room.state);
-       console.log("Local participant:", !!localParticipant);
-       
        if (!localParticipant || room.state !== 'connected') {
-         console.log("Local participant not ready or room not connected");
          return;
        }
 
        if (isAudioEnabled) {
-         console.log("Disabling microphone...");
          await localParticipant.setMicrophoneEnabled(false);
          setIsAudioEnabled(false);
-         console.log("Microphone disabled");
        } else {
-         console.log("Enabling microphone...");
          // Request microphone permission first
          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-         console.log("Microphone permission granted");
          // Stop the test stream
          stream.getTracks().forEach(track => track.stop());
          
          await localParticipant.setMicrophoneEnabled(true);
          setIsAudioEnabled(true);
-         setPermissionError(null);
-         console.log("Microphone enabled successfully");
        }
      } catch (error) {
        console.error("Error toggling audio:", error);
-       setPermissionError("Microphone access denied. Please allow microphone access in your browser settings.");
      }
    };
 
-   const toggleVideo = async () => {
-     try {
-       console.log("Toggle video clicked, room state:", room.state);
-       console.log("Local participant:", !!localParticipant);
-       
-       if (!localParticipant || room.state !== 'connected') {
-         console.log("Local participant not ready or room not connected");
-         return;
-       }
+       const toggleVideo = async () => {
+      try {
+        if (!localParticipant || room.state !== 'connected') {
+          return;
+        }
 
-       if (isVideoEnabled) {
-         console.log("Disabling camera...");
-         await localParticipant.setCameraEnabled(false);
-         setIsVideoEnabled(false);
-         console.log("Camera disabled");
-       } else {
-         console.log("Enabling camera...");
-         // Request camera permission first
-         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-         console.log("Camera permission granted");
-         // Stop the test stream
-         stream.getTracks().forEach(track => track.stop());
-         
-         await localParticipant.setCameraEnabled(true);
-         setIsVideoEnabled(true);
-         setPermissionError(null);
-         console.log("Camera enabled successfully");
-       }
-     } catch (error) {
-       console.error("Error toggling video:", error);
-       setPermissionError("Camera access denied. Please allow camera access in your browser settings.");
-     }
-   };
+        if (isVideoEnabled) {
+          await localParticipant.setCameraEnabled(false);
+          setIsVideoEnabled(false);
+        } else {
+          // Request camera permission first
+          const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+          // Stop the test stream
+          stream.getTracks().forEach(track => track.stop());
+          
+          await localParticipant.setCameraEnabled(true);
+          setIsVideoEnabled(true);
+        }
+      } catch (error) {
+        console.error("Error toggling video:", error);
+      }
+    };
 
-   const toggleScreenShare = async () => {
-     try {
-       if (isScreenSharing) {
-         await localParticipant.setScreenShareEnabled(false);
-         setIsScreenSharing(false);
-       } else {
-         await localParticipant.setScreenShareEnabled(true);
-         setIsScreenSharing(true);
-       }
-     } catch (error) {
-       console.error("Error toggling screen share:", error);
-     }
-   };
+       const toggleScreenShare = async () => {
+      try {
+        if (isScreenSharing) {
+          await localParticipant.setScreenShareEnabled(false);
+          setIsScreenSharing(false);
+        } else {
+          await localParticipant.setScreenShareEnabled(true);
+          setIsScreenSharing(true);
+        }
+      } catch (error) {
+        console.error("Error toggling screen share:", error);
+      }
+    };
+
+    const toggleFullscreen = () => {
+      const videoElement = videoElementRef.current;
+      if (!videoElement) return;
+
+      if (!isFullscreen) {
+        if (videoElement.requestFullscreen) {
+          videoElement.requestFullscreen();
+        } else if ((videoElement as any).webkitRequestFullscreen) {
+          (videoElement as any).webkitRequestFullscreen();
+        } else if ((videoElement as any).msRequestFullscreen) {
+          (videoElement as any).msRequestFullscreen();
+        }
+        setIsFullscreen(true);
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if ((document as any).webkitExitFullscreen) {
+          (document as any).webkitExitFullscreen();
+        } else if ((document as any).msExitFullscreen) {
+          (document as any).msExitFullscreen();
+        }
+        setIsFullscreen(false);
+      }
+    };
 
   const leaveChannel = () => {
     room.disconnect();
@@ -317,24 +464,36 @@ const VoiceChannelInterface = () => {
                             </p>
                           </div>
                           
-                          {/* Audio indicator */}
-                          {isAudioEnabled && (
-                            <div className="mt-2 p-3 bg-blue-800 rounded-lg">
-                              <p className="text-blue-200 text-sm">
-                                Microphone active and broadcasting
-                              </p>
-                            </div>
-                          )}
+                                                     {/* Audio indicator */}
+                           {isAudioEnabled && (
+                             <div className="mt-2 p-3 bg-blue-800 rounded-lg">
+                               <p className="text-blue-200 text-sm">
+                                 Microphone active and broadcasting
+                               </p>
+                             </div>
+                           )}
                           
                                                      {/* Actual video feed */}
-                           <div className="mt-4 w-full max-w-md mx-auto">
+                           <div className="mt-4 w-full max-w-md mx-auto relative">
                              <video
-                               id="local-video"
+                               ref={videoElementRef}
                                autoPlay
                                playsInline
                                muted
-                               className="w-full h-48 bg-black rounded-lg object-cover"
+                               className="w-full h-48 bg-black rounded-lg object-cover transition-all duration-200"
                              />
+                             {/* Fullscreen button */}
+                             <button
+                               onClick={toggleFullscreen}
+                               className="absolute top-2 right-2 p-2 bg-black bg-opacity-50 hover:bg-opacity-75 rounded-lg transition-all duration-200"
+                               title={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+                             >
+                               {isFullscreen ? (
+                                 <Minimize2 className="w-4 h-4 text-white" />
+                               ) : (
+                                 <Maximize2 className="w-4 h-4 text-white" />
+                               )}
+                             </button>
                            </div>
                       </div>
                     </div>
@@ -509,18 +668,7 @@ const VoiceChannelInterface = () => {
         )}
       </div>
 
-             {/* Permission Error */}
-       {permissionError && (
-         <div className="mb-4 p-3 bg-red-600 text-white rounded-lg text-center">
-           <p className="text-sm">{permissionError}</p>
-           <button
-             onClick={() => setPermissionError(null)}
-             className="mt-2 text-xs underline hover:no-underline"
-           >
-             Dismiss
-           </button>
-         </div>
-       )}
+             
 
        {/* Controls */}
        <div className="flex items-center justify-center gap-4 p-4 bg-gray-800 rounded-lg mt-4">
@@ -591,19 +739,7 @@ const VoiceChannelInterface = () => {
            <PhoneOff className="w-5 h-5" />
          </button>
 
-         {/* Debug button */}
-         <button
-           onClick={() => {
-             console.log("Room state:", room.state);
-             console.log("Local participant:", localParticipant);
-             console.log("Participants:", participants);
-             console.log("Audio enabled:", isAudioEnabled);
-             console.log("Video enabled:", isVideoEnabled);
-           }}
-           className="p-3 rounded-full bg-gray-600 hover:bg-gray-700 text-white transition-colors"
-         >
-           Debug
-         </button>
+         
       </div>
     </div>
   );
