@@ -45,6 +45,7 @@ export const CreateServerModal = () => {
   const router = useRouter();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
   const isModalOpen = isOpen && type === "createServer";
 
   const form = useForm({
@@ -56,10 +57,19 @@ export const CreateServerModal = () => {
   });
 
   const isLoading = form.formState.isSubmitting;
+  const hasErrors = error || uploadError;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setError(null);
+      setUploadError(null);
+      
+      // Check if there are any upload errors before submitting
+      if (uploadError) {
+        setError("Please fix the upload error before creating the server.");
+        return;
+      }
+
       await axios.post("/api/servers", values);
       form.reset();
       onClose();
@@ -76,7 +86,13 @@ export const CreateServerModal = () => {
   const handleClose = () => {
     form.reset();
     setError(null);
+    setUploadError(null);
     onClose();
+  };
+
+  const handleUploadError = (error: Error) => {
+    console.error("Upload error in modal:", error);
+    setUploadError(error.message || "Upload failed. Please try again.");
   };
 
   return (
@@ -113,6 +129,7 @@ export const CreateServerModal = () => {
                             endpoint="serverImage"
                             value={field.value}
                             onChange={field.onChange}
+                            onUploadError={handleUploadError}
                           />
                         </FormControl>
                         <FormMessage className="text-center" />
@@ -146,10 +163,11 @@ export const CreateServerModal = () => {
                   )}
                 />
 
-                {/* Error Message */}
-                {error && (
+                {/* Error Messages */}
+                {hasErrors && (
                   <div className="bg-red-50 border border-red-200 rounded-md p-3">
-                    <p className="text-red-600 text-sm">{error}</p>
+                    {error && <p className="text-red-600 text-sm">{error}</p>}
+                    {uploadError && <p className="text-red-600 text-sm">{uploadError}</p>}
                   </div>
                 )}
               </div>
@@ -168,7 +186,7 @@ export const CreateServerModal = () => {
                   <Button 
                     type="submit"
                     variant="primary" 
-                    disabled={isLoading}
+                    disabled={isLoading || !!uploadError}
                     className="flex-1"
                   >
                     {isLoading ? (

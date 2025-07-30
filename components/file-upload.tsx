@@ -1,9 +1,10 @@
 "use client";
 
-import { UploadDropzone } from "@/lib/uploadthing";
+import { UploadDropzone, validateUploadThingConfig } from "@/lib/uploadthing";
 import "@uploadthing/react/styles.css";
-import { FileIcon, X } from "lucide-react";
+import { FileIcon, X, AlertCircle } from "lucide-react";
 import Image from "next/image";
+import { useState, useEffect } from "react";
 
 interface FileUploadProps {
   onChange: (url?: string) => void;
@@ -13,19 +14,60 @@ interface FileUploadProps {
 }
 
 export const FileUpload = ({ endpoint, onChange, value, onUploadError }: FileUploadProps) => {
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [configError, setConfigError] = useState<string | null>(null);
   const fileType = value?.split(".").pop();
 
   const isPdf = fileType === "pdf";
+
+  useEffect(() => {
+    // Check configuration on component mount
+    if (typeof window !== 'undefined') {
+      // Client-side validation - we can't access process.env directly in client components
+      // This is mainly for development debugging
+      console.log("FileUpload: Checking UploadThing configuration...");
+    }
+  }, []);
+
+  const handleUploadError = (error: Error) => {
+    console.error("Upload error:", error);
+    
+    // Provide more specific error messages based on error type
+    let errorMessage = "Upload failed. Please try again.";
+    
+    if (error.message.includes("Unauthorized")) {
+      errorMessage = "Please sign in to upload files.";
+    } else if (error.message.includes("network")) {
+      errorMessage = "Network error. Please check your connection and try again.";
+    } else if (error.message.includes("size")) {
+      errorMessage = "File is too large. Please choose a smaller file (max 4MB).";
+    } else if (error.message.includes("type")) {
+      errorMessage = "Invalid file type. Please choose an image or PDF file.";
+    }
+    
+    setUploadError(errorMessage);
+    onUploadError?.(error);
+  };
+
+  const handleUploadComplete = (res: any) => {
+    setUploadError(null);
+    setConfigError(null);
+    onChange(res?.[0].url);
+  };
+
+  const handleRemoveFile = () => {
+    onChange("");
+    setUploadError(null);
+    setConfigError(null);
+  };
 
   if (value && !isPdf) {
     return (
       <div className="relative h-20 w-20">
         <Image fill src={value} alt="Upload" className="rounded-full" />
         <button
-          onClick={() => {
-            onChange("");
-          }}
-          className="bg-rose-500 text-white p-1 rounded-full absolute top-0 right-0 shadow-sm"
+          onClick={handleRemoveFile}
+          className="bg-rose-500 text-white p-1 rounded-full absolute top-0 right-0 shadow-sm hover:bg-rose-600 transition-colors"
           type="button"
         >
           <X className="h-4 w-4" />
@@ -47,10 +89,8 @@ export const FileUpload = ({ endpoint, onChange, value, onUploadError }: FileUpl
           {value}
         </a>
         <button
-          onClick={() => {
-            onChange("");
-          }}
-          className="bg-rose-500 text-white p-1 rounded-full absolute -top-2 -right-2 shadow-sm"
+          onClick={handleRemoveFile}
+          className="bg-rose-500 text-white p-1 rounded-full absolute -top-2 -right-2 shadow-sm hover:bg-rose-600 transition-colors"
           type="button"
         >
           <X className="h-4 w-4" />
@@ -60,15 +100,24 @@ export const FileUpload = ({ endpoint, onChange, value, onUploadError }: FileUpl
   }
 
   return (
-    <UploadDropzone
-      endpoint={endpoint}
-      onClientUploadComplete={(res) => {
-        onChange(res?.[0].url);
-      }}
-      onUploadError={(error: Error) => {
-        console.error(error);
-        onUploadError?.(error);
-      }}
-    />
+    <div className="space-y-2">
+      <UploadDropzone
+        endpoint={endpoint}
+        onClientUploadComplete={handleUploadComplete}
+        onUploadError={handleUploadError}
+        onUploadBegin={() => {
+          setUploadError(null);
+          setConfigError(null);
+        }}
+        className="ut-label:text-sm ut-label:text-zinc-500 ut-button:bg-indigo-500 ut-button:ut-readying:bg-indigo-400 ut-button:ut-uploading:bg-indigo-600 ut-button:ut-uploading:after:bg-indigo-600"
+      />
+      
+      {(uploadError || configError) && (
+        <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-md">
+          <AlertCircle className="h-4 w-4 text-red-500 flex-shrink-0" />
+          <p className="text-red-600 text-sm">{uploadError || configError}</p>
+        </div>
+      )}
+    </div>
   );
 };
