@@ -330,95 +330,41 @@ const VoiceChannelInterface = () => {
           <div className="flex-1 bg-gray-900 rounded-lg p-4 mr-4">
             <div className="h-full flex items-center justify-center">
                              {isVideoEnabled && localParticipant ? (
-                                  <div className="w-full h-full flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="mb-4">
-                        <Avatar className="w-24 h-24 mx-auto mb-4">
-                          <AvatarFallback className="bg-indigo-500 text-white text-2xl">
-                            {getInitials(`${user?.firstName} ${user?.lastName}`)}
-                          </AvatarFallback>
-                        </Avatar>
-                        <h3 className="text-white text-lg font-medium">Camera Active</h3>
-                        <p className="text-gray-400 text-sm mt-2">
-                          Your camera is now enabled and broadcasting
-                        </p>
-                                                 <div className="mt-2 px-3 py-1 bg-green-600 text-white rounded-full text-xs">
-                           Video Active
-                         </div>
-                                                  {/* Video indicator */}
-                          <div className="mt-4 p-3 bg-green-800 rounded-lg">
-                            <p className="text-green-200 text-sm">
-                              Camera track published and broadcasting
-                            </p>
-                          </div>
-                          
-                                                     {/* Audio indicator */}
-                           {isAudioEnabled && (
-                             <div className="mt-2 p-3 bg-blue-800 rounded-lg">
-                               <p className="text-blue-200 text-sm">
-                                 Microphone active and broadcasting
-                               </p>
-                             </div>
-                           )}
-                          
-                                                     {/* Actual video feed */}
-                           <div className="mt-4 w-full max-w-md mx-auto relative">
-                             <video
-                               ref={videoElementRef}
-                               autoPlay
-                               playsInline
-                               muted
-                               className="w-full h-48 bg-black rounded-lg object-cover transition-all duration-200"
-                             />
-                             {/* Fullscreen button */}
-                             <button
-                               onClick={toggleFullscreen}
-                               className="absolute top-2 right-2 p-2 bg-black bg-opacity-50 hover:bg-opacity-75 rounded-lg transition-all duration-200"
-                               title={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
-                             >
-                               {isFullscreen ? (
-                                 <Minimize2 className="w-4 h-4 text-white" />
-                               ) : (
-                                 <Maximize2 className="w-4 h-4 text-white" />
-                               )}
-                             </button>
-                           </div>
-                      </div>
-                    </div>
-                  </div>
-              ) : (
+                               <div className="w-full h-full relative">
+                                 {/* Video feed that fills the entire section */}
+                                 <video
+                                   ref={videoElementRef}
+                                   autoPlay
+                                   playsInline
+                                   muted
+                                   className="w-full h-full bg-black rounded-lg object-cover transition-all duration-200"
+                                 />
+                                 {/* Fullscreen button */}
+                                 <button
+                                   onClick={toggleFullscreen}
+                                   className="absolute top-4 right-4 p-2 bg-black bg-opacity-50 hover:bg-opacity-75 rounded-lg transition-all duration-200"
+                                   title={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+                                 >
+                                   {isFullscreen ? (
+                                     <Minimize2 className="w-4 h-4 text-white" />
+                                   ) : (
+                                     <Maximize2 className="w-4 h-4 text-white" />
+                                   )}
+                                 </button>
+                               </div>
+                              ) : (
                 <div className="text-center">
                   <div className="mb-4">
-                    <Avatar className="w-24 h-24 mx-auto mb-4">
-                      <AvatarFallback className="bg-indigo-500 text-white text-2xl">
-                        {getInitials(`${user?.firstName} ${user?.lastName}`)}
-                      </AvatarFallback>
-                    </Avatar>
-                    <h3 className="text-white text-lg font-medium">Voice Channel</h3>
+                    <h3 className="text-white text-xl font-medium">Voice Channel</h3>
                     <p className="text-gray-400 text-sm mt-2">
                       {participants.length} participant{participants.length !== 1 ? 's' : ''} in channel
                     </p>
-                                         <div className={`mt-2 px-3 py-1 rounded-full text-xs ${
-                       room.state === 'connected' 
-                         ? 'bg-green-600 text-white' 
-                         : 'bg-yellow-600 text-white'
-                     }`}>
-                       {room.state === 'connected' ? 'Connected' : 'Connecting...'}
-                     </div>
-                     
-                     {/* Audio indicator */}
-                     {isAudioEnabled && (
-                       <div className="mt-2 p-3 bg-blue-800 rounded-lg">
-                         <p className="text-blue-200 text-sm">
-                           Microphone active and broadcasting
-                         </p>
-                       </div>
-                     )}
                   </div>
                   <div className="flex flex-wrap justify-center gap-2">
                     {participants.map((participant) => (
                       <div key={participant.identity} className="flex items-center gap-2 bg-gray-800 px-3 py-2 rounded-lg">
                         <Avatar className="w-8 h-8">
+                          <AvatarImage src={participant.identity === `${user?.firstName} ${user?.lastName}` ? user?.imageUrl : undefined} />
                           <AvatarFallback className="bg-gray-500 text-white text-xs">
                             {getInitials(participant.identity)}
                           </AvatarFallback>
