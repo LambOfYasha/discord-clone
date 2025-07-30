@@ -134,7 +134,7 @@ export const CreateChannelModal = () => {
               Create channel
             </DialogTitle>
             <DialogDescription className="text-center text-zinc-500 text-sm leading-relaxed">
-              Create a text, audio, or video channel for your server members to communicate.
+              Create a text or voice channel for your server members to communicate.
             </DialogDescription>
           </DialogHeader>
           
@@ -186,7 +186,7 @@ export const CreateChannelModal = () => {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {Object.values(ChannelType).map((type) => (
+                          {[ChannelType.TEXT, ChannelType.AUDIO].map((type) => (
                             <SelectItem
                               key={type}
                               value={type}
@@ -194,7 +194,7 @@ export const CreateChannelModal = () => {
                             >
                               <div className="flex items-center gap-2">
                                 {getChannelIcon(type)}
-                                {type.toLowerCase()}
+                                {type === ChannelType.AUDIO ? "Voice" : type.toLowerCase()}
                               </div>
                             </SelectItem>
                           ))}

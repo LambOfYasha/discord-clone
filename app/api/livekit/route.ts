@@ -17,12 +17,19 @@ export async function GET(req: NextRequest) {
   }
 
   const apiKey = process.env.LIVEKIT_API_KEY;
-  const apiSecret = process.env.LIVEKIT_API_SECRET;
+  const apiSecret = process.env.LIVEKIT_API_SECRET || process.env.LIVEKIT_SECRET;
   const wsUrl = process.env.NEXT_PUBLIC_LIVEKIT_URL;
 
   if (!apiKey || !apiSecret || !wsUrl) {
+    console.error("LiveKit configuration missing:", {
+      apiKey: !!apiKey,
+      apiSecret: !!apiSecret,
+      wsUrl: !!wsUrl
+    });
     return NextResponse.json(
-      { error: "Server misconfigured" },
+      { 
+        error: "LiveKit server not configured. Please check LIVEKIT_API_KEY, LIVEKIT_API_SECRET (or LIVEKIT_SECRET), and NEXT_PUBLIC_LIVEKIT_URL environment variables." 
+      },
       { status: 500 }
     );
   }
