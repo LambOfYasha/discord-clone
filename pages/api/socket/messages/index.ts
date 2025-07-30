@@ -50,12 +50,21 @@ export default async function handler(
     );
     if (!member) return res.status(404).json({ error: "Member not found" });
 
+    console.log("Creating message with data:", {
+      content,
+      fileUrl,
+      channelId: channelId as string,
+      memberId: member.id,
+      replyTo: req.body.replyTo || null,
+    });
+
     const message = await mongo.message.create({
       data: {
         content,
         fileUrl,
         channelId: channelId as string,
         memberId: member.id,
+        replyTo: req.body.replyTo || null,
       },
     });
 
@@ -82,6 +91,12 @@ export default async function handler(
     return res.status(200).json({ message: messageWithMember });
   } catch (error) {
     console.error("[MESSAGES_POST]", error);
-    return res.status(500).json({ error: "Internal error" });
+    console.error("Error details:", {
+      message: error.message,
+      stack: error.stack,
+      body: req.body,
+      query: req.query
+    });
+    return res.status(500).json({ error: "Internal error", details: error.message });
   }
 }

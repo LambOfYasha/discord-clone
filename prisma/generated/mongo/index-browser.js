@@ -121,6 +121,7 @@ exports.Prisma.MessageScalarFieldEnum = {
   channelId: 'channelId',
   deleted: 'deleted',
   pinned: 'pinned',
+  replyTo: 'replyTo',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

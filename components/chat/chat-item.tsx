@@ -41,6 +41,7 @@ interface ChatItemProps {
       profile: Profile;
     };
   })[];
+  replyTo?: string;
 }
 const roleIconMap = {
   GUEST: null,
@@ -63,6 +64,7 @@ export const ChatItem = ({
   socketUrl,
   socketQuery,
   reactions = [],
+  replyTo,
 }: ChatItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [showThread, setShowThread] = useState(false);
@@ -195,20 +197,35 @@ export const ChatItem = ({
           )}
           {!fileUrl && !isEditing && (
             <div>
-              <p
+              {replyTo && (
+                <div className="flex items-center gap-x-2 mb-2 text-xs text-zinc-500">
+                  <Reply className="h-3 w-3" />
+                  <span>Replying to a message</span>
+                </div>
+              )}
+              <div
                 className={cn(
                   "text-sm text-zinc-600 dark:text-zinc-300",
                   deleted &&
                     "italic text-zinc-500 text-xs mt-1 dark:text-zinc-400"
                 )}
               >
-                {content}
+                {content.split('\n').map((line, index) => {
+                  if (line.startsWith('> ')) {
+                    return (
+                      <div key={index} className="border-l-4 border-zinc-300 dark:border-zinc-600 pl-3 my-2 italic text-zinc-500 dark:text-zinc-400">
+                        {line.substring(2)}
+                      </div>
+                    );
+                  }
+                  return <div key={index}>{line}</div>;
+                })}
                 {isUpdated && !deleted && (
                   <span className="text-[10px] mx-2 text-zinc-500 dark:text-zinc-400">
                     (edited)
                   </span>
                 )}
-              </p>
+              </div>
               {!deleted && reactions.length > 0 && (
                 <MessageReactions
                   messageId={id}

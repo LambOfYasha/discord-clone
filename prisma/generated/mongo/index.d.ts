@@ -1053,6 +1053,7 @@ export namespace Prisma {
     channelId: string | null
     deleted: boolean | null
     pinned: boolean | null
+    replyTo: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1065,6 +1066,7 @@ export namespace Prisma {
     channelId: string | null
     deleted: boolean | null
     pinned: boolean | null
+    replyTo: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1077,6 +1079,7 @@ export namespace Prisma {
     channelId: number
     deleted: number
     pinned: number
+    replyTo: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -1091,6 +1094,7 @@ export namespace Prisma {
     channelId?: true
     deleted?: true
     pinned?: true
+    replyTo?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1103,6 +1107,7 @@ export namespace Prisma {
     channelId?: true
     deleted?: true
     pinned?: true
+    replyTo?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1115,6 +1120,7 @@ export namespace Prisma {
     channelId?: true
     deleted?: true
     pinned?: true
+    replyTo?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -1200,6 +1206,7 @@ export namespace Prisma {
     channelId: string
     deleted: boolean
     pinned: boolean
+    replyTo: string | null
     createdAt: Date
     updatedAt: Date
     _count: MessageCountAggregateOutputType | null
@@ -1229,6 +1236,7 @@ export namespace Prisma {
     channelId?: boolean
     deleted?: boolean
     pinned?: boolean
+    replyTo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     reactions?: boolean | Message$reactionsArgs<ExtArgs>
@@ -1245,11 +1253,12 @@ export namespace Prisma {
     channelId?: boolean
     deleted?: boolean
     pinned?: boolean
+    replyTo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type MessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "fileUrl" | "memberId" | "channelId" | "deleted" | "pinned" | "createdAt" | "updatedAt", ExtArgs["result"]["message"]>
+  export type MessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "fileUrl" | "memberId" | "channelId" | "deleted" | "pinned" | "replyTo" | "createdAt" | "updatedAt", ExtArgs["result"]["message"]>
   export type MessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     reactions?: boolean | Message$reactionsArgs<ExtArgs>
     _count?: boolean | MessageCountOutputTypeDefaultArgs<ExtArgs>
@@ -1268,6 +1277,7 @@ export namespace Prisma {
       channelId: string
       deleted: boolean
       pinned: boolean
+      replyTo: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["message"]>
@@ -1670,6 +1680,7 @@ export namespace Prisma {
     readonly channelId: FieldRef<"Message", 'String'>
     readonly deleted: FieldRef<"Message", 'Boolean'>
     readonly pinned: FieldRef<"Message", 'Boolean'>
+    readonly replyTo: FieldRef<"Message", 'String'>
     readonly createdAt: FieldRef<"Message", 'DateTime'>
     readonly updatedAt: FieldRef<"Message", 'DateTime'>
   }
@@ -4040,6 +4051,7 @@ export namespace Prisma {
     channelId: 'channelId',
     deleted: 'deleted',
     pinned: 'pinned',
+    replyTo: 'replyTo',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -4156,6 +4168,7 @@ export namespace Prisma {
     channelId?: StringFilter<"Message"> | string
     deleted?: BoolFilter<"Message"> | boolean
     pinned?: BoolFilter<"Message"> | boolean
+    replyTo?: StringNullableFilter<"Message"> | string | null
     createdAt?: DateTimeFilter<"Message"> | Date | string
     updatedAt?: DateTimeFilter<"Message"> | Date | string
     reactions?: ReactionListRelationFilter
@@ -4169,6 +4182,7 @@ export namespace Prisma {
     channelId?: SortOrder
     deleted?: SortOrder
     pinned?: SortOrder
+    replyTo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     reactions?: ReactionOrderByRelationAggregateInput
@@ -4185,6 +4199,7 @@ export namespace Prisma {
     channelId?: StringFilter<"Message"> | string
     deleted?: BoolFilter<"Message"> | boolean
     pinned?: BoolFilter<"Message"> | boolean
+    replyTo?: StringNullableFilter<"Message"> | string | null
     createdAt?: DateTimeFilter<"Message"> | Date | string
     updatedAt?: DateTimeFilter<"Message"> | Date | string
     reactions?: ReactionListRelationFilter
@@ -4198,6 +4213,7 @@ export namespace Prisma {
     channelId?: SortOrder
     deleted?: SortOrder
     pinned?: SortOrder
+    replyTo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: MessageCountOrderByAggregateInput
@@ -4216,6 +4232,7 @@ export namespace Prisma {
     channelId?: StringWithAggregatesFilter<"Message"> | string
     deleted?: BoolWithAggregatesFilter<"Message"> | boolean
     pinned?: BoolWithAggregatesFilter<"Message"> | boolean
+    replyTo?: StringNullableWithAggregatesFilter<"Message"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Message"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Message"> | Date | string
   }
@@ -4351,6 +4368,7 @@ export namespace Prisma {
     channelId: string
     deleted?: boolean
     pinned?: boolean
+    replyTo?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     reactions?: ReactionCreateNestedManyWithoutMessageInput
@@ -4364,6 +4382,7 @@ export namespace Prisma {
     channelId: string
     deleted?: boolean
     pinned?: boolean
+    replyTo?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     reactions?: ReactionUncheckedCreateNestedManyWithoutMessageInput
@@ -4376,6 +4395,7 @@ export namespace Prisma {
     channelId?: StringFieldUpdateOperationsInput | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
     pinned?: BoolFieldUpdateOperationsInput | boolean
+    replyTo?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reactions?: ReactionUpdateManyWithoutMessageNestedInput
@@ -4388,6 +4408,7 @@ export namespace Prisma {
     channelId?: StringFieldUpdateOperationsInput | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
     pinned?: BoolFieldUpdateOperationsInput | boolean
+    replyTo?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reactions?: ReactionUncheckedUpdateManyWithoutMessageNestedInput
@@ -4401,6 +4422,7 @@ export namespace Prisma {
     channelId: string
     deleted?: boolean
     pinned?: boolean
+    replyTo?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -4412,6 +4434,7 @@ export namespace Prisma {
     channelId?: StringFieldUpdateOperationsInput | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
     pinned?: BoolFieldUpdateOperationsInput | boolean
+    replyTo?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -4423,6 +4446,7 @@ export namespace Prisma {
     channelId?: StringFieldUpdateOperationsInput | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
     pinned?: BoolFieldUpdateOperationsInput | boolean
+    replyTo?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -4616,6 +4640,7 @@ export namespace Prisma {
     channelId?: SortOrder
     deleted?: SortOrder
     pinned?: SortOrder
+    replyTo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -4628,6 +4653,7 @@ export namespace Prisma {
     channelId?: SortOrder
     deleted?: SortOrder
     pinned?: SortOrder
+    replyTo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -4640,6 +4666,7 @@ export namespace Prisma {
     channelId?: SortOrder
     deleted?: SortOrder
     pinned?: SortOrder
+    replyTo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -5027,6 +5054,7 @@ export namespace Prisma {
     channelId: string
     deleted?: boolean
     pinned?: boolean
+    replyTo?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -5039,6 +5067,7 @@ export namespace Prisma {
     channelId: string
     deleted?: boolean
     pinned?: boolean
+    replyTo?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -5066,6 +5095,7 @@ export namespace Prisma {
     channelId?: StringFieldUpdateOperationsInput | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
     pinned?: BoolFieldUpdateOperationsInput | boolean
+    replyTo?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5077,6 +5107,7 @@ export namespace Prisma {
     channelId?: StringFieldUpdateOperationsInput | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
     pinned?: BoolFieldUpdateOperationsInput | boolean
+    replyTo?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
