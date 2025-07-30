@@ -331,13 +331,13 @@ const VoiceChannelInterface = () => {
             <div className="h-full flex items-center justify-center">
                              {isVideoEnabled && localParticipant ? (
                                <div className="w-full h-full relative">
-                                 {/* Video feed that fills the entire section */}
+                                                                    {/* Video feed that fills the entire section */}
                                  <video
                                    ref={videoElementRef}
                                    autoPlay
                                    playsInline
                                    muted
-                                   className="w-full h-full bg-black rounded-lg object-cover transition-all duration-200"
+                                   className="w-full h-full max-h-[calc(100vh-200px)] bg-black rounded-lg object-cover transition-all duration-200"
                                  />
                                  {/* Fullscreen button */}
                                  <button
