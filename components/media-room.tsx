@@ -550,21 +550,18 @@ const VoiceChannelInterface = () => {
           <MessageSquare className="w-5 h-5" />
         </button>
 
-        <button
-          onClick={() => setShowParticipants(!showParticipants)}
-          className={`p-3 rounded-full transition-colors ${
-            showParticipants 
-              ? 'bg-orange-500 hover:bg-orange-600 text-white' 
-              : 'bg-gray-600 hover:bg-gray-700 text-white'
-          }`}
-        >
-          <Users className="w-5 h-5" />
-        </button>
-
-                 <div className="flex items-center gap-2 px-3 py-1 bg-gray-700 rounded-full">
-           <Users className="w-4 h-4 text-gray-400" />
-           <span className="text-white text-sm">{participants.length}</span>
-         </div>
+                 <button
+                   onClick={() => setShowParticipants(!showParticipants)}
+                   className={`flex items-center gap-2 px-3 py-1 rounded-full transition-colors ${
+                     showParticipants 
+                       ? 'bg-orange-500 hover:bg-orange-600 text-white' 
+                       : 'bg-gray-700 hover:bg-gray-600 text-white'
+                   }`}
+                   title="Toggle Participants"
+                 >
+                   <Users className="w-4 h-4" />
+                   <span className="text-sm">{participants.length}</span>
+                 </button>
 
                  <button
            onClick={leaveChannel}
