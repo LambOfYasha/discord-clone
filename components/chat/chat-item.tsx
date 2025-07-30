@@ -3,7 +3,7 @@
 import { Member, MemberRole, Profile } from "../../prisma/generated/postgres";
 import { UserAvatar } from "@/components/user-avatar";
 import { ActionTooltip } from "@/components/action-tooltip";
-import { Edit, FileIcon, ShieldCheck, Trash } from "lucide-react";
+import { Edit, FileIcon, ShieldCheck, Trash, Smile, Reply, Pin } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
@@ -17,6 +17,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/use-modal-store";
 import { useRouter, useParams } from "next/navigation";
+import { MessageReactions } from "./message-reactions";
+import { Reaction } from "@/prisma/generated/mongo";
+import { EmojiPicker } from "@/components/emoji-picker";
+import { MessageThread } from "./message-thread";
 
 interface ChatItemProps {
   id: string;
@@ -27,10 +31,16 @@ interface ChatItemProps {
   timestamp: string;
   fileUrl: string;
   deleted: boolean;
+  pinned: boolean;
   currentMember: Member;
   isUpdated: boolean;
   socketUrl: string;
   socketQuery: Record<string, string>;
+  reactions?: (Reaction & {
+    member: Member & {
+      profile: Profile;
+    };
+  })[];
 }
 const roleIconMap = {
   GUEST: null,
@@ -47,12 +57,15 @@ export const ChatItem = ({
   timestamp,
   fileUrl,
   deleted,
+  pinned,
   currentMember,
   isUpdated,
   socketUrl,
   socketQuery,
+  reactions = [],
 }: ChatItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [showThread, setShowThread] = useState(false);
   const { onOpen } = useModal();
   const router = useRouter();
   const params = useParams();
@@ -84,6 +97,7 @@ export const ChatItem = ({
   const isOwner = currentMember.id === member.id;
   const canDeleteMessage = !deleted && (isAdmin || isOwner || isModerator);
   const canEditMessage = !deleted && isOwner && !fileUrl;
+  const canPinMessage = !deleted && (isAdmin || isModerator);
   const isPDF = fileType === "pdf" && fileUrl;
   const isImage = !isPDF && fileUrl;
   const isLoading = form.formState.isSubmitting;
@@ -96,6 +110,34 @@ export const ChatItem = ({
       await axios.patch(url, values);
       form.reset();
       setIsEditing(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleReaction = async (emoji: string) => {
+    try {
+      const url = qs.stringifyUrl({
+        url: `/api/socket/messages/${id}/reactions`,
+        query: socketQuery,
+      });
+      await axios.post(url, { emoji });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handlePinMessage = async () => {
+    try {
+      const url = qs.stringifyUrl({
+        url: `/api/socket/messages/${id}/pin`,
+        query: socketQuery,
+      });
+      if (pinned) {
+        await axios.delete(url);
+      } else {
+        await axios.post(url);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -152,20 +194,30 @@ export const ChatItem = ({
             </div>
           )}
           {!fileUrl && !isEditing && (
-            <p
-              className={cn(
-                "text-sm text-zinc-600 dark:text-zinc-300",
-                deleted &&
-                  "italic text-zinc-500 text-xs mt-1 dark:text-zinc-400"
+            <div>
+              <p
+                className={cn(
+                  "text-sm text-zinc-600 dark:text-zinc-300",
+                  deleted &&
+                    "italic text-zinc-500 text-xs mt-1 dark:text-zinc-400"
+                )}
+              >
+                {content}
+                {isUpdated && !deleted && (
+                  <span className="text-[10px] mx-2 text-zinc-500 dark:text-zinc-400">
+                    (edited)
+                  </span>
+                )}
+              </p>
+              {!deleted && reactions.length > 0 && (
+                <MessageReactions
+                  messageId={id}
+                  reactions={reactions}
+                  currentMember={currentMember}
+                  socketQuery={socketQuery}
+                />
               )}
-            >
-              {content}
-              {isUpdated && !deleted && (
-                <span className="text-[10px] mx-2 text-zinc-500 dark:text-zinc-400">
-                  (edited)
-                </span>
-              )}
-            </p>
+            </div>
           )}
           {!fileUrl && isEditing && (
             <Form {...form}>
@@ -204,6 +256,34 @@ export const ChatItem = ({
       </div>
       {canDeleteMessage && (
         <div className="hidden group-hover:flex items-center gap-x-2 absolute p-1 -top-2 right-5 bg-white dark:bg-zinc-800 border rounded-sm">
+          {!deleted && (
+            <>
+              <ActionTooltip label="Reply">
+                <Reply
+                  onClick={() => setShowThread(true)}
+                  className="cursor-pointer w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition"
+                />
+              </ActionTooltip>
+              <ActionTooltip label="Add reaction">
+                <EmojiPicker onChange={(emoji) => handleReaction(emoji)}>
+                  <Smile className="cursor-pointer w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition" />
+                </EmojiPicker>
+              </ActionTooltip>
+              {canPinMessage && (
+                <ActionTooltip label={pinned ? "Unpin message" : "Pin message"}>
+                  <Pin
+                    onClick={handlePinMessage}
+                    className={cn(
+                      "cursor-pointer w-4 h-4 transition",
+                      pinned
+                        ? "text-yellow-500 hover:text-yellow-600"
+                        : "text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300"
+                    )}
+                  />
+                </ActionTooltip>
+              )}
+            </>
+          )}
           {canEditMessage && (
             <ActionTooltip label="Edit">
               <Edit
@@ -224,6 +304,23 @@ export const ChatItem = ({
             />
           </ActionTooltip>
         </div>
+      )}
+      {showThread && (
+        <MessageThread
+          message={{
+            id,
+            content,
+            member,
+            timestamp,
+            fileUrl,
+            deleted,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          }}
+          currentMember={currentMember}
+          socketQuery={socketQuery}
+          onClose={() => setShowThread(false)}
+        />
       )}
     </div>
   );

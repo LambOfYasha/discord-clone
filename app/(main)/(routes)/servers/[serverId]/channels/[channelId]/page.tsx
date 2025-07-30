@@ -43,6 +43,11 @@ const ChannelIdPage = async ({ params }: ChannelIdPageProps) => {
         name={channel.name}
         serverId={channel.serverId}
         type="channel"
+        currentMember={member}
+        socketQuery={{
+          channelId: channel.id,
+          serverId: channel.serverId,
+        }}
       />
       {channel.type === ChannelType.TEXT && (
         <>

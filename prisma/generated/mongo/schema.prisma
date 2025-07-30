@@ -9,14 +9,16 @@ datasource db {
 }
 
 model Message {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
   content   String
   fileUrl   String?
   memberId  String
   channelId String
-  deleted   Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  deleted   Boolean    @default(false)
+  pinned    Boolean    @default(false)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  reactions Reaction[]
 
   @@map("messages")
 }
@@ -32,4 +34,16 @@ model DirectMessage {
   updatedAt      DateTime @updatedAt
 
   @@map("direct_messages")
+}
+
+model Reaction {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  emoji     String
+  memberId  String
+  messageId String
+  createdAt DateTime @default(now())
+  message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@unique([messageId, memberId, emoji])
+  @@map("reactions")
 }

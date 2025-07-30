@@ -120,6 +120,7 @@ exports.Prisma.MessageScalarFieldEnum = {
   memberId: 'memberId',
   channelId: 'channelId',
   deleted: 'deleted',
+  pinned: 'pinned',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -135,6 +136,14 @@ exports.Prisma.DirectMessageScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ReactionScalarFieldEnum = {
+  id: 'id',
+  emoji: 'emoji',
+  memberId: 'memberId',
+  messageId: 'messageId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -148,7 +157,8 @@ exports.Prisma.QueryMode = {
 
 exports.Prisma.ModelName = {
   Message: 'Message',
-  DirectMessage: 'DirectMessage'
+  DirectMessage: 'DirectMessage',
+  Reaction: 'Reaction'
 };
 
 /**

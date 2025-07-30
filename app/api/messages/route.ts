@@ -11,6 +11,7 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const cursor = searchParams.get("cursor");
     const channelId = searchParams.get("channelId");
+    const pinned = searchParams.get("pinned");
 
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -21,6 +22,11 @@ export async function GET(req: Request) {
 
     let messages: Message[] = [];
 
+    const whereClause: any = { channelId };
+    if (pinned === "true") {
+      whereClause.pinned = true;
+    }
+
     if (cursor) {
       messages = await mongo.message.findMany({
         take: MESSAGES_BATCH,
@@ -28,7 +34,7 @@ export async function GET(req: Request) {
         cursor: {
           id: cursor,
         },
-        where: { channelId },
+        where: whereClause,
         orderBy: {
           createdAt: "desc",
         },
@@ -36,7 +42,7 @@ export async function GET(req: Request) {
     } else {
       messages = await mongo.message.findMany({
         take: MESSAGES_BATCH,
-        where: { channelId },
+        where: whereClause,
         orderBy: {
           createdAt: "desc",
         },
