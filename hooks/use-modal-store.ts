@@ -12,7 +12,10 @@ export type ModalType =
   | "editChannel"
   | "messageFile"
   | "deleteMessage"
-  | "inbox";
+  | "inbox"
+  | "createDm"
+  | "createGroupDm"
+  | "addFriend";
 interface ModalData {
   server?: Server;
   channel?: Channel;

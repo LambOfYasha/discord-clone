@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { 
   User, 
@@ -20,7 +21,8 @@ import {
   ChevronRight
 } from "lucide-react";
 import { useModal } from "@/hooks/use-modal-store";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { UserProfile } from "@/components/user/user-profile";
 
 interface FriendsSidebarProps {
@@ -41,7 +43,86 @@ interface FriendsSidebarProps {
 
 export const FriendsSidebar = ({ servers = [], profile, collapsed = false, onToggleCollapse }: FriendsSidebarProps) => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [directMessages, setDirectMessages] = useState<any[]>([]);
+  const [groupDms, setGroupDms] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { onOpen } = useModal();
+  const router = useRouter();
+
+  useEffect(() => {
+    fetchDirectMessages();
+  }, []);
+
+  const fetchDirectMessages = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/friends");
+      if (response.ok) {
+        const data = await response.json();
+        setDirectMessages(data.directMessages);
+        setGroupDms(data.groupDms);
+      }
+    } catch (error) {
+      console.error("Failed to fetch direct messages:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleCreateDM = async (friend: any) => {
+    let memberId = friend.memberId;
+
+    // If no memberId, try to get or create one
+    if (!memberId) {
+      console.log("No member ID found for friend, trying to get or create one:", friend.profile.name, friend.profile.id);
+      
+      try {
+        const memberResponse = await fetch("/api/members/get-or-create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            profileId: friend.profile.id,
+          }),
+        });
+
+        if (memberResponse.ok) {
+          const memberData = await memberResponse.json();
+          memberId = memberData.memberId;
+          console.log("Got member ID:", memberId);
+        } else {
+          console.error("Failed to get or create member ID");
+          return;
+        }
+      } catch (error) {
+        console.error("Failed to get or create member ID:", error);
+        return;
+      }
+    }
+
+    try {
+      const response = await fetch("/api/conversations", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          memberTwoId: memberId,
+        }),
+      });
+
+      if (response.ok) {
+        const conversation = await response.json();
+        // Navigate to the DM conversation
+        router.push(`/servers/${conversation.memberOne.serverId}/conversations/${conversation.memberTwo.id}`);
+      } else {
+        console.error("Failed to create DM");
+      }
+    } catch (error) {
+      console.error("Failed to create DM:", error);
+    }
+  };
 
   return (
     <div className={`flex flex-col h-full transition-all duration-300 ${collapsed ? 'w-16' : 'w-60'}`}>
@@ -146,96 +227,101 @@ export const FriendsSidebar = ({ servers = [], profile, collapsed = false, onTog
           <div>
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-sm font-semibold text-white">{!collapsed && "Direct Messages"}</h3>
-              {!collapsed && (
-                <div className="flex items-center space-x-1">
+              <div className="flex items-center space-x-1">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 w-6 p-0 text-gray-400 hover:text-white"
+                  onClick={() => onOpen("createDm")}
+                >
+                  <Plus className="h-4 w-4" />
+                </Button>
+                {!collapsed && (
                   <Button
                     variant="ghost"
                     size="sm"
                     className="h-6 w-6 p-0 text-gray-400 hover:text-white"
-                  >
-                    <Plus className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-6 w-6 p-0 text-gray-400 hover:text-white"
+                    onClick={() => onOpen("createGroupDm")}
                   >
                     <Users className="h-4 w-4" />
                   </Button>
-                </div>
-              )}
+                )}
+              </div>
             </div>
             
             <div className="space-y-1">
-              {/* Sample Direct Messages */}
-              <Link href="/direct-messages">
-                <div className="flex items-center space-x-2 p-2 rounded hover:bg-[#1E1F22] cursor-pointer">
-                  <div className="w-8 h-8 bg-[#5865F2] rounded-full flex items-center justify-center">
-                    <span className="text-white text-sm font-semibold">D</span>
-                  </div>
-                  {!collapsed && (
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm text-white truncate">Davyon כוח</p>
-                    </div>
-                  )}
+              {isLoading ? (
+                <div className="p-2">
+                  <p className="text-xs text-gray-400">Loading...</p>
                 </div>
-              </Link>
-              
-              <Link href="/direct-messages">
-                <div className="flex items-center space-x-2 p-2 rounded hover:bg-[#1E1F22] cursor-pointer">
-                  <div className="w-8 h-8 bg-[#5865F2] rounded-full flex items-center justify-center">
-                    <span className="text-white text-sm font-semibold">J</span>
-                  </div>
-                  {!collapsed && (
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm text-white truncate">Jonathan</p>
-                    </div>
-                  )}
+              ) : directMessages.length === 0 ? (
+                <div className="p-2">
+                  <p className="text-xs text-gray-400">No direct messages</p>
                 </div>
-              </Link>
-              
-              <Link href="/direct-messages">
-                <div className="flex items-center space-x-2 p-2 rounded hover:bg-[#1E1F22] cursor-pointer">
-                  <div className="w-8 h-8 bg-[#5865F2] rounded-full flex items-center justify-center">
-                    <span className="text-white text-sm font-semibold">K</span>
-                  </div>
-                  {!collapsed && (
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm text-white truncate">kaymingss</p>
-                    </div>
-                  )}
-                </div>
-              </Link>
-              
-              <Link href="/direct-messages">
-                <div className="flex items-center space-x-2 p-2 rounded hover:bg-[#1E1F22] cursor-pointer">
-                  <div className="w-8 h-8 bg-[#5865F2] rounded-full flex items-center justify-center">
-                    <span className="text-white text-sm font-semibold">G</span>
-                  </div>
-                  {!collapsed && (
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm text-white truncate">GodHatesChristmas</p>
-                    </div>
-                  )}
-                </div>
-              </Link>
-              
-              <Link href="/direct-messages">
-                <div className="flex items-center space-x-2 p-2 rounded hover:bg-[#1E1F22] cursor-pointer">
-                  <div className="w-8 h-8 bg-[#5865F2] rounded-full flex items-center justify-center">
-                    <span className="text-white text-sm font-semibold">D</span>
-                  </div>
-                  {!collapsed && (
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm text-white truncate">Discord</p>
-                      <div className="flex items-center space-x-1">
-                        <span className="text-xs bg-blue-500 text-white px-1 rounded">✓ OFFICIAL</span>
-                        <span className="text-xs text-gray-400">Official Discord Message</span>
+              ) : (
+                directMessages.map((dm) => (
+                  <Link
+                    key={dm.id}
+                    href={`/servers/${dm.serverId}/conversations/${dm.profile.id}`}
+                    className="flex items-center space-x-2 p-2 rounded hover:bg-[#1E1F22] cursor-pointer"
+                  >
+                    <Avatar className="w-8 h-8">
+                      <AvatarImage src={dm.profile.imageUrl} />
+                      <AvatarFallback className="bg-[#5865F2]">
+                        <span className="text-white text-sm font-semibold">
+                          {dm.profile.name.charAt(0).toUpperCase()}
+                        </span>
+                      </AvatarFallback>
+                    </Avatar>
+                    {!collapsed && (
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm text-white truncate">{dm.profile.name}</p>
+                        {dm.unreadCount > 0 && (
+                          <span className="text-xs bg-red-500 text-white px-1 rounded">
+                            {dm.unreadCount}
+                          </span>
+                        )}
                       </div>
+                    )}
+                  </Link>
+                ))
+              )}
+
+              {/* Group DMs */}
+              {groupDms.length > 0 && (
+                <>
+                  {!collapsed && (
+                    <div className="mt-2 mb-1">
+                      <h4 className="text-xs font-semibold text-gray-400">Group DMs</h4>
                     </div>
                   )}
-                </div>
-              </Link>
+                  {groupDms.map((group) => (
+                    <Link
+                      key={group.id}
+                      href={`/servers/${group.id}/group-conversations/${group.id}`}
+                      className="flex items-center space-x-2 p-2 rounded hover:bg-[#1E1F22] cursor-pointer"
+                    >
+                      <Avatar className="w-8 h-8">
+                        <AvatarImage src={group.imageUrl} />
+                        <AvatarFallback className="bg-blue-500">
+                          <Users className="h-4 w-4 text-white" />
+                        </AvatarFallback>
+                      </Avatar>
+                      {!collapsed && (
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm text-white truncate">{group.name}</p>
+                          <p className="text-xs text-gray-400 truncate">{group.memberCount} members</p>
+                          {group.unreadCount > 0 && (
+                            <span className="text-xs bg-red-500 text-white px-1 rounded">
+                              {group.unreadCount}
+                            </span>
+                          )}
+                        </div>
+                      )}
+                    </Link>
+                  ))}
+                </>
+              )}
             </div>
           </div>
         </div>

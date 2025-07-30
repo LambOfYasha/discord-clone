@@ -137,6 +137,17 @@ exports.Prisma.DirectMessageScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.GroupMessageScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  fileUrl: 'fileUrl',
+  memberId: 'memberId',
+  groupConversationId: 'groupConversationId',
+  deleted: 'deleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ReactionScalarFieldEnum = {
   id: 'id',
   emoji: 'emoji',
@@ -159,6 +170,7 @@ exports.Prisma.QueryMode = {
 exports.Prisma.ModelName = {
   Message: 'Message',
   DirectMessage: 'DirectMessage',
+  GroupMessage: 'GroupMessage',
   Reaction: 'Reaction'
 };
 

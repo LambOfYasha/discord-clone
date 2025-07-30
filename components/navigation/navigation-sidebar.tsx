@@ -11,11 +11,20 @@ export const NavigationSidebar = async () => {
 
   const servers = await db.server.findMany({
     where: {
-      members: {
-        some: {
-          profileId: profile.id,
+      AND: [
+        {
+          members: {
+            some: {
+              profileId: profile.id,
+            },
+          },
         },
-      },
+        {
+          name: {
+            not: "Direct Messages", // Exclude DM server from navigation
+          },
+        },
+      ],
     },
   });
 

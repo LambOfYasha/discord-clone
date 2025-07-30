@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { 
   MessageSquare, 
   User, 
@@ -18,6 +19,63 @@ import {
 export const MessageRequestsList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("requests");
+  const [pendingRequests, setPendingRequests] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetchPendingRequests();
+  }, []);
+
+  const fetchPendingRequests = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/friends");
+      if (response.ok) {
+        const data = await response.json();
+        setPendingRequests(data.pendingRequests);
+      }
+    } catch (error) {
+      console.error("Failed to fetch pending requests:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleAcceptRequest = async (requesterProfileId: string) => {
+    try {
+      const response = await fetch(`/api/friend-requests/${requesterProfileId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ action: "accept" }),
+      });
+
+      if (response.ok) {
+        fetchPendingRequests(); // Refresh data
+      }
+    } catch (error) {
+      console.error("Failed to accept friend request:", error);
+    }
+  };
+
+  const handleRejectRequest = async (requesterProfileId: string) => {
+    try {
+      const response = await fetch(`/api/friend-requests/${requesterProfileId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ action: "reject" }),
+      });
+
+      if (response.ok) {
+        fetchPendingRequests(); // Refresh data
+      }
+    } catch (error) {
+      console.error("Failed to reject friend request:", error);
+    }
+  };
 
   return (
     <div className="h-full flex flex-col">
@@ -67,134 +125,85 @@ export const MessageRequestsList = () => {
       {/* Content */}
       <ScrollArea className="flex-1">
         <div className="p-4">
-          {activeTab === "requests" && (
-            <div>
-              <h3 className="text-sm font-semibold text-gray-400 mb-4">
-                Message Requests — 2
-              </h3>
-              
-              <div className="space-y-3">
-                {/* Sample Message Request */}
-                <div className="bg-[#1E1F22] rounded-lg p-4">
-                  <div className="flex items-start space-x-3">
-                    <div className="w-12 h-12 bg-[#5865F2] rounded-full flex items-center justify-center">
-                      <span className="text-white text-lg font-semibold">J</span>
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-2">
-                        <div>
-                          <h4 className="text-white font-medium">Jonathan</h4>
-                          <p className="text-sm text-gray-400">Sent you a message</p>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Button
-                            size="sm"
-                            className="bg-green-500 hover:bg-green-600 text-white"
-                          >
-                            <Check className="h-4 w-4 mr-1" />
-                            Accept
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
-                          >
-                            <X className="h-4 w-4 mr-1" />
-                            Decline
-                          </Button>
-                        </div>
-                      </div>
-                      <p className="text-gray-300 text-sm">
-                        "Hey! I saw your project and wanted to connect. Would love to chat about it!"
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-[#1E1F22] rounded-lg p-4">
-                  <div className="flex items-start space-x-3">
-                    <div className="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center">
-                      <span className="text-white text-lg font-semibold">S</span>
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-2">
-                        <div>
-                          <h4 className="text-white font-medium">Sarah</h4>
-                          <p className="text-sm text-gray-400">Sent you a message</p>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Button
-                            size="sm"
-                            className="bg-green-500 hover:bg-green-600 text-white"
-                          >
-                            <Check className="h-4 w-4 mr-1" />
-                            Accept
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
-                          >
-                            <X className="h-4 w-4 mr-1" />
-                            Decline
-                          </Button>
-                        </div>
-                      </div>
-                      <p className="text-gray-300 text-sm">
-                        "Hi! I'm interested in collaborating on your Discord clone project."
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          {isLoading ? (
+            <div className="text-center py-8">
+              <p className="text-gray-400">Loading...</p>
             </div>
-          )}
-
-          {activeTab === "friends" && (
-            <div>
-              <h3 className="text-sm font-semibold text-gray-400 mb-4">
-                Friend Requests — 1
-              </h3>
-              
-              <div className="space-y-3">
-                {/* Sample Friend Request */}
-                <div className="bg-[#1E1F22] rounded-lg p-4">
-                  <div className="flex items-start space-x-3">
-                    <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center">
-                      <span className="text-white text-lg font-semibold">M</span>
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-2">
-                        <div>
-                          <h4 className="text-white font-medium">Mike</h4>
-                          <p className="text-sm text-gray-400">Wants to be your friend</p>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Button
-                            size="sm"
-                            className="bg-green-500 hover:bg-green-600 text-white"
-                          >
-                            <UserPlus className="h-4 w-4 mr-1" />
-                            Accept
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
-                          >
-                            <UserMinus className="h-4 w-4 mr-1" />
-                            Decline
-                          </Button>
-                        </div>
-                      </div>
-                      <p className="text-gray-300 text-sm">
-                        "Hey! I'm a fellow developer and would love to connect!"
-                      </p>
-                    </div>
+          ) : (
+            <>
+              {activeTab === "requests" && (
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-400 mb-4">
+                    Message Requests — 0
+                  </h3>
+                  
+                  <div className="text-center py-8">
+                    <p className="text-gray-400">No message requests</p>
                   </div>
                 </div>
-              </div>
-            </div>
+              )}
+
+              {activeTab === "friends" && (
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-400 mb-4">
+                    Friend Requests — {pendingRequests.length}
+                  </h3>
+                  
+                  <div className="space-y-3">
+                    {pendingRequests.length === 0 ? (
+                      <div className="text-center py-8">
+                        <p className="text-gray-400">No pending friend requests</p>
+                      </div>
+                    ) : (
+                      pendingRequests.map((request) => (
+                        <div key={request.id} className="bg-[#1E1F22] rounded-lg p-4">
+                          <div className="flex items-start space-x-3">
+                            <Avatar className="w-12 h-12">
+                              <AvatarImage src={request.requesterProfile.imageUrl} />
+                              <AvatarFallback className="bg-green-500">
+                                <span className="text-white text-lg font-semibold">
+                                  {request.requesterProfile.name.charAt(0).toUpperCase()}
+                                </span>
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className="flex-1">
+                              <div className="flex items-center justify-between mb-2">
+                                <div>
+                                  <h4 className="text-white font-medium">{request.requesterProfile.name}</h4>
+                                  <p className="text-sm text-gray-400">Wants to be your friend</p>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                  <Button
+                                    size="sm"
+                                    className="bg-green-500 hover:bg-green-600 text-white"
+                                    onClick={() => handleAcceptRequest(request.requesterProfile.id)}
+                                  >
+                                    <UserPlus className="h-4 w-4 mr-1" />
+                                    Accept
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
+                                    onClick={() => handleRejectRequest(request.requesterProfile.id)}
+                                  >
+                                    <UserMinus className="h-4 w-4 mr-1" />
+                                    Decline
+                                  </Button>
+                                </div>
+                              </div>
+                              <p className="text-gray-300 text-sm">
+                                "Hey! I'd like to connect with you!"
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
       </ScrollArea>

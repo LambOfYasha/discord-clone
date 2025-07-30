@@ -40,7 +40,15 @@ export const NavigationItem = ({ id, imageUrl, name }: navigationItemProps) => {
               "bg-primary/10 text-primary rounded-[16px]"
           )}
         >
-          <Image fill src={imageUrl} alt="Server image" />
+          {imageUrl && imageUrl.trim() !== "" ? (
+            <Image fill src={imageUrl} alt="Server image" />
+          ) : (
+            <div className="w-full h-full bg-zinc-700 flex items-center justify-center">
+              <span className="text-white text-sm font-semibold">
+                {name.charAt(0).toUpperCase()}
+              </span>
+            </div>
+          )}
         </div>
       </button>
     </ActionTooltip>

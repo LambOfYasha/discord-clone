@@ -168,6 +168,45 @@ exports.Prisma.ConversationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.GroupConversationScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  imageUrl: 'imageUrl',
+  profileId: 'profileId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.GroupConversationMemberScalarFieldEnum = {
+  id: 'id',
+  role: 'role',
+  profileId: 'profileId',
+  memberId: 'memberId',
+  groupConversationId: 'groupConversationId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.GroupMessageScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  fileUrl: 'fileUrl',
+  deleted: 'deleted',
+  memberId: 'memberId',
+  groupConversationId: 'groupConversationId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.FriendRequestScalarFieldEnum = {
+  id: 'id',
+  requesterProfileId: 'requesterProfileId',
+  targetProfileId: 'targetProfileId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -176,6 +215,11 @@ exports.Prisma.SortOrder = {
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 exports.MemberRole = exports.$Enums.MemberRole = {
   ADMIN: 'ADMIN',
@@ -189,12 +233,28 @@ exports.ChannelType = exports.$Enums.ChannelType = {
   VIDEO: 'VIDEO'
 };
 
+exports.GroupMemberRole = exports.$Enums.GroupMemberRole = {
+  ADMIN: 'ADMIN',
+  MODERATOR: 'MODERATOR',
+  GUEST: 'GUEST'
+};
+
+exports.FriendRequestStatus = exports.$Enums.FriendRequestStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED'
+};
+
 exports.Prisma.ModelName = {
   Profile: 'Profile',
   Server: 'Server',
   Member: 'Member',
   Channel: 'Channel',
-  Conversation: 'Conversation'
+  Conversation: 'Conversation',
+  GroupConversation: 'GroupConversation',
+  GroupConversationMember: 'GroupConversationMember',
+  GroupMessage: 'GroupMessage',
+  FriendRequest: 'FriendRequest'
 };
 
 /**
