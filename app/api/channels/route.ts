@@ -43,6 +43,7 @@ export async function POST(req: Request) {
     return NextResponse.json(server);
   } catch (error) {
     console.log("[CHANNELS_POST]", error);
-    return new NextResponse("Internal error", { status: 500 });
+    console.error("Full error details:", error);
+    return new NextResponse(`Internal error: ${error instanceof Error ? error.message : 'Unknown error'}`, { status: 500 });
   }
 }
