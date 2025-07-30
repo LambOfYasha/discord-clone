@@ -1,6 +1,6 @@
 import { currentProfile } from "@/lib/current-profile";
 import { postgres, mongo } from "@/lib/db";
-import { DirectMessage } from "../../prisma/generated/mongo";
+import { DirectMessage } from "@/prisma/generated/mongo";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {

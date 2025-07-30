@@ -1,6 +1,6 @@
 import { currentProfile } from "@/lib/current-profile";
 import { postgres } from "@/lib/db";
-import { MemberRole } from "../../prisma/generated/postgres";
+import { MemberRole } from "@/prisma/generated/postgres";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {

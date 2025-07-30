@@ -34,7 +34,7 @@ import { Button } from "@/components/ui/button";
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal-store";
-import { ChannelType } from "../../prisma/generated/postgres";
+import { ChannelType } from "@/prisma/generated/postgres";
 import { Loader2, Hash, Mic, Video } from "lucide-react";
 
 const formSchema = z.object({
