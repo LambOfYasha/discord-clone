@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { LiveKitRoom, useLocalParticipant, useParticipants, useRoomContext } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { useUser } from "@clerk/nextjs";
-import { Loader2, Mic, MicOff, Video, VideoOff, Phone, PhoneOff, Monitor, MessageSquare, Users, Volume2, VolumeX, Crown, Shield, MoreVertical, UserX, Volume1, Maximize2, Minimize2 } from "lucide-react";
+import { Loader2, Mic, MicOff, Video, VideoOff, Phone, PhoneOff, Monitor, MessageSquare, Users, Volume2, VolumeX, Crown, Shield, MoreVertical, UserX, Volume1, Maximize2, Minimize2, Activity, Wifi, WifiOff } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -99,13 +99,13 @@ export const MediaRoom = ({ chatId, video, audio }: MediaRoomProps) => {
       video={video}
       audio={audio}
     >
-      <VoiceChannelInterface />
+      <VoiceChannelInterface chatId={chatId} />
     </LiveKitRoom>
   );
 };
 
 // Separate component for voice channel interface
-const VoiceChannelInterface = () => {
+const VoiceChannelInterface = ({ chatId }: { chatId: string }) => {
   const room = useRoomContext();
   const { localParticipant } = useLocalParticipant();
   const participants = useParticipants();
@@ -114,6 +114,7 @@ const VoiceChannelInterface = () => {
   const [isVideoEnabled, setIsVideoEnabled] = useState(false);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [showStatusModal, setShowStatusModal] = useState(false);
 
 
 
@@ -143,136 +144,8 @@ const VoiceChannelInterface = () => {
     }
   }, [isVideoEnabled, localParticipant]);
 
-  // Audio level detection for visual feedback - using refs to avoid re-renders
-  const audioLevelRef = useRef(0);
-  const isSpeakingRef = useRef(false);
+  // Video element ref for fullscreen functionality
   const videoElementRef = useRef<HTMLVideoElement>(null);
-  const audioDetectionRef = useRef<{
-    audioContext: AudioContext | null;
-    analyser: AnalyserNode | null;
-    microphone: MediaStreamAudioSourceNode | null;
-    animationId: number | null;
-    stream: MediaStream | null;
-  }>({
-    audioContext: null,
-    analyser: null,
-    microphone: null,
-    animationId: null,
-    stream: null
-  });
-
-  useEffect(() => {
-    const cleanup = () => {
-      const detection = audioDetectionRef.current;
-      
-      // Stop animation frame
-      if (detection.animationId) {
-        cancelAnimationFrame(detection.animationId);
-        detection.animationId = null;
-      }
-      
-      // Clean up audio resources
-      if (detection.stream) {
-        detection.stream.getTracks().forEach(track => track.stop());
-        detection.stream = null;
-      }
-      if (detection.microphone) {
-        detection.microphone.disconnect();
-        detection.microphone = null;
-      }
-      if (detection.audioContext) {
-        detection.audioContext.close();
-        detection.audioContext = null;
-      }
-      detection.analyser = null;
-      
-      // Reset states
-      audioLevelRef.current = 0;
-      isSpeakingRef.current = false;
-      
-      // Remove border classes
-      const videoElement = videoElementRef.current;
-      if (videoElement) {
-        videoElement.classList.remove('ring-4', 'ring-green-400', 'ring-opacity-75', 'animate-pulse');
-      }
-    };
-
-    const setupAudioLevelDetection = async () => {
-      try {
-        // Clean up any existing audio detection first
-        cleanup();
-        
-        // Get user media directly for audio level detection
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        audioDetectionRef.current.stream = stream;
-        
-        const audioContext = new AudioContext();
-        audioDetectionRef.current.audioContext = audioContext;
-        
-        const analyser = audioContext.createAnalyser();
-        audioDetectionRef.current.analyser = analyser;
-        
-        const microphone = audioContext.createMediaStreamSource(stream);
-        audioDetectionRef.current.microphone = microphone;
-        
-        analyser.fftSize = 256;
-        const bufferLength = analyser.frequencyBinCount;
-        const dataArray = new Uint8Array(bufferLength);
-        
-        microphone.connect(analyser);
-        
-        const updateAudioLevel = () => {
-          const detection = audioDetectionRef.current;
-          
-          // Check if audio is still enabled
-          if (!detection.analyser || !isAudioEnabled) {
-            cleanup();
-            return;
-          }
-          
-          detection.analyser.getByteFrequencyData(dataArray);
-          const average = dataArray.reduce((a, b) => a + b) / bufferLength;
-          const level = average / 255; // Normalize to 0-1
-          
-          const newIsSpeaking = level > 0.1;
-          
-          // Only update if there's a significant change
-          if (Math.abs(level - audioLevelRef.current) > 0.01 || newIsSpeaking !== isSpeakingRef.current) {
-            audioLevelRef.current = level;
-            isSpeakingRef.current = newIsSpeaking;
-            
-            // Update border
-            const videoElement = videoElementRef.current;
-            if (videoElement) {
-              if (newIsSpeaking) {
-                videoElement.classList.add('ring-4', 'ring-green-400', 'ring-opacity-75', 'animate-pulse');
-              } else {
-                videoElement.classList.remove('ring-4', 'ring-green-400', 'ring-opacity-75', 'animate-pulse');
-              }
-            }
-          }
-          
-          // Continue animation only if still enabled
-          if (isAudioEnabled) {
-            detection.animationId = requestAnimationFrame(updateAudioLevel);
-          }
-        };
-        
-        updateAudioLevel();
-      } catch (error) {
-        console.error("Error setting up audio level detection:", error);
-        cleanup();
-      }
-    };
-
-    if (isAudioEnabled) {
-      setupAudioLevelDetection();
-    } else {
-      cleanup();
-    }
-
-    return cleanup;
-  }, [isAudioEnabled]);
 
   // Handle fullscreen change events
   useEffect(() => {
@@ -739,8 +612,162 @@ const VoiceChannelInterface = () => {
            <PhoneOff className="w-5 h-5" />
          </button>
 
-         
+         {/* Status button */}
+         <button
+           onClick={() => setShowStatusModal(true)}
+           className="p-3 rounded-full bg-gray-600 hover:bg-gray-700 text-white transition-colors"
+           title="Voice Status"
+         >
+           <Activity className="w-5 h-5" />
+         </button>
       </div>
+
+      {/* Status Modal */}
+      {showStatusModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-gray-800 rounded-lg p-6 w-96 max-w-md">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-white text-lg font-semibold">Voice Status</h3>
+              <button
+                onClick={() => setShowStatusModal(false)}
+                className="text-gray-400 hover:text-white"
+              >
+                ×
+              </button>
+            </div>
+            
+            {/* Connection Status */}
+            <div className="mb-4">
+              <div className="flex items-center gap-2 mb-2">
+                {room.state === 'connected' ? (
+                  <Wifi className="w-4 h-4 text-green-400" />
+                ) : (
+                  <WifiOff className="w-4 h-4 text-red-400" />
+                )}
+                <span className="text-white text-sm font-medium">Connection</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className={`w-2 h-2 rounded-full ${
+                  room.state === 'connected' ? 'bg-green-400' : 'bg-red-400'
+                }`} />
+                <span className={`text-sm ${
+                  room.state === 'connected' ? 'text-green-400' : 'text-red-400'
+                }`}>
+                  {room.state === 'connected' ? 'Connected' : 'Disconnected'}
+                </span>
+              </div>
+            </div>
+
+            {/* Audio Status */}
+            <div className="mb-4">
+              <div className="flex items-center gap-2 mb-2">
+                {isAudioEnabled ? (
+                  <Mic className="w-4 h-4 text-green-400" />
+                ) : (
+                  <MicOff className="w-4 h-4 text-red-400" />
+                )}
+                <span className="text-white text-sm font-medium">Microphone</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className={`w-2 h-2 rounded-full ${
+                  isAudioEnabled ? 'bg-green-400' : 'bg-red-400'
+                }`} />
+                <span className={`text-sm ${
+                  isAudioEnabled ? 'text-green-400' : 'text-red-400'
+                }`}>
+                  {isAudioEnabled ? 'Active' : 'Muted'}
+                </span>
+              </div>
+            </div>
+
+            {/* Video Status */}
+            <div className="mb-4">
+              <div className="flex items-center gap-2 mb-2">
+                {isVideoEnabled ? (
+                  <Video className="w-4 h-4 text-green-400" />
+                ) : (
+                  <VideoOff className="w-4 h-4 text-red-400" />
+                )}
+                <span className="text-white text-sm font-medium">Camera</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className={`w-2 h-2 rounded-full ${
+                  isVideoEnabled ? 'bg-green-400' : 'bg-red-400'
+                }`} />
+                <span className={`text-sm ${
+                  isVideoEnabled ? 'text-green-400' : 'text-red-400'
+                }`}>
+                  {isVideoEnabled ? 'Active' : 'Off'}
+                </span>
+              </div>
+            </div>
+
+            {/* Screen Share Status */}
+            <div className="mb-4">
+              <div className="flex items-center gap-2 mb-2">
+                {isScreenSharing ? (
+                  <Monitor className="w-4 h-4 text-green-400" />
+                ) : (
+                  <Monitor className="w-4 h-4 text-gray-400" />
+                )}
+                <span className="text-white text-sm font-medium">Screen Share</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className={`w-2 h-2 rounded-full ${
+                  isScreenSharing ? 'bg-green-400' : 'bg-gray-400'
+                }`} />
+                <span className={`text-sm ${
+                  isScreenSharing ? 'text-green-400' : 'text-gray-400'
+                }`}>
+                  {isScreenSharing ? 'Sharing' : 'Not Sharing'}
+                </span>
+              </div>
+            </div>
+
+            {/* Participant Count */}
+            <div className="mb-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Users className="w-4 h-4 text-blue-400" />
+                <span className="text-white text-sm font-medium">Participants</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-blue-400" />
+                <span className="text-sm text-blue-400">
+                  {participants.length} participant{participants.length !== 1 ? 's' : ''}
+                </span>
+              </div>
+            </div>
+
+            {/* Room Info */}
+            <div className="mb-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Activity className="w-4 h-4 text-purple-400" />
+                <span className="text-white text-sm font-medium">Room Info</span>
+              </div>
+              <div className="space-y-1">
+                <div className="flex justify-between">
+                  <span className="text-sm text-gray-400">Room ID:</span>
+                  <span className="text-sm text-white font-mono">{chatId || 'Unknown'}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-sm text-gray-400">User:</span>
+                  <span className="text-sm text-white">{user?.firstName} {user?.lastName}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Close Button */}
+            <div className="flex justify-end">
+              <button
+                onClick={() => setShowStatusModal(false)}
+                className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
