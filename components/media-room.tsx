@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { LiveKitRoom, useLocalParticipant, useParticipants, useRoomContext } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { useUser } from "@clerk/nextjs";
-import { Loader2, Mic, MicOff, Video, VideoOff, Phone, PhoneOff, Monitor, MessageSquare, Users, Volume2, VolumeX, Crown, Shield, MoreVertical, UserX, Volume1, Maximize2, Minimize2, Activity, Wifi, WifiOff } from "lucide-react";
+import { Loader2, Mic, MicOff, Video, VideoOff, Phone, PhoneOff, Monitor, MessageSquare, Users, Volume2, VolumeX, Crown, Shield, MoreVertical, UserX, Volume1, Maximize2, Minimize2, Activity, Settings } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -99,13 +99,13 @@ export const MediaRoom = ({ chatId, video, audio }: MediaRoomProps) => {
       video={video}
       audio={audio}
     >
-      <VoiceChannelInterface chatId={chatId} />
+      <VoiceChannelInterface />
     </LiveKitRoom>
   );
 };
 
 // Separate component for voice channel interface
-const VoiceChannelInterface = ({ chatId }: { chatId: string }) => {
+const VoiceChannelInterface = () => {
   const room = useRoomContext();
   const { localParticipant } = useLocalParticipant();
   const participants = useParticipants();
@@ -115,6 +115,21 @@ const VoiceChannelInterface = ({ chatId }: { chatId: string }) => {
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showStatusModal, setShowStatusModal] = useState(false);
+  const [hasAudioPermission, setHasAudioPermission] = useState<boolean | null>(null);
+
+  // Check audio permissions
+  useEffect(() => {
+    const checkAudioPermission = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        setHasAudioPermission(true);
+        stream.getTracks().forEach(track => track.stop());
+      } catch (error) {
+        setHasAudioPermission(false);
+      }
+    };
+    checkAudioPermission();
+  }, []);
 
 
 
@@ -620,154 +635,124 @@ const VoiceChannelInterface = ({ chatId }: { chatId: string }) => {
          >
            <Activity className="w-5 h-5" />
          </button>
-      </div>
+       </div>
 
-      {/* Status Modal */}
-      {showStatusModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-gray-800 rounded-lg p-6 w-96 max-w-md">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-white text-lg font-semibold">Voice Status</h3>
-              <button
-                onClick={() => setShowStatusModal(false)}
-                className="text-gray-400 hover:text-white"
-              >
-                ×
-              </button>
-            </div>
-            
-            {/* Connection Status */}
-            <div className="mb-4">
-              <div className="flex items-center gap-2 mb-2">
-                {room.state === 'connected' ? (
-                  <Wifi className="w-4 h-4 text-green-400" />
-                ) : (
-                  <WifiOff className="w-4 h-4 text-red-400" />
-                )}
-                <span className="text-white text-sm font-medium">Connection</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full ${
-                  room.state === 'connected' ? 'bg-green-400' : 'bg-red-400'
-                }`} />
-                <span className={`text-sm ${
-                  room.state === 'connected' ? 'text-green-400' : 'text-red-400'
-                }`}>
-                  {room.state === 'connected' ? 'Connected' : 'Disconnected'}
-                </span>
-              </div>
-            </div>
+       {/* Status Modal */}
+       {showStatusModal && (
+         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+           <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4">
+             <div className="flex items-center justify-between mb-4">
+               <h3 className="text-white text-lg font-semibold">Voice Status</h3>
+               <button
+                 onClick={() => setShowStatusModal(false)}
+                 className="text-gray-400 hover:text-white text-xl"
+               >
+                 ×
+               </button>
+             </div>
+             
+             <div className="space-y-4">
+               {/* Connection Status */}
+               <div className="bg-gray-700 rounded-lg p-4">
+                 <h4 className="text-white font-medium mb-2">Connection</h4>
+                 <div className="flex items-center gap-2">
+                   <div className={`w-3 h-3 rounded-full ${
+                     room.state === 'connected' ? 'bg-green-500' : 'bg-yellow-500'
+                   }`} />
+                   <span className="text-gray-300 text-sm">
+                     {room.state === 'connected' ? 'Connected' : 'Connecting...'}
+                   </span>
+                 </div>
+               </div>
 
-            {/* Audio Status */}
-            <div className="mb-4">
-              <div className="flex items-center gap-2 mb-2">
-                {isAudioEnabled ? (
-                  <Mic className="w-4 h-4 text-green-400" />
-                ) : (
-                  <MicOff className="w-4 h-4 text-red-400" />
-                )}
-                <span className="text-white text-sm font-medium">Microphone</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full ${
-                  isAudioEnabled ? 'bg-green-400' : 'bg-red-400'
-                }`} />
-                <span className={`text-sm ${
-                  isAudioEnabled ? 'text-green-400' : 'text-red-400'
-                }`}>
-                  {isAudioEnabled ? 'Active' : 'Muted'}
-                </span>
-              </div>
-            </div>
+               {/* Audio Status */}
+               <div className="bg-gray-700 rounded-lg p-4">
+                 <h4 className="text-white font-medium mb-2">Audio</h4>
+                 <div className="space-y-2">
+                   <div className="flex items-center justify-between">
+                     <span className="text-gray-300 text-sm">Microphone</span>
+                     <div className="flex items-center gap-2">
+                       {isAudioEnabled ? (
+                         <Mic className="w-4 h-4 text-green-500" />
+                       ) : (
+                         <MicOff className="w-4 h-4 text-red-500" />
+                       )}
+                       <span className="text-gray-300 text-sm">
+                         {isAudioEnabled ? 'Enabled' : 'Disabled'}
+                       </span>
+                     </div>
+                   </div>
+                   <div className="flex items-center justify-between">
+                     <span className="text-gray-300 text-sm">Permission</span>
+                     <span className="text-gray-300 text-sm">
+                       {hasAudioPermission ? 'Granted' : 'Denied'}
+                     </span>
+                   </div>
+                 </div>
+               </div>
 
-            {/* Video Status */}
-            <div className="mb-4">
-              <div className="flex items-center gap-2 mb-2">
-                {isVideoEnabled ? (
-                  <Video className="w-4 h-4 text-green-400" />
-                ) : (
-                  <VideoOff className="w-4 h-4 text-red-400" />
-                )}
-                <span className="text-white text-sm font-medium">Camera</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full ${
-                  isVideoEnabled ? 'bg-green-400' : 'bg-red-400'
-                }`} />
-                <span className={`text-sm ${
-                  isVideoEnabled ? 'text-green-400' : 'text-red-400'
-                }`}>
-                  {isVideoEnabled ? 'Active' : 'Off'}
-                </span>
-              </div>
-            </div>
+               {/* Video Status */}
+               <div className="bg-gray-700 rounded-lg p-4">
+                 <h4 className="text-white font-medium mb-2">Video</h4>
+                 <div className="space-y-2">
+                   <div className="flex items-center justify-between">
+                     <span className="text-gray-300 text-sm">Camera</span>
+                     <div className="flex items-center gap-2">
+                       {isVideoEnabled ? (
+                         <Video className="w-4 h-4 text-green-500" />
+                       ) : (
+                         <VideoOff className="w-4 h-4 text-red-500" />
+                       )}
+                       <span className="text-gray-300 text-sm">
+                         {isVideoEnabled ? 'Enabled' : 'Disabled'}
+                       </span>
+                     </div>
+                   </div>
+                   <div className="flex items-center justify-between">
+                     <span className="text-gray-300 text-sm">Fullscreen</span>
+                     <span className="text-gray-300 text-sm">
+                       {isFullscreen ? 'Active' : 'Inactive'}
+                     </span>
+                   </div>
+                 </div>
+               </div>
 
-            {/* Screen Share Status */}
-            <div className="mb-4">
-              <div className="flex items-center gap-2 mb-2">
-                {isScreenSharing ? (
-                  <Monitor className="w-4 h-4 text-green-400" />
-                ) : (
-                  <Monitor className="w-4 h-4 text-gray-400" />
-                )}
-                <span className="text-white text-sm font-medium">Screen Share</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full ${
-                  isScreenSharing ? 'bg-green-400' : 'bg-gray-400'
-                }`} />
-                <span className={`text-sm ${
-                  isScreenSharing ? 'text-green-400' : 'text-gray-400'
-                }`}>
-                  {isScreenSharing ? 'Sharing' : 'Not Sharing'}
-                </span>
-              </div>
-            </div>
+               {/* Screen Share Status */}
+               <div className="bg-gray-700 rounded-lg p-4">
+                 <h4 className="text-white font-medium mb-2">Screen Share</h4>
+                 <div className="flex items-center justify-between">
+                   <span className="text-gray-300 text-sm">Status</span>
+                   <div className="flex items-center gap-2">
+                     {isScreenSharing ? (
+                       <Monitor className="w-4 h-4 text-green-500" />
+                     ) : (
+                       <Monitor className="w-4 h-4 text-gray-500" />
+                     )}
+                     <span className="text-gray-300 text-sm">
+                       {isScreenSharing ? 'Sharing' : 'Not Sharing'}
+                     </span>
+                   </div>
+                 </div>
+               </div>
 
-            {/* Participant Count */}
-            <div className="mb-4">
-              <div className="flex items-center gap-2 mb-2">
-                <Users className="w-4 h-4 text-blue-400" />
-                <span className="text-white text-sm font-medium">Participants</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-blue-400" />
-                <span className="text-sm text-blue-400">
-                  {participants.length} participant{participants.length !== 1 ? 's' : ''}
-                </span>
-              </div>
-            </div>
-
-            {/* Room Info */}
-            <div className="mb-4">
-              <div className="flex items-center gap-2 mb-2">
-                <Activity className="w-4 h-4 text-purple-400" />
-                <span className="text-white text-sm font-medium">Room Info</span>
-              </div>
-              <div className="space-y-1">
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-400">Room ID:</span>
-                  <span className="text-sm text-white font-mono">{chatId || 'Unknown'}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-400">User:</span>
-                  <span className="text-sm text-white">{user?.firstName} {user?.lastName}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Close Button */}
-            <div className="flex justify-end">
-              <button
-                onClick={() => setShowStatusModal(false)}
-                className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
+               {/* Room Info */}
+               <div className="bg-gray-700 rounded-lg p-4">
+                 <h4 className="text-white font-medium mb-2">Room Info</h4>
+                 <div className="space-y-2">
+                   <div className="flex items-center justify-between">
+                     <span className="text-gray-300 text-sm">Participants</span>
+                     <span className="text-gray-300 text-sm">{participants.length}</span>
+                   </div>
+                   <div className="flex items-center justify-between">
+                     <span className="text-gray-300 text-sm">Room ID</span>
+                     <span className="text-gray-300 text-sm font-mono text-xs">{room.name || 'Voice Channel'}</span>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       )}
+     </div>
+   );
+ };
