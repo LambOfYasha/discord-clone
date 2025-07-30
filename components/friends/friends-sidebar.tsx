@@ -29,11 +29,17 @@ interface FriendsSidebarProps {
     name: string;
     imageUrl: string;
   }>;
+  profile: {
+    id: string;
+    name: string;
+    imageUrl: string;
+    email: string;
+  };
   collapsed?: boolean;
   onToggleCollapse?: () => void;
 }
 
-export const FriendsSidebar = ({ servers = [], collapsed = false, onToggleCollapse }: FriendsSidebarProps) => {
+export const FriendsSidebar = ({ servers = [], profile, collapsed = false, onToggleCollapse }: FriendsSidebarProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const { onOpen } = useModal();
 
@@ -236,7 +242,7 @@ export const FriendsSidebar = ({ servers = [], collapsed = false, onToggleCollap
       </ScrollArea>
 
       {/* User Profile */}
-      <UserProfile collapsed={collapsed} variant="friends" />
+      <UserProfile collapsed={collapsed} variant="friends" profile={profile} />
     </div>
   );
 }; 

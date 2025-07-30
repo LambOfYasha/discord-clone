@@ -27,10 +27,18 @@ import {
 import { useTheme } from "next-themes";
 import { useClerk } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import { UserAvatar } from "@/components/user-avatar";
+import { useUserProfile } from "@/hooks/use-user-profile";
 
 interface UserProfileProps {
   collapsed?: boolean;
   variant?: "navigation" | "friends";
+  profile?: {
+    id: string;
+    name: string;
+    imageUrl: string;
+    email: string;
+  };
   user?: {
     name: string;
     email: string;
@@ -42,6 +50,7 @@ interface UserProfileProps {
 export const UserProfile = ({ 
   collapsed = false, 
   variant = "friends",
+  profile: initialProfile,
   user = {
     name: "אביר (Brian)",
     email: "brian@example.com",
@@ -53,6 +62,13 @@ export const UserProfile = ({
   const { theme, setTheme } = useTheme();
   const { signOut } = useClerk();
   const router = useRouter();
+  const { profile: dynamicProfile, loading } = useUserProfile();
+
+  // Use dynamic profile if available, otherwise fall back to initial profile or default user
+  const profile = dynamicProfile || initialProfile;
+  const displayName = profile?.name || user.name;
+  const displayEmail = profile?.email || user.email;
+  const displayImage = profile?.imageUrl || user.imageUrl || "";
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -107,23 +123,22 @@ export const UserProfile = ({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-[45px] w-[45px] p-0 rounded-full">
-              <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-sm font-semibold">א</span>
-              </div>
+              <UserAvatar src={displayImage} className="h-8 w-8" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end" forceMount>
             <DropdownMenuItem className="flex items-center gap-x-2">
-              <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-sm font-semibold">א</span>
-              </div>
+              <UserAvatar src={displayImage} className="h-8 w-8" />
               <div className="flex flex-col">
-                <p className="text-sm font-medium">{user.name}</p>
-                <p className="text-xs text-gray-500">{user.email}</p>
+                <p className="text-sm font-medium">{displayName}</p>
+                <p className="text-xs text-gray-500">{displayEmail}</p>
               </div>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="flex items-center gap-x-2">
+            <DropdownMenuItem 
+              className="flex items-center gap-x-2 cursor-pointer"
+              onClick={() => router.push("/profile")}
+            >
               <UserIcon className="h-4 w-4" />
               <span>Profile</span>
             </DropdownMenuItem>
@@ -132,13 +147,16 @@ export const UserProfile = ({
               <span>Privacy & Safety</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="flex items-center gap-x-2">
+            <DropdownMenuItem 
+              className="flex items-center gap-x-2 cursor-pointer"
+              onClick={() => router.push("/settings")}
+            >
               <Settings className="h-4 w-4" />
               <span>Settings</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem 
-              className="flex items-center gap-x-2 text-red-600 focus:text-red-600"
+              className="flex items-center gap-x-2 text-red-600 focus:text-red-600 cursor-pointer"
               onClick={handleSignOut}
             >
               <LogOut className="h-4 w-4" />
@@ -154,13 +172,11 @@ export const UserProfile = ({
   return (
     <div className="p-3 border-t border-[#1E1F22] bg-[#1E1F22]">
       <div className="flex items-center space-x-2">
-        <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
-          <span className="text-white text-sm font-semibold">א</span>
-        </div>
+        <UserAvatar src={displayImage} className="h-8 w-8" />
         {!collapsed && (
           <>
             <div className="flex-1 min-w-0">
-              <p className="text-sm text-white truncate">{user.name}</p>
+              <p className="text-sm text-white truncate">{displayName}</p>
               <p className="text-xs text-gray-400">{getStatusText(user.status || "idle")}</p>
             </div>
             <div className="flex items-center space-x-1">
@@ -194,16 +210,17 @@ export const UserProfile = ({
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56" align="end" forceMount>
                   <DropdownMenuItem className="flex items-center gap-x-2">
-                    <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
-                      <span className="text-white text-sm font-semibold">א</span>
-                    </div>
+                    <UserAvatar src={displayImage} className="h-8 w-8" />
                     <div className="flex flex-col">
-                      <p className="text-sm font-medium">{user.name}</p>
-                      <p className="text-xs text-gray-500">{user.email}</p>
+                      <p className="text-sm font-medium">{displayName}</p>
+                      <p className="text-xs text-gray-500">{displayEmail}</p>
                     </div>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem className="flex items-center gap-x-2">
+                  <DropdownMenuItem 
+                    className="flex items-center gap-x-2 cursor-pointer"
+                    onClick={() => router.push("/profile")}
+                  >
                     <UserIcon className="h-4 w-4" />
                     <span>Profile</span>
                   </DropdownMenuItem>
@@ -212,13 +229,16 @@ export const UserProfile = ({
                     <span>Privacy & Safety</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem className="flex items-center gap-x-2">
+                  <DropdownMenuItem 
+                    className="flex items-center gap-x-2 cursor-pointer"
+                    onClick={() => router.push("/settings")}
+                  >
                     <Settings className="h-4 w-4" />
                     <span>Settings</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem 
-                    className="flex items-center gap-x-2 text-red-600 focus:text-red-600"
+                    className="flex items-center gap-x-2 text-red-600 focus:text-red-600 cursor-pointer"
                     onClick={handleSignOut}
                   >
                     <LogOut className="h-4 w-4" />

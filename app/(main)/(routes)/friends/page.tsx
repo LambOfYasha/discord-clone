@@ -24,7 +24,7 @@ const FriendsPage = async () => {
   });
 
   // Show the friends interface with servers (if any)
-  return <FriendsPageClient servers={servers} />;
+  return <FriendsPageClient servers={servers} profile={profile} />;
 };
 
 export default FriendsPage; 

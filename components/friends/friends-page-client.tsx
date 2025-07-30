@@ -12,9 +12,15 @@ interface FriendsPageClientProps {
     name: string;
     imageUrl: string;
   }>;
+  profile: {
+    id: string;
+    name: string;
+    imageUrl: string;
+    email: string;
+  };
 }
 
-export default function FriendsPageClient({ servers }: FriendsPageClientProps) {
+export default function FriendsPageClient({ servers, profile }: FriendsPageClientProps) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [activityCollapsed, setActivityCollapsed] = useState(false);
 
@@ -24,7 +30,7 @@ export default function FriendsPageClient({ servers }: FriendsPageClientProps) {
       <div className={`transition-all duration-300 ${sidebarCollapsed ? 'w-16' : 'w-60'} flex-shrink-0 bg-[#2B2D31] border-r border-[#1E1F22]`}>
         <div className="flex flex-col h-full">
           {/* Friends Section */}
-          <FriendsSidebar servers={servers} collapsed={sidebarCollapsed} onToggleCollapse={() => setSidebarCollapsed((c) => !c)} />
+          <FriendsSidebar servers={servers} profile={profile} collapsed={sidebarCollapsed} onToggleCollapse={() => setSidebarCollapsed((c) => !c)} />
           
           {/* Direct Messages Section */}
           <DirectMessagesSidebar />
@@ -40,4 +46,4 @@ export default function FriendsPageClient({ servers }: FriendsPageClientProps) {
       <ActiveNowSidebar collapsed={activityCollapsed} onToggleCollapse={() => setActivityCollapsed((c) => !c)} />
     </div>
   );
-} 
+}; 
