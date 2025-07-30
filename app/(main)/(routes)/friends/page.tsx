@@ -1,14 +1,15 @@
 import { currentProfile } from "@/lib/current-profile";
+import { initialProfile } from "@/lib/initial.profile";
 import { db } from "@/lib/db";
-import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
 import FriendsPageClient from "@/components/friends/friends-page-client";
 
 const FriendsPage = async () => {
-  const profile = await currentProfile();
+  // First try to get the current profile
+  let profile = await currentProfile();
+  
+  // If no profile exists, try to create one
   if (!profile) {
-    const authInstance = await auth();
-    return authInstance.redirectToSignIn();
+    profile = await initialProfile();
   }
 
   // Get user's servers to redirect if they have any
