@@ -44,22 +44,41 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
+    console.log("[FRIEND_REQUESTS_POST] Starting request");
+    
+    // Test database connection
+    try {
+      await postgres.$queryRaw`SELECT 1`;
+      console.log("[FRIEND_REQUESTS_POST] Database connection successful");
+    } catch (dbError) {
+      console.error("[FRIEND_REQUESTS_POST] Database connection failed:", dbError);
+      return new NextResponse("Database connection failed", { status: 500 });
+    }
+    
     const profile = await currentProfile();
-    const { targetProfileId } = await req.json();
+    console.log("[FRIEND_REQUESTS_POST] Profile:", profile?.id);
+    
+    const body = await req.json();
+    const { targetProfileId } = body;
+    console.log("[FRIEND_REQUESTS_POST] Target Profile ID:", targetProfileId);
 
     if (!profile) {
+      console.log("[FRIEND_REQUESTS_POST] No profile found");
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
     if (!targetProfileId) {
+      console.log("[FRIEND_REQUESTS_POST] Target Profile ID missing");
       return new NextResponse("Target Profile ID missing", { status: 400 });
     }
 
     if (profile.id === targetProfileId) {
+      console.log("[FRIEND_REQUESTS_POST] Cannot send friend request to yourself");
       return new NextResponse("Cannot send friend request to yourself", { status: 400 });
     }
 
     // Check if target profile exists
+    console.log("[FRIEND_REQUESTS_POST] Checking if target profile exists");
     const targetProfile = await postgres.profile.findUnique({
       where: {
         id: targetProfileId,
@@ -67,10 +86,13 @@ export async function POST(req: Request) {
     });
 
     if (!targetProfile) {
+      console.log("[FRIEND_REQUESTS_POST] Target profile not found");
       return new NextResponse("Target profile not found", { status: 404 });
     }
+    console.log("[FRIEND_REQUESTS_POST] Target profile found:", targetProfile.id);
 
     // Check if friend request already exists
+    console.log("[FRIEND_REQUESTS_POST] Checking for existing friend request");
     const existingRequest = await postgres.friendRequest.findFirst({
       where: {
         OR: [
@@ -87,10 +109,13 @@ export async function POST(req: Request) {
     });
 
     if (existingRequest) {
+      console.log("[FRIEND_REQUESTS_POST] Friend request already exists");
       return new NextResponse("Friend request already exists", { status: 409 });
     }
+    console.log("[FRIEND_REQUESTS_POST] No existing friend request found");
 
     // Create friend request
+    console.log("[FRIEND_REQUESTS_POST] Creating friend request");
     const friendRequest = await postgres.friendRequest.create({
       data: {
         requesterProfileId: profile.id,
@@ -102,9 +127,16 @@ export async function POST(req: Request) {
       },
     });
 
+    console.log("[FRIEND_REQUESTS_POST] Friend request created successfully:", friendRequest.id);
     return NextResponse.json(friendRequest);
   } catch (error) {
-    console.log("[FRIEND_REQUESTS_POST]", error);
+    console.error("[FRIEND_REQUESTS_POST] Error:", error);
+    
+    // Provide more specific error messages
+    if (error instanceof Error) {
+      return new NextResponse(`Internal Error: ${error.message}`, { status: 500 });
+    }
+    
     return new NextResponse("Internal Error", { status: 500 });
   }
 } 

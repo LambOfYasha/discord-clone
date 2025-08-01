@@ -22,14 +22,20 @@ export const AddFriendModal = () => {
   const [isSendingById, setIsSendingById] = useState(false);
   const [sendByIdMessage, setSendByIdMessage] = useState("");
   const [currentUserId, setCurrentUserId] = useState<string>("");
+  const [error, setError] = useState<string>("");
 
   const isModalOpen = isOpen && type === "addFriend";
 
   useEffect(() => {
     if (isModalOpen) {
-      fetchUsers();
-      fetchPendingRequests();
-      fetchCurrentUserId();
+      try {
+        fetchUsers();
+        fetchPendingRequests();
+        fetchCurrentUserId();
+      } catch (error) {
+        console.error("Error initializing add friend modal:", error);
+        setError("Failed to load friend request data. Please refresh the page.");
+      }
     }
   }, [isModalOpen]);
 
@@ -39,6 +45,8 @@ export const AddFriendModal = () => {
       if (response.ok) {
         const data = await response.json();
         setCurrentUserId(data.id);
+      } else {
+        console.error("Failed to fetch current user ID:", response.status);
       }
     } catch (error) {
       console.error("Failed to fetch current user ID:", error);
@@ -52,6 +60,8 @@ export const AddFriendModal = () => {
       if (response.ok) {
         const data = await response.json();
         setUsers(data);
+      } else {
+        console.error("Failed to fetch users:", response.status);
       }
     } catch (error) {
       console.error("Failed to fetch users:", error);
@@ -67,6 +77,8 @@ export const AddFriendModal = () => {
         const data = await response.json();
         setPendingRequests(data.pending.map((req: any) => req.targetProfileId));
         setSentRequests(data.sent.map((req: any) => req.targetProfileId));
+      } else {
+        console.error("Failed to fetch friend requests:", response.status);
       }
     } catch (error) {
       console.error("Failed to fetch friend requests:", error);
@@ -81,6 +93,8 @@ export const AddFriendModal = () => {
   const handleSendFriendRequest = async (targetProfileId: string) => {
     setIsLoading(true);
     try {
+      console.log("Sending friend request to:", targetProfileId);
+      
       const response = await fetch("/api/friend-requests", {
         method: "POST",
         headers: {
@@ -91,13 +105,54 @@ export const AddFriendModal = () => {
         }),
       });
 
+      console.log("Response status:", response.status);
+      console.log("Response ok:", response.ok);
+
       if (response.ok) {
+        const result = await response.json();
+        console.log("Friend request sent successfully:", result);
         setSentRequests(prev => [...prev, targetProfileId]);
       } else {
-        console.error("Failed to send friend request");
+        const errorData = await response.text();
+        console.log("Friend request response:", response.status, errorData);
+        
+        // Handle specific error cases gracefully
+        if (response.status === 409) {
+          // Friend request already exists - this is not an error, just update the UI
+          console.log("Friend request already exists, updating UI");
+          setSentRequests(prev => [...prev, targetProfileId]);
+          return; // Don't throw error, just return
+        }
+        
+        if (response.status === 400) {
+          // Bad request - show specific message
+          if (errorData.includes("yourself")) {
+            alert("You cannot send a friend request to yourself");
+            return;
+          }
+          if (errorData.includes("missing")) {
+            alert("Please provide a valid user ID");
+            return;
+          }
+        }
+        
+        if (response.status === 404) {
+          alert("User not found. Please check the user ID and try again.");
+          return;
+        }
+        
+        if (response.status === 401) {
+          alert("Please log in to send friend requests.");
+          return;
+        }
+        
+        // For other errors, show the specific error message
+        console.error("Failed to send friend request:", errorData);
+        alert(`Failed to send friend request: ${errorData}`);
       }
     } catch (error) {
       console.error("Failed to send friend request:", error);
+      alert(`Network error: ${error.message}`);
     } finally {
       setIsLoading(false);
     }
@@ -111,9 +166,14 @@ export const AddFriendModal = () => {
 
       if (response.ok) {
         setSentRequests(prev => prev.filter(id => id !== targetProfileId));
+      } else {
+        const errorData = await response.text();
+        console.error("Failed to cancel friend request:", errorData);
+        alert(`Failed to cancel friend request: ${errorData}`);
       }
     } catch (error) {
       console.error("Failed to cancel friend request:", error);
+      alert("Network error. Please try again.");
     }
   };
 
@@ -143,11 +203,49 @@ export const AddFriendModal = () => {
         fetchPendingRequests(); // Refresh the list
       } else {
         const errorData = await response.text();
+        console.log("Send by ID response:", response.status, errorData);
+        
+        // Handle specific error cases gracefully
+        if (response.status === 409) {
+          if (errorData.includes("already sent")) {
+            setSendByIdMessage("Friend request already sent to this user");
+          } else if (errorData.includes("already received")) {
+            setSendByIdMessage("You already have a friend request from this user");
+          } else if (errorData.includes("already friends")) {
+            setSendByIdMessage("You are already friends with this user");
+          } else {
+            setSendByIdMessage("Friend request already exists");
+          }
+          return;
+        }
+        
+        if (response.status === 400) {
+          if (errorData.includes("yourself")) {
+            setSendByIdMessage("You cannot send a friend request to yourself");
+          } else if (errorData.includes("missing")) {
+            setSendByIdMessage("Please provide a valid user ID");
+          } else {
+            setSendByIdMessage(errorData);
+          }
+          return;
+        }
+        
+        if (response.status === 404) {
+          setSendByIdMessage("User not found. Please check the user ID and try again.");
+          return;
+        }
+        
+        if (response.status === 401) {
+          setSendByIdMessage("Please log in to send friend requests.");
+          return;
+        }
+        
+        // For other errors, show the specific error message
         setSendByIdMessage(errorData);
       }
     } catch (error) {
       console.error("Failed to send friend request:", error);
-      setSendByIdMessage("Failed to send friend request");
+      setSendByIdMessage("Network error. Please try again.");
     } finally {
       setIsSendingById(false);
     }
@@ -163,9 +261,10 @@ export const AddFriendModal = () => {
     return "none";
   };
 
-  return (
-    <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-white text-black p-0 overflow-hidden">
+  try {
+    return (
+      <Dialog open={isModalOpen} onOpenChange={onClose}>
+        <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="px-6 pt-8">
           <DialogTitle className="text-2xl text-center font-bold">
             Add Friend
@@ -175,6 +274,13 @@ export const AddFriendModal = () => {
           </DialogDescription>
         </DialogHeader>
         <div className="p-6">
+          {/* Error Display */}
+          {error && (
+            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+              {error}
+            </div>
+          )}
+          
           {/* Send by User ID */}
           <div className="mb-6 p-4 bg-gray-50 rounded-lg">
             <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center">
@@ -305,8 +411,27 @@ export const AddFriendModal = () => {
               Close
             </Button>
           </div>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
-}; 
+                 </DialogFooter>
+       </DialogContent>
+     </Dialog>
+   );
+ } catch (error) {
+   console.error("Error rendering AddFriendModal:", error);
+   return (
+     <Dialog open={isModalOpen} onOpenChange={onClose}>
+       <DialogContent className="bg-white text-black p-0 overflow-hidden">
+         <DialogHeader className="px-6 pt-8">
+           <DialogTitle className="text-2xl text-center font-bold">
+             Add Friend
+           </DialogTitle>
+         </DialogHeader>
+         <div className="p-6">
+           <div className="text-center text-red-600">
+             An error occurred while loading the add friend modal. Please refresh the page.
+           </div>
+         </div>
+       </DialogContent>
+     </Dialog>
+   );
+ }
+ }; 
