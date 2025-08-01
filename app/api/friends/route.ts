@@ -78,57 +78,16 @@ export async function GET(req: Request) {
       },
     });
 
-    // Get direct messages/conversations
-    const conversations = await postgres.conversation.findMany({
-      where: {
-        OR: [
-          {
-            memberOne: {
-              profileId: profile.id,
-            },
-          },
-          {
-            memberTwo: {
-              profileId: profile.id,
-            },
-          },
-        ],
-      },
-      include: {
-        memberOne: {
-          include: {
-            profile: true,
-          },
-        },
-        memberTwo: {
-          include: {
-            profile: true,
-          },
-        },
-      },
+    // Get all rooms (DMs and group DMs) using the new room system
+    const roomsResponse = await fetch(`${req.headers.get('origin') || 'http://localhost:3000'}/api/rooms`, {
+      method: 'GET',
+      cache: 'no-store',
     });
-
-    // Get group conversations
-    const groupConversations = await postgres.groupConversation.findMany({
-      where: {
-        members: {
-          some: {
-            profileId: profile.id,
-          },
-        },
-      },
-      include: {
-        members: {
-          include: {
-            member: {
-              include: {
-                profile: true,
-              },
-            },
-          },
-        },
-      },
-    });
+    
+    let rooms = [];
+    if (roomsResponse.ok) {
+      rooms = await roomsResponse.json();
+    }
 
     // Get member information for friends
     const friendsWithMembers = await Promise.all(
@@ -157,30 +116,27 @@ export async function GET(req: Request) {
       })
     );
 
-    // Process conversations data
-    const directMessages = conversations.map(conversation => {
-      const otherMember = conversation.memberOne.profileId === profile.id 
-        ? conversation.memberTwo 
-        : conversation.memberOne;
-      
-      return {
-        id: conversation.id,
-        profile: otherMember.profile,
-        serverId: dmServer.id, // Use DM server ID
-        lastMessage: "Last message...", // Mock for now
-        unreadCount: 0, // Mock for now
-      };
-    });
+    // Process rooms data (DMs and group DMs)
+    const directMessages = rooms
+      .filter(room => room.type === 'dm')
+      .map(room => ({
+        id: room.id,
+        profile: room.otherMember?.profile || room.members?.[0]?.profile,
+        serverId: dmServer.id,
+        lastMessage: room.lastMessage || "Last message...",
+        unreadCount: room.unreadCount || 0,
+      }));
 
-    // Process group conversations
-    const groupDms = groupConversations.map(group => ({
-      id: group.id,
-      name: group.name,
-      imageUrl: group.imageUrl,
-      memberCount: group.members.length,
-      lastMessage: "Last message...", // Mock for now
-      unreadCount: 0, // Mock for now
-    }));
+    const groupDms = rooms
+      .filter(room => room.type === 'group')
+      .map(room => ({
+        id: room.id,
+        name: room.name,
+        imageUrl: room.imageUrl,
+        memberCount: room.members?.length || 0,
+        lastMessage: room.lastMessage || "Last message...",
+        unreadCount: room.unreadCount || 0,
+      }));
 
     return NextResponse.json({
       friends: friendsWithMembers,

@@ -1,10 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FriendsSidebar } from "@/components/friends/friends-sidebar";
 import { DirectMessagesSidebar } from "@/components/friends/direct-messages-sidebar";
 import { ActiveNowSidebar } from "@/components/friends/active-now-sidebar";
 import { DirectMessagesList } from "@/components/friends/direct-messages-list";
+
+// Add room types for better type safety
+interface Room {
+  id: string;
+  type: 'dm' | 'group';
+  name?: string;
+  imageUrl?: string;
+  otherMember?: {
+    profile: {
+      id: string;
+      name: string;
+      imageUrl: string;
+    };
+  };
+  members?: Array<{
+    profile: {
+      id: string;
+      name: string;
+      imageUrl: string;
+    };
+  }>;
+  lastMessage?: string;
+  unreadCount?: number;
+}
 
 interface DirectMessagesPageClientProps {
   servers: Array<{
@@ -17,6 +41,26 @@ interface DirectMessagesPageClientProps {
 export default function DirectMessagesPageClient({ servers }: DirectMessagesPageClientProps) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [activityCollapsed, setActivityCollapsed] = useState(false);
+  const [rooms, setRooms] = useState<Room[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchRooms = async () => {
+      try {
+        const response = await fetch('/api/rooms');
+        if (response.ok) {
+          const roomsData = await response.json();
+          setRooms(roomsData);
+        }
+      } catch (error) {
+        console.error('Failed to fetch rooms:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRooms();
+  }, []);
 
   return (
     <div className="h-full flex">
@@ -27,13 +71,13 @@ export default function DirectMessagesPageClient({ servers }: DirectMessagesPage
           <FriendsSidebar servers={servers} collapsed={sidebarCollapsed} onToggleCollapse={() => setSidebarCollapsed((c) => !c)} />
           
           {/* Direct Messages Section */}
-          <DirectMessagesSidebar />
+          <DirectMessagesSidebar rooms={rooms} loading={loading} />
         </div>
       </div>
 
       {/* Main Content Area */}
       <div className="flex-1 bg-[#313338]">
-        <DirectMessagesList />
+        <DirectMessagesList rooms={rooms} loading={loading} />
       </div>
 
       {/* Active Now Sidebar */}

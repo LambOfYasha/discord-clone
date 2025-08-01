@@ -41,7 +41,7 @@ export const ServerSearch = ({ data }: ServerSearchProps) => {
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
   }, []);
-  const onClick = ({
+  const onClick = async ({
     id,
     type,
   }: {
@@ -50,7 +50,28 @@ export const ServerSearch = ({ data }: ServerSearchProps) => {
   }) => {
     setOpen(false);
     if (type === "member") {
-      router.push(`/servers/${params?.serverId}/conversations/${id}`);
+      // Create or get room for DM
+      try {
+        const response = await fetch('/api/rooms', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            type: 'dm',
+            targetMemberId: id,
+          }),
+        });
+        
+        if (response.ok) {
+          const room = await response.json();
+          router.push(`/rooms/${room.id}`);
+        } else {
+          console.error('Failed to create DM room');
+        }
+      } catch (error) {
+        console.error('Error creating DM room:', error);
+      }
     }
     if (type === "channel") {
       router.push(`/servers/${params?.serverId}/channels/${id}`);
