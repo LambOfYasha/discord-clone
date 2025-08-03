@@ -58,20 +58,58 @@ export async function GET(
         };
       }
 
-      const messages = await mongo.directMessage.findMany({
-        where: messagesQuery,
-        take: limit,
-        orderBy: {
-          createdAt: "desc",
-        },
-        include: {
-          member: {
-            include: {
-              profile: true,
-            },
+             // Add retry logic for MongoDB connection issues
+       let messages;
+       let retryCount = 0;
+       const maxRetries = 3;
+       
+       while (retryCount < maxRetries) {
+         try {
+           messages = await mongo.directMessage.findMany({
+             where: messagesQuery,
+             take: limit,
+             orderBy: {
+               createdAt: "desc",
+             },
+           });
+           break; // Success, exit retry loop
+         } catch (error) {
+           retryCount++;
+           console.log(`[ROOM_MESSAGES_GET] MongoDB retry ${retryCount}/${maxRetries}:`, error);
+           
+           if (retryCount >= maxRetries) {
+             // MongoDB is down, return empty messages for now
+             console.log("[ROOM_MESSAGES_GET] MongoDB connection failed, returning empty messages");
+             messages = [];
+             break;
+           }
+           
+           // Wait before retrying (exponential backoff)
+           await new Promise(resolve => setTimeout(resolve, 1000 * retryCount));
+         }
+       }
+
+      // Get member data for all messages
+      const memberIds = [...new Set(messages.map(msg => msg.memberId))];
+      const members = await postgres.member.findMany({
+        where: {
+          id: {
+            in: memberIds,
           },
         },
+        include: {
+          profile: true,
+        },
       });
+
+      // Create a map for quick member lookup
+      const memberMap = new Map(members.map(member => [member.id, member]));
+
+      // Combine messages with member data
+      const messagesWithMembers = messages.map(message => ({
+        ...message,
+        member: memberMap.get(message.memberId),
+      }));
 
       let nextCursor = null;
       if (messages.length === limit) {
@@ -79,7 +117,7 @@ export async function GET(
       }
 
       return NextResponse.json({
-        items: messages,
+        items: messagesWithMembers,
         nextCursor,
       });
     }

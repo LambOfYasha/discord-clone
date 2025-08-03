@@ -22,7 +22,7 @@ interface ChatMessagesProps {
   apiUrl: string;
   socketUrl: string;
   socketQuery: Record<string, string>;
-  paramKey: "channelId" | "conversationId";
+  paramKey: "channelId" | "conversationId" | "roomId";
   paramValue: string;
   type: "channel" | "conversation";
 }
@@ -103,7 +103,7 @@ export const ChatMessages = ({
       <div className="flex flex-col-reverse mt-auto">
         {data?.pages?.map((group, i) => (
           <Fragment key={i}>
-            {group.items.map((message: MessageWithMemberWithProfile) => (
+            {group?.items?.map((message: MessageWithMemberWithProfile) => (
               <ChatItem
                 currentMember={member}
                 member={message.member}

@@ -5,7 +5,7 @@ import { useSocket } from "@/components/providers/socket-provider";
 
 interface ChatQueryProps {
   queryKey: string;
-  paramKey: "channelId" | "conversationId";
+  paramKey: "channelId" | "conversationId" | "roomId";
   apiUrl: string;
   paramValue: string;
 }
@@ -18,17 +18,25 @@ export const useChatQuery = ({
 }: ChatQueryProps) => {
   const { isConnected } = useSocket();
   const fetchMessages = async ({ pageParam = undefined }) => {
+    const query: any = {
+      cursor: pageParam,
+    };
+    
+    // Only add paramKey if it's not roomId (since roomId is already in the URL)
+    if (paramKey !== "roomId") {
+      query[paramKey] = paramValue;
+    }
+    
     const url = qs.stringifyUrl(
       {
         url: apiUrl,
-        query: {
-          cursor: pageParam,
-          [paramKey]: paramValue,
-        },
+        query,
       },
       { skipNull: true }
     );
-    const res = await fetch(url);
+    const res = await fetch(url, {
+      credentials: 'include',
+    });
     return res.json();
   };
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =

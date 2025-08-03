@@ -3,6 +3,7 @@ import { ChatInput } from "@/components/chat/chat-input";
 import { ChatMessages } from "@/components/chat/chat-messages";
 import { MediaRoom } from "@/components/media-room";
 import { currentProfile } from "@/lib/current-profile";
+import { postgres } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
@@ -29,16 +30,102 @@ const RoomPage = async ({ params, searchParams }: RoomPageProps) => {
     return authInstance.redirectToSignIn();
   }
 
-  // Fetch room details using the new room API
-  const roomResponse = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/rooms/${roomId}`, {
-    cache: 'no-store',
+  // Get current user's member record
+  const currentMember = await postgres.member.findFirst({
+    where: {
+      profileId: profile.id,
+    },
   });
 
-  if (!roomResponse.ok) {
+  if (!currentMember) {
     return redirect("/");
   }
 
-  const room = await roomResponse.json();
+  // Try to find as DM conversation first
+  let conversation = await postgres.conversation.findUnique({
+    where: {
+      id: roomId,
+    },
+    include: {
+      memberOne: {
+        include: {
+          profile: true,
+        },
+      },
+      memberTwo: {
+        include: {
+          profile: true,
+        },
+      },
+    },
+  });
+
+  let room;
+  if (conversation) {
+    // Check if current user is part of this conversation
+    if (conversation.memberOneId !== currentMember.id && conversation.memberTwoId !== currentMember.id) {
+      return redirect("/");
+    }
+
+    const otherMember = conversation.memberOneId === currentMember.id 
+      ? conversation.memberTwo 
+      : conversation.memberOne;
+
+    room = {
+      id: conversation.id,
+      type: "dm",
+      name: otherMember.profile.name,
+      imageUrl: otherMember.profile.imageUrl,
+      otherMember: otherMember,
+      currentMember: currentMember,
+      members: [conversation.memberOne, conversation.memberTwo],
+      createdAt: conversation.createdAt,
+      updatedAt: conversation.updatedAt,
+    };
+  } else {
+    // Try to find as group conversation
+    const groupConversation = await postgres.groupConversation.findUnique({
+      where: {
+        id: roomId,
+      },
+      include: {
+        members: {
+          include: {
+            member: {
+              include: {
+                profile: true,
+              },
+            },
+            profile: true,
+          },
+        },
+      },
+    });
+
+    if (groupConversation) {
+      // Check if current user is part of this group
+      const isMember = groupConversation.members.some(
+        (member) => member.profileId === profile.id
+      );
+
+      if (!isMember) {
+        return redirect("/");
+      }
+
+      room = {
+        id: groupConversation.id,
+        type: "group",
+        name: groupConversation.name,
+        imageUrl: groupConversation.imageUrl,
+        currentMember: currentMember,
+        members: groupConversation.members.map((member) => member.member),
+        createdAt: groupConversation.createdAt,
+        updatedAt: groupConversation.updatedAt,
+      };
+    } else {
+      return redirect("/");
+    }
+  }
 
   // Determine room type and get appropriate data
   const isDM = room.type === 'dm';
@@ -58,27 +145,27 @@ const RoomPage = async ({ params, searchParams }: RoomPageProps) => {
       )}
       {!video && (
         <>
-          <ChatMessages
-            member={room.currentMember}
-            name={roomName}
-            chatId={roomId}
-            type="conversation"
-            apiUrl="/api/rooms"
-            paramKey="roomId"
-            paramValue={roomId}
-            socketUrl="/api/socket/rooms"
-            socketQuery={{
-              roomId: roomId,
-            }}
-          />
-          <ChatInput
-            name={roomName}
-            type="conversation"
-            apiUrl="/api/socket/rooms"
-            query={{
-              roomId: roomId,
-            }}
-          />
+                     <ChatMessages
+             member={room.currentMember}
+             name={roomName}
+             chatId={roomId}
+             type="conversation"
+             apiUrl={`/api/rooms/${roomId}/messages`}
+             paramKey="roomId"
+             paramValue={roomId}
+             socketUrl="/api/socket/rooms"
+             socketQuery={{
+               roomId: roomId,
+             }}
+           />
+                     <ChatInput
+             name={roomName}
+             type="conversation"
+             apiUrl={`/api/rooms/${roomId}/messages`}
+             query={{
+               roomId: roomId,
+             }}
+           />
         </>
       )}
     </div>

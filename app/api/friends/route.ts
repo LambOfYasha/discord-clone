@@ -78,15 +78,94 @@ export async function GET(req: Request) {
       },
     });
 
-    // Get all rooms (DMs and group DMs) using the new room system
-    const roomsResponse = await fetch(`${req.headers.get('origin') || 'http://localhost:3000'}/api/rooms`, {
-      method: 'GET',
-      cache: 'no-store',
-    });
-    
+    // Get all rooms (DMs and group DMs) directly
     let rooms = [];
-    if (roomsResponse.ok) {
-      rooms = await roomsResponse.json();
+    
+    // Get current user's member record
+    const currentMember = await postgres.member.findFirst({
+      where: {
+        profileId: profile.id,
+      },
+    });
+
+    if (currentMember) {
+      // Fetch all conversations (DMs) for the current user
+      const conversations = await postgres.conversation.findMany({
+        where: {
+          OR: [
+            { memberOneId: currentMember.id },
+            { memberTwoId: currentMember.id },
+          ],
+        },
+        include: {
+          memberOne: {
+            include: {
+              profile: true,
+            },
+          },
+          memberTwo: {
+            include: {
+              profile: true,
+            },
+          },
+        },
+      });
+
+      // Fetch all group conversations for the current user
+      const groupConversations = await postgres.groupConversation.findMany({
+        where: {
+          members: {
+            some: {
+              profileId: profile.id,
+            },
+          },
+        },
+        include: {
+          members: {
+            include: {
+              member: {
+                include: {
+                  profile: true,
+                },
+              },
+              profile: true,
+            },
+          },
+        },
+      });
+
+      // Transform conversations to room format
+      const dmRooms = conversations.map((conversation) => {
+        const otherMember = conversation.memberOneId === currentMember.id 
+          ? conversation.memberTwo 
+          : conversation.memberOne;
+        
+        return {
+          id: conversation.id,
+          type: "dm",
+          name: otherMember.profile.name,
+          imageUrl: otherMember.profile.imageUrl,
+          otherMember: otherMember,
+          currentMember: currentMember,
+          members: [conversation.memberOne, conversation.memberTwo],
+          createdAt: conversation.createdAt,
+          updatedAt: conversation.updatedAt,
+        };
+      });
+
+      // Transform group conversations to room format
+      const groupRooms = groupConversations.map((group) => ({
+        id: group.id,
+        type: "group",
+        name: group.name,
+        imageUrl: group.imageUrl,
+        currentMember: currentMember,
+        members: group.members.map((member) => member.member),
+        createdAt: group.createdAt,
+        updatedAt: group.updatedAt,
+      }));
+
+      rooms = [...dmRooms, ...groupRooms];
     }
 
     // Get member information for friends
