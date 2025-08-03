@@ -89,16 +89,17 @@ export const ChatItem = ({
       return;
     }
     try {
-      const response = await fetch('/api/rooms', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          type: 'dm',
-          targetMemberId: member.id,
-        }),
-      });
+              const response = await fetch('/api/rooms', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            type: 'dm',
+            targetMemberId: member.id,
+          }),
+        });
       
       if (response.ok) {
         const room = await response.json();

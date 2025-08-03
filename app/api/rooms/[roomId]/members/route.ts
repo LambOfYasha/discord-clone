@@ -5,11 +5,11 @@ import { NextResponse } from "next/server";
 // GET - Get members of a room
 export async function GET(
   req: Request,
-  { params }: { params: { roomId: string } }
+  { params }: { params: Promise<{ roomId: string }> }
 ) {
   try {
     const profile = await currentProfile();
-    const { roomId } = params;
+    const { roomId } = await params;
 
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -100,11 +100,11 @@ export async function GET(
 // POST - Add members to a group conversation
 export async function POST(
   req: Request,
-  { params }: { params: { roomId: string } }
+  { params }: { params: Promise<{ roomId: string }> }
 ) {
   try {
     const profile = await currentProfile();
-    const { roomId } = params;
+    const { roomId } = await params;
     const { memberIds } = await req.json();
 
     if (!profile) {
@@ -215,11 +215,11 @@ export async function POST(
 // DELETE - Remove a member from a group conversation
 export async function DELETE(
   req: Request,
-  { params }: { params: { roomId: string } }
+  { params }: { params: Promise<{ roomId: string }> }
 ) {
   try {
     const profile = await currentProfile();
-    const { roomId } = params;
+    const { roomId } = await params;
     const { searchParams } = new URL(req.url);
     const memberId = searchParams.get("memberId");
 

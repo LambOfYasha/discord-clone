@@ -47,10 +47,14 @@ export default function DirectMessagesPageClient({ servers }: DirectMessagesPage
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const response = await fetch('/api/rooms');
+        const response = await fetch('/api/rooms', {
+          credentials: 'include',
+        });
         if (response.ok) {
           const roomsData = await response.json();
           setRooms(roomsData);
+        } else {
+          console.error('Failed to fetch rooms:', response.status, response.statusText);
         }
       } catch (error) {
         console.error('Failed to fetch rooms:', error);

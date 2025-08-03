@@ -21,16 +21,17 @@ export const ServerMember = ({ member }: ServerMemberProps) => {
   const icon = roleIconMap[member.role];
   const onClick = async () => {
     try {
-      const response = await fetch('/api/rooms', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          type: 'dm',
-          targetMemberId: member.id,
-        }),
-      });
+              const response = await fetch('/api/rooms', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            type: 'dm',
+            targetMemberId: member.id,
+          }),
+        });
       
       if (response.ok) {
         const room = await response.json();

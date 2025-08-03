@@ -52,16 +52,17 @@ export const CreateDmModal = () => {
 
     setIsLoading(true);
     try {
-      const response = await fetch("/api/rooms", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          type: "dm",
-          targetMemberId: selectedUser.id,
-        }),
-      });
+              const response = await fetch("/api/rooms", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            type: "dm",
+            targetMemberId: selectedUser.id,
+          }),
+        });
 
       if (response.ok) {
         const room = await response.json();

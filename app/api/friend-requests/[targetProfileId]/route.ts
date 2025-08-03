@@ -4,17 +4,18 @@ import { NextResponse } from "next/server";
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { targetProfileId: string } }
+  { params }: { params: Promise<{ targetProfileId: string }> }
 ) {
   try {
     const profile = await currentProfile();
     const { action } = await req.json();
+    const { targetProfileId } = await params;
 
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    if (!params.targetProfileId) {
+    if (!targetProfileId) {
       return new NextResponse("Target Profile ID missing", { status: 400 });
     }
 
@@ -25,7 +26,7 @@ export async function PATCH(
     // Find the friend request
     const friendRequest = await postgres.friendRequest.findFirst({
       where: {
-        requesterProfileId: params.targetProfileId,
+        requesterProfileId: targetProfileId,
         targetProfileId: profile.id,
         status: "PENDING",
       },
@@ -54,16 +55,17 @@ export async function PATCH(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { targetProfileId: string } }
+  { params }: { params: Promise<{ targetProfileId: string }> }
 ) {
   try {
     const profile = await currentProfile();
+    const { targetProfileId } = await params;
 
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    if (!params.targetProfileId) {
+    if (!targetProfileId) {
       return new NextResponse("Target Profile ID missing", { status: 400 });
     }
 
@@ -71,7 +73,7 @@ export async function DELETE(
     const friendRequest = await postgres.friendRequest.findFirst({
       where: {
         requesterProfileId: profile.id,
-        targetProfileId: params.targetProfileId,
+        targetProfileId: targetProfileId,
         status: "PENDING",
       },
     });

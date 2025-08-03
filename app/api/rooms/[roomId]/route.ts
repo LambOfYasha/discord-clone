@@ -6,11 +6,11 @@ import { NextResponse } from "next/server";
 // GET - Get specific room details
 export async function GET(
   req: Request,
-  { params }: { params: { roomId: string } }
+  { params }: { params: Promise<{ roomId: string }> }
 ) {
   try {
     const profile = await currentProfile();
-    const { roomId } = params;
+    const { roomId } = await params;
 
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -121,11 +121,11 @@ export async function GET(
 // PUT - Update room details (mainly for group conversations)
 export async function PUT(
   req: Request,
-  { params }: { params: { roomId: string } }
+  { params }: { params: Promise<{ roomId: string }> }
 ) {
   try {
     const profile = await currentProfile();
-    const { roomId } = params;
+    const { roomId } = await params;
     const { name, imageUrl } = await req.json();
 
     if (!profile) {
@@ -201,11 +201,11 @@ export async function PUT(
 // DELETE - Leave or delete room
 export async function DELETE(
   req: Request,
-  { params }: { params: { roomId: string } }
+  { params }: { params: Promise<{ roomId: string }> }
 ) {
   try {
     const profile = await currentProfile();
-    const { roomId } = params;
+    const { roomId } = await params;
 
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });

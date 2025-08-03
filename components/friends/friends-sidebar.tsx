@@ -107,6 +107,7 @@ export const FriendsSidebar = ({ servers = [], profile, collapsed = false, onTog
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: 'include',
         body: JSON.stringify({
           type: "dm",
           targetMemberId: memberId,

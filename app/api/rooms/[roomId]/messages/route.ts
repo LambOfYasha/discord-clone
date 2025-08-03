@@ -6,11 +6,11 @@ import { NextResponse } from "next/server";
 // GET - Get messages for a room (DM or group)
 export async function GET(
   req: Request,
-  { params }: { params: { roomId: string } }
+  { params }: { params: Promise<{ roomId: string }> }
 ) {
   try {
     const profile = await currentProfile();
-    const { roomId } = params;
+    const { roomId } = await params;
     const { searchParams } = new URL(req.url);
     const cursor = searchParams.get("cursor");
     const limit = parseInt(searchParams.get("limit") || "10");
@@ -152,11 +152,11 @@ export async function GET(
 // POST - Send a message to a room (DM or group)
 export async function POST(
   req: Request,
-  { params }: { params: { roomId: string } }
+  { params }: { params: Promise<{ roomId: string }> }
 ) {
   try {
     const profile = await currentProfile();
-    const { roomId } = params;
+    const { roomId } = await params;
     const { content, fileUrl } = await req.json();
 
     if (!profile) {

@@ -64,17 +64,18 @@ export const CreateGroupDmModal = () => {
 
     setIsLoading(true);
     try {
-      const response = await fetch("/api/rooms", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          type: "group",
-          memberIds: selectedUsers.map(user => user.id),
-          name: groupName || `Group DM (${selectedUsers.length + 1})`,
-        }),
-      });
+              const response = await fetch("/api/rooms", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            type: "group",
+            memberIds: selectedUsers.map(user => user.id),
+            name: groupName || `Group DM (${selectedUsers.length + 1})`,
+          }),
+        });
 
       if (response.ok) {
         const room = await response.json();

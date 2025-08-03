@@ -57,6 +57,7 @@ export const ServerSearch = ({ data }: ServerSearchProps) => {
           headers: {
             'Content-Type': 'application/json',
           },
+          credentials: 'include',
           body: JSON.stringify({
             type: 'dm',
             targetMemberId: id,

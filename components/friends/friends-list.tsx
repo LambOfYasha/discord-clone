@@ -162,16 +162,17 @@ export const FriendsList = () => {
     }
 
     try {
-      const response = await fetch("/api/rooms", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          type: "dm",
-          targetMemberId: memberId,
-        }),
-      });
+              const response = await fetch("/api/rooms", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            type: "dm",
+            targetMemberId: memberId,
+          }),
+        });
 
       if (response.ok) {
         const room = await response.json();
