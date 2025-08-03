@@ -64,23 +64,24 @@ export const CreateGroupDmModal = () => {
 
     setIsLoading(true);
     try {
-      const response = await fetch("/api/group-conversations", {
+      const response = await fetch("/api/rooms", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          type: "group",
           memberIds: selectedUsers.map(user => user.id),
           name: groupName || `Group DM (${selectedUsers.length + 1})`,
         }),
       });
 
       if (response.ok) {
-        const conversation = await response.json();
-        router.push(`/servers/${conversation.serverId}/group-conversations/${conversation.id}`);
+        const room = await response.json();
+        router.push(`/rooms/${room.id}`);
         onClose();
       } else {
-        console.error("Failed to create group conversation");
+        console.error("Failed to create group room");
       }
     } catch (error) {
       console.error("Failed to create group DM:", error);

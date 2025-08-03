@@ -102,22 +102,23 @@ export const FriendsSidebar = ({ servers = [], profile, collapsed = false, onTog
     }
 
     try {
-      const response = await fetch("/api/conversations", {
+      const response = await fetch("/api/rooms", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          memberTwoId: memberId,
+          type: "dm",
+          targetMemberId: memberId,
         }),
       });
 
       if (response.ok) {
-        const conversation = await response.json();
-        // Navigate to the DM conversation
-        router.push(`/servers/${conversation.memberOne.serverId}/conversations/${conversation.memberTwo.id}`);
+        const room = await response.json();
+        // Navigate to the room
+        router.push(`/rooms/${room.id}`);
       } else {
-        console.error("Failed to create DM");
+        console.error("Failed to create DM room");
       }
     } catch (error) {
       console.error("Failed to create DM:", error);
@@ -259,12 +260,12 @@ export const FriendsSidebar = ({ servers = [], profile, collapsed = false, onTog
                   <p className="text-xs text-gray-400">No direct messages</p>
                 </div>
               ) : (
-                directMessages.map((dm) => (
-                  <Link
-                    key={dm.id}
-                    href={`/servers/${dm.serverId}/conversations/${dm.profile.id}`}
-                    className="flex items-center space-x-2 p-2 rounded hover:bg-[#1E1F22] cursor-pointer"
-                  >
+                                 directMessages.map((dm) => (
+                   <Link
+                     key={dm.id}
+                     href={`/rooms/${dm.id}`}
+                     className="flex items-center space-x-2 p-2 rounded hover:bg-[#1E1F22] cursor-pointer"
+                   >
                     <Avatar className="w-8 h-8">
                       <AvatarImage src={dm.profile.imageUrl} />
                       <AvatarFallback className="bg-[#5865F2]">
@@ -295,12 +296,12 @@ export const FriendsSidebar = ({ servers = [], profile, collapsed = false, onTog
                       <h4 className="text-xs font-semibold text-gray-400">Group DMs</h4>
                     </div>
                   )}
-                  {groupDms.map((group) => (
-                    <Link
-                      key={group.id}
-                      href={`/servers/${group.id}/group-conversations/${group.id}`}
-                      className="flex items-center space-x-2 p-2 rounded hover:bg-[#1E1F22] cursor-pointer"
-                    >
+                                     {groupDms.map((group) => (
+                     <Link
+                       key={group.id}
+                       href={`/rooms/${group.id}`}
+                       className="flex items-center space-x-2 p-2 rounded hover:bg-[#1E1F22] cursor-pointer"
+                     >
                       <Avatar className="w-8 h-8">
                         <AvatarImage src={group.imageUrl} />
                         <AvatarFallback className="bg-blue-500">

@@ -19,8 +19,28 @@ export const ServerMember = ({ member }: ServerMemberProps) => {
   const params = useParams();
   const router = useRouter();
   const icon = roleIconMap[member.role];
-  const onClick = () => {
-    router.push(`/servers/${params?.serverId}/conversations/${member.id}`);
+  const onClick = async () => {
+    try {
+      const response = await fetch('/api/rooms', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'dm',
+          targetMemberId: member.id,
+        }),
+      });
+      
+      if (response.ok) {
+        const room = await response.json();
+        router.push(`/rooms/${room.id}`);
+      } else {
+        console.error('Failed to create DM room');
+      }
+    } catch (error) {
+      console.error('Error creating DM room:', error);
+    }
   };
   return (
     <button

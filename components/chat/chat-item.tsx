@@ -84,11 +84,31 @@ export const ChatItem = ({
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keyDown", handleKeyDown);
   }, []);
-  const onMemberClick = () => {
+  const onMemberClick = async () => {
     if (member.id === currentMember.id) {
       return;
     }
-    router.push(`/servers/${params?.serverId}/conversations/${member.id}`);
+    try {
+      const response = await fetch('/api/rooms', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'dm',
+          targetMemberId: member.id,
+        }),
+      });
+      
+      if (response.ok) {
+        const room = await response.json();
+        router.push(`/rooms/${room.id}`);
+      } else {
+        console.error('Failed to create DM room');
+      }
+    } catch (error) {
+      console.error('Error creating DM room:', error);
+    }
   };
   useEffect(() => {
     form.reset({ content: content });

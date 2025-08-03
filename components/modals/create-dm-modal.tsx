@@ -52,22 +52,23 @@ export const CreateDmModal = () => {
 
     setIsLoading(true);
     try {
-      const response = await fetch("/api/conversations", {
+      const response = await fetch("/api/rooms", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          memberTwoId: selectedUser.id,
+          type: "dm",
+          targetMemberId: selectedUser.id,
         }),
       });
 
       if (response.ok) {
-        const conversation = await response.json();
-        router.push(`/servers/${conversation.memberOne.serverId}/conversations/${conversation.memberTwo.id}`);
+        const room = await response.json();
+        router.push(`/rooms/${room.id}`);
         onClose();
       } else {
-        console.error("Failed to create conversation");
+        console.error("Failed to create DM room");
       }
     } catch (error) {
       console.error("Failed to create DM:", error);
