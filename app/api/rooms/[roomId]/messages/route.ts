@@ -245,15 +245,36 @@ export async function POST(
         return new NextResponse("Access denied", { status: 403 });
       }
 
-      // Create DM message in MongoDB
-      const message = await mongo.directMessage.create({
-        data: {
-          content,
-          fileUrl,
-          conversationId: roomId,
-          memberId: currentMember.id,
-        },
-      });
+      // Create DM message in MongoDB with retry logic
+      let message;
+      let retryCount = 0;
+      const maxRetries = 3;
+      
+      while (retryCount < maxRetries) {
+        try {
+          message = await mongo.directMessage.create({
+            data: {
+              content,
+              fileUrl,
+              conversationId: roomId,
+              memberId: currentMember.id,
+            },
+          });
+          break; // Success, exit retry loop
+        } catch (error) {
+          retryCount++;
+          console.log(`[ROOM_MESSAGES_POST] MongoDB retry ${retryCount}/${maxRetries}:`, error);
+          
+          if (retryCount >= maxRetries) {
+            // MongoDB is down, return error for now
+            console.log("[ROOM_MESSAGES_POST] MongoDB connection failed, cannot create message");
+            return new NextResponse("Message service temporarily unavailable", { status: 503 });
+          }
+          
+          // Wait before retrying (exponential backoff)
+          await new Promise(resolve => setTimeout(resolve, 1000 * retryCount));
+        }
+      }
 
       // Add member data to the response
       const messageWithMember = {
@@ -308,6 +329,17 @@ export async function POST(
     return new NextResponse("Room not found", { status: 404 });
   } catch (error) {
     console.log("[ROOM_MESSAGES_POST]", error);
+    
+    // Provide more specific error messages
+    if (error instanceof Error) {
+      if (error.message.includes("MongoDB")) {
+        return new NextResponse("Message service temporarily unavailable", { status: 503 });
+      }
+      if (error.message.includes("Unauthorized")) {
+        return new NextResponse("Unauthorized", { status: 401 });
+      }
+    }
+    
     return new NextResponse("Internal Error", { status: 500 });
   }
 } 

@@ -40,8 +40,17 @@ export const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
       });
       form.reset();
       router.refresh();
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      console.error("Chat input error:", error);
+      
+      // Show user-friendly error message
+      if (error.response?.status === 503) {
+        alert("Message service is temporarily unavailable. Please try again later.");
+      } else if (error.response?.status === 401) {
+        alert("You are not authorized to send messages in this room.");
+      } else {
+        alert("Failed to send message. Please try again.");
+      }
     }
   };
   return (
