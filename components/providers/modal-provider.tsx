@@ -18,6 +18,7 @@ import { AddFriendModal } from "@/components/modals/add-friend-modal";
 import { UserListModal } from "@/components/modals/user-list-modal";
 import { DeleteFriendModal } from "@/components/modals/delete-friend-modal";
 import { DeleteConversationModal } from "@/components/modals/delete-conversation-modal";
+import { DeleteGroupConversationModal } from "@/components/modals/delete-group-conversation-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -47,6 +48,7 @@ export const ModalProvider = () => {
       <UserListModal />
       <DeleteFriendModal />
       <DeleteConversationModal />
+      <DeleteGroupConversationModal />
     </>
   );
 };

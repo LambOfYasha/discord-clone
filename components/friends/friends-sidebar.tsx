@@ -144,6 +144,16 @@ export const FriendsSidebar = ({ servers = [], profile, collapsed = false, onTog
     });
   };
 
+  const handleDeleteGroupConversation = (group: any) => {
+    onOpen("deleteGroupConversation", {
+      groupConversation: {
+        id: group.id,
+        name: group.name,
+        type: "group",
+      },
+    });
+  };
+
   return (
     <div className={`flex flex-col h-full transition-all duration-300 ${collapsed ? 'w-16' : 'w-60'}`}>
       {/* Navigation Header */}
@@ -330,36 +340,66 @@ export const FriendsSidebar = ({ servers = [], profile, collapsed = false, onTog
                 ))
               )}
 
-              {/* Group DMs */}
-              {groupDms.length > 0 && (
-                <>
-                  {!collapsed && (
-                    <div className="mt-2 mb-1">
-                      <h4 className="text-xs font-semibold text-gray-400">Group DMs</h4>
-                    </div>
-                  )}
-                                     {groupDms.map((group) => (
-                     <Link
+                             {/* Group DMs */}
+               {groupDms.length > 0 && (
+                 <>
+                   {!collapsed && (
+                     <div className="mt-2 mb-1">
+                       <h4 className="text-xs font-semibold text-gray-400">Group DMs</h4>
+                     </div>
+                   )}
+                   {groupDms.map((group) => (
+                     <div
                        key={group.id}
-                       href={`/rooms/${group.id}`}
-                       className="flex items-center space-x-2 p-2 rounded hover:bg-[#1E1F22] cursor-pointer"
+                       className="flex items-center justify-between p-2 rounded hover:bg-[#1E1F22] group"
                      >
-                      <UserAvatar src={group.imageUrl} name={group.name} className="w-8 h-8" />
-                      {!collapsed && (
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm text-white truncate">{group.name}</p>
-                          <p className="text-xs text-gray-400 truncate">{group.memberCount} members</p>
-                          {group.unreadCount > 0 && (
-                            <span className="text-xs bg-red-500 text-white px-1 rounded">
-                              {group.unreadCount}
-                            </span>
-                          )}
-                        </div>
-                      )}
-                    </Link>
-                  ))}
-                </>
-              )}
+                       <Link
+                         href={`/rooms/${group.id}`}
+                         className="flex items-center space-x-2 flex-1 cursor-pointer"
+                       >
+                         <UserAvatar src={group.imageUrl} name={group.name} className="w-8 h-8" />
+                         {!collapsed && (
+                           <div className="flex-1 min-w-0">
+                             <p className="text-sm text-white truncate">{group.name}</p>
+                             <p className="text-xs text-gray-400 truncate">{group.memberCount} members</p>
+                             {group.unreadCount > 0 && (
+                               <span className="text-xs bg-red-500 text-white px-1 rounded">
+                                 {group.unreadCount}
+                               </span>
+                             )}
+                           </div>
+                         )}
+                       </Link>
+                       {!collapsed && (
+                         <DropdownMenu>
+                           <DropdownMenuTrigger asChild>
+                             <Button
+                               variant="ghost"
+                               size="sm"
+                               className="h-6 w-6 p-0 text-gray-400 hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                             >
+                               <MoreVertical className="h-3 w-3" />
+                             </Button>
+                           </DropdownMenuTrigger>
+                           <DropdownMenuContent
+                             side="right"
+                             align="start"
+                             className="w-48 bg-[#2B2D31] border-[#1E1F22]"
+                           >
+                             <DropdownMenuItem
+                               onClick={() => handleDeleteGroupConversation(group)}
+                               className="text-red-500 focus:text-red-400 focus:bg-[#1E1F22] cursor-pointer"
+                             >
+                               <Trash2 className="h-4 w-4 mr-2" />
+                               Delete Group
+                             </DropdownMenuItem>
+                           </DropdownMenuContent>
+                         </DropdownMenu>
+                       )}
+                     </div>
+                   ))}
+                 </>
+               )}
             </div>
           </div>
         </div>
