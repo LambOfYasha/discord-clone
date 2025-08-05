@@ -1,5 +1,7 @@
+"use client";
+
 import { Hash, User } from "lucide-react";
-import { MobileToggle } from "@/components/mobile-toggle";
+import { MobileToggleClient } from "@/components/mobile-toggle-client";
 import { UserAvatar } from "@/components/user-avatar";
 import { SocketIndicator } from "@/components/socket-indicator";
 import { ChatVideoButton } from "@/components/chat-video-button";
@@ -36,7 +38,7 @@ const ChatHeader = ({
 
   return (
     <div className="text-md font-semibold px-3 flex items-center h-12 border-neutral-200 dark:border-neutral-800 border-b-2">
-      <MobileToggle serverId={serverId} />
+      <MobileToggleClient serverId={serverId} />
       {type === "channel" && (
         <Hash className="mr-2 w-5 h-5 text-zinc-500 dark:text-zinc-400" />
       )}
