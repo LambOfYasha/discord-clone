@@ -14,10 +14,17 @@ import {
   Plus,
   Users,
   Check,
-  X
+  X,
+  Trash2
 } from "lucide-react";
 import { useModal } from "@/hooks/use-modal-store";
 import { useRouter } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface Friend {
   id: string;
@@ -206,6 +213,16 @@ export const FriendsList = () => {
     }
   };
 
+  const handleDeleteFriend = (friend: Friend) => {
+    onOpen("deleteFriend", {
+      friend: {
+        id: friend.profile.id,
+        name: friend.profile.name,
+        imageUrl: friend.profile.imageUrl,
+      },
+    });
+  };
+
   const filteredFriends = friends.filter(friend =>
     friend.profile.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     friend.profile.email.toLowerCase().includes(searchQuery.toLowerCase())
@@ -343,13 +360,30 @@ export const FriendsList = () => {
                             >
                               <MessageSquare className="h-4 w-4" />
                             </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="h-8 w-8 p-0 text-gray-400 hover:text-white"
-                            >
-                              <MoreVertical className="h-4 w-4" />
-                            </Button>
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-8 w-8 p-0 text-gray-400 hover:text-white"
+                                >
+                                  <MoreVertical className="h-4 w-4" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent
+                                side="bottom"
+                                align="end"
+                                className="w-48 bg-[#2B2D31] border-[#1E1F22]"
+                              >
+                                <DropdownMenuItem
+                                  onClick={() => handleDeleteFriend(friend)}
+                                  className="text-red-500 focus:text-red-400 focus:bg-[#1E1F22] cursor-pointer"
+                                >
+                                  <Trash2 className="h-4 w-4 mr-2" />
+                                  Remove Friend
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
                           </div>
                         </div>
                       ))
@@ -400,13 +434,30 @@ export const FriendsList = () => {
                             >
                               <MessageSquare className="h-4 w-4" />
                             </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="h-8 w-8 p-0 text-gray-400 hover:text-white"
-                            >
-                              <MoreVertical className="h-4 w-4" />
-                            </Button>
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-8 w-8 p-0 text-gray-400 hover:text-white"
+                                >
+                                  <MoreVertical className="h-4 w-4" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent
+                                side="bottom"
+                                align="end"
+                                className="w-48 bg-[#2B2D31] border-[#1E1F22]"
+                              >
+                                <DropdownMenuItem
+                                  onClick={() => handleDeleteFriend(friend)}
+                                  className="text-red-500 focus:text-red-400 focus:bg-[#1E1F22] cursor-pointer"
+                                >
+                                  <Trash2 className="h-4 w-4 mr-2" />
+                                  Remove Friend
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
                           </div>
                         </div>
                       ))

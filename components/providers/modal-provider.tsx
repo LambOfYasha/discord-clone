@@ -16,6 +16,8 @@ import { CreateDmModal } from "@/components/modals/create-dm-modal";
 import { CreateGroupDmModal } from "@/components/modals/create-group-dm-modal";
 import { AddFriendModal } from "@/components/modals/add-friend-modal";
 import { UserListModal } from "@/components/modals/user-list-modal";
+import { DeleteFriendModal } from "@/components/modals/delete-friend-modal";
+import { DeleteConversationModal } from "@/components/modals/delete-conversation-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -43,6 +45,8 @@ export const ModalProvider = () => {
       <CreateGroupDmModal />
       <AddFriendModal />
       <UserListModal />
+      <DeleteFriendModal />
+      <DeleteConversationModal />
     </>
   );
 };

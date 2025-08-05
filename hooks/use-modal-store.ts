@@ -16,7 +16,9 @@ export type ModalType =
   | "userList"
   | "createDm"
   | "createGroupDm"
-  | "addFriend";
+  | "addFriend"
+  | "deleteFriend"
+  | "deleteConversation";
 interface ModalData {
   server?: Server;
   channel?: Channel;
@@ -28,6 +30,16 @@ interface ModalData {
     type: "dm" | "group";
     name: string;
     members: any[];
+  };
+  friend?: {
+    id: string;
+    name: string;
+    imageUrl: string;
+  };
+  conversation?: {
+    id: string;
+    name: string;
+    type: "dm" | "group";
   };
 }
 interface ModalStore {

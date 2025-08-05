@@ -17,13 +17,21 @@ import {
   Home,
   Compass,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  MoreVertical,
+  Trash2
 } from "lucide-react";
 import { useModal } from "@/hooks/use-modal-store";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { UserProfile } from "@/components/user/user-profile";
 import { UserAvatar } from "@/components/user-avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface FriendsSidebarProps {
   servers?: Array<{
@@ -124,6 +132,16 @@ export const FriendsSidebar = ({ servers = [], profile, collapsed = false, onTog
     } catch (error) {
       console.error("Failed to create DM:", error);
     }
+  };
+
+  const handleDeleteConversation = (dm: any) => {
+    onOpen("deleteConversation", {
+      conversation: {
+        id: dm.id,
+        name: dm.profile.name,
+        type: "dm",
+      },
+    });
   };
 
   return (
@@ -262,23 +280,53 @@ export const FriendsSidebar = ({ servers = [], profile, collapsed = false, onTog
                 </div>
               ) : (
                                  directMessages.map((dm) => (
-                   <Link
-                     key={dm.id}
-                     href={`/rooms/${dm.id}`}
-                     className="flex items-center space-x-2 p-2 rounded hover:bg-[#1E1F22] cursor-pointer"
-                   >
-                    <UserAvatar src={dm.profile.imageUrl} name={dm.profile.name} className="w-8 h-8" />
+                  <div
+                    key={dm.id}
+                    className="flex items-center justify-between p-2 rounded hover:bg-[#1E1F22] group"
+                  >
+                    <Link
+                      href={`/rooms/${dm.id}`}
+                      className="flex items-center space-x-2 flex-1 cursor-pointer"
+                    >
+                      <UserAvatar src={dm.profile.imageUrl} name={dm.profile.name} className="w-8 h-8" />
+                      {!collapsed && (
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm text-white truncate">{dm.profile.name}</p>
+                          {dm.unreadCount > 0 && (
+                            <span className="text-xs bg-red-500 text-white px-1 rounded">
+                              {dm.unreadCount}
+                            </span>
+                          )}
+                        </div>
+                      )}
+                    </Link>
                     {!collapsed && (
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm text-white truncate">{dm.profile.name}</p>
-                        {dm.unreadCount > 0 && (
-                          <span className="text-xs bg-red-500 text-white px-1 rounded">
-                            {dm.unreadCount}
-                          </span>
-                        )}
-                      </div>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-6 w-6 p-0 text-gray-400 hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <MoreVertical className="h-3 w-3" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent
+                          side="right"
+                          align="start"
+                          className="w-48 bg-[#2B2D31] border-[#1E1F22]"
+                        >
+                          <DropdownMenuItem
+                            onClick={() => handleDeleteConversation(dm)}
+                            className="text-red-500 focus:text-red-400 focus:bg-[#1E1F22] cursor-pointer"
+                          >
+                            <Trash2 className="h-4 w-4 mr-2" />
+                            Delete Conversation
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     )}
-                  </Link>
+                  </div>
                 ))
               )}
 
