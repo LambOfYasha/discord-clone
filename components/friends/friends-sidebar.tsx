@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { 
   User, 
@@ -24,6 +23,7 @@ import { useModal } from "@/hooks/use-modal-store";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { UserProfile } from "@/components/user/user-profile";
+import { UserAvatar } from "@/components/user-avatar";
 
 interface FriendsSidebarProps {
   servers?: Array<{
@@ -267,14 +267,7 @@ export const FriendsSidebar = ({ servers = [], profile, collapsed = false, onTog
                      href={`/rooms/${dm.id}`}
                      className="flex items-center space-x-2 p-2 rounded hover:bg-[#1E1F22] cursor-pointer"
                    >
-                    <Avatar className="w-8 h-8">
-                      <AvatarImage src={dm.profile.imageUrl} />
-                      <AvatarFallback className="bg-[#5865F2]">
-                        <span className="text-white text-sm font-semibold">
-                          {dm.profile.name.charAt(0).toUpperCase()}
-                        </span>
-                      </AvatarFallback>
-                    </Avatar>
+                    <UserAvatar src={dm.profile.imageUrl} name={dm.profile.name} className="w-8 h-8" />
                     {!collapsed && (
                       <div className="flex-1 min-w-0">
                         <p className="text-sm text-white truncate">{dm.profile.name}</p>
@@ -303,12 +296,7 @@ export const FriendsSidebar = ({ servers = [], profile, collapsed = false, onTog
                        href={`/rooms/${group.id}`}
                        className="flex items-center space-x-2 p-2 rounded hover:bg-[#1E1F22] cursor-pointer"
                      >
-                      <Avatar className="w-8 h-8">
-                        <AvatarImage src={group.imageUrl} />
-                        <AvatarFallback className="bg-blue-500">
-                          <Users className="h-4 w-4 text-white" />
-                        </AvatarFallback>
-                      </Avatar>
+                      <UserAvatar src={group.imageUrl} name={group.name} className="w-8 h-8" />
                       {!collapsed && (
                         <div className="flex-1 min-w-0">
                           <p className="text-sm text-white truncate">{group.name}</p>

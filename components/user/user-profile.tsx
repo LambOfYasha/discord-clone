@@ -70,6 +70,11 @@ export const UserProfile = ({
   const displayEmail = profile?.email || user.email;
   const displayImage = profile?.imageUrl || user.imageUrl || "";
 
+  // Generate initials for avatar fallback
+  const getInitials = (name: string) => {
+    return name.split(' ').map(n => n.charAt(0)).join('').toUpperCase().slice(0, 2);
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case "online": return "bg-green-500";
@@ -123,12 +128,12 @@ export const UserProfile = ({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-[45px] w-[45px] p-0 rounded-full">
-              <UserAvatar src={displayImage} className="h-8 w-8" />
+              <UserAvatar src={displayImage} name={displayName} className="h-8 w-8" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end" forceMount>
             <DropdownMenuItem className="flex items-center gap-x-2">
-              <UserAvatar src={displayImage} className="h-8 w-8" />
+              <UserAvatar src={displayImage} name={displayName} className="h-8 w-8" />
               <div className="flex flex-col">
                 <p className="text-sm font-medium">{displayName}</p>
                 <p className="text-xs text-gray-500">{displayEmail}</p>
@@ -172,7 +177,7 @@ export const UserProfile = ({
   return (
     <div className="p-3 border-t border-[#1E1F22] bg-[#1E1F22]">
       <div className="flex items-center space-x-2">
-        <UserAvatar src={displayImage} className="h-8 w-8" />
+        <UserAvatar src={displayImage} name={displayName} className="h-8 w-8" />
         {!collapsed && (
           <>
             <div className="flex-1 min-w-0">
@@ -210,7 +215,7 @@ export const UserProfile = ({
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56" align="end" forceMount>
                   <DropdownMenuItem className="flex items-center gap-x-2">
-                    <UserAvatar src={displayImage} className="h-8 w-8" />
+                    <UserAvatar src={displayImage} name={displayName} className="h-8 w-8" />
                     <div className="flex flex-col">
                       <p className="text-sm font-medium">{displayName}</p>
                       <p className="text-xs text-gray-500">{displayEmail}</p>

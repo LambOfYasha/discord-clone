@@ -10,6 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { ServerSection } from "@/components/server/server-section";
 import { ServerChannel } from "@/components/server/server-channel";
 import { ServerMember } from "@/components/server/server-member";
+import { UserProfile } from "@/components/user/user-profile";
 
 interface ServerSidebarProps {
   serverId: string;
@@ -161,6 +162,9 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
           </div>
         )}
       </ScrollArea>
+      
+      {/* User Profile */}
+      <UserProfile variant="friends" profile={profile} />
     </div>
   );
 };

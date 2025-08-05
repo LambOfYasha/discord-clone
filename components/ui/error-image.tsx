@@ -52,8 +52,11 @@ export const ErrorImage = ({
     // Log the error for debugging
     logImageError(src, "Image load failed");
     
-    // Validate URL before retrying
-    if (!isValidImageUrl(src)) {
+    // For avatar images, be more lenient with URL validation
+    const isAvatar = className.includes("rounded-full") || className.includes("avatar");
+    
+    // Validate URL before retrying (more lenient for avatars)
+    if (!isValidImageUrl(src) && !isAvatar) {
       console.warn("Invalid image URL:", src);
       setHasError(true);
       onError?.();
@@ -105,14 +108,24 @@ export const ErrorImage = ({
     );
   }
 
+  // If not using fill, we need to provide width and height
+  if (!fill && (!width || !height)) {
+    console.warn("ErrorImage: width and height are required when fill is false");
+    return (
+      <div className={fallbackClassName}>
+        {fallbackIcon}
+      </div>
+    );
+  }
+
   return (
     <Image
       src={src}
       alt={alt}
       className={className}
       fill={fill}
-      width={width}
-      height={height}
+      width={fill ? undefined : width}
+      height={fill ? undefined : height}
       onError={handleError}
       onLoad={handleLoad}
       {...props}
