@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { UserPlus, UserMinus, Hash, HashOff } from "lucide-react";
+import { UserPlus, UserMinus, Hash, X } from "lucide-react";
 import { toast } from "sonner";
 
 interface FollowButtonProps {
@@ -107,7 +107,7 @@ export const FollowButton = ({
           {type === "user" ? (
             <UserMinus className="h-4 w-4 mr-2" />
           ) : (
-            <HashOff className="h-4 w-4 mr-2" />
+            <X className="h-4 w-4 mr-2" />
           )}
           Unfollow
         </>
