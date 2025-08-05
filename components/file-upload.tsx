@@ -3,7 +3,7 @@
 import { UploadDropzone, validateUploadThingConfig } from "@/lib/uploadthing";
 import "@uploadthing/react/styles.css";
 import { FileIcon, X, AlertCircle } from "lucide-react";
-import Image from "next/image";
+import { ErrorImage } from "@/components/ui/error-image";
 import { useState, useEffect } from "react";
 
 interface FileUploadProps {
@@ -64,7 +64,13 @@ export const FileUpload = ({ endpoint, onChange, value, onUploadError }: FileUpl
   if (value && !isPdf) {
     return (
       <div className="relative h-20 w-20">
-        <Image fill src={value} alt="Upload" className="rounded-full" />
+        <ErrorImage 
+          fill 
+          src={value} 
+          alt="Upload" 
+          className="rounded-full object-cover"
+          fallbackClassName="w-full h-full rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center"
+        />
         <button
           onClick={handleRemoveFile}
           className="bg-rose-500 text-white p-1 rounded-full absolute top-0 right-0 shadow-sm hover:bg-rose-600 transition-colors"

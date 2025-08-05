@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { ActionTooltip } from "@/components/action-tooltip";
 import { useNavigationStore } from "@/hooks/use-navigation-store";
+import { ErrorImage } from "@/components/ui/error-image";
 
 interface navigationItemProps {
   id: string;
@@ -41,7 +41,18 @@ export const NavigationItem = ({ id, imageUrl, name }: navigationItemProps) => {
           )}
         >
           {imageUrl && imageUrl.trim() !== "" ? (
-            <Image fill src={imageUrl} alt="Server image" />
+            <ErrorImage 
+              fill 
+              src={imageUrl} 
+              alt="Server image" 
+              className="object-cover"
+              fallbackIcon={
+                <span className="text-white text-sm font-semibold">
+                  {name.charAt(0).toUpperCase()}
+                </span>
+              }
+              fallbackClassName="w-full h-full bg-zinc-700 flex items-center justify-center"
+            />
           ) : (
             <div className="w-full h-full bg-zinc-700 flex items-center justify-center">
               <span className="text-white text-sm font-semibold">
