@@ -63,6 +63,21 @@ export type DirectMessage = $Result.DefaultSelection<Prisma.$DirectMessagePayloa
  * 
  */
 export type FriendRequest = $Result.DefaultSelection<Prisma.$FriendRequestPayload>
+/**
+ * Model Follow
+ * 
+ */
+export type Follow = $Result.DefaultSelection<Prisma.$FollowPayload>
+/**
+ * Model ServerFollow
+ * 
+ */
+export type ServerFollow = $Result.DefaultSelection<Prisma.$ServerFollowPayload>
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
 
 /**
  * Enums
@@ -103,6 +118,18 @@ export const FriendRequestStatus: {
 
 export type FriendRequestStatus = (typeof FriendRequestStatus)[keyof typeof FriendRequestStatus]
 
+
+export const NotificationType: {
+  FRIEND_ACTIVITY: 'FRIEND_ACTIVITY',
+  SERVER_ACTIVITY: 'SERVER_ACTIVITY',
+  FRIEND_ONLINE: 'FRIEND_ONLINE',
+  SERVER_JOIN: 'SERVER_JOIN',
+  MESSAGE_MENTION: 'MESSAGE_MENTION',
+  SERVER_INVITE: 'SERVER_INVITE'
+};
+
+export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
+
 }
 
 export type MemberRole = $Enums.MemberRole
@@ -120,6 +147,10 @@ export const ChannelType: typeof $Enums.ChannelType
 export type FriendRequestStatus = $Enums.FriendRequestStatus
 
 export const FriendRequestStatus: typeof $Enums.FriendRequestStatus
+
+export type NotificationType = $Enums.NotificationType
+
+export const NotificationType: typeof $Enums.NotificationType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -345,6 +376,36 @@ export class PrismaClient<
     * ```
     */
   get friendRequest(): Prisma.FriendRequestDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.follow`: Exposes CRUD operations for the **Follow** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Follows
+    * const follows = await prisma.follow.findMany()
+    * ```
+    */
+  get follow(): Prisma.FollowDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.serverFollow`: Exposes CRUD operations for the **ServerFollow** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ServerFollows
+    * const serverFollows = await prisma.serverFollow.findMany()
+    * ```
+    */
+  get serverFollow(): Prisma.ServerFollowDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.notification`: Exposes CRUD operations for the **Notification** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Notifications
+    * const notifications = await prisma.notification.findMany()
+    * ```
+    */
+  get notification(): Prisma.NotificationDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -794,7 +855,10 @@ export namespace Prisma {
     GroupConversationMember: 'GroupConversationMember',
     GroupMessage: 'GroupMessage',
     DirectMessage: 'DirectMessage',
-    FriendRequest: 'FriendRequest'
+    FriendRequest: 'FriendRequest',
+    Follow: 'Follow',
+    ServerFollow: 'ServerFollow',
+    Notification: 'Notification'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -813,7 +877,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "profile" | "server" | "member" | "channel" | "conversation" | "groupConversation" | "groupConversationMember" | "groupMessage" | "directMessage" | "friendRequest"
+      modelProps: "profile" | "server" | "member" | "channel" | "conversation" | "groupConversation" | "groupConversationMember" | "groupMessage" | "directMessage" | "friendRequest" | "follow" | "serverFollow" | "notification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1557,6 +1621,228 @@ export namespace Prisma {
           }
         }
       }
+      Follow: {
+        payload: Prisma.$FollowPayload<ExtArgs>
+        fields: Prisma.FollowFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FollowFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FollowPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FollowFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FollowPayload>
+          }
+          findFirst: {
+            args: Prisma.FollowFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FollowPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FollowFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FollowPayload>
+          }
+          findMany: {
+            args: Prisma.FollowFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FollowPayload>[]
+          }
+          create: {
+            args: Prisma.FollowCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FollowPayload>
+          }
+          createMany: {
+            args: Prisma.FollowCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FollowCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FollowPayload>[]
+          }
+          delete: {
+            args: Prisma.FollowDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FollowPayload>
+          }
+          update: {
+            args: Prisma.FollowUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FollowPayload>
+          }
+          deleteMany: {
+            args: Prisma.FollowDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FollowUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.FollowUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FollowPayload>[]
+          }
+          upsert: {
+            args: Prisma.FollowUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FollowPayload>
+          }
+          aggregate: {
+            args: Prisma.FollowAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFollow>
+          }
+          groupBy: {
+            args: Prisma.FollowGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FollowGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FollowCountArgs<ExtArgs>
+            result: $Utils.Optional<FollowCountAggregateOutputType> | number
+          }
+        }
+      }
+      ServerFollow: {
+        payload: Prisma.$ServerFollowPayload<ExtArgs>
+        fields: Prisma.ServerFollowFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ServerFollowFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServerFollowPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ServerFollowFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServerFollowPayload>
+          }
+          findFirst: {
+            args: Prisma.ServerFollowFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServerFollowPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ServerFollowFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServerFollowPayload>
+          }
+          findMany: {
+            args: Prisma.ServerFollowFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServerFollowPayload>[]
+          }
+          create: {
+            args: Prisma.ServerFollowCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServerFollowPayload>
+          }
+          createMany: {
+            args: Prisma.ServerFollowCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ServerFollowCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServerFollowPayload>[]
+          }
+          delete: {
+            args: Prisma.ServerFollowDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServerFollowPayload>
+          }
+          update: {
+            args: Prisma.ServerFollowUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServerFollowPayload>
+          }
+          deleteMany: {
+            args: Prisma.ServerFollowDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ServerFollowUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ServerFollowUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServerFollowPayload>[]
+          }
+          upsert: {
+            args: Prisma.ServerFollowUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServerFollowPayload>
+          }
+          aggregate: {
+            args: Prisma.ServerFollowAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateServerFollow>
+          }
+          groupBy: {
+            args: Prisma.ServerFollowGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ServerFollowGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ServerFollowCountArgs<ExtArgs>
+            result: $Utils.Optional<ServerFollowCountAggregateOutputType> | number
+          }
+        }
+      }
+      Notification: {
+        payload: Prisma.$NotificationPayload<ExtArgs>
+        fields: Prisma.NotificationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.NotificationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.NotificationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          findFirst: {
+            args: Prisma.NotificationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.NotificationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          findMany: {
+            args: Prisma.NotificationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+          }
+          create: {
+            args: Prisma.NotificationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          createMany: {
+            args: Prisma.NotificationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.NotificationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+          }
+          delete: {
+            args: Prisma.NotificationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          update: {
+            args: Prisma.NotificationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          deleteMany: {
+            args: Prisma.NotificationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.NotificationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.NotificationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+          }
+          upsert: {
+            args: Prisma.NotificationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          aggregate: {
+            args: Prisma.NotificationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNotification>
+          }
+          groupBy: {
+            args: Prisma.NotificationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<NotificationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.NotificationCountArgs<ExtArgs>
+            result: $Utils.Optional<NotificationCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1651,6 +1937,9 @@ export namespace Prisma {
     groupMessage?: GroupMessageOmit
     directMessage?: DirectMessageOmit
     friendRequest?: FriendRequestOmit
+    follow?: FollowOmit
+    serverFollow?: ServerFollowOmit
+    notification?: NotificationOmit
   }
 
   /* Types for Logging */
@@ -1753,6 +2042,11 @@ export namespace Prisma {
     groupConversationsCreated: number
     friendRequestsSent: number
     friendRequestsReceived: number
+    followsSent: number
+    followsReceived: number
+    serverFollows: number
+    notificationsReceived: number
+    notificationsRelated: number
   }
 
   export type ProfileCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1764,6 +2058,11 @@ export namespace Prisma {
     groupConversationsCreated?: boolean | ProfileCountOutputTypeCountGroupConversationsCreatedArgs
     friendRequestsSent?: boolean | ProfileCountOutputTypeCountFriendRequestsSentArgs
     friendRequestsReceived?: boolean | ProfileCountOutputTypeCountFriendRequestsReceivedArgs
+    followsSent?: boolean | ProfileCountOutputTypeCountFollowsSentArgs
+    followsReceived?: boolean | ProfileCountOutputTypeCountFollowsReceivedArgs
+    serverFollows?: boolean | ProfileCountOutputTypeCountServerFollowsArgs
+    notificationsReceived?: boolean | ProfileCountOutputTypeCountNotificationsReceivedArgs
+    notificationsRelated?: boolean | ProfileCountOutputTypeCountNotificationsRelatedArgs
   }
 
   // Custom InputTypes
@@ -1833,6 +2132,41 @@ export namespace Prisma {
     where?: FriendRequestWhereInput
   }
 
+  /**
+   * ProfileCountOutputType without action
+   */
+  export type ProfileCountOutputTypeCountFollowsSentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FollowWhereInput
+  }
+
+  /**
+   * ProfileCountOutputType without action
+   */
+  export type ProfileCountOutputTypeCountFollowsReceivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FollowWhereInput
+  }
+
+  /**
+   * ProfileCountOutputType without action
+   */
+  export type ProfileCountOutputTypeCountServerFollowsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServerFollowWhereInput
+  }
+
+  /**
+   * ProfileCountOutputType without action
+   */
+  export type ProfileCountOutputTypeCountNotificationsReceivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationWhereInput
+  }
+
+  /**
+   * ProfileCountOutputType without action
+   */
+  export type ProfileCountOutputTypeCountNotificationsRelatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationWhereInput
+  }
+
 
   /**
    * Count Type ServerCountOutputType
@@ -1841,11 +2175,15 @@ export namespace Prisma {
   export type ServerCountOutputType = {
     members: number
     channels: number
+    serverFollows: number
+    notificationsRelated: number
   }
 
   export type ServerCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     members?: boolean | ServerCountOutputTypeCountMembersArgs
     channels?: boolean | ServerCountOutputTypeCountChannelsArgs
+    serverFollows?: boolean | ServerCountOutputTypeCountServerFollowsArgs
+    notificationsRelated?: boolean | ServerCountOutputTypeCountNotificationsRelatedArgs
   }
 
   // Custom InputTypes
@@ -1871,6 +2209,20 @@ export namespace Prisma {
    */
   export type ServerCountOutputTypeCountChannelsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ChannelWhereInput
+  }
+
+  /**
+   * ServerCountOutputType without action
+   */
+  export type ServerCountOutputTypeCountServerFollowsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServerFollowWhereInput
+  }
+
+  /**
+   * ServerCountOutputType without action
+   */
+  export type ServerCountOutputTypeCountNotificationsRelatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationWhereInput
   }
 
 
@@ -2204,6 +2556,11 @@ export namespace Prisma {
     groupConversationsCreated?: boolean | Profile$groupConversationsCreatedArgs<ExtArgs>
     friendRequestsSent?: boolean | Profile$friendRequestsSentArgs<ExtArgs>
     friendRequestsReceived?: boolean | Profile$friendRequestsReceivedArgs<ExtArgs>
+    followsSent?: boolean | Profile$followsSentArgs<ExtArgs>
+    followsReceived?: boolean | Profile$followsReceivedArgs<ExtArgs>
+    serverFollows?: boolean | Profile$serverFollowsArgs<ExtArgs>
+    notificationsReceived?: boolean | Profile$notificationsReceivedArgs<ExtArgs>
+    notificationsRelated?: boolean | Profile$notificationsRelatedArgs<ExtArgs>
     _count?: boolean | ProfileCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["profile"]>
 
@@ -2247,6 +2604,11 @@ export namespace Prisma {
     groupConversationsCreated?: boolean | Profile$groupConversationsCreatedArgs<ExtArgs>
     friendRequestsSent?: boolean | Profile$friendRequestsSentArgs<ExtArgs>
     friendRequestsReceived?: boolean | Profile$friendRequestsReceivedArgs<ExtArgs>
+    followsSent?: boolean | Profile$followsSentArgs<ExtArgs>
+    followsReceived?: boolean | Profile$followsReceivedArgs<ExtArgs>
+    serverFollows?: boolean | Profile$serverFollowsArgs<ExtArgs>
+    notificationsReceived?: boolean | Profile$notificationsReceivedArgs<ExtArgs>
+    notificationsRelated?: boolean | Profile$notificationsRelatedArgs<ExtArgs>
     _count?: boolean | ProfileCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProfileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2263,6 +2625,11 @@ export namespace Prisma {
       groupConversationsCreated: Prisma.$GroupConversationPayload<ExtArgs>[]
       friendRequestsSent: Prisma.$FriendRequestPayload<ExtArgs>[]
       friendRequestsReceived: Prisma.$FriendRequestPayload<ExtArgs>[]
+      followsSent: Prisma.$FollowPayload<ExtArgs>[]
+      followsReceived: Prisma.$FollowPayload<ExtArgs>[]
+      serverFollows: Prisma.$ServerFollowPayload<ExtArgs>[]
+      notificationsReceived: Prisma.$NotificationPayload<ExtArgs>[]
+      notificationsRelated: Prisma.$NotificationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2674,6 +3041,11 @@ export namespace Prisma {
     groupConversationsCreated<T extends Profile$groupConversationsCreatedArgs<ExtArgs> = {}>(args?: Subset<T, Profile$groupConversationsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     friendRequestsSent<T extends Profile$friendRequestsSentArgs<ExtArgs> = {}>(args?: Subset<T, Profile$friendRequestsSentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FriendRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     friendRequestsReceived<T extends Profile$friendRequestsReceivedArgs<ExtArgs> = {}>(args?: Subset<T, Profile$friendRequestsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FriendRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    followsSent<T extends Profile$followsSentArgs<ExtArgs> = {}>(args?: Subset<T, Profile$followsSentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    followsReceived<T extends Profile$followsReceivedArgs<ExtArgs> = {}>(args?: Subset<T, Profile$followsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    serverFollows<T extends Profile$serverFollowsArgs<ExtArgs> = {}>(args?: Subset<T, Profile$serverFollowsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServerFollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notificationsReceived<T extends Profile$notificationsReceivedArgs<ExtArgs> = {}>(args?: Subset<T, Profile$notificationsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notificationsRelated<T extends Profile$notificationsRelatedArgs<ExtArgs> = {}>(args?: Subset<T, Profile$notificationsRelatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3290,6 +3662,126 @@ export namespace Prisma {
   }
 
   /**
+   * Profile.followsSent
+   */
+  export type Profile$followsSentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowInclude<ExtArgs> | null
+    where?: FollowWhereInput
+    orderBy?: FollowOrderByWithRelationInput | FollowOrderByWithRelationInput[]
+    cursor?: FollowWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FollowScalarFieldEnum | FollowScalarFieldEnum[]
+  }
+
+  /**
+   * Profile.followsReceived
+   */
+  export type Profile$followsReceivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowInclude<ExtArgs> | null
+    where?: FollowWhereInput
+    orderBy?: FollowOrderByWithRelationInput | FollowOrderByWithRelationInput[]
+    cursor?: FollowWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FollowScalarFieldEnum | FollowScalarFieldEnum[]
+  }
+
+  /**
+   * Profile.serverFollows
+   */
+  export type Profile$serverFollowsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerFollow
+     */
+    select?: ServerFollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerFollow
+     */
+    omit?: ServerFollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerFollowInclude<ExtArgs> | null
+    where?: ServerFollowWhereInput
+    orderBy?: ServerFollowOrderByWithRelationInput | ServerFollowOrderByWithRelationInput[]
+    cursor?: ServerFollowWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ServerFollowScalarFieldEnum | ServerFollowScalarFieldEnum[]
+  }
+
+  /**
+   * Profile.notificationsReceived
+   */
+  export type Profile$notificationsReceivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    where?: NotificationWhereInput
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    cursor?: NotificationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Profile.notificationsRelated
+   */
+  export type Profile$notificationsRelatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    where?: NotificationWhereInput
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    cursor?: NotificationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
    * Profile without action
    */
   export type ProfileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3491,6 +3983,8 @@ export namespace Prisma {
     profile?: boolean | ProfileDefaultArgs<ExtArgs>
     members?: boolean | Server$membersArgs<ExtArgs>
     channels?: boolean | Server$channelsArgs<ExtArgs>
+    serverFollows?: boolean | Server$serverFollowsArgs<ExtArgs>
+    notificationsRelated?: boolean | Server$notificationsRelatedArgs<ExtArgs>
     _count?: boolean | ServerCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["server"]>
 
@@ -3531,6 +4025,8 @@ export namespace Prisma {
     profile?: boolean | ProfileDefaultArgs<ExtArgs>
     members?: boolean | Server$membersArgs<ExtArgs>
     channels?: boolean | Server$channelsArgs<ExtArgs>
+    serverFollows?: boolean | Server$serverFollowsArgs<ExtArgs>
+    notificationsRelated?: boolean | Server$notificationsRelatedArgs<ExtArgs>
     _count?: boolean | ServerCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ServerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3546,6 +4042,8 @@ export namespace Prisma {
       profile: Prisma.$ProfilePayload<ExtArgs>
       members: Prisma.$MemberPayload<ExtArgs>[]
       channels: Prisma.$ChannelPayload<ExtArgs>[]
+      serverFollows: Prisma.$ServerFollowPayload<ExtArgs>[]
+      notificationsRelated: Prisma.$NotificationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3952,6 +4450,8 @@ export namespace Prisma {
     profile<T extends ProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProfileDefaultArgs<ExtArgs>>): Prisma__ProfileClient<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     members<T extends Server$membersArgs<ExtArgs> = {}>(args?: Subset<T, Server$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     channels<T extends Server$channelsArgs<ExtArgs> = {}>(args?: Subset<T, Server$channelsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChannelPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    serverFollows<T extends Server$serverFollowsArgs<ExtArgs> = {}>(args?: Subset<T, Server$serverFollowsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServerFollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notificationsRelated<T extends Server$notificationsRelatedArgs<ExtArgs> = {}>(args?: Subset<T, Server$notificationsRelatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4429,6 +4929,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ChannelScalarFieldEnum | ChannelScalarFieldEnum[]
+  }
+
+  /**
+   * Server.serverFollows
+   */
+  export type Server$serverFollowsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerFollow
+     */
+    select?: ServerFollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerFollow
+     */
+    omit?: ServerFollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerFollowInclude<ExtArgs> | null
+    where?: ServerFollowWhereInput
+    orderBy?: ServerFollowOrderByWithRelationInput | ServerFollowOrderByWithRelationInput[]
+    cursor?: ServerFollowWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ServerFollowScalarFieldEnum | ServerFollowScalarFieldEnum[]
+  }
+
+  /**
+   * Server.notificationsRelated
+   */
+  export type Server$notificationsRelatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    where?: NotificationWhereInput
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    cursor?: NotificationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
   }
 
   /**
@@ -13399,6 +13947,3276 @@ export namespace Prisma {
 
 
   /**
+   * Model Follow
+   */
+
+  export type AggregateFollow = {
+    _count: FollowCountAggregateOutputType | null
+    _min: FollowMinAggregateOutputType | null
+    _max: FollowMaxAggregateOutputType | null
+  }
+
+  export type FollowMinAggregateOutputType = {
+    id: string | null
+    followerProfileId: string | null
+    followingProfileId: string | null
+    createdAt: Date | null
+  }
+
+  export type FollowMaxAggregateOutputType = {
+    id: string | null
+    followerProfileId: string | null
+    followingProfileId: string | null
+    createdAt: Date | null
+  }
+
+  export type FollowCountAggregateOutputType = {
+    id: number
+    followerProfileId: number
+    followingProfileId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type FollowMinAggregateInputType = {
+    id?: true
+    followerProfileId?: true
+    followingProfileId?: true
+    createdAt?: true
+  }
+
+  export type FollowMaxAggregateInputType = {
+    id?: true
+    followerProfileId?: true
+    followingProfileId?: true
+    createdAt?: true
+  }
+
+  export type FollowCountAggregateInputType = {
+    id?: true
+    followerProfileId?: true
+    followingProfileId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type FollowAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Follow to aggregate.
+     */
+    where?: FollowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Follows to fetch.
+     */
+    orderBy?: FollowOrderByWithRelationInput | FollowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FollowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Follows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Follows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Follows
+    **/
+    _count?: true | FollowCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FollowMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FollowMaxAggregateInputType
+  }
+
+  export type GetFollowAggregateType<T extends FollowAggregateArgs> = {
+        [P in keyof T & keyof AggregateFollow]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFollow[P]>
+      : GetScalarType<T[P], AggregateFollow[P]>
+  }
+
+
+
+
+  export type FollowGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FollowWhereInput
+    orderBy?: FollowOrderByWithAggregationInput | FollowOrderByWithAggregationInput[]
+    by: FollowScalarFieldEnum[] | FollowScalarFieldEnum
+    having?: FollowScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FollowCountAggregateInputType | true
+    _min?: FollowMinAggregateInputType
+    _max?: FollowMaxAggregateInputType
+  }
+
+  export type FollowGroupByOutputType = {
+    id: string
+    followerProfileId: string
+    followingProfileId: string
+    createdAt: Date
+    _count: FollowCountAggregateOutputType | null
+    _min: FollowMinAggregateOutputType | null
+    _max: FollowMaxAggregateOutputType | null
+  }
+
+  type GetFollowGroupByPayload<T extends FollowGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FollowGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FollowGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FollowGroupByOutputType[P]>
+            : GetScalarType<T[P], FollowGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FollowSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    followerProfileId?: boolean
+    followingProfileId?: boolean
+    createdAt?: boolean
+    followerProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    followingProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["follow"]>
+
+  export type FollowSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    followerProfileId?: boolean
+    followingProfileId?: boolean
+    createdAt?: boolean
+    followerProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    followingProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["follow"]>
+
+  export type FollowSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    followerProfileId?: boolean
+    followingProfileId?: boolean
+    createdAt?: boolean
+    followerProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    followingProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["follow"]>
+
+  export type FollowSelectScalar = {
+    id?: boolean
+    followerProfileId?: boolean
+    followingProfileId?: boolean
+    createdAt?: boolean
+  }
+
+  export type FollowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "followerProfileId" | "followingProfileId" | "createdAt", ExtArgs["result"]["follow"]>
+  export type FollowInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    followerProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    followingProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+  }
+  export type FollowIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    followerProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    followingProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+  }
+  export type FollowIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    followerProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    followingProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+  }
+
+  export type $FollowPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Follow"
+    objects: {
+      followerProfile: Prisma.$ProfilePayload<ExtArgs>
+      followingProfile: Prisma.$ProfilePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      followerProfileId: string
+      followingProfileId: string
+      createdAt: Date
+    }, ExtArgs["result"]["follow"]>
+    composites: {}
+  }
+
+  type FollowGetPayload<S extends boolean | null | undefined | FollowDefaultArgs> = $Result.GetResult<Prisma.$FollowPayload, S>
+
+  type FollowCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FollowFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FollowCountAggregateInputType | true
+    }
+
+  export interface FollowDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Follow'], meta: { name: 'Follow' } }
+    /**
+     * Find zero or one Follow that matches the filter.
+     * @param {FollowFindUniqueArgs} args - Arguments to find a Follow
+     * @example
+     * // Get one Follow
+     * const follow = await prisma.follow.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FollowFindUniqueArgs>(args: SelectSubset<T, FollowFindUniqueArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Follow that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FollowFindUniqueOrThrowArgs} args - Arguments to find a Follow
+     * @example
+     * // Get one Follow
+     * const follow = await prisma.follow.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FollowFindUniqueOrThrowArgs>(args: SelectSubset<T, FollowFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Follow that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FollowFindFirstArgs} args - Arguments to find a Follow
+     * @example
+     * // Get one Follow
+     * const follow = await prisma.follow.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FollowFindFirstArgs>(args?: SelectSubset<T, FollowFindFirstArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Follow that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FollowFindFirstOrThrowArgs} args - Arguments to find a Follow
+     * @example
+     * // Get one Follow
+     * const follow = await prisma.follow.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FollowFindFirstOrThrowArgs>(args?: SelectSubset<T, FollowFindFirstOrThrowArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Follows that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FollowFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Follows
+     * const follows = await prisma.follow.findMany()
+     * 
+     * // Get first 10 Follows
+     * const follows = await prisma.follow.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const followWithIdOnly = await prisma.follow.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FollowFindManyArgs>(args?: SelectSubset<T, FollowFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Follow.
+     * @param {FollowCreateArgs} args - Arguments to create a Follow.
+     * @example
+     * // Create one Follow
+     * const Follow = await prisma.follow.create({
+     *   data: {
+     *     // ... data to create a Follow
+     *   }
+     * })
+     * 
+     */
+    create<T extends FollowCreateArgs>(args: SelectSubset<T, FollowCreateArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Follows.
+     * @param {FollowCreateManyArgs} args - Arguments to create many Follows.
+     * @example
+     * // Create many Follows
+     * const follow = await prisma.follow.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FollowCreateManyArgs>(args?: SelectSubset<T, FollowCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Follows and returns the data saved in the database.
+     * @param {FollowCreateManyAndReturnArgs} args - Arguments to create many Follows.
+     * @example
+     * // Create many Follows
+     * const follow = await prisma.follow.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Follows and only return the `id`
+     * const followWithIdOnly = await prisma.follow.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FollowCreateManyAndReturnArgs>(args?: SelectSubset<T, FollowCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Follow.
+     * @param {FollowDeleteArgs} args - Arguments to delete one Follow.
+     * @example
+     * // Delete one Follow
+     * const Follow = await prisma.follow.delete({
+     *   where: {
+     *     // ... filter to delete one Follow
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FollowDeleteArgs>(args: SelectSubset<T, FollowDeleteArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Follow.
+     * @param {FollowUpdateArgs} args - Arguments to update one Follow.
+     * @example
+     * // Update one Follow
+     * const follow = await prisma.follow.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FollowUpdateArgs>(args: SelectSubset<T, FollowUpdateArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Follows.
+     * @param {FollowDeleteManyArgs} args - Arguments to filter Follows to delete.
+     * @example
+     * // Delete a few Follows
+     * const { count } = await prisma.follow.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FollowDeleteManyArgs>(args?: SelectSubset<T, FollowDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Follows.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FollowUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Follows
+     * const follow = await prisma.follow.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FollowUpdateManyArgs>(args: SelectSubset<T, FollowUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Follows and returns the data updated in the database.
+     * @param {FollowUpdateManyAndReturnArgs} args - Arguments to update many Follows.
+     * @example
+     * // Update many Follows
+     * const follow = await prisma.follow.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Follows and only return the `id`
+     * const followWithIdOnly = await prisma.follow.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends FollowUpdateManyAndReturnArgs>(args: SelectSubset<T, FollowUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Follow.
+     * @param {FollowUpsertArgs} args - Arguments to update or create a Follow.
+     * @example
+     * // Update or create a Follow
+     * const follow = await prisma.follow.upsert({
+     *   create: {
+     *     // ... data to create a Follow
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Follow we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FollowUpsertArgs>(args: SelectSubset<T, FollowUpsertArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Follows.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FollowCountArgs} args - Arguments to filter Follows to count.
+     * @example
+     * // Count the number of Follows
+     * const count = await prisma.follow.count({
+     *   where: {
+     *     // ... the filter for the Follows we want to count
+     *   }
+     * })
+    **/
+    count<T extends FollowCountArgs>(
+      args?: Subset<T, FollowCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FollowCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Follow.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FollowAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FollowAggregateArgs>(args: Subset<T, FollowAggregateArgs>): Prisma.PrismaPromise<GetFollowAggregateType<T>>
+
+    /**
+     * Group by Follow.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FollowGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FollowGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FollowGroupByArgs['orderBy'] }
+        : { orderBy?: FollowGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FollowGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFollowGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Follow model
+   */
+  readonly fields: FollowFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Follow.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FollowClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    followerProfile<T extends ProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProfileDefaultArgs<ExtArgs>>): Prisma__ProfileClient<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    followingProfile<T extends ProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProfileDefaultArgs<ExtArgs>>): Prisma__ProfileClient<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Follow model
+   */
+  interface FollowFieldRefs {
+    readonly id: FieldRef<"Follow", 'String'>
+    readonly followerProfileId: FieldRef<"Follow", 'String'>
+    readonly followingProfileId: FieldRef<"Follow", 'String'>
+    readonly createdAt: FieldRef<"Follow", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Follow findUnique
+   */
+  export type FollowFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowInclude<ExtArgs> | null
+    /**
+     * Filter, which Follow to fetch.
+     */
+    where: FollowWhereUniqueInput
+  }
+
+  /**
+   * Follow findUniqueOrThrow
+   */
+  export type FollowFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowInclude<ExtArgs> | null
+    /**
+     * Filter, which Follow to fetch.
+     */
+    where: FollowWhereUniqueInput
+  }
+
+  /**
+   * Follow findFirst
+   */
+  export type FollowFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowInclude<ExtArgs> | null
+    /**
+     * Filter, which Follow to fetch.
+     */
+    where?: FollowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Follows to fetch.
+     */
+    orderBy?: FollowOrderByWithRelationInput | FollowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Follows.
+     */
+    cursor?: FollowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Follows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Follows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Follows.
+     */
+    distinct?: FollowScalarFieldEnum | FollowScalarFieldEnum[]
+  }
+
+  /**
+   * Follow findFirstOrThrow
+   */
+  export type FollowFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowInclude<ExtArgs> | null
+    /**
+     * Filter, which Follow to fetch.
+     */
+    where?: FollowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Follows to fetch.
+     */
+    orderBy?: FollowOrderByWithRelationInput | FollowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Follows.
+     */
+    cursor?: FollowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Follows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Follows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Follows.
+     */
+    distinct?: FollowScalarFieldEnum | FollowScalarFieldEnum[]
+  }
+
+  /**
+   * Follow findMany
+   */
+  export type FollowFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowInclude<ExtArgs> | null
+    /**
+     * Filter, which Follows to fetch.
+     */
+    where?: FollowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Follows to fetch.
+     */
+    orderBy?: FollowOrderByWithRelationInput | FollowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Follows.
+     */
+    cursor?: FollowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Follows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Follows.
+     */
+    skip?: number
+    distinct?: FollowScalarFieldEnum | FollowScalarFieldEnum[]
+  }
+
+  /**
+   * Follow create
+   */
+  export type FollowCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Follow.
+     */
+    data: XOR<FollowCreateInput, FollowUncheckedCreateInput>
+  }
+
+  /**
+   * Follow createMany
+   */
+  export type FollowCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Follows.
+     */
+    data: FollowCreateManyInput | FollowCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Follow createManyAndReturn
+   */
+  export type FollowCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * The data used to create many Follows.
+     */
+    data: FollowCreateManyInput | FollowCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Follow update
+   */
+  export type FollowUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Follow.
+     */
+    data: XOR<FollowUpdateInput, FollowUncheckedUpdateInput>
+    /**
+     * Choose, which Follow to update.
+     */
+    where: FollowWhereUniqueInput
+  }
+
+  /**
+   * Follow updateMany
+   */
+  export type FollowUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Follows.
+     */
+    data: XOR<FollowUpdateManyMutationInput, FollowUncheckedUpdateManyInput>
+    /**
+     * Filter which Follows to update
+     */
+    where?: FollowWhereInput
+    /**
+     * Limit how many Follows to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Follow updateManyAndReturn
+   */
+  export type FollowUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * The data used to update Follows.
+     */
+    data: XOR<FollowUpdateManyMutationInput, FollowUncheckedUpdateManyInput>
+    /**
+     * Filter which Follows to update
+     */
+    where?: FollowWhereInput
+    /**
+     * Limit how many Follows to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Follow upsert
+   */
+  export type FollowUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Follow to update in case it exists.
+     */
+    where: FollowWhereUniqueInput
+    /**
+     * In case the Follow found by the `where` argument doesn't exist, create a new Follow with this data.
+     */
+    create: XOR<FollowCreateInput, FollowUncheckedCreateInput>
+    /**
+     * In case the Follow was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FollowUpdateInput, FollowUncheckedUpdateInput>
+  }
+
+  /**
+   * Follow delete
+   */
+  export type FollowDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowInclude<ExtArgs> | null
+    /**
+     * Filter which Follow to delete.
+     */
+    where: FollowWhereUniqueInput
+  }
+
+  /**
+   * Follow deleteMany
+   */
+  export type FollowDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Follows to delete
+     */
+    where?: FollowWhereInput
+    /**
+     * Limit how many Follows to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Follow without action
+   */
+  export type FollowDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ServerFollow
+   */
+
+  export type AggregateServerFollow = {
+    _count: ServerFollowCountAggregateOutputType | null
+    _min: ServerFollowMinAggregateOutputType | null
+    _max: ServerFollowMaxAggregateOutputType | null
+  }
+
+  export type ServerFollowMinAggregateOutputType = {
+    id: string | null
+    followerProfileId: string | null
+    serverId: string | null
+    createdAt: Date | null
+  }
+
+  export type ServerFollowMaxAggregateOutputType = {
+    id: string | null
+    followerProfileId: string | null
+    serverId: string | null
+    createdAt: Date | null
+  }
+
+  export type ServerFollowCountAggregateOutputType = {
+    id: number
+    followerProfileId: number
+    serverId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ServerFollowMinAggregateInputType = {
+    id?: true
+    followerProfileId?: true
+    serverId?: true
+    createdAt?: true
+  }
+
+  export type ServerFollowMaxAggregateInputType = {
+    id?: true
+    followerProfileId?: true
+    serverId?: true
+    createdAt?: true
+  }
+
+  export type ServerFollowCountAggregateInputType = {
+    id?: true
+    followerProfileId?: true
+    serverId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ServerFollowAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ServerFollow to aggregate.
+     */
+    where?: ServerFollowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServerFollows to fetch.
+     */
+    orderBy?: ServerFollowOrderByWithRelationInput | ServerFollowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ServerFollowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServerFollows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServerFollows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ServerFollows
+    **/
+    _count?: true | ServerFollowCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ServerFollowMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ServerFollowMaxAggregateInputType
+  }
+
+  export type GetServerFollowAggregateType<T extends ServerFollowAggregateArgs> = {
+        [P in keyof T & keyof AggregateServerFollow]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateServerFollow[P]>
+      : GetScalarType<T[P], AggregateServerFollow[P]>
+  }
+
+
+
+
+  export type ServerFollowGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServerFollowWhereInput
+    orderBy?: ServerFollowOrderByWithAggregationInput | ServerFollowOrderByWithAggregationInput[]
+    by: ServerFollowScalarFieldEnum[] | ServerFollowScalarFieldEnum
+    having?: ServerFollowScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ServerFollowCountAggregateInputType | true
+    _min?: ServerFollowMinAggregateInputType
+    _max?: ServerFollowMaxAggregateInputType
+  }
+
+  export type ServerFollowGroupByOutputType = {
+    id: string
+    followerProfileId: string
+    serverId: string
+    createdAt: Date
+    _count: ServerFollowCountAggregateOutputType | null
+    _min: ServerFollowMinAggregateOutputType | null
+    _max: ServerFollowMaxAggregateOutputType | null
+  }
+
+  type GetServerFollowGroupByPayload<T extends ServerFollowGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ServerFollowGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ServerFollowGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ServerFollowGroupByOutputType[P]>
+            : GetScalarType<T[P], ServerFollowGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ServerFollowSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    followerProfileId?: boolean
+    serverId?: boolean
+    createdAt?: boolean
+    followerProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    server?: boolean | ServerDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serverFollow"]>
+
+  export type ServerFollowSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    followerProfileId?: boolean
+    serverId?: boolean
+    createdAt?: boolean
+    followerProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    server?: boolean | ServerDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serverFollow"]>
+
+  export type ServerFollowSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    followerProfileId?: boolean
+    serverId?: boolean
+    createdAt?: boolean
+    followerProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    server?: boolean | ServerDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serverFollow"]>
+
+  export type ServerFollowSelectScalar = {
+    id?: boolean
+    followerProfileId?: boolean
+    serverId?: boolean
+    createdAt?: boolean
+  }
+
+  export type ServerFollowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "followerProfileId" | "serverId" | "createdAt", ExtArgs["result"]["serverFollow"]>
+  export type ServerFollowInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    followerProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    server?: boolean | ServerDefaultArgs<ExtArgs>
+  }
+  export type ServerFollowIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    followerProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    server?: boolean | ServerDefaultArgs<ExtArgs>
+  }
+  export type ServerFollowIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    followerProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    server?: boolean | ServerDefaultArgs<ExtArgs>
+  }
+
+  export type $ServerFollowPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ServerFollow"
+    objects: {
+      followerProfile: Prisma.$ProfilePayload<ExtArgs>
+      server: Prisma.$ServerPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      followerProfileId: string
+      serverId: string
+      createdAt: Date
+    }, ExtArgs["result"]["serverFollow"]>
+    composites: {}
+  }
+
+  type ServerFollowGetPayload<S extends boolean | null | undefined | ServerFollowDefaultArgs> = $Result.GetResult<Prisma.$ServerFollowPayload, S>
+
+  type ServerFollowCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ServerFollowFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ServerFollowCountAggregateInputType | true
+    }
+
+  export interface ServerFollowDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ServerFollow'], meta: { name: 'ServerFollow' } }
+    /**
+     * Find zero or one ServerFollow that matches the filter.
+     * @param {ServerFollowFindUniqueArgs} args - Arguments to find a ServerFollow
+     * @example
+     * // Get one ServerFollow
+     * const serverFollow = await prisma.serverFollow.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ServerFollowFindUniqueArgs>(args: SelectSubset<T, ServerFollowFindUniqueArgs<ExtArgs>>): Prisma__ServerFollowClient<$Result.GetResult<Prisma.$ServerFollowPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ServerFollow that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ServerFollowFindUniqueOrThrowArgs} args - Arguments to find a ServerFollow
+     * @example
+     * // Get one ServerFollow
+     * const serverFollow = await prisma.serverFollow.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ServerFollowFindUniqueOrThrowArgs>(args: SelectSubset<T, ServerFollowFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ServerFollowClient<$Result.GetResult<Prisma.$ServerFollowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ServerFollow that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServerFollowFindFirstArgs} args - Arguments to find a ServerFollow
+     * @example
+     * // Get one ServerFollow
+     * const serverFollow = await prisma.serverFollow.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ServerFollowFindFirstArgs>(args?: SelectSubset<T, ServerFollowFindFirstArgs<ExtArgs>>): Prisma__ServerFollowClient<$Result.GetResult<Prisma.$ServerFollowPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ServerFollow that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServerFollowFindFirstOrThrowArgs} args - Arguments to find a ServerFollow
+     * @example
+     * // Get one ServerFollow
+     * const serverFollow = await prisma.serverFollow.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ServerFollowFindFirstOrThrowArgs>(args?: SelectSubset<T, ServerFollowFindFirstOrThrowArgs<ExtArgs>>): Prisma__ServerFollowClient<$Result.GetResult<Prisma.$ServerFollowPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ServerFollows that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServerFollowFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ServerFollows
+     * const serverFollows = await prisma.serverFollow.findMany()
+     * 
+     * // Get first 10 ServerFollows
+     * const serverFollows = await prisma.serverFollow.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const serverFollowWithIdOnly = await prisma.serverFollow.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ServerFollowFindManyArgs>(args?: SelectSubset<T, ServerFollowFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServerFollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ServerFollow.
+     * @param {ServerFollowCreateArgs} args - Arguments to create a ServerFollow.
+     * @example
+     * // Create one ServerFollow
+     * const ServerFollow = await prisma.serverFollow.create({
+     *   data: {
+     *     // ... data to create a ServerFollow
+     *   }
+     * })
+     * 
+     */
+    create<T extends ServerFollowCreateArgs>(args: SelectSubset<T, ServerFollowCreateArgs<ExtArgs>>): Prisma__ServerFollowClient<$Result.GetResult<Prisma.$ServerFollowPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ServerFollows.
+     * @param {ServerFollowCreateManyArgs} args - Arguments to create many ServerFollows.
+     * @example
+     * // Create many ServerFollows
+     * const serverFollow = await prisma.serverFollow.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ServerFollowCreateManyArgs>(args?: SelectSubset<T, ServerFollowCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ServerFollows and returns the data saved in the database.
+     * @param {ServerFollowCreateManyAndReturnArgs} args - Arguments to create many ServerFollows.
+     * @example
+     * // Create many ServerFollows
+     * const serverFollow = await prisma.serverFollow.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ServerFollows and only return the `id`
+     * const serverFollowWithIdOnly = await prisma.serverFollow.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ServerFollowCreateManyAndReturnArgs>(args?: SelectSubset<T, ServerFollowCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServerFollowPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ServerFollow.
+     * @param {ServerFollowDeleteArgs} args - Arguments to delete one ServerFollow.
+     * @example
+     * // Delete one ServerFollow
+     * const ServerFollow = await prisma.serverFollow.delete({
+     *   where: {
+     *     // ... filter to delete one ServerFollow
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ServerFollowDeleteArgs>(args: SelectSubset<T, ServerFollowDeleteArgs<ExtArgs>>): Prisma__ServerFollowClient<$Result.GetResult<Prisma.$ServerFollowPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ServerFollow.
+     * @param {ServerFollowUpdateArgs} args - Arguments to update one ServerFollow.
+     * @example
+     * // Update one ServerFollow
+     * const serverFollow = await prisma.serverFollow.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ServerFollowUpdateArgs>(args: SelectSubset<T, ServerFollowUpdateArgs<ExtArgs>>): Prisma__ServerFollowClient<$Result.GetResult<Prisma.$ServerFollowPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ServerFollows.
+     * @param {ServerFollowDeleteManyArgs} args - Arguments to filter ServerFollows to delete.
+     * @example
+     * // Delete a few ServerFollows
+     * const { count } = await prisma.serverFollow.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ServerFollowDeleteManyArgs>(args?: SelectSubset<T, ServerFollowDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ServerFollows.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServerFollowUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ServerFollows
+     * const serverFollow = await prisma.serverFollow.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ServerFollowUpdateManyArgs>(args: SelectSubset<T, ServerFollowUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ServerFollows and returns the data updated in the database.
+     * @param {ServerFollowUpdateManyAndReturnArgs} args - Arguments to update many ServerFollows.
+     * @example
+     * // Update many ServerFollows
+     * const serverFollow = await prisma.serverFollow.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ServerFollows and only return the `id`
+     * const serverFollowWithIdOnly = await prisma.serverFollow.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ServerFollowUpdateManyAndReturnArgs>(args: SelectSubset<T, ServerFollowUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServerFollowPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ServerFollow.
+     * @param {ServerFollowUpsertArgs} args - Arguments to update or create a ServerFollow.
+     * @example
+     * // Update or create a ServerFollow
+     * const serverFollow = await prisma.serverFollow.upsert({
+     *   create: {
+     *     // ... data to create a ServerFollow
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ServerFollow we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ServerFollowUpsertArgs>(args: SelectSubset<T, ServerFollowUpsertArgs<ExtArgs>>): Prisma__ServerFollowClient<$Result.GetResult<Prisma.$ServerFollowPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ServerFollows.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServerFollowCountArgs} args - Arguments to filter ServerFollows to count.
+     * @example
+     * // Count the number of ServerFollows
+     * const count = await prisma.serverFollow.count({
+     *   where: {
+     *     // ... the filter for the ServerFollows we want to count
+     *   }
+     * })
+    **/
+    count<T extends ServerFollowCountArgs>(
+      args?: Subset<T, ServerFollowCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ServerFollowCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ServerFollow.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServerFollowAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ServerFollowAggregateArgs>(args: Subset<T, ServerFollowAggregateArgs>): Prisma.PrismaPromise<GetServerFollowAggregateType<T>>
+
+    /**
+     * Group by ServerFollow.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServerFollowGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ServerFollowGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ServerFollowGroupByArgs['orderBy'] }
+        : { orderBy?: ServerFollowGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ServerFollowGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetServerFollowGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ServerFollow model
+   */
+  readonly fields: ServerFollowFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ServerFollow.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ServerFollowClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    followerProfile<T extends ProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProfileDefaultArgs<ExtArgs>>): Prisma__ProfileClient<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    server<T extends ServerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServerDefaultArgs<ExtArgs>>): Prisma__ServerClient<$Result.GetResult<Prisma.$ServerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ServerFollow model
+   */
+  interface ServerFollowFieldRefs {
+    readonly id: FieldRef<"ServerFollow", 'String'>
+    readonly followerProfileId: FieldRef<"ServerFollow", 'String'>
+    readonly serverId: FieldRef<"ServerFollow", 'String'>
+    readonly createdAt: FieldRef<"ServerFollow", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ServerFollow findUnique
+   */
+  export type ServerFollowFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerFollow
+     */
+    select?: ServerFollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerFollow
+     */
+    omit?: ServerFollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerFollowInclude<ExtArgs> | null
+    /**
+     * Filter, which ServerFollow to fetch.
+     */
+    where: ServerFollowWhereUniqueInput
+  }
+
+  /**
+   * ServerFollow findUniqueOrThrow
+   */
+  export type ServerFollowFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerFollow
+     */
+    select?: ServerFollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerFollow
+     */
+    omit?: ServerFollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerFollowInclude<ExtArgs> | null
+    /**
+     * Filter, which ServerFollow to fetch.
+     */
+    where: ServerFollowWhereUniqueInput
+  }
+
+  /**
+   * ServerFollow findFirst
+   */
+  export type ServerFollowFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerFollow
+     */
+    select?: ServerFollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerFollow
+     */
+    omit?: ServerFollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerFollowInclude<ExtArgs> | null
+    /**
+     * Filter, which ServerFollow to fetch.
+     */
+    where?: ServerFollowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServerFollows to fetch.
+     */
+    orderBy?: ServerFollowOrderByWithRelationInput | ServerFollowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ServerFollows.
+     */
+    cursor?: ServerFollowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServerFollows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServerFollows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ServerFollows.
+     */
+    distinct?: ServerFollowScalarFieldEnum | ServerFollowScalarFieldEnum[]
+  }
+
+  /**
+   * ServerFollow findFirstOrThrow
+   */
+  export type ServerFollowFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerFollow
+     */
+    select?: ServerFollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerFollow
+     */
+    omit?: ServerFollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerFollowInclude<ExtArgs> | null
+    /**
+     * Filter, which ServerFollow to fetch.
+     */
+    where?: ServerFollowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServerFollows to fetch.
+     */
+    orderBy?: ServerFollowOrderByWithRelationInput | ServerFollowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ServerFollows.
+     */
+    cursor?: ServerFollowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServerFollows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServerFollows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ServerFollows.
+     */
+    distinct?: ServerFollowScalarFieldEnum | ServerFollowScalarFieldEnum[]
+  }
+
+  /**
+   * ServerFollow findMany
+   */
+  export type ServerFollowFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerFollow
+     */
+    select?: ServerFollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerFollow
+     */
+    omit?: ServerFollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerFollowInclude<ExtArgs> | null
+    /**
+     * Filter, which ServerFollows to fetch.
+     */
+    where?: ServerFollowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServerFollows to fetch.
+     */
+    orderBy?: ServerFollowOrderByWithRelationInput | ServerFollowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ServerFollows.
+     */
+    cursor?: ServerFollowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServerFollows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServerFollows.
+     */
+    skip?: number
+    distinct?: ServerFollowScalarFieldEnum | ServerFollowScalarFieldEnum[]
+  }
+
+  /**
+   * ServerFollow create
+   */
+  export type ServerFollowCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerFollow
+     */
+    select?: ServerFollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerFollow
+     */
+    omit?: ServerFollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerFollowInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ServerFollow.
+     */
+    data: XOR<ServerFollowCreateInput, ServerFollowUncheckedCreateInput>
+  }
+
+  /**
+   * ServerFollow createMany
+   */
+  export type ServerFollowCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ServerFollows.
+     */
+    data: ServerFollowCreateManyInput | ServerFollowCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ServerFollow createManyAndReturn
+   */
+  export type ServerFollowCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerFollow
+     */
+    select?: ServerFollowSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerFollow
+     */
+    omit?: ServerFollowOmit<ExtArgs> | null
+    /**
+     * The data used to create many ServerFollows.
+     */
+    data: ServerFollowCreateManyInput | ServerFollowCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerFollowIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ServerFollow update
+   */
+  export type ServerFollowUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerFollow
+     */
+    select?: ServerFollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerFollow
+     */
+    omit?: ServerFollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerFollowInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ServerFollow.
+     */
+    data: XOR<ServerFollowUpdateInput, ServerFollowUncheckedUpdateInput>
+    /**
+     * Choose, which ServerFollow to update.
+     */
+    where: ServerFollowWhereUniqueInput
+  }
+
+  /**
+   * ServerFollow updateMany
+   */
+  export type ServerFollowUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ServerFollows.
+     */
+    data: XOR<ServerFollowUpdateManyMutationInput, ServerFollowUncheckedUpdateManyInput>
+    /**
+     * Filter which ServerFollows to update
+     */
+    where?: ServerFollowWhereInput
+    /**
+     * Limit how many ServerFollows to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ServerFollow updateManyAndReturn
+   */
+  export type ServerFollowUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerFollow
+     */
+    select?: ServerFollowSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerFollow
+     */
+    omit?: ServerFollowOmit<ExtArgs> | null
+    /**
+     * The data used to update ServerFollows.
+     */
+    data: XOR<ServerFollowUpdateManyMutationInput, ServerFollowUncheckedUpdateManyInput>
+    /**
+     * Filter which ServerFollows to update
+     */
+    where?: ServerFollowWhereInput
+    /**
+     * Limit how many ServerFollows to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerFollowIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ServerFollow upsert
+   */
+  export type ServerFollowUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerFollow
+     */
+    select?: ServerFollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerFollow
+     */
+    omit?: ServerFollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerFollowInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ServerFollow to update in case it exists.
+     */
+    where: ServerFollowWhereUniqueInput
+    /**
+     * In case the ServerFollow found by the `where` argument doesn't exist, create a new ServerFollow with this data.
+     */
+    create: XOR<ServerFollowCreateInput, ServerFollowUncheckedCreateInput>
+    /**
+     * In case the ServerFollow was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ServerFollowUpdateInput, ServerFollowUncheckedUpdateInput>
+  }
+
+  /**
+   * ServerFollow delete
+   */
+  export type ServerFollowDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerFollow
+     */
+    select?: ServerFollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerFollow
+     */
+    omit?: ServerFollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerFollowInclude<ExtArgs> | null
+    /**
+     * Filter which ServerFollow to delete.
+     */
+    where: ServerFollowWhereUniqueInput
+  }
+
+  /**
+   * ServerFollow deleteMany
+   */
+  export type ServerFollowDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ServerFollows to delete
+     */
+    where?: ServerFollowWhereInput
+    /**
+     * Limit how many ServerFollows to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ServerFollow without action
+   */
+  export type ServerFollowDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerFollow
+     */
+    select?: ServerFollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerFollow
+     */
+    omit?: ServerFollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerFollowInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Notification
+   */
+
+  export type AggregateNotification = {
+    _count: NotificationCountAggregateOutputType | null
+    _min: NotificationMinAggregateOutputType | null
+    _max: NotificationMaxAggregateOutputType | null
+  }
+
+  export type NotificationMinAggregateOutputType = {
+    id: string | null
+    recipientProfileId: string | null
+    type: $Enums.NotificationType | null
+    title: string | null
+    content: string | null
+    relatedProfileId: string | null
+    relatedServerId: string | null
+    isRead: boolean | null
+    createdAt: Date | null
+  }
+
+  export type NotificationMaxAggregateOutputType = {
+    id: string | null
+    recipientProfileId: string | null
+    type: $Enums.NotificationType | null
+    title: string | null
+    content: string | null
+    relatedProfileId: string | null
+    relatedServerId: string | null
+    isRead: boolean | null
+    createdAt: Date | null
+  }
+
+  export type NotificationCountAggregateOutputType = {
+    id: number
+    recipientProfileId: number
+    type: number
+    title: number
+    content: number
+    relatedProfileId: number
+    relatedServerId: number
+    isRead: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type NotificationMinAggregateInputType = {
+    id?: true
+    recipientProfileId?: true
+    type?: true
+    title?: true
+    content?: true
+    relatedProfileId?: true
+    relatedServerId?: true
+    isRead?: true
+    createdAt?: true
+  }
+
+  export type NotificationMaxAggregateInputType = {
+    id?: true
+    recipientProfileId?: true
+    type?: true
+    title?: true
+    content?: true
+    relatedProfileId?: true
+    relatedServerId?: true
+    isRead?: true
+    createdAt?: true
+  }
+
+  export type NotificationCountAggregateInputType = {
+    id?: true
+    recipientProfileId?: true
+    type?: true
+    title?: true
+    content?: true
+    relatedProfileId?: true
+    relatedServerId?: true
+    isRead?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type NotificationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Notification to aggregate.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Notifications
+    **/
+    _count?: true | NotificationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NotificationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NotificationMaxAggregateInputType
+  }
+
+  export type GetNotificationAggregateType<T extends NotificationAggregateArgs> = {
+        [P in keyof T & keyof AggregateNotification]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNotification[P]>
+      : GetScalarType<T[P], AggregateNotification[P]>
+  }
+
+
+
+
+  export type NotificationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationWhereInput
+    orderBy?: NotificationOrderByWithAggregationInput | NotificationOrderByWithAggregationInput[]
+    by: NotificationScalarFieldEnum[] | NotificationScalarFieldEnum
+    having?: NotificationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NotificationCountAggregateInputType | true
+    _min?: NotificationMinAggregateInputType
+    _max?: NotificationMaxAggregateInputType
+  }
+
+  export type NotificationGroupByOutputType = {
+    id: string
+    recipientProfileId: string
+    type: $Enums.NotificationType
+    title: string
+    content: string
+    relatedProfileId: string | null
+    relatedServerId: string | null
+    isRead: boolean
+    createdAt: Date
+    _count: NotificationCountAggregateOutputType | null
+    _min: NotificationMinAggregateOutputType | null
+    _max: NotificationMaxAggregateOutputType | null
+  }
+
+  type GetNotificationGroupByPayload<T extends NotificationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NotificationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NotificationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NotificationGroupByOutputType[P]>
+            : GetScalarType<T[P], NotificationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type NotificationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    recipientProfileId?: boolean
+    type?: boolean
+    title?: boolean
+    content?: boolean
+    relatedProfileId?: boolean
+    relatedServerId?: boolean
+    isRead?: boolean
+    createdAt?: boolean
+    recipientProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    relatedProfile?: boolean | Notification$relatedProfileArgs<ExtArgs>
+    relatedServer?: boolean | Notification$relatedServerArgs<ExtArgs>
+  }, ExtArgs["result"]["notification"]>
+
+  export type NotificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    recipientProfileId?: boolean
+    type?: boolean
+    title?: boolean
+    content?: boolean
+    relatedProfileId?: boolean
+    relatedServerId?: boolean
+    isRead?: boolean
+    createdAt?: boolean
+    recipientProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    relatedProfile?: boolean | Notification$relatedProfileArgs<ExtArgs>
+    relatedServer?: boolean | Notification$relatedServerArgs<ExtArgs>
+  }, ExtArgs["result"]["notification"]>
+
+  export type NotificationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    recipientProfileId?: boolean
+    type?: boolean
+    title?: boolean
+    content?: boolean
+    relatedProfileId?: boolean
+    relatedServerId?: boolean
+    isRead?: boolean
+    createdAt?: boolean
+    recipientProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    relatedProfile?: boolean | Notification$relatedProfileArgs<ExtArgs>
+    relatedServer?: boolean | Notification$relatedServerArgs<ExtArgs>
+  }, ExtArgs["result"]["notification"]>
+
+  export type NotificationSelectScalar = {
+    id?: boolean
+    recipientProfileId?: boolean
+    type?: boolean
+    title?: boolean
+    content?: boolean
+    relatedProfileId?: boolean
+    relatedServerId?: boolean
+    isRead?: boolean
+    createdAt?: boolean
+  }
+
+  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "recipientProfileId" | "type" | "title" | "content" | "relatedProfileId" | "relatedServerId" | "isRead" | "createdAt", ExtArgs["result"]["notification"]>
+  export type NotificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    recipientProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    relatedProfile?: boolean | Notification$relatedProfileArgs<ExtArgs>
+    relatedServer?: boolean | Notification$relatedServerArgs<ExtArgs>
+  }
+  export type NotificationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    recipientProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    relatedProfile?: boolean | Notification$relatedProfileArgs<ExtArgs>
+    relatedServer?: boolean | Notification$relatedServerArgs<ExtArgs>
+  }
+  export type NotificationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    recipientProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    relatedProfile?: boolean | Notification$relatedProfileArgs<ExtArgs>
+    relatedServer?: boolean | Notification$relatedServerArgs<ExtArgs>
+  }
+
+  export type $NotificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Notification"
+    objects: {
+      recipientProfile: Prisma.$ProfilePayload<ExtArgs>
+      relatedProfile: Prisma.$ProfilePayload<ExtArgs> | null
+      relatedServer: Prisma.$ServerPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      recipientProfileId: string
+      type: $Enums.NotificationType
+      title: string
+      content: string
+      relatedProfileId: string | null
+      relatedServerId: string | null
+      isRead: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["notification"]>
+    composites: {}
+  }
+
+  type NotificationGetPayload<S extends boolean | null | undefined | NotificationDefaultArgs> = $Result.GetResult<Prisma.$NotificationPayload, S>
+
+  type NotificationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<NotificationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NotificationCountAggregateInputType | true
+    }
+
+  export interface NotificationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Notification'], meta: { name: 'Notification' } }
+    /**
+     * Find zero or one Notification that matches the filter.
+     * @param {NotificationFindUniqueArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends NotificationFindUniqueArgs>(args: SelectSubset<T, NotificationFindUniqueArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Notification that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {NotificationFindUniqueOrThrowArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends NotificationFindUniqueOrThrowArgs>(args: SelectSubset<T, NotificationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Notification that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationFindFirstArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends NotificationFindFirstArgs>(args?: SelectSubset<T, NotificationFindFirstArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Notification that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationFindFirstOrThrowArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends NotificationFindFirstOrThrowArgs>(args?: SelectSubset<T, NotificationFindFirstOrThrowArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Notifications that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Notifications
+     * const notifications = await prisma.notification.findMany()
+     * 
+     * // Get first 10 Notifications
+     * const notifications = await prisma.notification.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const notificationWithIdOnly = await prisma.notification.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends NotificationFindManyArgs>(args?: SelectSubset<T, NotificationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Notification.
+     * @param {NotificationCreateArgs} args - Arguments to create a Notification.
+     * @example
+     * // Create one Notification
+     * const Notification = await prisma.notification.create({
+     *   data: {
+     *     // ... data to create a Notification
+     *   }
+     * })
+     * 
+     */
+    create<T extends NotificationCreateArgs>(args: SelectSubset<T, NotificationCreateArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Notifications.
+     * @param {NotificationCreateManyArgs} args - Arguments to create many Notifications.
+     * @example
+     * // Create many Notifications
+     * const notification = await prisma.notification.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends NotificationCreateManyArgs>(args?: SelectSubset<T, NotificationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Notifications and returns the data saved in the database.
+     * @param {NotificationCreateManyAndReturnArgs} args - Arguments to create many Notifications.
+     * @example
+     * // Create many Notifications
+     * const notification = await prisma.notification.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Notifications and only return the `id`
+     * const notificationWithIdOnly = await prisma.notification.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends NotificationCreateManyAndReturnArgs>(args?: SelectSubset<T, NotificationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Notification.
+     * @param {NotificationDeleteArgs} args - Arguments to delete one Notification.
+     * @example
+     * // Delete one Notification
+     * const Notification = await prisma.notification.delete({
+     *   where: {
+     *     // ... filter to delete one Notification
+     *   }
+     * })
+     * 
+     */
+    delete<T extends NotificationDeleteArgs>(args: SelectSubset<T, NotificationDeleteArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Notification.
+     * @param {NotificationUpdateArgs} args - Arguments to update one Notification.
+     * @example
+     * // Update one Notification
+     * const notification = await prisma.notification.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends NotificationUpdateArgs>(args: SelectSubset<T, NotificationUpdateArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Notifications.
+     * @param {NotificationDeleteManyArgs} args - Arguments to filter Notifications to delete.
+     * @example
+     * // Delete a few Notifications
+     * const { count } = await prisma.notification.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends NotificationDeleteManyArgs>(args?: SelectSubset<T, NotificationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Notifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Notifications
+     * const notification = await prisma.notification.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends NotificationUpdateManyArgs>(args: SelectSubset<T, NotificationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Notifications and returns the data updated in the database.
+     * @param {NotificationUpdateManyAndReturnArgs} args - Arguments to update many Notifications.
+     * @example
+     * // Update many Notifications
+     * const notification = await prisma.notification.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Notifications and only return the `id`
+     * const notificationWithIdOnly = await prisma.notification.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends NotificationUpdateManyAndReturnArgs>(args: SelectSubset<T, NotificationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Notification.
+     * @param {NotificationUpsertArgs} args - Arguments to update or create a Notification.
+     * @example
+     * // Update or create a Notification
+     * const notification = await prisma.notification.upsert({
+     *   create: {
+     *     // ... data to create a Notification
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Notification we want to update
+     *   }
+     * })
+     */
+    upsert<T extends NotificationUpsertArgs>(args: SelectSubset<T, NotificationUpsertArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Notifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationCountArgs} args - Arguments to filter Notifications to count.
+     * @example
+     * // Count the number of Notifications
+     * const count = await prisma.notification.count({
+     *   where: {
+     *     // ... the filter for the Notifications we want to count
+     *   }
+     * })
+    **/
+    count<T extends NotificationCountArgs>(
+      args?: Subset<T, NotificationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NotificationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Notification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NotificationAggregateArgs>(args: Subset<T, NotificationAggregateArgs>): Prisma.PrismaPromise<GetNotificationAggregateType<T>>
+
+    /**
+     * Group by Notification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends NotificationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: NotificationGroupByArgs['orderBy'] }
+        : { orderBy?: NotificationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, NotificationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNotificationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Notification model
+   */
+  readonly fields: NotificationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Notification.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__NotificationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    recipientProfile<T extends ProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProfileDefaultArgs<ExtArgs>>): Prisma__ProfileClient<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    relatedProfile<T extends Notification$relatedProfileArgs<ExtArgs> = {}>(args?: Subset<T, Notification$relatedProfileArgs<ExtArgs>>): Prisma__ProfileClient<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    relatedServer<T extends Notification$relatedServerArgs<ExtArgs> = {}>(args?: Subset<T, Notification$relatedServerArgs<ExtArgs>>): Prisma__ServerClient<$Result.GetResult<Prisma.$ServerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Notification model
+   */
+  interface NotificationFieldRefs {
+    readonly id: FieldRef<"Notification", 'String'>
+    readonly recipientProfileId: FieldRef<"Notification", 'String'>
+    readonly type: FieldRef<"Notification", 'NotificationType'>
+    readonly title: FieldRef<"Notification", 'String'>
+    readonly content: FieldRef<"Notification", 'String'>
+    readonly relatedProfileId: FieldRef<"Notification", 'String'>
+    readonly relatedServerId: FieldRef<"Notification", 'String'>
+    readonly isRead: FieldRef<"Notification", 'Boolean'>
+    readonly createdAt: FieldRef<"Notification", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Notification findUnique
+   */
+  export type NotificationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification findUniqueOrThrow
+   */
+  export type NotificationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification findFirst
+   */
+  export type NotificationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Notifications.
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Notifications.
+     */
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Notification findFirstOrThrow
+   */
+  export type NotificationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Notifications.
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Notifications.
+     */
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Notification findMany
+   */
+  export type NotificationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notifications to fetch.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Notifications.
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Notification create
+   */
+  export type NotificationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Notification.
+     */
+    data: XOR<NotificationCreateInput, NotificationUncheckedCreateInput>
+  }
+
+  /**
+   * Notification createMany
+   */
+  export type NotificationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Notifications.
+     */
+    data: NotificationCreateManyInput | NotificationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Notification createManyAndReturn
+   */
+  export type NotificationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * The data used to create many Notifications.
+     */
+    data: NotificationCreateManyInput | NotificationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Notification update
+   */
+  export type NotificationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Notification.
+     */
+    data: XOR<NotificationUpdateInput, NotificationUncheckedUpdateInput>
+    /**
+     * Choose, which Notification to update.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification updateMany
+   */
+  export type NotificationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Notifications.
+     */
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which Notifications to update
+     */
+    where?: NotificationWhereInput
+    /**
+     * Limit how many Notifications to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Notification updateManyAndReturn
+   */
+  export type NotificationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * The data used to update Notifications.
+     */
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which Notifications to update
+     */
+    where?: NotificationWhereInput
+    /**
+     * Limit how many Notifications to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Notification upsert
+   */
+  export type NotificationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Notification to update in case it exists.
+     */
+    where: NotificationWhereUniqueInput
+    /**
+     * In case the Notification found by the `where` argument doesn't exist, create a new Notification with this data.
+     */
+    create: XOR<NotificationCreateInput, NotificationUncheckedCreateInput>
+    /**
+     * In case the Notification was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<NotificationUpdateInput, NotificationUncheckedUpdateInput>
+  }
+
+  /**
+   * Notification delete
+   */
+  export type NotificationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter which Notification to delete.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification deleteMany
+   */
+  export type NotificationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Notifications to delete
+     */
+    where?: NotificationWhereInput
+    /**
+     * Limit how many Notifications to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Notification.relatedProfile
+   */
+  export type Notification$relatedProfileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Profile
+     */
+    select?: ProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Profile
+     */
+    omit?: ProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProfileInclude<ExtArgs> | null
+    where?: ProfileWhereInput
+  }
+
+  /**
+   * Notification.relatedServer
+   */
+  export type Notification$relatedServerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Server
+     */
+    select?: ServerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Server
+     */
+    omit?: ServerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerInclude<ExtArgs> | null
+    where?: ServerWhereInput
+  }
+
+  /**
+   * Notification without action
+   */
+  export type NotificationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -13540,6 +17358,41 @@ export namespace Prisma {
   export type FriendRequestScalarFieldEnum = (typeof FriendRequestScalarFieldEnum)[keyof typeof FriendRequestScalarFieldEnum]
 
 
+  export const FollowScalarFieldEnum: {
+    id: 'id',
+    followerProfileId: 'followerProfileId',
+    followingProfileId: 'followingProfileId',
+    createdAt: 'createdAt'
+  };
+
+  export type FollowScalarFieldEnum = (typeof FollowScalarFieldEnum)[keyof typeof FollowScalarFieldEnum]
+
+
+  export const ServerFollowScalarFieldEnum: {
+    id: 'id',
+    followerProfileId: 'followerProfileId',
+    serverId: 'serverId',
+    createdAt: 'createdAt'
+  };
+
+  export type ServerFollowScalarFieldEnum = (typeof ServerFollowScalarFieldEnum)[keyof typeof ServerFollowScalarFieldEnum]
+
+
+  export const NotificationScalarFieldEnum: {
+    id: 'id',
+    recipientProfileId: 'recipientProfileId',
+    type: 'type',
+    title: 'title',
+    content: 'content',
+    relatedProfileId: 'relatedProfileId',
+    relatedServerId: 'relatedServerId',
+    isRead: 'isRead',
+    createdAt: 'createdAt'
+  };
+
+  export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -13661,6 +17514,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'NotificationType'
+   */
+  export type EnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType'>
+    
+
+
+  /**
+   * Reference to a field of type 'NotificationType[]'
+   */
+  export type ListEnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -13696,6 +17563,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationListRelationFilter
     friendRequestsSent?: FriendRequestListRelationFilter
     friendRequestsReceived?: FriendRequestListRelationFilter
+    followsSent?: FollowListRelationFilter
+    followsReceived?: FollowListRelationFilter
+    serverFollows?: ServerFollowListRelationFilter
+    notificationsReceived?: NotificationListRelationFilter
+    notificationsRelated?: NotificationListRelationFilter
   }
 
   export type ProfileOrderByWithRelationInput = {
@@ -13714,6 +17586,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationOrderByRelationAggregateInput
     friendRequestsSent?: FriendRequestOrderByRelationAggregateInput
     friendRequestsReceived?: FriendRequestOrderByRelationAggregateInput
+    followsSent?: FollowOrderByRelationAggregateInput
+    followsReceived?: FollowOrderByRelationAggregateInput
+    serverFollows?: ServerFollowOrderByRelationAggregateInput
+    notificationsReceived?: NotificationOrderByRelationAggregateInput
+    notificationsRelated?: NotificationOrderByRelationAggregateInput
   }
 
   export type ProfileWhereUniqueInput = Prisma.AtLeast<{
@@ -13735,6 +17612,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationListRelationFilter
     friendRequestsSent?: FriendRequestListRelationFilter
     friendRequestsReceived?: FriendRequestListRelationFilter
+    followsSent?: FollowListRelationFilter
+    followsReceived?: FollowListRelationFilter
+    serverFollows?: ServerFollowListRelationFilter
+    notificationsReceived?: NotificationListRelationFilter
+    notificationsRelated?: NotificationListRelationFilter
   }, "id" | "userId">
 
   export type ProfileOrderByWithAggregationInput = {
@@ -13777,6 +17659,8 @@ export namespace Prisma {
     profile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
     members?: MemberListRelationFilter
     channels?: ChannelListRelationFilter
+    serverFollows?: ServerFollowListRelationFilter
+    notificationsRelated?: NotificationListRelationFilter
   }
 
   export type ServerOrderByWithRelationInput = {
@@ -13790,6 +17674,8 @@ export namespace Prisma {
     profile?: ProfileOrderByWithRelationInput
     members?: MemberOrderByRelationAggregateInput
     channels?: ChannelOrderByRelationAggregateInput
+    serverFollows?: ServerFollowOrderByRelationAggregateInput
+    notificationsRelated?: NotificationOrderByRelationAggregateInput
   }
 
   export type ServerWhereUniqueInput = Prisma.AtLeast<{
@@ -13806,6 +17692,8 @@ export namespace Prisma {
     profile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
     members?: MemberListRelationFilter
     channels?: ChannelListRelationFilter
+    serverFollows?: ServerFollowListRelationFilter
+    notificationsRelated?: NotificationListRelationFilter
   }, "id" | "inviteCode">
 
   export type ServerOrderByWithAggregationInput = {
@@ -14399,6 +18287,195 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"FriendRequest"> | Date | string
   }
 
+  export type FollowWhereInput = {
+    AND?: FollowWhereInput | FollowWhereInput[]
+    OR?: FollowWhereInput[]
+    NOT?: FollowWhereInput | FollowWhereInput[]
+    id?: StringFilter<"Follow"> | string
+    followerProfileId?: StringFilter<"Follow"> | string
+    followingProfileId?: StringFilter<"Follow"> | string
+    createdAt?: DateTimeFilter<"Follow"> | Date | string
+    followerProfile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
+    followingProfile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
+  }
+
+  export type FollowOrderByWithRelationInput = {
+    id?: SortOrder
+    followerProfileId?: SortOrder
+    followingProfileId?: SortOrder
+    createdAt?: SortOrder
+    followerProfile?: ProfileOrderByWithRelationInput
+    followingProfile?: ProfileOrderByWithRelationInput
+  }
+
+  export type FollowWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    followerProfileId_followingProfileId?: FollowFollowerProfileIdFollowingProfileIdCompoundUniqueInput
+    AND?: FollowWhereInput | FollowWhereInput[]
+    OR?: FollowWhereInput[]
+    NOT?: FollowWhereInput | FollowWhereInput[]
+    followerProfileId?: StringFilter<"Follow"> | string
+    followingProfileId?: StringFilter<"Follow"> | string
+    createdAt?: DateTimeFilter<"Follow"> | Date | string
+    followerProfile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
+    followingProfile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
+  }, "id" | "followerProfileId_followingProfileId">
+
+  export type FollowOrderByWithAggregationInput = {
+    id?: SortOrder
+    followerProfileId?: SortOrder
+    followingProfileId?: SortOrder
+    createdAt?: SortOrder
+    _count?: FollowCountOrderByAggregateInput
+    _max?: FollowMaxOrderByAggregateInput
+    _min?: FollowMinOrderByAggregateInput
+  }
+
+  export type FollowScalarWhereWithAggregatesInput = {
+    AND?: FollowScalarWhereWithAggregatesInput | FollowScalarWhereWithAggregatesInput[]
+    OR?: FollowScalarWhereWithAggregatesInput[]
+    NOT?: FollowScalarWhereWithAggregatesInput | FollowScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Follow"> | string
+    followerProfileId?: StringWithAggregatesFilter<"Follow"> | string
+    followingProfileId?: StringWithAggregatesFilter<"Follow"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Follow"> | Date | string
+  }
+
+  export type ServerFollowWhereInput = {
+    AND?: ServerFollowWhereInput | ServerFollowWhereInput[]
+    OR?: ServerFollowWhereInput[]
+    NOT?: ServerFollowWhereInput | ServerFollowWhereInput[]
+    id?: StringFilter<"ServerFollow"> | string
+    followerProfileId?: StringFilter<"ServerFollow"> | string
+    serverId?: StringFilter<"ServerFollow"> | string
+    createdAt?: DateTimeFilter<"ServerFollow"> | Date | string
+    followerProfile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
+    server?: XOR<ServerScalarRelationFilter, ServerWhereInput>
+  }
+
+  export type ServerFollowOrderByWithRelationInput = {
+    id?: SortOrder
+    followerProfileId?: SortOrder
+    serverId?: SortOrder
+    createdAt?: SortOrder
+    followerProfile?: ProfileOrderByWithRelationInput
+    server?: ServerOrderByWithRelationInput
+  }
+
+  export type ServerFollowWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    followerProfileId_serverId?: ServerFollowFollowerProfileIdServerIdCompoundUniqueInput
+    AND?: ServerFollowWhereInput | ServerFollowWhereInput[]
+    OR?: ServerFollowWhereInput[]
+    NOT?: ServerFollowWhereInput | ServerFollowWhereInput[]
+    followerProfileId?: StringFilter<"ServerFollow"> | string
+    serverId?: StringFilter<"ServerFollow"> | string
+    createdAt?: DateTimeFilter<"ServerFollow"> | Date | string
+    followerProfile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
+    server?: XOR<ServerScalarRelationFilter, ServerWhereInput>
+  }, "id" | "followerProfileId_serverId">
+
+  export type ServerFollowOrderByWithAggregationInput = {
+    id?: SortOrder
+    followerProfileId?: SortOrder
+    serverId?: SortOrder
+    createdAt?: SortOrder
+    _count?: ServerFollowCountOrderByAggregateInput
+    _max?: ServerFollowMaxOrderByAggregateInput
+    _min?: ServerFollowMinOrderByAggregateInput
+  }
+
+  export type ServerFollowScalarWhereWithAggregatesInput = {
+    AND?: ServerFollowScalarWhereWithAggregatesInput | ServerFollowScalarWhereWithAggregatesInput[]
+    OR?: ServerFollowScalarWhereWithAggregatesInput[]
+    NOT?: ServerFollowScalarWhereWithAggregatesInput | ServerFollowScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ServerFollow"> | string
+    followerProfileId?: StringWithAggregatesFilter<"ServerFollow"> | string
+    serverId?: StringWithAggregatesFilter<"ServerFollow"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ServerFollow"> | Date | string
+  }
+
+  export type NotificationWhereInput = {
+    AND?: NotificationWhereInput | NotificationWhereInput[]
+    OR?: NotificationWhereInput[]
+    NOT?: NotificationWhereInput | NotificationWhereInput[]
+    id?: StringFilter<"Notification"> | string
+    recipientProfileId?: StringFilter<"Notification"> | string
+    type?: EnumNotificationTypeFilter<"Notification"> | $Enums.NotificationType
+    title?: StringFilter<"Notification"> | string
+    content?: StringFilter<"Notification"> | string
+    relatedProfileId?: StringNullableFilter<"Notification"> | string | null
+    relatedServerId?: StringNullableFilter<"Notification"> | string | null
+    isRead?: BoolFilter<"Notification"> | boolean
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+    recipientProfile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
+    relatedProfile?: XOR<ProfileNullableScalarRelationFilter, ProfileWhereInput> | null
+    relatedServer?: XOR<ServerNullableScalarRelationFilter, ServerWhereInput> | null
+  }
+
+  export type NotificationOrderByWithRelationInput = {
+    id?: SortOrder
+    recipientProfileId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    relatedProfileId?: SortOrderInput | SortOrder
+    relatedServerId?: SortOrderInput | SortOrder
+    isRead?: SortOrder
+    createdAt?: SortOrder
+    recipientProfile?: ProfileOrderByWithRelationInput
+    relatedProfile?: ProfileOrderByWithRelationInput
+    relatedServer?: ServerOrderByWithRelationInput
+  }
+
+  export type NotificationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: NotificationWhereInput | NotificationWhereInput[]
+    OR?: NotificationWhereInput[]
+    NOT?: NotificationWhereInput | NotificationWhereInput[]
+    recipientProfileId?: StringFilter<"Notification"> | string
+    type?: EnumNotificationTypeFilter<"Notification"> | $Enums.NotificationType
+    title?: StringFilter<"Notification"> | string
+    content?: StringFilter<"Notification"> | string
+    relatedProfileId?: StringNullableFilter<"Notification"> | string | null
+    relatedServerId?: StringNullableFilter<"Notification"> | string | null
+    isRead?: BoolFilter<"Notification"> | boolean
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+    recipientProfile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
+    relatedProfile?: XOR<ProfileNullableScalarRelationFilter, ProfileWhereInput> | null
+    relatedServer?: XOR<ServerNullableScalarRelationFilter, ServerWhereInput> | null
+  }, "id">
+
+  export type NotificationOrderByWithAggregationInput = {
+    id?: SortOrder
+    recipientProfileId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    relatedProfileId?: SortOrderInput | SortOrder
+    relatedServerId?: SortOrderInput | SortOrder
+    isRead?: SortOrder
+    createdAt?: SortOrder
+    _count?: NotificationCountOrderByAggregateInput
+    _max?: NotificationMaxOrderByAggregateInput
+    _min?: NotificationMinOrderByAggregateInput
+  }
+
+  export type NotificationScalarWhereWithAggregatesInput = {
+    AND?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
+    OR?: NotificationScalarWhereWithAggregatesInput[]
+    NOT?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Notification"> | string
+    recipientProfileId?: StringWithAggregatesFilter<"Notification"> | string
+    type?: EnumNotificationTypeWithAggregatesFilter<"Notification"> | $Enums.NotificationType
+    title?: StringWithAggregatesFilter<"Notification"> | string
+    content?: StringWithAggregatesFilter<"Notification"> | string
+    relatedProfileId?: StringNullableWithAggregatesFilter<"Notification"> | string | null
+    relatedServerId?: StringNullableWithAggregatesFilter<"Notification"> | string | null
+    isRead?: BoolWithAggregatesFilter<"Notification"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
+  }
+
   export type ProfileCreateInput = {
     id?: string
     userId: string
@@ -14415,6 +18492,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
   }
 
   export type ProfileUncheckedCreateInput = {
@@ -14433,6 +18515,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
   }
 
   export type ProfileUpdateInput = {
@@ -14451,6 +18538,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateInput = {
@@ -14469,6 +18561,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
   }
 
   export type ProfileCreateManyInput = {
@@ -14511,6 +18608,8 @@ export namespace Prisma {
     profile: ProfileCreateNestedOneWithoutServersInput
     members?: MemberCreateNestedManyWithoutServerInput
     channels?: ChannelCreateNestedManyWithoutServerInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutServerInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedServerInput
   }
 
   export type ServerUncheckedCreateInput = {
@@ -14523,6 +18622,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: MemberUncheckedCreateNestedManyWithoutServerInput
     channels?: ChannelUncheckedCreateNestedManyWithoutServerInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutServerInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedServerInput
   }
 
   export type ServerUpdateInput = {
@@ -14535,6 +18636,8 @@ export namespace Prisma {
     profile?: ProfileUpdateOneRequiredWithoutServersNestedInput
     members?: MemberUpdateManyWithoutServerNestedInput
     channels?: ChannelUpdateManyWithoutServerNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutServerNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedServerNestedInput
   }
 
   export type ServerUncheckedUpdateInput = {
@@ -14547,6 +18650,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: MemberUncheckedUpdateManyWithoutServerNestedInput
     channels?: ChannelUncheckedUpdateManyWithoutServerNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutServerNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedServerNestedInput
   }
 
   export type ServerCreateManyInput = {
@@ -15139,6 +19244,181 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type FollowCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    followerProfile: ProfileCreateNestedOneWithoutFollowsSentInput
+    followingProfile: ProfileCreateNestedOneWithoutFollowsReceivedInput
+  }
+
+  export type FollowUncheckedCreateInput = {
+    id?: string
+    followerProfileId: string
+    followingProfileId: string
+    createdAt?: Date | string
+  }
+
+  export type FollowUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followerProfile?: ProfileUpdateOneRequiredWithoutFollowsSentNestedInput
+    followingProfile?: ProfileUpdateOneRequiredWithoutFollowsReceivedNestedInput
+  }
+
+  export type FollowUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    followerProfileId?: StringFieldUpdateOperationsInput | string
+    followingProfileId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FollowCreateManyInput = {
+    id?: string
+    followerProfileId: string
+    followingProfileId: string
+    createdAt?: Date | string
+  }
+
+  export type FollowUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FollowUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    followerProfileId?: StringFieldUpdateOperationsInput | string
+    followingProfileId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServerFollowCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    followerProfile: ProfileCreateNestedOneWithoutServerFollowsInput
+    server: ServerCreateNestedOneWithoutServerFollowsInput
+  }
+
+  export type ServerFollowUncheckedCreateInput = {
+    id?: string
+    followerProfileId: string
+    serverId: string
+    createdAt?: Date | string
+  }
+
+  export type ServerFollowUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followerProfile?: ProfileUpdateOneRequiredWithoutServerFollowsNestedInput
+    server?: ServerUpdateOneRequiredWithoutServerFollowsNestedInput
+  }
+
+  export type ServerFollowUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    followerProfileId?: StringFieldUpdateOperationsInput | string
+    serverId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServerFollowCreateManyInput = {
+    id?: string
+    followerProfileId: string
+    serverId: string
+    createdAt?: Date | string
+  }
+
+  export type ServerFollowUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServerFollowUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    followerProfileId?: StringFieldUpdateOperationsInput | string
+    serverId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationCreateInput = {
+    id?: string
+    type: $Enums.NotificationType
+    title: string
+    content: string
+    isRead?: boolean
+    createdAt?: Date | string
+    recipientProfile: ProfileCreateNestedOneWithoutNotificationsReceivedInput
+    relatedProfile?: ProfileCreateNestedOneWithoutNotificationsRelatedInput
+    relatedServer?: ServerCreateNestedOneWithoutNotificationsRelatedInput
+  }
+
+  export type NotificationUncheckedCreateInput = {
+    id?: string
+    recipientProfileId: string
+    type: $Enums.NotificationType
+    title: string
+    content: string
+    relatedProfileId?: string | null
+    relatedServerId?: string | null
+    isRead?: boolean
+    createdAt?: Date | string
+  }
+
+  export type NotificationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    recipientProfile?: ProfileUpdateOneRequiredWithoutNotificationsReceivedNestedInput
+    relatedProfile?: ProfileUpdateOneWithoutNotificationsRelatedNestedInput
+    relatedServer?: ServerUpdateOneWithoutNotificationsRelatedNestedInput
+  }
+
+  export type NotificationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    recipientProfileId?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    relatedProfileId?: NullableStringFieldUpdateOperationsInput | string | null
+    relatedServerId?: NullableStringFieldUpdateOperationsInput | string | null
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationCreateManyInput = {
+    id?: string
+    recipientProfileId: string
+    type: $Enums.NotificationType
+    title: string
+    content: string
+    relatedProfileId?: string | null
+    relatedServerId?: string | null
+    isRead?: boolean
+    createdAt?: Date | string
+  }
+
+  export type NotificationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    recipientProfileId?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    relatedProfileId?: NullableStringFieldUpdateOperationsInput | string | null
+    relatedServerId?: NullableStringFieldUpdateOperationsInput | string | null
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -15207,6 +19487,24 @@ export namespace Prisma {
     none?: FriendRequestWhereInput
   }
 
+  export type FollowListRelationFilter = {
+    every?: FollowWhereInput
+    some?: FollowWhereInput
+    none?: FollowWhereInput
+  }
+
+  export type ServerFollowListRelationFilter = {
+    every?: ServerFollowWhereInput
+    some?: ServerFollowWhereInput
+    none?: ServerFollowWhereInput
+  }
+
+  export type NotificationListRelationFilter = {
+    every?: NotificationWhereInput
+    some?: NotificationWhereInput
+    none?: NotificationWhereInput
+  }
+
   export type ServerOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -15232,6 +19530,18 @@ export namespace Prisma {
   }
 
   export type FriendRequestOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type FollowOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ServerFollowOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type NotificationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -15745,6 +20055,121 @@ export namespace Prisma {
     _max?: NestedEnumFriendRequestStatusFilter<$PrismaModel>
   }
 
+  export type FollowFollowerProfileIdFollowingProfileIdCompoundUniqueInput = {
+    followerProfileId: string
+    followingProfileId: string
+  }
+
+  export type FollowCountOrderByAggregateInput = {
+    id?: SortOrder
+    followerProfileId?: SortOrder
+    followingProfileId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FollowMaxOrderByAggregateInput = {
+    id?: SortOrder
+    followerProfileId?: SortOrder
+    followingProfileId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FollowMinOrderByAggregateInput = {
+    id?: SortOrder
+    followerProfileId?: SortOrder
+    followingProfileId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ServerFollowFollowerProfileIdServerIdCompoundUniqueInput = {
+    followerProfileId: string
+    serverId: string
+  }
+
+  export type ServerFollowCountOrderByAggregateInput = {
+    id?: SortOrder
+    followerProfileId?: SortOrder
+    serverId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ServerFollowMaxOrderByAggregateInput = {
+    id?: SortOrder
+    followerProfileId?: SortOrder
+    serverId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ServerFollowMinOrderByAggregateInput = {
+    id?: SortOrder
+    followerProfileId?: SortOrder
+    serverId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumNotificationTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.NotificationType | EnumNotificationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumNotificationTypeFilter<$PrismaModel> | $Enums.NotificationType
+  }
+
+  export type ProfileNullableScalarRelationFilter = {
+    is?: ProfileWhereInput | null
+    isNot?: ProfileWhereInput | null
+  }
+
+  export type ServerNullableScalarRelationFilter = {
+    is?: ServerWhereInput | null
+    isNot?: ServerWhereInput | null
+  }
+
+  export type NotificationCountOrderByAggregateInput = {
+    id?: SortOrder
+    recipientProfileId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    relatedProfileId?: SortOrder
+    relatedServerId?: SortOrder
+    isRead?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type NotificationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    recipientProfileId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    relatedProfileId?: SortOrder
+    relatedServerId?: SortOrder
+    isRead?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type NotificationMinOrderByAggregateInput = {
+    id?: SortOrder
+    recipientProfileId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    relatedProfileId?: SortOrder
+    relatedServerId?: SortOrder
+    isRead?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumNotificationTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NotificationType | EnumNotificationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumNotificationTypeWithAggregatesFilter<$PrismaModel> | $Enums.NotificationType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNotificationTypeFilter<$PrismaModel>
+    _max?: NestedEnumNotificationTypeFilter<$PrismaModel>
+  }
+
   export type ServerCreateNestedManyWithoutProfileInput = {
     create?: XOR<ServerCreateWithoutProfileInput, ServerUncheckedCreateWithoutProfileInput> | ServerCreateWithoutProfileInput[] | ServerUncheckedCreateWithoutProfileInput[]
     connectOrCreate?: ServerCreateOrConnectWithoutProfileInput | ServerCreateOrConnectWithoutProfileInput[]
@@ -15801,6 +20226,41 @@ export namespace Prisma {
     connect?: FriendRequestWhereUniqueInput | FriendRequestWhereUniqueInput[]
   }
 
+  export type FollowCreateNestedManyWithoutFollowerProfileInput = {
+    create?: XOR<FollowCreateWithoutFollowerProfileInput, FollowUncheckedCreateWithoutFollowerProfileInput> | FollowCreateWithoutFollowerProfileInput[] | FollowUncheckedCreateWithoutFollowerProfileInput[]
+    connectOrCreate?: FollowCreateOrConnectWithoutFollowerProfileInput | FollowCreateOrConnectWithoutFollowerProfileInput[]
+    createMany?: FollowCreateManyFollowerProfileInputEnvelope
+    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+  }
+
+  export type FollowCreateNestedManyWithoutFollowingProfileInput = {
+    create?: XOR<FollowCreateWithoutFollowingProfileInput, FollowUncheckedCreateWithoutFollowingProfileInput> | FollowCreateWithoutFollowingProfileInput[] | FollowUncheckedCreateWithoutFollowingProfileInput[]
+    connectOrCreate?: FollowCreateOrConnectWithoutFollowingProfileInput | FollowCreateOrConnectWithoutFollowingProfileInput[]
+    createMany?: FollowCreateManyFollowingProfileInputEnvelope
+    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+  }
+
+  export type ServerFollowCreateNestedManyWithoutFollowerProfileInput = {
+    create?: XOR<ServerFollowCreateWithoutFollowerProfileInput, ServerFollowUncheckedCreateWithoutFollowerProfileInput> | ServerFollowCreateWithoutFollowerProfileInput[] | ServerFollowUncheckedCreateWithoutFollowerProfileInput[]
+    connectOrCreate?: ServerFollowCreateOrConnectWithoutFollowerProfileInput | ServerFollowCreateOrConnectWithoutFollowerProfileInput[]
+    createMany?: ServerFollowCreateManyFollowerProfileInputEnvelope
+    connect?: ServerFollowWhereUniqueInput | ServerFollowWhereUniqueInput[]
+  }
+
+  export type NotificationCreateNestedManyWithoutRecipientProfileInput = {
+    create?: XOR<NotificationCreateWithoutRecipientProfileInput, NotificationUncheckedCreateWithoutRecipientProfileInput> | NotificationCreateWithoutRecipientProfileInput[] | NotificationUncheckedCreateWithoutRecipientProfileInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutRecipientProfileInput | NotificationCreateOrConnectWithoutRecipientProfileInput[]
+    createMany?: NotificationCreateManyRecipientProfileInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type NotificationCreateNestedManyWithoutRelatedProfileInput = {
+    create?: XOR<NotificationCreateWithoutRelatedProfileInput, NotificationUncheckedCreateWithoutRelatedProfileInput> | NotificationCreateWithoutRelatedProfileInput[] | NotificationUncheckedCreateWithoutRelatedProfileInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutRelatedProfileInput | NotificationCreateOrConnectWithoutRelatedProfileInput[]
+    createMany?: NotificationCreateManyRelatedProfileInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
   export type ServerUncheckedCreateNestedManyWithoutProfileInput = {
     create?: XOR<ServerCreateWithoutProfileInput, ServerUncheckedCreateWithoutProfileInput> | ServerCreateWithoutProfileInput[] | ServerUncheckedCreateWithoutProfileInput[]
     connectOrCreate?: ServerCreateOrConnectWithoutProfileInput | ServerCreateOrConnectWithoutProfileInput[]
@@ -15855,6 +20315,41 @@ export namespace Prisma {
     connectOrCreate?: FriendRequestCreateOrConnectWithoutTargetProfileInput | FriendRequestCreateOrConnectWithoutTargetProfileInput[]
     createMany?: FriendRequestCreateManyTargetProfileInputEnvelope
     connect?: FriendRequestWhereUniqueInput | FriendRequestWhereUniqueInput[]
+  }
+
+  export type FollowUncheckedCreateNestedManyWithoutFollowerProfileInput = {
+    create?: XOR<FollowCreateWithoutFollowerProfileInput, FollowUncheckedCreateWithoutFollowerProfileInput> | FollowCreateWithoutFollowerProfileInput[] | FollowUncheckedCreateWithoutFollowerProfileInput[]
+    connectOrCreate?: FollowCreateOrConnectWithoutFollowerProfileInput | FollowCreateOrConnectWithoutFollowerProfileInput[]
+    createMany?: FollowCreateManyFollowerProfileInputEnvelope
+    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+  }
+
+  export type FollowUncheckedCreateNestedManyWithoutFollowingProfileInput = {
+    create?: XOR<FollowCreateWithoutFollowingProfileInput, FollowUncheckedCreateWithoutFollowingProfileInput> | FollowCreateWithoutFollowingProfileInput[] | FollowUncheckedCreateWithoutFollowingProfileInput[]
+    connectOrCreate?: FollowCreateOrConnectWithoutFollowingProfileInput | FollowCreateOrConnectWithoutFollowingProfileInput[]
+    createMany?: FollowCreateManyFollowingProfileInputEnvelope
+    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+  }
+
+  export type ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput = {
+    create?: XOR<ServerFollowCreateWithoutFollowerProfileInput, ServerFollowUncheckedCreateWithoutFollowerProfileInput> | ServerFollowCreateWithoutFollowerProfileInput[] | ServerFollowUncheckedCreateWithoutFollowerProfileInput[]
+    connectOrCreate?: ServerFollowCreateOrConnectWithoutFollowerProfileInput | ServerFollowCreateOrConnectWithoutFollowerProfileInput[]
+    createMany?: ServerFollowCreateManyFollowerProfileInputEnvelope
+    connect?: ServerFollowWhereUniqueInput | ServerFollowWhereUniqueInput[]
+  }
+
+  export type NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput = {
+    create?: XOR<NotificationCreateWithoutRecipientProfileInput, NotificationUncheckedCreateWithoutRecipientProfileInput> | NotificationCreateWithoutRecipientProfileInput[] | NotificationUncheckedCreateWithoutRecipientProfileInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutRecipientProfileInput | NotificationCreateOrConnectWithoutRecipientProfileInput[]
+    createMany?: NotificationCreateManyRecipientProfileInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput = {
+    create?: XOR<NotificationCreateWithoutRelatedProfileInput, NotificationUncheckedCreateWithoutRelatedProfileInput> | NotificationCreateWithoutRelatedProfileInput[] | NotificationUncheckedCreateWithoutRelatedProfileInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutRelatedProfileInput | NotificationCreateOrConnectWithoutRelatedProfileInput[]
+    createMany?: NotificationCreateManyRelatedProfileInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -15977,6 +20472,76 @@ export namespace Prisma {
     deleteMany?: FriendRequestScalarWhereInput | FriendRequestScalarWhereInput[]
   }
 
+  export type FollowUpdateManyWithoutFollowerProfileNestedInput = {
+    create?: XOR<FollowCreateWithoutFollowerProfileInput, FollowUncheckedCreateWithoutFollowerProfileInput> | FollowCreateWithoutFollowerProfileInput[] | FollowUncheckedCreateWithoutFollowerProfileInput[]
+    connectOrCreate?: FollowCreateOrConnectWithoutFollowerProfileInput | FollowCreateOrConnectWithoutFollowerProfileInput[]
+    upsert?: FollowUpsertWithWhereUniqueWithoutFollowerProfileInput | FollowUpsertWithWhereUniqueWithoutFollowerProfileInput[]
+    createMany?: FollowCreateManyFollowerProfileInputEnvelope
+    set?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    disconnect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    delete?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    update?: FollowUpdateWithWhereUniqueWithoutFollowerProfileInput | FollowUpdateWithWhereUniqueWithoutFollowerProfileInput[]
+    updateMany?: FollowUpdateManyWithWhereWithoutFollowerProfileInput | FollowUpdateManyWithWhereWithoutFollowerProfileInput[]
+    deleteMany?: FollowScalarWhereInput | FollowScalarWhereInput[]
+  }
+
+  export type FollowUpdateManyWithoutFollowingProfileNestedInput = {
+    create?: XOR<FollowCreateWithoutFollowingProfileInput, FollowUncheckedCreateWithoutFollowingProfileInput> | FollowCreateWithoutFollowingProfileInput[] | FollowUncheckedCreateWithoutFollowingProfileInput[]
+    connectOrCreate?: FollowCreateOrConnectWithoutFollowingProfileInput | FollowCreateOrConnectWithoutFollowingProfileInput[]
+    upsert?: FollowUpsertWithWhereUniqueWithoutFollowingProfileInput | FollowUpsertWithWhereUniqueWithoutFollowingProfileInput[]
+    createMany?: FollowCreateManyFollowingProfileInputEnvelope
+    set?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    disconnect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    delete?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    update?: FollowUpdateWithWhereUniqueWithoutFollowingProfileInput | FollowUpdateWithWhereUniqueWithoutFollowingProfileInput[]
+    updateMany?: FollowUpdateManyWithWhereWithoutFollowingProfileInput | FollowUpdateManyWithWhereWithoutFollowingProfileInput[]
+    deleteMany?: FollowScalarWhereInput | FollowScalarWhereInput[]
+  }
+
+  export type ServerFollowUpdateManyWithoutFollowerProfileNestedInput = {
+    create?: XOR<ServerFollowCreateWithoutFollowerProfileInput, ServerFollowUncheckedCreateWithoutFollowerProfileInput> | ServerFollowCreateWithoutFollowerProfileInput[] | ServerFollowUncheckedCreateWithoutFollowerProfileInput[]
+    connectOrCreate?: ServerFollowCreateOrConnectWithoutFollowerProfileInput | ServerFollowCreateOrConnectWithoutFollowerProfileInput[]
+    upsert?: ServerFollowUpsertWithWhereUniqueWithoutFollowerProfileInput | ServerFollowUpsertWithWhereUniqueWithoutFollowerProfileInput[]
+    createMany?: ServerFollowCreateManyFollowerProfileInputEnvelope
+    set?: ServerFollowWhereUniqueInput | ServerFollowWhereUniqueInput[]
+    disconnect?: ServerFollowWhereUniqueInput | ServerFollowWhereUniqueInput[]
+    delete?: ServerFollowWhereUniqueInput | ServerFollowWhereUniqueInput[]
+    connect?: ServerFollowWhereUniqueInput | ServerFollowWhereUniqueInput[]
+    update?: ServerFollowUpdateWithWhereUniqueWithoutFollowerProfileInput | ServerFollowUpdateWithWhereUniqueWithoutFollowerProfileInput[]
+    updateMany?: ServerFollowUpdateManyWithWhereWithoutFollowerProfileInput | ServerFollowUpdateManyWithWhereWithoutFollowerProfileInput[]
+    deleteMany?: ServerFollowScalarWhereInput | ServerFollowScalarWhereInput[]
+  }
+
+  export type NotificationUpdateManyWithoutRecipientProfileNestedInput = {
+    create?: XOR<NotificationCreateWithoutRecipientProfileInput, NotificationUncheckedCreateWithoutRecipientProfileInput> | NotificationCreateWithoutRecipientProfileInput[] | NotificationUncheckedCreateWithoutRecipientProfileInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutRecipientProfileInput | NotificationCreateOrConnectWithoutRecipientProfileInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutRecipientProfileInput | NotificationUpsertWithWhereUniqueWithoutRecipientProfileInput[]
+    createMany?: NotificationCreateManyRecipientProfileInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutRecipientProfileInput | NotificationUpdateWithWhereUniqueWithoutRecipientProfileInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutRecipientProfileInput | NotificationUpdateManyWithWhereWithoutRecipientProfileInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type NotificationUpdateManyWithoutRelatedProfileNestedInput = {
+    create?: XOR<NotificationCreateWithoutRelatedProfileInput, NotificationUncheckedCreateWithoutRelatedProfileInput> | NotificationCreateWithoutRelatedProfileInput[] | NotificationUncheckedCreateWithoutRelatedProfileInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutRelatedProfileInput | NotificationCreateOrConnectWithoutRelatedProfileInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutRelatedProfileInput | NotificationUpsertWithWhereUniqueWithoutRelatedProfileInput[]
+    createMany?: NotificationCreateManyRelatedProfileInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutRelatedProfileInput | NotificationUpdateWithWhereUniqueWithoutRelatedProfileInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutRelatedProfileInput | NotificationUpdateManyWithWhereWithoutRelatedProfileInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
   export type ServerUncheckedUpdateManyWithoutProfileNestedInput = {
     create?: XOR<ServerCreateWithoutProfileInput, ServerUncheckedCreateWithoutProfileInput> | ServerCreateWithoutProfileInput[] | ServerUncheckedCreateWithoutProfileInput[]
     connectOrCreate?: ServerCreateOrConnectWithoutProfileInput | ServerCreateOrConnectWithoutProfileInput[]
@@ -16089,6 +20654,76 @@ export namespace Prisma {
     deleteMany?: FriendRequestScalarWhereInput | FriendRequestScalarWhereInput[]
   }
 
+  export type FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput = {
+    create?: XOR<FollowCreateWithoutFollowerProfileInput, FollowUncheckedCreateWithoutFollowerProfileInput> | FollowCreateWithoutFollowerProfileInput[] | FollowUncheckedCreateWithoutFollowerProfileInput[]
+    connectOrCreate?: FollowCreateOrConnectWithoutFollowerProfileInput | FollowCreateOrConnectWithoutFollowerProfileInput[]
+    upsert?: FollowUpsertWithWhereUniqueWithoutFollowerProfileInput | FollowUpsertWithWhereUniqueWithoutFollowerProfileInput[]
+    createMany?: FollowCreateManyFollowerProfileInputEnvelope
+    set?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    disconnect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    delete?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    update?: FollowUpdateWithWhereUniqueWithoutFollowerProfileInput | FollowUpdateWithWhereUniqueWithoutFollowerProfileInput[]
+    updateMany?: FollowUpdateManyWithWhereWithoutFollowerProfileInput | FollowUpdateManyWithWhereWithoutFollowerProfileInput[]
+    deleteMany?: FollowScalarWhereInput | FollowScalarWhereInput[]
+  }
+
+  export type FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput = {
+    create?: XOR<FollowCreateWithoutFollowingProfileInput, FollowUncheckedCreateWithoutFollowingProfileInput> | FollowCreateWithoutFollowingProfileInput[] | FollowUncheckedCreateWithoutFollowingProfileInput[]
+    connectOrCreate?: FollowCreateOrConnectWithoutFollowingProfileInput | FollowCreateOrConnectWithoutFollowingProfileInput[]
+    upsert?: FollowUpsertWithWhereUniqueWithoutFollowingProfileInput | FollowUpsertWithWhereUniqueWithoutFollowingProfileInput[]
+    createMany?: FollowCreateManyFollowingProfileInputEnvelope
+    set?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    disconnect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    delete?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    update?: FollowUpdateWithWhereUniqueWithoutFollowingProfileInput | FollowUpdateWithWhereUniqueWithoutFollowingProfileInput[]
+    updateMany?: FollowUpdateManyWithWhereWithoutFollowingProfileInput | FollowUpdateManyWithWhereWithoutFollowingProfileInput[]
+    deleteMany?: FollowScalarWhereInput | FollowScalarWhereInput[]
+  }
+
+  export type ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput = {
+    create?: XOR<ServerFollowCreateWithoutFollowerProfileInput, ServerFollowUncheckedCreateWithoutFollowerProfileInput> | ServerFollowCreateWithoutFollowerProfileInput[] | ServerFollowUncheckedCreateWithoutFollowerProfileInput[]
+    connectOrCreate?: ServerFollowCreateOrConnectWithoutFollowerProfileInput | ServerFollowCreateOrConnectWithoutFollowerProfileInput[]
+    upsert?: ServerFollowUpsertWithWhereUniqueWithoutFollowerProfileInput | ServerFollowUpsertWithWhereUniqueWithoutFollowerProfileInput[]
+    createMany?: ServerFollowCreateManyFollowerProfileInputEnvelope
+    set?: ServerFollowWhereUniqueInput | ServerFollowWhereUniqueInput[]
+    disconnect?: ServerFollowWhereUniqueInput | ServerFollowWhereUniqueInput[]
+    delete?: ServerFollowWhereUniqueInput | ServerFollowWhereUniqueInput[]
+    connect?: ServerFollowWhereUniqueInput | ServerFollowWhereUniqueInput[]
+    update?: ServerFollowUpdateWithWhereUniqueWithoutFollowerProfileInput | ServerFollowUpdateWithWhereUniqueWithoutFollowerProfileInput[]
+    updateMany?: ServerFollowUpdateManyWithWhereWithoutFollowerProfileInput | ServerFollowUpdateManyWithWhereWithoutFollowerProfileInput[]
+    deleteMany?: ServerFollowScalarWhereInput | ServerFollowScalarWhereInput[]
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput = {
+    create?: XOR<NotificationCreateWithoutRecipientProfileInput, NotificationUncheckedCreateWithoutRecipientProfileInput> | NotificationCreateWithoutRecipientProfileInput[] | NotificationUncheckedCreateWithoutRecipientProfileInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutRecipientProfileInput | NotificationCreateOrConnectWithoutRecipientProfileInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutRecipientProfileInput | NotificationUpsertWithWhereUniqueWithoutRecipientProfileInput[]
+    createMany?: NotificationCreateManyRecipientProfileInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutRecipientProfileInput | NotificationUpdateWithWhereUniqueWithoutRecipientProfileInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutRecipientProfileInput | NotificationUpdateManyWithWhereWithoutRecipientProfileInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput = {
+    create?: XOR<NotificationCreateWithoutRelatedProfileInput, NotificationUncheckedCreateWithoutRelatedProfileInput> | NotificationCreateWithoutRelatedProfileInput[] | NotificationUncheckedCreateWithoutRelatedProfileInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutRelatedProfileInput | NotificationCreateOrConnectWithoutRelatedProfileInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutRelatedProfileInput | NotificationUpsertWithWhereUniqueWithoutRelatedProfileInput[]
+    createMany?: NotificationCreateManyRelatedProfileInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutRelatedProfileInput | NotificationUpdateWithWhereUniqueWithoutRelatedProfileInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutRelatedProfileInput | NotificationUpdateManyWithWhereWithoutRelatedProfileInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
   export type ProfileCreateNestedOneWithoutServersInput = {
     create?: XOR<ProfileCreateWithoutServersInput, ProfileUncheckedCreateWithoutServersInput>
     connectOrCreate?: ProfileCreateOrConnectWithoutServersInput
@@ -16109,6 +20744,20 @@ export namespace Prisma {
     connect?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
   }
 
+  export type ServerFollowCreateNestedManyWithoutServerInput = {
+    create?: XOR<ServerFollowCreateWithoutServerInput, ServerFollowUncheckedCreateWithoutServerInput> | ServerFollowCreateWithoutServerInput[] | ServerFollowUncheckedCreateWithoutServerInput[]
+    connectOrCreate?: ServerFollowCreateOrConnectWithoutServerInput | ServerFollowCreateOrConnectWithoutServerInput[]
+    createMany?: ServerFollowCreateManyServerInputEnvelope
+    connect?: ServerFollowWhereUniqueInput | ServerFollowWhereUniqueInput[]
+  }
+
+  export type NotificationCreateNestedManyWithoutRelatedServerInput = {
+    create?: XOR<NotificationCreateWithoutRelatedServerInput, NotificationUncheckedCreateWithoutRelatedServerInput> | NotificationCreateWithoutRelatedServerInput[] | NotificationUncheckedCreateWithoutRelatedServerInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutRelatedServerInput | NotificationCreateOrConnectWithoutRelatedServerInput[]
+    createMany?: NotificationCreateManyRelatedServerInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
   export type MemberUncheckedCreateNestedManyWithoutServerInput = {
     create?: XOR<MemberCreateWithoutServerInput, MemberUncheckedCreateWithoutServerInput> | MemberCreateWithoutServerInput[] | MemberUncheckedCreateWithoutServerInput[]
     connectOrCreate?: MemberCreateOrConnectWithoutServerInput | MemberCreateOrConnectWithoutServerInput[]
@@ -16121,6 +20770,20 @@ export namespace Prisma {
     connectOrCreate?: ChannelCreateOrConnectWithoutServerInput | ChannelCreateOrConnectWithoutServerInput[]
     createMany?: ChannelCreateManyServerInputEnvelope
     connect?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+  }
+
+  export type ServerFollowUncheckedCreateNestedManyWithoutServerInput = {
+    create?: XOR<ServerFollowCreateWithoutServerInput, ServerFollowUncheckedCreateWithoutServerInput> | ServerFollowCreateWithoutServerInput[] | ServerFollowUncheckedCreateWithoutServerInput[]
+    connectOrCreate?: ServerFollowCreateOrConnectWithoutServerInput | ServerFollowCreateOrConnectWithoutServerInput[]
+    createMany?: ServerFollowCreateManyServerInputEnvelope
+    connect?: ServerFollowWhereUniqueInput | ServerFollowWhereUniqueInput[]
+  }
+
+  export type NotificationUncheckedCreateNestedManyWithoutRelatedServerInput = {
+    create?: XOR<NotificationCreateWithoutRelatedServerInput, NotificationUncheckedCreateWithoutRelatedServerInput> | NotificationCreateWithoutRelatedServerInput[] | NotificationUncheckedCreateWithoutRelatedServerInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutRelatedServerInput | NotificationCreateOrConnectWithoutRelatedServerInput[]
+    createMany?: NotificationCreateManyRelatedServerInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
   export type ProfileUpdateOneRequiredWithoutServersNestedInput = {
@@ -16159,6 +20822,34 @@ export namespace Prisma {
     deleteMany?: ChannelScalarWhereInput | ChannelScalarWhereInput[]
   }
 
+  export type ServerFollowUpdateManyWithoutServerNestedInput = {
+    create?: XOR<ServerFollowCreateWithoutServerInput, ServerFollowUncheckedCreateWithoutServerInput> | ServerFollowCreateWithoutServerInput[] | ServerFollowUncheckedCreateWithoutServerInput[]
+    connectOrCreate?: ServerFollowCreateOrConnectWithoutServerInput | ServerFollowCreateOrConnectWithoutServerInput[]
+    upsert?: ServerFollowUpsertWithWhereUniqueWithoutServerInput | ServerFollowUpsertWithWhereUniqueWithoutServerInput[]
+    createMany?: ServerFollowCreateManyServerInputEnvelope
+    set?: ServerFollowWhereUniqueInput | ServerFollowWhereUniqueInput[]
+    disconnect?: ServerFollowWhereUniqueInput | ServerFollowWhereUniqueInput[]
+    delete?: ServerFollowWhereUniqueInput | ServerFollowWhereUniqueInput[]
+    connect?: ServerFollowWhereUniqueInput | ServerFollowWhereUniqueInput[]
+    update?: ServerFollowUpdateWithWhereUniqueWithoutServerInput | ServerFollowUpdateWithWhereUniqueWithoutServerInput[]
+    updateMany?: ServerFollowUpdateManyWithWhereWithoutServerInput | ServerFollowUpdateManyWithWhereWithoutServerInput[]
+    deleteMany?: ServerFollowScalarWhereInput | ServerFollowScalarWhereInput[]
+  }
+
+  export type NotificationUpdateManyWithoutRelatedServerNestedInput = {
+    create?: XOR<NotificationCreateWithoutRelatedServerInput, NotificationUncheckedCreateWithoutRelatedServerInput> | NotificationCreateWithoutRelatedServerInput[] | NotificationUncheckedCreateWithoutRelatedServerInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutRelatedServerInput | NotificationCreateOrConnectWithoutRelatedServerInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutRelatedServerInput | NotificationUpsertWithWhereUniqueWithoutRelatedServerInput[]
+    createMany?: NotificationCreateManyRelatedServerInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutRelatedServerInput | NotificationUpdateWithWhereUniqueWithoutRelatedServerInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutRelatedServerInput | NotificationUpdateManyWithWhereWithoutRelatedServerInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
   export type MemberUncheckedUpdateManyWithoutServerNestedInput = {
     create?: XOR<MemberCreateWithoutServerInput, MemberUncheckedCreateWithoutServerInput> | MemberCreateWithoutServerInput[] | MemberUncheckedCreateWithoutServerInput[]
     connectOrCreate?: MemberCreateOrConnectWithoutServerInput | MemberCreateOrConnectWithoutServerInput[]
@@ -16185,6 +20876,34 @@ export namespace Prisma {
     update?: ChannelUpdateWithWhereUniqueWithoutServerInput | ChannelUpdateWithWhereUniqueWithoutServerInput[]
     updateMany?: ChannelUpdateManyWithWhereWithoutServerInput | ChannelUpdateManyWithWhereWithoutServerInput[]
     deleteMany?: ChannelScalarWhereInput | ChannelScalarWhereInput[]
+  }
+
+  export type ServerFollowUncheckedUpdateManyWithoutServerNestedInput = {
+    create?: XOR<ServerFollowCreateWithoutServerInput, ServerFollowUncheckedCreateWithoutServerInput> | ServerFollowCreateWithoutServerInput[] | ServerFollowUncheckedCreateWithoutServerInput[]
+    connectOrCreate?: ServerFollowCreateOrConnectWithoutServerInput | ServerFollowCreateOrConnectWithoutServerInput[]
+    upsert?: ServerFollowUpsertWithWhereUniqueWithoutServerInput | ServerFollowUpsertWithWhereUniqueWithoutServerInput[]
+    createMany?: ServerFollowCreateManyServerInputEnvelope
+    set?: ServerFollowWhereUniqueInput | ServerFollowWhereUniqueInput[]
+    disconnect?: ServerFollowWhereUniqueInput | ServerFollowWhereUniqueInput[]
+    delete?: ServerFollowWhereUniqueInput | ServerFollowWhereUniqueInput[]
+    connect?: ServerFollowWhereUniqueInput | ServerFollowWhereUniqueInput[]
+    update?: ServerFollowUpdateWithWhereUniqueWithoutServerInput | ServerFollowUpdateWithWhereUniqueWithoutServerInput[]
+    updateMany?: ServerFollowUpdateManyWithWhereWithoutServerInput | ServerFollowUpdateManyWithWhereWithoutServerInput[]
+    deleteMany?: ServerFollowScalarWhereInput | ServerFollowScalarWhereInput[]
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutRelatedServerNestedInput = {
+    create?: XOR<NotificationCreateWithoutRelatedServerInput, NotificationUncheckedCreateWithoutRelatedServerInput> | NotificationCreateWithoutRelatedServerInput[] | NotificationUncheckedCreateWithoutRelatedServerInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutRelatedServerInput | NotificationCreateOrConnectWithoutRelatedServerInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutRelatedServerInput | NotificationUpsertWithWhereUniqueWithoutRelatedServerInput[]
+    createMany?: NotificationCreateManyRelatedServerInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutRelatedServerInput | NotificationUpdateWithWhereUniqueWithoutRelatedServerInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutRelatedServerInput | NotificationUpdateManyWithWhereWithoutRelatedServerInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
   export type ProfileCreateNestedOneWithoutMembersInput = {
@@ -16785,6 +21504,112 @@ export namespace Prisma {
     update?: XOR<XOR<ProfileUpdateToOneWithWhereWithoutFriendRequestsReceivedInput, ProfileUpdateWithoutFriendRequestsReceivedInput>, ProfileUncheckedUpdateWithoutFriendRequestsReceivedInput>
   }
 
+  export type ProfileCreateNestedOneWithoutFollowsSentInput = {
+    create?: XOR<ProfileCreateWithoutFollowsSentInput, ProfileUncheckedCreateWithoutFollowsSentInput>
+    connectOrCreate?: ProfileCreateOrConnectWithoutFollowsSentInput
+    connect?: ProfileWhereUniqueInput
+  }
+
+  export type ProfileCreateNestedOneWithoutFollowsReceivedInput = {
+    create?: XOR<ProfileCreateWithoutFollowsReceivedInput, ProfileUncheckedCreateWithoutFollowsReceivedInput>
+    connectOrCreate?: ProfileCreateOrConnectWithoutFollowsReceivedInput
+    connect?: ProfileWhereUniqueInput
+  }
+
+  export type ProfileUpdateOneRequiredWithoutFollowsSentNestedInput = {
+    create?: XOR<ProfileCreateWithoutFollowsSentInput, ProfileUncheckedCreateWithoutFollowsSentInput>
+    connectOrCreate?: ProfileCreateOrConnectWithoutFollowsSentInput
+    upsert?: ProfileUpsertWithoutFollowsSentInput
+    connect?: ProfileWhereUniqueInput
+    update?: XOR<XOR<ProfileUpdateToOneWithWhereWithoutFollowsSentInput, ProfileUpdateWithoutFollowsSentInput>, ProfileUncheckedUpdateWithoutFollowsSentInput>
+  }
+
+  export type ProfileUpdateOneRequiredWithoutFollowsReceivedNestedInput = {
+    create?: XOR<ProfileCreateWithoutFollowsReceivedInput, ProfileUncheckedCreateWithoutFollowsReceivedInput>
+    connectOrCreate?: ProfileCreateOrConnectWithoutFollowsReceivedInput
+    upsert?: ProfileUpsertWithoutFollowsReceivedInput
+    connect?: ProfileWhereUniqueInput
+    update?: XOR<XOR<ProfileUpdateToOneWithWhereWithoutFollowsReceivedInput, ProfileUpdateWithoutFollowsReceivedInput>, ProfileUncheckedUpdateWithoutFollowsReceivedInput>
+  }
+
+  export type ProfileCreateNestedOneWithoutServerFollowsInput = {
+    create?: XOR<ProfileCreateWithoutServerFollowsInput, ProfileUncheckedCreateWithoutServerFollowsInput>
+    connectOrCreate?: ProfileCreateOrConnectWithoutServerFollowsInput
+    connect?: ProfileWhereUniqueInput
+  }
+
+  export type ServerCreateNestedOneWithoutServerFollowsInput = {
+    create?: XOR<ServerCreateWithoutServerFollowsInput, ServerUncheckedCreateWithoutServerFollowsInput>
+    connectOrCreate?: ServerCreateOrConnectWithoutServerFollowsInput
+    connect?: ServerWhereUniqueInput
+  }
+
+  export type ProfileUpdateOneRequiredWithoutServerFollowsNestedInput = {
+    create?: XOR<ProfileCreateWithoutServerFollowsInput, ProfileUncheckedCreateWithoutServerFollowsInput>
+    connectOrCreate?: ProfileCreateOrConnectWithoutServerFollowsInput
+    upsert?: ProfileUpsertWithoutServerFollowsInput
+    connect?: ProfileWhereUniqueInput
+    update?: XOR<XOR<ProfileUpdateToOneWithWhereWithoutServerFollowsInput, ProfileUpdateWithoutServerFollowsInput>, ProfileUncheckedUpdateWithoutServerFollowsInput>
+  }
+
+  export type ServerUpdateOneRequiredWithoutServerFollowsNestedInput = {
+    create?: XOR<ServerCreateWithoutServerFollowsInput, ServerUncheckedCreateWithoutServerFollowsInput>
+    connectOrCreate?: ServerCreateOrConnectWithoutServerFollowsInput
+    upsert?: ServerUpsertWithoutServerFollowsInput
+    connect?: ServerWhereUniqueInput
+    update?: XOR<XOR<ServerUpdateToOneWithWhereWithoutServerFollowsInput, ServerUpdateWithoutServerFollowsInput>, ServerUncheckedUpdateWithoutServerFollowsInput>
+  }
+
+  export type ProfileCreateNestedOneWithoutNotificationsReceivedInput = {
+    create?: XOR<ProfileCreateWithoutNotificationsReceivedInput, ProfileUncheckedCreateWithoutNotificationsReceivedInput>
+    connectOrCreate?: ProfileCreateOrConnectWithoutNotificationsReceivedInput
+    connect?: ProfileWhereUniqueInput
+  }
+
+  export type ProfileCreateNestedOneWithoutNotificationsRelatedInput = {
+    create?: XOR<ProfileCreateWithoutNotificationsRelatedInput, ProfileUncheckedCreateWithoutNotificationsRelatedInput>
+    connectOrCreate?: ProfileCreateOrConnectWithoutNotificationsRelatedInput
+    connect?: ProfileWhereUniqueInput
+  }
+
+  export type ServerCreateNestedOneWithoutNotificationsRelatedInput = {
+    create?: XOR<ServerCreateWithoutNotificationsRelatedInput, ServerUncheckedCreateWithoutNotificationsRelatedInput>
+    connectOrCreate?: ServerCreateOrConnectWithoutNotificationsRelatedInput
+    connect?: ServerWhereUniqueInput
+  }
+
+  export type EnumNotificationTypeFieldUpdateOperationsInput = {
+    set?: $Enums.NotificationType
+  }
+
+  export type ProfileUpdateOneRequiredWithoutNotificationsReceivedNestedInput = {
+    create?: XOR<ProfileCreateWithoutNotificationsReceivedInput, ProfileUncheckedCreateWithoutNotificationsReceivedInput>
+    connectOrCreate?: ProfileCreateOrConnectWithoutNotificationsReceivedInput
+    upsert?: ProfileUpsertWithoutNotificationsReceivedInput
+    connect?: ProfileWhereUniqueInput
+    update?: XOR<XOR<ProfileUpdateToOneWithWhereWithoutNotificationsReceivedInput, ProfileUpdateWithoutNotificationsReceivedInput>, ProfileUncheckedUpdateWithoutNotificationsReceivedInput>
+  }
+
+  export type ProfileUpdateOneWithoutNotificationsRelatedNestedInput = {
+    create?: XOR<ProfileCreateWithoutNotificationsRelatedInput, ProfileUncheckedCreateWithoutNotificationsRelatedInput>
+    connectOrCreate?: ProfileCreateOrConnectWithoutNotificationsRelatedInput
+    upsert?: ProfileUpsertWithoutNotificationsRelatedInput
+    disconnect?: ProfileWhereInput | boolean
+    delete?: ProfileWhereInput | boolean
+    connect?: ProfileWhereUniqueInput
+    update?: XOR<XOR<ProfileUpdateToOneWithWhereWithoutNotificationsRelatedInput, ProfileUpdateWithoutNotificationsRelatedInput>, ProfileUncheckedUpdateWithoutNotificationsRelatedInput>
+  }
+
+  export type ServerUpdateOneWithoutNotificationsRelatedNestedInput = {
+    create?: XOR<ServerCreateWithoutNotificationsRelatedInput, ServerUncheckedCreateWithoutNotificationsRelatedInput>
+    connectOrCreate?: ServerCreateOrConnectWithoutNotificationsRelatedInput
+    upsert?: ServerUpsertWithoutNotificationsRelatedInput
+    disconnect?: ServerWhereInput | boolean
+    delete?: ServerWhereInput | boolean
+    connect?: ServerWhereUniqueInput
+    update?: XOR<XOR<ServerUpdateToOneWithWhereWithoutNotificationsRelatedInput, ServerUpdateWithoutNotificationsRelatedInput>, ServerUncheckedUpdateWithoutNotificationsRelatedInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -16975,6 +21800,23 @@ export namespace Prisma {
     _max?: NestedEnumFriendRequestStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumNotificationTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.NotificationType | EnumNotificationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumNotificationTypeFilter<$PrismaModel> | $Enums.NotificationType
+  }
+
+  export type NestedEnumNotificationTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NotificationType | EnumNotificationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumNotificationTypeWithAggregatesFilter<$PrismaModel> | $Enums.NotificationType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNotificationTypeFilter<$PrismaModel>
+    _max?: NestedEnumNotificationTypeFilter<$PrismaModel>
+  }
+
   export type ServerCreateWithoutProfileInput = {
     id?: string
     name: string
@@ -16984,6 +21826,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: MemberCreateNestedManyWithoutServerInput
     channels?: ChannelCreateNestedManyWithoutServerInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutServerInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedServerInput
   }
 
   export type ServerUncheckedCreateWithoutProfileInput = {
@@ -16995,6 +21839,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: MemberUncheckedCreateNestedManyWithoutServerInput
     channels?: ChannelUncheckedCreateNestedManyWithoutServerInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutServerInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedServerInput
   }
 
   export type ServerCreateOrConnectWithoutProfileInput = {
@@ -17206,6 +22052,136 @@ export namespace Prisma {
 
   export type FriendRequestCreateManyTargetProfileInputEnvelope = {
     data: FriendRequestCreateManyTargetProfileInput | FriendRequestCreateManyTargetProfileInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FollowCreateWithoutFollowerProfileInput = {
+    id?: string
+    createdAt?: Date | string
+    followingProfile: ProfileCreateNestedOneWithoutFollowsReceivedInput
+  }
+
+  export type FollowUncheckedCreateWithoutFollowerProfileInput = {
+    id?: string
+    followingProfileId: string
+    createdAt?: Date | string
+  }
+
+  export type FollowCreateOrConnectWithoutFollowerProfileInput = {
+    where: FollowWhereUniqueInput
+    create: XOR<FollowCreateWithoutFollowerProfileInput, FollowUncheckedCreateWithoutFollowerProfileInput>
+  }
+
+  export type FollowCreateManyFollowerProfileInputEnvelope = {
+    data: FollowCreateManyFollowerProfileInput | FollowCreateManyFollowerProfileInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FollowCreateWithoutFollowingProfileInput = {
+    id?: string
+    createdAt?: Date | string
+    followerProfile: ProfileCreateNestedOneWithoutFollowsSentInput
+  }
+
+  export type FollowUncheckedCreateWithoutFollowingProfileInput = {
+    id?: string
+    followerProfileId: string
+    createdAt?: Date | string
+  }
+
+  export type FollowCreateOrConnectWithoutFollowingProfileInput = {
+    where: FollowWhereUniqueInput
+    create: XOR<FollowCreateWithoutFollowingProfileInput, FollowUncheckedCreateWithoutFollowingProfileInput>
+  }
+
+  export type FollowCreateManyFollowingProfileInputEnvelope = {
+    data: FollowCreateManyFollowingProfileInput | FollowCreateManyFollowingProfileInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ServerFollowCreateWithoutFollowerProfileInput = {
+    id?: string
+    createdAt?: Date | string
+    server: ServerCreateNestedOneWithoutServerFollowsInput
+  }
+
+  export type ServerFollowUncheckedCreateWithoutFollowerProfileInput = {
+    id?: string
+    serverId: string
+    createdAt?: Date | string
+  }
+
+  export type ServerFollowCreateOrConnectWithoutFollowerProfileInput = {
+    where: ServerFollowWhereUniqueInput
+    create: XOR<ServerFollowCreateWithoutFollowerProfileInput, ServerFollowUncheckedCreateWithoutFollowerProfileInput>
+  }
+
+  export type ServerFollowCreateManyFollowerProfileInputEnvelope = {
+    data: ServerFollowCreateManyFollowerProfileInput | ServerFollowCreateManyFollowerProfileInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type NotificationCreateWithoutRecipientProfileInput = {
+    id?: string
+    type: $Enums.NotificationType
+    title: string
+    content: string
+    isRead?: boolean
+    createdAt?: Date | string
+    relatedProfile?: ProfileCreateNestedOneWithoutNotificationsRelatedInput
+    relatedServer?: ServerCreateNestedOneWithoutNotificationsRelatedInput
+  }
+
+  export type NotificationUncheckedCreateWithoutRecipientProfileInput = {
+    id?: string
+    type: $Enums.NotificationType
+    title: string
+    content: string
+    relatedProfileId?: string | null
+    relatedServerId?: string | null
+    isRead?: boolean
+    createdAt?: Date | string
+  }
+
+  export type NotificationCreateOrConnectWithoutRecipientProfileInput = {
+    where: NotificationWhereUniqueInput
+    create: XOR<NotificationCreateWithoutRecipientProfileInput, NotificationUncheckedCreateWithoutRecipientProfileInput>
+  }
+
+  export type NotificationCreateManyRecipientProfileInputEnvelope = {
+    data: NotificationCreateManyRecipientProfileInput | NotificationCreateManyRecipientProfileInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type NotificationCreateWithoutRelatedProfileInput = {
+    id?: string
+    type: $Enums.NotificationType
+    title: string
+    content: string
+    isRead?: boolean
+    createdAt?: Date | string
+    recipientProfile: ProfileCreateNestedOneWithoutNotificationsReceivedInput
+    relatedServer?: ServerCreateNestedOneWithoutNotificationsRelatedInput
+  }
+
+  export type NotificationUncheckedCreateWithoutRelatedProfileInput = {
+    id?: string
+    recipientProfileId: string
+    type: $Enums.NotificationType
+    title: string
+    content: string
+    relatedServerId?: string | null
+    isRead?: boolean
+    createdAt?: Date | string
+  }
+
+  export type NotificationCreateOrConnectWithoutRelatedProfileInput = {
+    where: NotificationWhereUniqueInput
+    create: XOR<NotificationCreateWithoutRelatedProfileInput, NotificationUncheckedCreateWithoutRelatedProfileInput>
+  }
+
+  export type NotificationCreateManyRelatedProfileInputEnvelope = {
+    data: NotificationCreateManyRelatedProfileInput | NotificationCreateManyRelatedProfileInput[]
     skipDuplicates?: boolean
   }
 
@@ -17424,6 +22400,121 @@ export namespace Prisma {
     data: XOR<FriendRequestUpdateManyMutationInput, FriendRequestUncheckedUpdateManyWithoutTargetProfileInput>
   }
 
+  export type FollowUpsertWithWhereUniqueWithoutFollowerProfileInput = {
+    where: FollowWhereUniqueInput
+    update: XOR<FollowUpdateWithoutFollowerProfileInput, FollowUncheckedUpdateWithoutFollowerProfileInput>
+    create: XOR<FollowCreateWithoutFollowerProfileInput, FollowUncheckedCreateWithoutFollowerProfileInput>
+  }
+
+  export type FollowUpdateWithWhereUniqueWithoutFollowerProfileInput = {
+    where: FollowWhereUniqueInput
+    data: XOR<FollowUpdateWithoutFollowerProfileInput, FollowUncheckedUpdateWithoutFollowerProfileInput>
+  }
+
+  export type FollowUpdateManyWithWhereWithoutFollowerProfileInput = {
+    where: FollowScalarWhereInput
+    data: XOR<FollowUpdateManyMutationInput, FollowUncheckedUpdateManyWithoutFollowerProfileInput>
+  }
+
+  export type FollowScalarWhereInput = {
+    AND?: FollowScalarWhereInput | FollowScalarWhereInput[]
+    OR?: FollowScalarWhereInput[]
+    NOT?: FollowScalarWhereInput | FollowScalarWhereInput[]
+    id?: StringFilter<"Follow"> | string
+    followerProfileId?: StringFilter<"Follow"> | string
+    followingProfileId?: StringFilter<"Follow"> | string
+    createdAt?: DateTimeFilter<"Follow"> | Date | string
+  }
+
+  export type FollowUpsertWithWhereUniqueWithoutFollowingProfileInput = {
+    where: FollowWhereUniqueInput
+    update: XOR<FollowUpdateWithoutFollowingProfileInput, FollowUncheckedUpdateWithoutFollowingProfileInput>
+    create: XOR<FollowCreateWithoutFollowingProfileInput, FollowUncheckedCreateWithoutFollowingProfileInput>
+  }
+
+  export type FollowUpdateWithWhereUniqueWithoutFollowingProfileInput = {
+    where: FollowWhereUniqueInput
+    data: XOR<FollowUpdateWithoutFollowingProfileInput, FollowUncheckedUpdateWithoutFollowingProfileInput>
+  }
+
+  export type FollowUpdateManyWithWhereWithoutFollowingProfileInput = {
+    where: FollowScalarWhereInput
+    data: XOR<FollowUpdateManyMutationInput, FollowUncheckedUpdateManyWithoutFollowingProfileInput>
+  }
+
+  export type ServerFollowUpsertWithWhereUniqueWithoutFollowerProfileInput = {
+    where: ServerFollowWhereUniqueInput
+    update: XOR<ServerFollowUpdateWithoutFollowerProfileInput, ServerFollowUncheckedUpdateWithoutFollowerProfileInput>
+    create: XOR<ServerFollowCreateWithoutFollowerProfileInput, ServerFollowUncheckedCreateWithoutFollowerProfileInput>
+  }
+
+  export type ServerFollowUpdateWithWhereUniqueWithoutFollowerProfileInput = {
+    where: ServerFollowWhereUniqueInput
+    data: XOR<ServerFollowUpdateWithoutFollowerProfileInput, ServerFollowUncheckedUpdateWithoutFollowerProfileInput>
+  }
+
+  export type ServerFollowUpdateManyWithWhereWithoutFollowerProfileInput = {
+    where: ServerFollowScalarWhereInput
+    data: XOR<ServerFollowUpdateManyMutationInput, ServerFollowUncheckedUpdateManyWithoutFollowerProfileInput>
+  }
+
+  export type ServerFollowScalarWhereInput = {
+    AND?: ServerFollowScalarWhereInput | ServerFollowScalarWhereInput[]
+    OR?: ServerFollowScalarWhereInput[]
+    NOT?: ServerFollowScalarWhereInput | ServerFollowScalarWhereInput[]
+    id?: StringFilter<"ServerFollow"> | string
+    followerProfileId?: StringFilter<"ServerFollow"> | string
+    serverId?: StringFilter<"ServerFollow"> | string
+    createdAt?: DateTimeFilter<"ServerFollow"> | Date | string
+  }
+
+  export type NotificationUpsertWithWhereUniqueWithoutRecipientProfileInput = {
+    where: NotificationWhereUniqueInput
+    update: XOR<NotificationUpdateWithoutRecipientProfileInput, NotificationUncheckedUpdateWithoutRecipientProfileInput>
+    create: XOR<NotificationCreateWithoutRecipientProfileInput, NotificationUncheckedCreateWithoutRecipientProfileInput>
+  }
+
+  export type NotificationUpdateWithWhereUniqueWithoutRecipientProfileInput = {
+    where: NotificationWhereUniqueInput
+    data: XOR<NotificationUpdateWithoutRecipientProfileInput, NotificationUncheckedUpdateWithoutRecipientProfileInput>
+  }
+
+  export type NotificationUpdateManyWithWhereWithoutRecipientProfileInput = {
+    where: NotificationScalarWhereInput
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutRecipientProfileInput>
+  }
+
+  export type NotificationScalarWhereInput = {
+    AND?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+    OR?: NotificationScalarWhereInput[]
+    NOT?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+    id?: StringFilter<"Notification"> | string
+    recipientProfileId?: StringFilter<"Notification"> | string
+    type?: EnumNotificationTypeFilter<"Notification"> | $Enums.NotificationType
+    title?: StringFilter<"Notification"> | string
+    content?: StringFilter<"Notification"> | string
+    relatedProfileId?: StringNullableFilter<"Notification"> | string | null
+    relatedServerId?: StringNullableFilter<"Notification"> | string | null
+    isRead?: BoolFilter<"Notification"> | boolean
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+  }
+
+  export type NotificationUpsertWithWhereUniqueWithoutRelatedProfileInput = {
+    where: NotificationWhereUniqueInput
+    update: XOR<NotificationUpdateWithoutRelatedProfileInput, NotificationUncheckedUpdateWithoutRelatedProfileInput>
+    create: XOR<NotificationCreateWithoutRelatedProfileInput, NotificationUncheckedCreateWithoutRelatedProfileInput>
+  }
+
+  export type NotificationUpdateWithWhereUniqueWithoutRelatedProfileInput = {
+    where: NotificationWhereUniqueInput
+    data: XOR<NotificationUpdateWithoutRelatedProfileInput, NotificationUncheckedUpdateWithoutRelatedProfileInput>
+  }
+
+  export type NotificationUpdateManyWithWhereWithoutRelatedProfileInput = {
+    where: NotificationScalarWhereInput
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutRelatedProfileInput>
+  }
+
   export type ProfileCreateWithoutServersInput = {
     id?: string
     userId: string
@@ -17439,6 +22530,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutServersInput = {
@@ -17456,6 +22552,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutServersInput = {
@@ -17527,6 +22628,60 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ServerFollowCreateWithoutServerInput = {
+    id?: string
+    createdAt?: Date | string
+    followerProfile: ProfileCreateNestedOneWithoutServerFollowsInput
+  }
+
+  export type ServerFollowUncheckedCreateWithoutServerInput = {
+    id?: string
+    followerProfileId: string
+    createdAt?: Date | string
+  }
+
+  export type ServerFollowCreateOrConnectWithoutServerInput = {
+    where: ServerFollowWhereUniqueInput
+    create: XOR<ServerFollowCreateWithoutServerInput, ServerFollowUncheckedCreateWithoutServerInput>
+  }
+
+  export type ServerFollowCreateManyServerInputEnvelope = {
+    data: ServerFollowCreateManyServerInput | ServerFollowCreateManyServerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type NotificationCreateWithoutRelatedServerInput = {
+    id?: string
+    type: $Enums.NotificationType
+    title: string
+    content: string
+    isRead?: boolean
+    createdAt?: Date | string
+    recipientProfile: ProfileCreateNestedOneWithoutNotificationsReceivedInput
+    relatedProfile?: ProfileCreateNestedOneWithoutNotificationsRelatedInput
+  }
+
+  export type NotificationUncheckedCreateWithoutRelatedServerInput = {
+    id?: string
+    recipientProfileId: string
+    type: $Enums.NotificationType
+    title: string
+    content: string
+    relatedProfileId?: string | null
+    isRead?: boolean
+    createdAt?: Date | string
+  }
+
+  export type NotificationCreateOrConnectWithoutRelatedServerInput = {
+    where: NotificationWhereUniqueInput
+    create: XOR<NotificationCreateWithoutRelatedServerInput, NotificationUncheckedCreateWithoutRelatedServerInput>
+  }
+
+  export type NotificationCreateManyRelatedServerInputEnvelope = {
+    data: NotificationCreateManyRelatedServerInput | NotificationCreateManyRelatedServerInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ProfileUpsertWithoutServersInput = {
     update: XOR<ProfileUpdateWithoutServersInput, ProfileUncheckedUpdateWithoutServersInput>
     create: XOR<ProfileCreateWithoutServersInput, ProfileUncheckedCreateWithoutServersInput>
@@ -17553,6 +22708,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutServersInput = {
@@ -17570,6 +22730,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
   }
 
   export type MemberUpsertWithWhereUniqueWithoutServerInput = {
@@ -17604,6 +22769,38 @@ export namespace Prisma {
     data: XOR<ChannelUpdateManyMutationInput, ChannelUncheckedUpdateManyWithoutServerInput>
   }
 
+  export type ServerFollowUpsertWithWhereUniqueWithoutServerInput = {
+    where: ServerFollowWhereUniqueInput
+    update: XOR<ServerFollowUpdateWithoutServerInput, ServerFollowUncheckedUpdateWithoutServerInput>
+    create: XOR<ServerFollowCreateWithoutServerInput, ServerFollowUncheckedCreateWithoutServerInput>
+  }
+
+  export type ServerFollowUpdateWithWhereUniqueWithoutServerInput = {
+    where: ServerFollowWhereUniqueInput
+    data: XOR<ServerFollowUpdateWithoutServerInput, ServerFollowUncheckedUpdateWithoutServerInput>
+  }
+
+  export type ServerFollowUpdateManyWithWhereWithoutServerInput = {
+    where: ServerFollowScalarWhereInput
+    data: XOR<ServerFollowUpdateManyMutationInput, ServerFollowUncheckedUpdateManyWithoutServerInput>
+  }
+
+  export type NotificationUpsertWithWhereUniqueWithoutRelatedServerInput = {
+    where: NotificationWhereUniqueInput
+    update: XOR<NotificationUpdateWithoutRelatedServerInput, NotificationUncheckedUpdateWithoutRelatedServerInput>
+    create: XOR<NotificationCreateWithoutRelatedServerInput, NotificationUncheckedCreateWithoutRelatedServerInput>
+  }
+
+  export type NotificationUpdateWithWhereUniqueWithoutRelatedServerInput = {
+    where: NotificationWhereUniqueInput
+    data: XOR<NotificationUpdateWithoutRelatedServerInput, NotificationUncheckedUpdateWithoutRelatedServerInput>
+  }
+
+  export type NotificationUpdateManyWithWhereWithoutRelatedServerInput = {
+    where: NotificationScalarWhereInput
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutRelatedServerInput>
+  }
+
   export type ProfileCreateWithoutMembersInput = {
     id?: string
     userId: string
@@ -17619,6 +22816,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutMembersInput = {
@@ -17636,6 +22838,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutMembersInput = {
@@ -17652,6 +22859,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     profile: ProfileCreateNestedOneWithoutServersInput
     channels?: ChannelCreateNestedManyWithoutServerInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutServerInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedServerInput
   }
 
   export type ServerUncheckedCreateWithoutMembersInput = {
@@ -17663,6 +22872,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     channels?: ChannelUncheckedCreateNestedManyWithoutServerInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutServerInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedServerInput
   }
 
   export type ServerCreateOrConnectWithoutMembersInput = {
@@ -17840,6 +23051,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutMembersInput = {
@@ -17857,6 +23073,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
   }
 
   export type ServerUpsertWithoutMembersInput = {
@@ -17879,6 +23100,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profile?: ProfileUpdateOneRequiredWithoutServersNestedInput
     channels?: ChannelUpdateManyWithoutServerNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutServerNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutMembersInput = {
@@ -17890,6 +23113,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     channels?: ChannelUncheckedUpdateManyWithoutServerNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutServerNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedServerNestedInput
   }
 
   export type ConversationUpsertWithWhereUniqueWithoutMemberOneInput = {
@@ -18015,6 +23240,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutChannelsInput = {
@@ -18032,6 +23262,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutChannelsInput = {
@@ -18048,6 +23283,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     profile: ProfileCreateNestedOneWithoutServersInput
     members?: MemberCreateNestedManyWithoutServerInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutServerInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedServerInput
   }
 
   export type ServerUncheckedCreateWithoutChannelsInput = {
@@ -18059,6 +23296,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: MemberUncheckedCreateNestedManyWithoutServerInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutServerInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedServerInput
   }
 
   export type ServerCreateOrConnectWithoutChannelsInput = {
@@ -18092,6 +23331,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutChannelsInput = {
@@ -18109,6 +23353,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
   }
 
   export type ServerUpsertWithoutChannelsInput = {
@@ -18131,6 +23380,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profile?: ProfileUpdateOneRequiredWithoutServersNestedInput
     members?: MemberUpdateManyWithoutServerNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutServerNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutChannelsInput = {
@@ -18142,6 +23393,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: MemberUncheckedUpdateManyWithoutServerNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutServerNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedServerNestedInput
   }
 
   export type MemberCreateWithoutConversationsInitiatedInput = {
@@ -18221,6 +23474,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutConversationsInput = {
@@ -18238,6 +23496,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutConversationsInput = {
@@ -18375,6 +23638,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutConversationsInput = {
@@ -18392,6 +23660,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
   }
 
   export type DirectMessageUpsertWithWhereUniqueWithoutConversationInput = {
@@ -18425,6 +23698,11 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutGroupConversationsCreatedInput = {
@@ -18442,6 +23720,11 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberUncheckedCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutGroupConversationsCreatedInput = {
@@ -18533,6 +23816,11 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutGroupConversationsCreatedInput = {
@@ -18550,6 +23838,11 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberUncheckedUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
   }
 
   export type GroupConversationMemberUpsertWithWhereUniqueWithoutGroupConversationInput = {
@@ -18599,6 +23892,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutGroupConversationsInput = {
@@ -18616,6 +23914,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutGroupConversationsInput = {
@@ -18705,6 +24008,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutGroupConversationsInput = {
@@ -18722,6 +24030,11 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
   }
 
   export type MemberUpsertWithoutGroupConversationsInput = {
@@ -19051,6 +24364,11 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberCreateNestedManyWithoutProfileInput
     groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
     friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutFriendRequestsSentInput = {
@@ -19068,6 +24386,11 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberUncheckedCreateNestedManyWithoutProfileInput
     groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
     friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutFriendRequestsSentInput = {
@@ -19090,6 +24413,11 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberCreateNestedManyWithoutProfileInput
     groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
+    followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutFriendRequestsReceivedInput = {
@@ -19107,6 +24435,11 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberUncheckedCreateNestedManyWithoutProfileInput
     groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutFriendRequestsReceivedInput = {
@@ -19140,6 +24473,11 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberUpdateManyWithoutProfileNestedInput
     groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
     friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutFriendRequestsSentInput = {
@@ -19157,6 +24495,11 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberUncheckedUpdateManyWithoutProfileNestedInput
     groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
     friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
   }
 
   export type ProfileUpsertWithoutFriendRequestsReceivedInput = {
@@ -19185,6 +24528,11 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberUpdateManyWithoutProfileNestedInput
     groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
+    followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutFriendRequestsReceivedInput = {
@@ -19202,6 +24550,667 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberUncheckedUpdateManyWithoutProfileNestedInput
     groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+  }
+
+  export type ProfileCreateWithoutFollowsSentInput = {
+    id?: string
+    userId: string
+    name: string
+    imageUrl: string
+    email: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    servers?: ServerCreateNestedManyWithoutProfileInput
+    members?: MemberCreateNestedManyWithoutProfileInput
+    channels?: ChannelCreateNestedManyWithoutProfileInput
+    conversations?: ConversationCreateNestedManyWithoutProfileInput
+    groupConversations?: GroupConversationMemberCreateNestedManyWithoutProfileInput
+    groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
+    friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
+    friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
+  }
+
+  export type ProfileUncheckedCreateWithoutFollowsSentInput = {
+    id?: string
+    userId: string
+    name: string
+    imageUrl: string
+    email: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    servers?: ServerUncheckedCreateNestedManyWithoutProfileInput
+    members?: MemberUncheckedCreateNestedManyWithoutProfileInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutProfileInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutProfileInput
+    groupConversations?: GroupConversationMemberUncheckedCreateNestedManyWithoutProfileInput
+    groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
+    friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
+  }
+
+  export type ProfileCreateOrConnectWithoutFollowsSentInput = {
+    where: ProfileWhereUniqueInput
+    create: XOR<ProfileCreateWithoutFollowsSentInput, ProfileUncheckedCreateWithoutFollowsSentInput>
+  }
+
+  export type ProfileCreateWithoutFollowsReceivedInput = {
+    id?: string
+    userId: string
+    name: string
+    imageUrl: string
+    email: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    servers?: ServerCreateNestedManyWithoutProfileInput
+    members?: MemberCreateNestedManyWithoutProfileInput
+    channels?: ChannelCreateNestedManyWithoutProfileInput
+    conversations?: ConversationCreateNestedManyWithoutProfileInput
+    groupConversations?: GroupConversationMemberCreateNestedManyWithoutProfileInput
+    groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
+    friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
+    friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
+  }
+
+  export type ProfileUncheckedCreateWithoutFollowsReceivedInput = {
+    id?: string
+    userId: string
+    name: string
+    imageUrl: string
+    email: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    servers?: ServerUncheckedCreateNestedManyWithoutProfileInput
+    members?: MemberUncheckedCreateNestedManyWithoutProfileInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutProfileInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutProfileInput
+    groupConversations?: GroupConversationMemberUncheckedCreateNestedManyWithoutProfileInput
+    groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
+    friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
+  }
+
+  export type ProfileCreateOrConnectWithoutFollowsReceivedInput = {
+    where: ProfileWhereUniqueInput
+    create: XOR<ProfileCreateWithoutFollowsReceivedInput, ProfileUncheckedCreateWithoutFollowsReceivedInput>
+  }
+
+  export type ProfileUpsertWithoutFollowsSentInput = {
+    update: XOR<ProfileUpdateWithoutFollowsSentInput, ProfileUncheckedUpdateWithoutFollowsSentInput>
+    create: XOR<ProfileCreateWithoutFollowsSentInput, ProfileUncheckedCreateWithoutFollowsSentInput>
+    where?: ProfileWhereInput
+  }
+
+  export type ProfileUpdateToOneWithWhereWithoutFollowsSentInput = {
+    where?: ProfileWhereInput
+    data: XOR<ProfileUpdateWithoutFollowsSentInput, ProfileUncheckedUpdateWithoutFollowsSentInput>
+  }
+
+  export type ProfileUpdateWithoutFollowsSentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    servers?: ServerUpdateManyWithoutProfileNestedInput
+    members?: MemberUpdateManyWithoutProfileNestedInput
+    channels?: ChannelUpdateManyWithoutProfileNestedInput
+    conversations?: ConversationUpdateManyWithoutProfileNestedInput
+    groupConversations?: GroupConversationMemberUpdateManyWithoutProfileNestedInput
+    groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
+    friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
+    friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
+  }
+
+  export type ProfileUncheckedUpdateWithoutFollowsSentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    servers?: ServerUncheckedUpdateManyWithoutProfileNestedInput
+    members?: MemberUncheckedUpdateManyWithoutProfileNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutProfileNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutProfileNestedInput
+    groupConversations?: GroupConversationMemberUncheckedUpdateManyWithoutProfileNestedInput
+    groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
+    friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+  }
+
+  export type ProfileUpsertWithoutFollowsReceivedInput = {
+    update: XOR<ProfileUpdateWithoutFollowsReceivedInput, ProfileUncheckedUpdateWithoutFollowsReceivedInput>
+    create: XOR<ProfileCreateWithoutFollowsReceivedInput, ProfileUncheckedCreateWithoutFollowsReceivedInput>
+    where?: ProfileWhereInput
+  }
+
+  export type ProfileUpdateToOneWithWhereWithoutFollowsReceivedInput = {
+    where?: ProfileWhereInput
+    data: XOR<ProfileUpdateWithoutFollowsReceivedInput, ProfileUncheckedUpdateWithoutFollowsReceivedInput>
+  }
+
+  export type ProfileUpdateWithoutFollowsReceivedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    servers?: ServerUpdateManyWithoutProfileNestedInput
+    members?: MemberUpdateManyWithoutProfileNestedInput
+    channels?: ChannelUpdateManyWithoutProfileNestedInput
+    conversations?: ConversationUpdateManyWithoutProfileNestedInput
+    groupConversations?: GroupConversationMemberUpdateManyWithoutProfileNestedInput
+    groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
+    friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
+    friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
+  }
+
+  export type ProfileUncheckedUpdateWithoutFollowsReceivedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    servers?: ServerUncheckedUpdateManyWithoutProfileNestedInput
+    members?: MemberUncheckedUpdateManyWithoutProfileNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutProfileNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutProfileNestedInput
+    groupConversations?: GroupConversationMemberUncheckedUpdateManyWithoutProfileNestedInput
+    groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
+    friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+  }
+
+  export type ProfileCreateWithoutServerFollowsInput = {
+    id?: string
+    userId: string
+    name: string
+    imageUrl: string
+    email: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    servers?: ServerCreateNestedManyWithoutProfileInput
+    members?: MemberCreateNestedManyWithoutProfileInput
+    channels?: ChannelCreateNestedManyWithoutProfileInput
+    conversations?: ConversationCreateNestedManyWithoutProfileInput
+    groupConversations?: GroupConversationMemberCreateNestedManyWithoutProfileInput
+    groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
+    friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
+    friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
+    notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
+  }
+
+  export type ProfileUncheckedCreateWithoutServerFollowsInput = {
+    id?: string
+    userId: string
+    name: string
+    imageUrl: string
+    email: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    servers?: ServerUncheckedCreateNestedManyWithoutProfileInput
+    members?: MemberUncheckedCreateNestedManyWithoutProfileInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutProfileInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutProfileInput
+    groupConversations?: GroupConversationMemberUncheckedCreateNestedManyWithoutProfileInput
+    groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
+    friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
+    notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
+  }
+
+  export type ProfileCreateOrConnectWithoutServerFollowsInput = {
+    where: ProfileWhereUniqueInput
+    create: XOR<ProfileCreateWithoutServerFollowsInput, ProfileUncheckedCreateWithoutServerFollowsInput>
+  }
+
+  export type ServerCreateWithoutServerFollowsInput = {
+    id?: string
+    name: string
+    imageUrl: string
+    inviteCode: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    profile: ProfileCreateNestedOneWithoutServersInput
+    members?: MemberCreateNestedManyWithoutServerInput
+    channels?: ChannelCreateNestedManyWithoutServerInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedServerInput
+  }
+
+  export type ServerUncheckedCreateWithoutServerFollowsInput = {
+    id?: string
+    name: string
+    imageUrl: string
+    inviteCode: string
+    profileId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: MemberUncheckedCreateNestedManyWithoutServerInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutServerInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedServerInput
+  }
+
+  export type ServerCreateOrConnectWithoutServerFollowsInput = {
+    where: ServerWhereUniqueInput
+    create: XOR<ServerCreateWithoutServerFollowsInput, ServerUncheckedCreateWithoutServerFollowsInput>
+  }
+
+  export type ProfileUpsertWithoutServerFollowsInput = {
+    update: XOR<ProfileUpdateWithoutServerFollowsInput, ProfileUncheckedUpdateWithoutServerFollowsInput>
+    create: XOR<ProfileCreateWithoutServerFollowsInput, ProfileUncheckedCreateWithoutServerFollowsInput>
+    where?: ProfileWhereInput
+  }
+
+  export type ProfileUpdateToOneWithWhereWithoutServerFollowsInput = {
+    where?: ProfileWhereInput
+    data: XOR<ProfileUpdateWithoutServerFollowsInput, ProfileUncheckedUpdateWithoutServerFollowsInput>
+  }
+
+  export type ProfileUpdateWithoutServerFollowsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    servers?: ServerUpdateManyWithoutProfileNestedInput
+    members?: MemberUpdateManyWithoutProfileNestedInput
+    channels?: ChannelUpdateManyWithoutProfileNestedInput
+    conversations?: ConversationUpdateManyWithoutProfileNestedInput
+    groupConversations?: GroupConversationMemberUpdateManyWithoutProfileNestedInput
+    groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
+    friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
+    friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
+    notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
+  }
+
+  export type ProfileUncheckedUpdateWithoutServerFollowsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    servers?: ServerUncheckedUpdateManyWithoutProfileNestedInput
+    members?: MemberUncheckedUpdateManyWithoutProfileNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutProfileNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutProfileNestedInput
+    groupConversations?: GroupConversationMemberUncheckedUpdateManyWithoutProfileNestedInput
+    groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
+    friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
+    notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+  }
+
+  export type ServerUpsertWithoutServerFollowsInput = {
+    update: XOR<ServerUpdateWithoutServerFollowsInput, ServerUncheckedUpdateWithoutServerFollowsInput>
+    create: XOR<ServerCreateWithoutServerFollowsInput, ServerUncheckedCreateWithoutServerFollowsInput>
+    where?: ServerWhereInput
+  }
+
+  export type ServerUpdateToOneWithWhereWithoutServerFollowsInput = {
+    where?: ServerWhereInput
+    data: XOR<ServerUpdateWithoutServerFollowsInput, ServerUncheckedUpdateWithoutServerFollowsInput>
+  }
+
+  export type ServerUpdateWithoutServerFollowsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    profile?: ProfileUpdateOneRequiredWithoutServersNestedInput
+    members?: MemberUpdateManyWithoutServerNestedInput
+    channels?: ChannelUpdateManyWithoutServerNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedServerNestedInput
+  }
+
+  export type ServerUncheckedUpdateWithoutServerFollowsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    profileId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: MemberUncheckedUpdateManyWithoutServerNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutServerNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedServerNestedInput
+  }
+
+  export type ProfileCreateWithoutNotificationsReceivedInput = {
+    id?: string
+    userId: string
+    name: string
+    imageUrl: string
+    email: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    servers?: ServerCreateNestedManyWithoutProfileInput
+    members?: MemberCreateNestedManyWithoutProfileInput
+    channels?: ChannelCreateNestedManyWithoutProfileInput
+    conversations?: ConversationCreateNestedManyWithoutProfileInput
+    groupConversations?: GroupConversationMemberCreateNestedManyWithoutProfileInput
+    groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
+    friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
+    friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
+  }
+
+  export type ProfileUncheckedCreateWithoutNotificationsReceivedInput = {
+    id?: string
+    userId: string
+    name: string
+    imageUrl: string
+    email: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    servers?: ServerUncheckedCreateNestedManyWithoutProfileInput
+    members?: MemberUncheckedCreateNestedManyWithoutProfileInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutProfileInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutProfileInput
+    groupConversations?: GroupConversationMemberUncheckedCreateNestedManyWithoutProfileInput
+    groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
+    friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
+  }
+
+  export type ProfileCreateOrConnectWithoutNotificationsReceivedInput = {
+    where: ProfileWhereUniqueInput
+    create: XOR<ProfileCreateWithoutNotificationsReceivedInput, ProfileUncheckedCreateWithoutNotificationsReceivedInput>
+  }
+
+  export type ProfileCreateWithoutNotificationsRelatedInput = {
+    id?: string
+    userId: string
+    name: string
+    imageUrl: string
+    email: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    servers?: ServerCreateNestedManyWithoutProfileInput
+    members?: MemberCreateNestedManyWithoutProfileInput
+    channels?: ChannelCreateNestedManyWithoutProfileInput
+    conversations?: ConversationCreateNestedManyWithoutProfileInput
+    groupConversations?: GroupConversationMemberCreateNestedManyWithoutProfileInput
+    groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
+    friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
+    friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
+  }
+
+  export type ProfileUncheckedCreateWithoutNotificationsRelatedInput = {
+    id?: string
+    userId: string
+    name: string
+    imageUrl: string
+    email: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    servers?: ServerUncheckedCreateNestedManyWithoutProfileInput
+    members?: MemberUncheckedCreateNestedManyWithoutProfileInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutProfileInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutProfileInput
+    groupConversations?: GroupConversationMemberUncheckedCreateNestedManyWithoutProfileInput
+    groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
+    friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
+  }
+
+  export type ProfileCreateOrConnectWithoutNotificationsRelatedInput = {
+    where: ProfileWhereUniqueInput
+    create: XOR<ProfileCreateWithoutNotificationsRelatedInput, ProfileUncheckedCreateWithoutNotificationsRelatedInput>
+  }
+
+  export type ServerCreateWithoutNotificationsRelatedInput = {
+    id?: string
+    name: string
+    imageUrl: string
+    inviteCode: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    profile: ProfileCreateNestedOneWithoutServersInput
+    members?: MemberCreateNestedManyWithoutServerInput
+    channels?: ChannelCreateNestedManyWithoutServerInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutServerInput
+  }
+
+  export type ServerUncheckedCreateWithoutNotificationsRelatedInput = {
+    id?: string
+    name: string
+    imageUrl: string
+    inviteCode: string
+    profileId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: MemberUncheckedCreateNestedManyWithoutServerInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutServerInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutServerInput
+  }
+
+  export type ServerCreateOrConnectWithoutNotificationsRelatedInput = {
+    where: ServerWhereUniqueInput
+    create: XOR<ServerCreateWithoutNotificationsRelatedInput, ServerUncheckedCreateWithoutNotificationsRelatedInput>
+  }
+
+  export type ProfileUpsertWithoutNotificationsReceivedInput = {
+    update: XOR<ProfileUpdateWithoutNotificationsReceivedInput, ProfileUncheckedUpdateWithoutNotificationsReceivedInput>
+    create: XOR<ProfileCreateWithoutNotificationsReceivedInput, ProfileUncheckedCreateWithoutNotificationsReceivedInput>
+    where?: ProfileWhereInput
+  }
+
+  export type ProfileUpdateToOneWithWhereWithoutNotificationsReceivedInput = {
+    where?: ProfileWhereInput
+    data: XOR<ProfileUpdateWithoutNotificationsReceivedInput, ProfileUncheckedUpdateWithoutNotificationsReceivedInput>
+  }
+
+  export type ProfileUpdateWithoutNotificationsReceivedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    servers?: ServerUpdateManyWithoutProfileNestedInput
+    members?: MemberUpdateManyWithoutProfileNestedInput
+    channels?: ChannelUpdateManyWithoutProfileNestedInput
+    conversations?: ConversationUpdateManyWithoutProfileNestedInput
+    groupConversations?: GroupConversationMemberUpdateManyWithoutProfileNestedInput
+    groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
+    friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
+    friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
+  }
+
+  export type ProfileUncheckedUpdateWithoutNotificationsReceivedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    servers?: ServerUncheckedUpdateManyWithoutProfileNestedInput
+    members?: MemberUncheckedUpdateManyWithoutProfileNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutProfileNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutProfileNestedInput
+    groupConversations?: GroupConversationMemberUncheckedUpdateManyWithoutProfileNestedInput
+    groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
+    friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+  }
+
+  export type ProfileUpsertWithoutNotificationsRelatedInput = {
+    update: XOR<ProfileUpdateWithoutNotificationsRelatedInput, ProfileUncheckedUpdateWithoutNotificationsRelatedInput>
+    create: XOR<ProfileCreateWithoutNotificationsRelatedInput, ProfileUncheckedCreateWithoutNotificationsRelatedInput>
+    where?: ProfileWhereInput
+  }
+
+  export type ProfileUpdateToOneWithWhereWithoutNotificationsRelatedInput = {
+    where?: ProfileWhereInput
+    data: XOR<ProfileUpdateWithoutNotificationsRelatedInput, ProfileUncheckedUpdateWithoutNotificationsRelatedInput>
+  }
+
+  export type ProfileUpdateWithoutNotificationsRelatedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    servers?: ServerUpdateManyWithoutProfileNestedInput
+    members?: MemberUpdateManyWithoutProfileNestedInput
+    channels?: ChannelUpdateManyWithoutProfileNestedInput
+    conversations?: ConversationUpdateManyWithoutProfileNestedInput
+    groupConversations?: GroupConversationMemberUpdateManyWithoutProfileNestedInput
+    groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
+    friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
+    friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
+  }
+
+  export type ProfileUncheckedUpdateWithoutNotificationsRelatedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    servers?: ServerUncheckedUpdateManyWithoutProfileNestedInput
+    members?: MemberUncheckedUpdateManyWithoutProfileNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutProfileNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutProfileNestedInput
+    groupConversations?: GroupConversationMemberUncheckedUpdateManyWithoutProfileNestedInput
+    groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
+    friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
+  }
+
+  export type ServerUpsertWithoutNotificationsRelatedInput = {
+    update: XOR<ServerUpdateWithoutNotificationsRelatedInput, ServerUncheckedUpdateWithoutNotificationsRelatedInput>
+    create: XOR<ServerCreateWithoutNotificationsRelatedInput, ServerUncheckedCreateWithoutNotificationsRelatedInput>
+    where?: ServerWhereInput
+  }
+
+  export type ServerUpdateToOneWithWhereWithoutNotificationsRelatedInput = {
+    where?: ServerWhereInput
+    data: XOR<ServerUpdateWithoutNotificationsRelatedInput, ServerUncheckedUpdateWithoutNotificationsRelatedInput>
+  }
+
+  export type ServerUpdateWithoutNotificationsRelatedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    profile?: ProfileUpdateOneRequiredWithoutServersNestedInput
+    members?: MemberUpdateManyWithoutServerNestedInput
+    channels?: ChannelUpdateManyWithoutServerNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutServerNestedInput
+  }
+
+  export type ServerUncheckedUpdateWithoutNotificationsRelatedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    profileId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: MemberUncheckedUpdateManyWithoutServerNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutServerNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type ServerCreateManyProfileInput = {
@@ -19271,6 +25280,46 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type FollowCreateManyFollowerProfileInput = {
+    id?: string
+    followingProfileId: string
+    createdAt?: Date | string
+  }
+
+  export type FollowCreateManyFollowingProfileInput = {
+    id?: string
+    followerProfileId: string
+    createdAt?: Date | string
+  }
+
+  export type ServerFollowCreateManyFollowerProfileInput = {
+    id?: string
+    serverId: string
+    createdAt?: Date | string
+  }
+
+  export type NotificationCreateManyRecipientProfileInput = {
+    id?: string
+    type: $Enums.NotificationType
+    title: string
+    content: string
+    relatedProfileId?: string | null
+    relatedServerId?: string | null
+    isRead?: boolean
+    createdAt?: Date | string
+  }
+
+  export type NotificationCreateManyRelatedProfileInput = {
+    id?: string
+    recipientProfileId: string
+    type: $Enums.NotificationType
+    title: string
+    content: string
+    relatedServerId?: string | null
+    isRead?: boolean
+    createdAt?: Date | string
+  }
+
   export type ServerUpdateWithoutProfileInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -19280,6 +25329,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: MemberUpdateManyWithoutServerNestedInput
     channels?: ChannelUpdateManyWithoutServerNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutServerNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutProfileInput = {
@@ -19291,6 +25342,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: MemberUncheckedUpdateManyWithoutServerNestedInput
     channels?: ChannelUncheckedUpdateManyWithoutServerNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutServerNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedServerNestedInput
   }
 
   export type ServerUncheckedUpdateManyWithoutProfileInput = {
@@ -19492,6 +25545,126 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type FollowUpdateWithoutFollowerProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followingProfile?: ProfileUpdateOneRequiredWithoutFollowsReceivedNestedInput
+  }
+
+  export type FollowUncheckedUpdateWithoutFollowerProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    followingProfileId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FollowUncheckedUpdateManyWithoutFollowerProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    followingProfileId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FollowUpdateWithoutFollowingProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followerProfile?: ProfileUpdateOneRequiredWithoutFollowsSentNestedInput
+  }
+
+  export type FollowUncheckedUpdateWithoutFollowingProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    followerProfileId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FollowUncheckedUpdateManyWithoutFollowingProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    followerProfileId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServerFollowUpdateWithoutFollowerProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    server?: ServerUpdateOneRequiredWithoutServerFollowsNestedInput
+  }
+
+  export type ServerFollowUncheckedUpdateWithoutFollowerProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    serverId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServerFollowUncheckedUpdateManyWithoutFollowerProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    serverId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUpdateWithoutRecipientProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    relatedProfile?: ProfileUpdateOneWithoutNotificationsRelatedNestedInput
+    relatedServer?: ServerUpdateOneWithoutNotificationsRelatedNestedInput
+  }
+
+  export type NotificationUncheckedUpdateWithoutRecipientProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    relatedProfileId?: NullableStringFieldUpdateOperationsInput | string | null
+    relatedServerId?: NullableStringFieldUpdateOperationsInput | string | null
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutRecipientProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    relatedProfileId?: NullableStringFieldUpdateOperationsInput | string | null
+    relatedServerId?: NullableStringFieldUpdateOperationsInput | string | null
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUpdateWithoutRelatedProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    recipientProfile?: ProfileUpdateOneRequiredWithoutNotificationsReceivedNestedInput
+    relatedServer?: ServerUpdateOneWithoutNotificationsRelatedNestedInput
+  }
+
+  export type NotificationUncheckedUpdateWithoutRelatedProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    recipientProfileId?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    relatedServerId?: NullableStringFieldUpdateOperationsInput | string | null
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutRelatedProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    recipientProfileId?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    relatedServerId?: NullableStringFieldUpdateOperationsInput | string | null
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type MemberCreateManyServerInput = {
     id?: string
     role?: $Enums.MemberRole
@@ -19507,6 +25680,23 @@ export namespace Prisma {
     profileId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type ServerFollowCreateManyServerInput = {
+    id?: string
+    followerProfileId: string
+    createdAt?: Date | string
+  }
+
+  export type NotificationCreateManyRelatedServerInput = {
+    id?: string
+    recipientProfileId: string
+    type: $Enums.NotificationType
+    title: string
+    content: string
+    relatedProfileId?: string | null
+    isRead?: boolean
+    createdAt?: Date | string
   }
 
   export type MemberUpdateWithoutServerInput = {
@@ -19568,6 +25758,57 @@ export namespace Prisma {
     profileId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServerFollowUpdateWithoutServerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followerProfile?: ProfileUpdateOneRequiredWithoutServerFollowsNestedInput
+  }
+
+  export type ServerFollowUncheckedUpdateWithoutServerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    followerProfileId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServerFollowUncheckedUpdateManyWithoutServerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    followerProfileId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUpdateWithoutRelatedServerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    recipientProfile?: ProfileUpdateOneRequiredWithoutNotificationsReceivedNestedInput
+    relatedProfile?: ProfileUpdateOneWithoutNotificationsRelatedNestedInput
+  }
+
+  export type NotificationUncheckedUpdateWithoutRelatedServerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    recipientProfileId?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    relatedProfileId?: NullableStringFieldUpdateOperationsInput | string | null
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutRelatedServerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    recipientProfileId?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    relatedProfileId?: NullableStringFieldUpdateOperationsInput | string | null
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ConversationCreateManyMemberOneInput = {

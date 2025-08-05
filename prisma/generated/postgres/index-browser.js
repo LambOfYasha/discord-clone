@@ -218,6 +218,32 @@ exports.Prisma.FriendRequestScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.FollowScalarFieldEnum = {
+  id: 'id',
+  followerProfileId: 'followerProfileId',
+  followingProfileId: 'followingProfileId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ServerFollowScalarFieldEnum = {
+  id: 'id',
+  followerProfileId: 'followerProfileId',
+  serverId: 'serverId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  recipientProfileId: 'recipientProfileId',
+  type: 'type',
+  title: 'title',
+  content: 'content',
+  relatedProfileId: 'relatedProfileId',
+  relatedServerId: 'relatedServerId',
+  isRead: 'isRead',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -256,6 +282,15 @@ exports.FriendRequestStatus = exports.$Enums.FriendRequestStatus = {
   REJECTED: 'REJECTED'
 };
 
+exports.NotificationType = exports.$Enums.NotificationType = {
+  FRIEND_ACTIVITY: 'FRIEND_ACTIVITY',
+  SERVER_ACTIVITY: 'SERVER_ACTIVITY',
+  FRIEND_ONLINE: 'FRIEND_ONLINE',
+  SERVER_JOIN: 'SERVER_JOIN',
+  MESSAGE_MENTION: 'MESSAGE_MENTION',
+  SERVER_INVITE: 'SERVER_INVITE'
+};
+
 exports.Prisma.ModelName = {
   Profile: 'Profile',
   Server: 'Server',
@@ -266,7 +301,10 @@ exports.Prisma.ModelName = {
   GroupConversationMember: 'GroupConversationMember',
   GroupMessage: 'GroupMessage',
   DirectMessage: 'DirectMessage',
-  FriendRequest: 'FriendRequest'
+  FriendRequest: 'FriendRequest',
+  Follow: 'Follow',
+  ServerFollow: 'ServerFollow',
+  Notification: 'Notification'
 };
 
 /**

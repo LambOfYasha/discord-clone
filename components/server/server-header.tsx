@@ -20,6 +20,8 @@ import {
   User,
 } from "lucide-react";
 import { useModal } from "@/hooks/use-modal-store";
+import { FollowButton } from "@/components/ui/follow-button";
+import { useState, useEffect } from "react";
 
 interface ServerHeaderProps {
   server: ServerWithMembersWithProfiles;
@@ -28,8 +30,32 @@ interface ServerHeaderProps {
 
 export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
   const { onOpen } = useModal();
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const isAdmin = role === MemberRole.ADMIN;
   const isModerator = isAdmin || role === MemberRole.MODERATOR;
+
+  useEffect(() => {
+    checkFollowStatus();
+  }, [server.id]);
+
+  const checkFollowStatus = async () => {
+    try {
+      const response = await fetch(`/api/server-follows?serverId=${server.id}`);
+      if (response.ok) {
+        const data = await response.json();
+        setIsFollowing(data.isFollowing);
+      }
+    } catch (error) {
+      console.error("Failed to check follow status:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleFollowChange = (following: boolean) => {
+    setIsFollowing(following);
+  };
 
   return (
     <div className="flex items-center border-neutral-200 dark:border-neutral-800 border-b-2 h-12">
@@ -98,6 +124,19 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         )}
       </DropdownMenuContent>
     </DropdownMenu>
+    
+    {/* Follow Button */}
+    {!isLoading && (
+      <div className="px-2">
+        <FollowButton
+          type="server"
+          targetId={server.id}
+          isFollowing={isFollowing}
+          onFollowChange={handleFollowChange}
+          className="h-8 text-xs"
+        />
+      </div>
+    )}
     
     {/* Member List Button */}
     <button

@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { FollowButton } from "@/components/ui/follow-button";
 import { 
   User, 
   MessageSquare, 
@@ -37,6 +38,7 @@ interface Friend {
   memberId?: string;
   status: string;
   statusText: string;
+  isFollowing?: boolean;
 }
 
 interface PendingRequest {
@@ -88,7 +90,24 @@ export const FriendsList = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("Friends data received:", data.friends);
-        setFriends(data.friends);
+        
+        // Check follow status for each friend
+        const friendsWithFollowStatus = await Promise.all(
+          data.friends.map(async (friend: Friend) => {
+            try {
+              const followResponse = await fetch(`/api/follows?profileId=${friend.profile.id}`);
+              if (followResponse.ok) {
+                const followData = await followResponse.json();
+                return { ...friend, isFollowing: followData.isFollowing };
+              }
+            } catch (error) {
+              console.error("Failed to check follow status:", error);
+            }
+            return { ...friend, isFollowing: false };
+          })
+        );
+        
+        setFriends(friendsWithFollowStatus);
         setPendingRequests(data.pendingRequests);
         setDirectMessages(data.directMessages);
         setCounts(data.counts);
@@ -98,6 +117,14 @@ export const FriendsList = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleFollowChange = (friendId: string, isFollowing: boolean) => {
+    setFriends(prev => 
+      prev.map(friend => 
+        friend.id === friendId ? { ...friend, isFollowing } : friend
+      )
+    );
   };
 
   const handleAcceptRequest = async (requesterProfileId: string) => {
@@ -231,6 +258,71 @@ export const FriendsList = () => {
   const onlineFriends = filteredFriends.filter(friend => friend.status === "online");
   const allFriends = filteredFriends;
 
+  const renderFriendItem = (friend: Friend) => (
+    <div key={friend.id} className="flex items-center justify-between p-3 rounded-lg hover:bg-[#1E1F22] cursor-pointer">
+      <div className="flex items-center space-x-3">
+        <div className="relative">
+          <Avatar className="w-10 h-10">
+            <AvatarImage src={friend.profile.imageUrl} />
+            <AvatarFallback className="bg-pink-500">
+              <span className="text-white text-sm font-semibold">
+                {friend.profile.name.charAt(0).toUpperCase()}
+              </span>
+            </AvatarFallback>
+          </Avatar>
+          {friend.status === "online" && (
+            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-[#2B2D31]"></div>
+          )}
+        </div>
+        <div>
+          <p className="text-white font-medium">{friend.profile.name}</p>
+          <p className="text-sm text-gray-400">{friend.statusText}</p>
+        </div>
+      </div>
+      <div className="flex items-center space-x-2">
+        <FollowButton
+          type="user"
+          targetId={friend.profile.id}
+          isFollowing={friend.isFollowing || false}
+          onFollowChange={(isFollowing) => handleFollowChange(friend.id, isFollowing)}
+          className="h-8"
+        />
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-8 w-8 p-0 text-gray-400 hover:text-white"
+          onClick={() => handleCreateDM(friend)}
+        >
+          <MessageSquare className="h-4 w-4" />
+        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0 text-gray-400 hover:text-white"
+            >
+              <MoreVertical className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            side="bottom"
+            align="end"
+            className="w-48 bg-[#2B2D31] border-[#1E1F22]"
+          >
+            <DropdownMenuItem
+              onClick={() => handleDeleteFriend(friend)}
+              className="text-red-500 focus:text-red-400 focus:bg-[#1E1F22] cursor-pointer"
+            >
+              <Trash2 className="h-4 w-4 mr-2" />
+              Remove Friend
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </div>
+  );
+
   return (
     <div className="h-full flex flex-col">
       {/* Header */}
@@ -332,61 +424,7 @@ export const FriendsList = () => {
                         <p className="text-gray-400">No friends online</p>
                       </div>
                     ) : (
-                      onlineFriends.map((friend) => (
-                        <div key={friend.id} className="flex items-center justify-between p-3 rounded-lg hover:bg-[#1E1F22] cursor-pointer">
-                          <div className="flex items-center space-x-3">
-                            <div className="relative">
-                              <Avatar className="w-10 h-10">
-                                <AvatarImage src={friend.profile.imageUrl} />
-                                <AvatarFallback className="bg-pink-500">
-                                  <span className="text-white text-sm font-semibold">
-                                    {friend.profile.name.charAt(0).toUpperCase()}
-                                  </span>
-                                </AvatarFallback>
-                              </Avatar>
-                              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-[#2B2D31]"></div>
-                            </div>
-                            <div>
-                              <p className="text-white font-medium">{friend.profile.name}</p>
-                              <p className="text-sm text-gray-400">{friend.statusText}</p>
-                            </div>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="h-8 w-8 p-0 text-gray-400 hover:text-white"
-                              onClick={() => handleCreateDM(friend)}
-                            >
-                              <MessageSquare className="h-4 w-4" />
-                            </Button>
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  className="h-8 w-8 p-0 text-gray-400 hover:text-white"
-                                >
-                                  <MoreVertical className="h-4 w-4" />
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent
-                                side="bottom"
-                                align="end"
-                                className="w-48 bg-[#2B2D31] border-[#1E1F22]"
-                              >
-                                <DropdownMenuItem
-                                  onClick={() => handleDeleteFriend(friend)}
-                                  className="text-red-500 focus:text-red-400 focus:bg-[#1E1F22] cursor-pointer"
-                                >
-                                  <Trash2 className="h-4 w-4 mr-2" />
-                                  Remove Friend
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </div>
-                        </div>
-                      ))
+                      onlineFriends.map(renderFriendItem)
                     )}
                   </div>
                 </div>
@@ -404,63 +442,7 @@ export const FriendsList = () => {
                         <p className="text-gray-400">No friends yet</p>
                       </div>
                     ) : (
-                      allFriends.map((friend) => (
-                        <div key={friend.id} className="flex items-center justify-between p-3 rounded-lg hover:bg-[#1E1F22] cursor-pointer">
-                          <div className="flex items-center space-x-3">
-                            <div className="relative">
-                              <Avatar className="w-10 h-10">
-                                <AvatarImage src={friend.profile.imageUrl} />
-                                <AvatarFallback className="bg-pink-500">
-                                  <span className="text-white text-sm font-semibold">
-                                    {friend.profile.name.charAt(0).toUpperCase()}
-                                  </span>
-                                </AvatarFallback>
-                              </Avatar>
-                              {friend.status === "online" && (
-                                <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-[#2B2D31]"></div>
-                              )}
-                            </div>
-                            <div>
-                              <p className="text-white font-medium">{friend.profile.name}</p>
-                              <p className="text-sm text-gray-400">{friend.statusText}</p>
-                            </div>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="h-8 w-8 p-0 text-gray-400 hover:text-white"
-                              onClick={() => handleCreateDM(friend)}
-                            >
-                              <MessageSquare className="h-4 w-4" />
-                            </Button>
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  className="h-8 w-8 p-0 text-gray-400 hover:text-white"
-                                >
-                                  <MoreVertical className="h-4 w-4" />
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent
-                                side="bottom"
-                                align="end"
-                                className="w-48 bg-[#2B2D31] border-[#1E1F22]"
-                              >
-                                <DropdownMenuItem
-                                  onClick={() => handleDeleteFriend(friend)}
-                                  className="text-red-500 focus:text-red-400 focus:bg-[#1E1F22] cursor-pointer"
-                                >
-                                  <Trash2 className="h-4 w-4 mr-2" />
-                                  Remove Friend
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </div>
-                        </div>
-                      ))
+                      allFriends.map(renderFriendItem)
                     )}
                   </div>
                 </div>

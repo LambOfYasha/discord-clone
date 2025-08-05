@@ -25,6 +25,11 @@ model Profile {
   groupConversationsCreated GroupConversation[]
   friendRequestsSent FriendRequest[] @relation("FriendRequestRequester")
   friendRequestsReceived FriendRequest[] @relation("FriendRequestTarget")
+  followsSent Follow[] @relation("FollowerProfile")
+  followsReceived Follow[] @relation("FollowingProfile")
+  serverFollows ServerFollow[] @relation("ServerFollowerProfile")
+  notificationsReceived Notification[] @relation("NotificationRecipient")
+  notificationsRelated Notification[] @relation("NotificationRelatedProfile")
 
   @@map("profiles")
 }
@@ -38,6 +43,8 @@ model Server {
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
   members Member[]
   channels Channel[]
+  serverFollows ServerFollow[]
+  notificationsRelated Notification[] @relation("NotificationRelatedServer")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -167,6 +174,47 @@ model FriendRequest {
   @@map("friend_requests")
 }
 
+model Follow {
+  id String @id @default(uuid())
+  followerProfileId String
+  followerProfile Profile @relation("FollowerProfile", fields: [followerProfileId], references: [id], onDelete: Cascade)
+  followingProfileId String
+  followingProfile Profile @relation("FollowingProfile", fields: [followingProfileId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([followerProfileId, followingProfileId])
+  @@map("follows")
+}
+
+model ServerFollow {
+  id String @id @default(uuid())
+  followerProfileId String
+  followerProfile Profile @relation("ServerFollowerProfile", fields: [followerProfileId], references: [id], onDelete: Cascade)
+  serverId String
+  server Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([followerProfileId, serverId])
+  @@map("server_follows")
+}
+
+model Notification {
+  id String @id @default(uuid())
+  recipientProfileId String
+  recipientProfile Profile @relation("NotificationRecipient", fields: [recipientProfileId], references: [id], onDelete: Cascade)
+  type NotificationType
+  title String
+  content String
+  relatedProfileId String?
+  relatedProfile Profile? @relation("NotificationRelatedProfile", fields: [relatedProfileId], references: [id], onDelete: SetNull)
+  relatedServerId String?
+  relatedServer Server? @relation("NotificationRelatedServer", fields: [relatedServerId], references: [id], onDelete: SetNull)
+  isRead Boolean @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("notifications")
+}
+
 enum MemberRole {
   ADMIN
   MODERATOR
@@ -189,4 +237,13 @@ enum FriendRequestStatus {
   PENDING
   ACCEPTED
   REJECTED
+}
+
+enum NotificationType {
+  FRIEND_ACTIVITY
+  SERVER_ACTIVITY
+  FRIEND_ONLINE
+  SERVER_JOIN
+  MESSAGE_MENTION
+  SERVER_INVITE
 }
