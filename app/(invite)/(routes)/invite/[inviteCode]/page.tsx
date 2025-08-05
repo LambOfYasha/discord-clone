@@ -10,52 +10,78 @@ interface InviteCodePageProps {
 }
 
 const InviteCodePage = async ({ params }: InviteCodePageProps) => {
-  const resolvedParams = await params; // Wait for the promise to resolve
-  const { inviteCode } = resolvedParams; // Destructure the inviteCode
+  try {
+    const resolvedParams = await params; // Wait for the promise to resolve
+    const { inviteCode } = resolvedParams; // Destructure the inviteCode
 
-  const profile = await currentProfile();
+    console.log(`[INVITE] Processing invite code: ${inviteCode}`);
 
-  if (!profile) {
-    const authInstance = await auth();
-    authInstance.redirectToSignIn();
-    return null; // This will not be rendered because of the redirection
-  }
+    const profile = await currentProfile();
 
-  if (!inviteCode) {
-    return redirect("/"); // If no invite code is provided, redirect to home
-  }
+    if (!profile) {
+      console.log("[INVITE] No profile found, redirecting to sign in");
+      const authInstance = await auth();
+      authInstance.redirectToSignIn();
+      return null; // This will not be rendered because of the redirection
+    }
 
-  const existingServer = await db.server.findFirst({
-    where: {
-      inviteCode: inviteCode,
-      members: {
-        some: {
+    console.log(`[INVITE] Profile found: ${profile.id} (${profile.name})`);
+
+    if (!inviteCode) {
+      console.log("[INVITE] No invite code provided, redirecting to home");
+      return redirect("/"); // If no invite code is provided, redirect to home
+    }
+
+    // First, check if the server exists with the given invite code
+    const server = await db.server.findUnique({
+      where: {
+        inviteCode: inviteCode,
+      },
+    });
+
+    if (!server) {
+      // If server doesn't exist, redirect to home or show an error
+      console.error(`[INVITE] Server with invite code ${inviteCode} not found`);
+      return redirect("/"); // Redirect to home if server doesn't exist
+    }
+
+    console.log(`[INVITE] Server found: ${server.name} (${server.id})`);
+
+    // Check if user is already a member of this server
+    const existingMember = await db.member.findFirst({
+      where: {
+        serverId: server.id,
+        profileId: profile.id,
+      },
+    });
+
+    if (existingMember) {
+      console.log(`[INVITE] User is already a member of server ${server.name}`);
+      return redirect(`/servers/${server.id}`); // Redirect if already a member
+    }
+
+    console.log(`[INVITE] Adding user ${profile.name} to server ${server.name}`);
+
+    try {
+      // Create a new member for the user
+      const newMember = await db.member.create({
+        data: {
           profileId: profile.id,
+          serverId: server.id,
+          role: "GUEST", // Default role for new members
         },
-      },
-    },
-  });
+      });
 
-  if (existingServer) {
-    return redirect(`/servers/${existingServer.id}`); // Redirect if the server already exists
+      console.log(`[INVITE] Successfully created member: ${newMember.id}`);
+      return redirect(`/servers/${server.id}`); // Redirect to the server if added successfully
+    } catch (error) {
+      console.error("[INVITE] Error creating member:", error);
+      return redirect("/"); // Redirect to home on error
+    }
+  } catch (error) {
+    console.error("[INVITE] Unexpected error:", error);
+    return redirect("/"); // Redirect to home on any unexpected error
   }
-
-  const server = await db.server.update({
-    where: {
-      inviteCode: inviteCode,
-    },
-    data: {
-      members: {
-        create: [{ profileId: profile.id }],
-      },
-    },
-  });
-
-  if (server) {
-    return redirect(`/servers/${server.id}`); // Redirect to the server if added successfully
-  }
-
-  return null; // Return nothing if no action was performed
 };
 
 export default InviteCodePage;
