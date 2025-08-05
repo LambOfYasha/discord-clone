@@ -17,6 +17,7 @@ import {
   Trash,
   UserPlus,
   Users,
+  User,
 } from "lucide-react";
 import { useModal } from "@/hooks/use-modal-store";
 
@@ -31,13 +32,14 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
   const isModerator = isAdmin || role === MemberRole.MODERATOR;
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger className="focus:outline-none" asChild>
-        <button className="w-full font-semibold flex items-center border-neutral-200 text-md px-3 h-12 dark:border-neutral-800 border-b-2 hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition">
-          {server.name}
-          <ChevronDown className="h-5 w-5 ml-auto" />
-        </button>
-      </DropdownMenuTrigger>
+    <div className="flex items-center border-neutral-200 dark:border-neutral-800 border-b-2 h-12">
+      <DropdownMenu>
+        <DropdownMenuTrigger className="focus:outline-none" asChild>
+          <button className="font-semibold flex items-center text-md px-3 h-12 hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition flex-1">
+            {server.name}
+            <ChevronDown className="h-5 w-5 ml-auto" />
+          </button>
+        </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56 text-xs text-black dark:text-neutral-400 space-y-[2px] font-medium">
         {isModerator && (
           <DropdownMenuItem
@@ -96,5 +98,14 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         )}
       </DropdownMenuContent>
     </DropdownMenu>
-  );
-};
+    
+    {/* Member List Button */}
+    <button
+      onClick={() => onOpen("userList", { server })}
+      className="px-3 h-12 hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition flex items-center"
+      title="View Members"
+    >
+      <User className="h-5 w-5 text-zinc-500 dark:text-zinc-400" />
+    </button>
+  </div>
+);

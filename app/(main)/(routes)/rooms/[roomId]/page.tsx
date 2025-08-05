@@ -139,6 +139,7 @@ const RoomPage = async ({ params, searchParams }: RoomPageProps) => {
         name={roomName}
         serverId={roomId}
         type="conversation"
+        room={room}
       />
       {video && (
         <MediaRoom chatId={roomId} video={true} audio={true} />

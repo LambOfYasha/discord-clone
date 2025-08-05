@@ -56,6 +56,24 @@ const GroupConversationIdPage = async ({
     return redirect("/");
   }
 
+  // Fetch server data with members
+  const server = await postgres.server.findUnique({
+    where: {
+      id: params.serverId,
+    },
+    include: {
+      members: {
+        include: {
+          profile: true,
+        },
+      },
+    },
+  });
+
+  if (!server) {
+    return redirect("/");
+  }
+
   const video = searchParams.video;
 
   return (
@@ -64,6 +82,7 @@ const GroupConversationIdPage = async ({
         name={groupConversation.name}
         serverId={params.serverId}
         type="group-conversation"
+        server={server}
       />
       {video && (
         <MediaRoom chatId={groupConversation.id} video={true} audio={true} />

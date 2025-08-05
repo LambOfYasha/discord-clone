@@ -34,7 +34,20 @@ const ChannelIdPage = async ({ params }: ChannelIdPageProps) => {
     },
   });
 
-  if (!member || !channel) {
+  const server = await db.server.findUnique({
+    where: {
+      id: serverId,
+    },
+    include: {
+      members: {
+        include: {
+          profile: true,
+        },
+      },
+    },
+  });
+
+  if (!member || !channel || !server) {
     redirect("/");
   }
   return (
@@ -48,6 +61,7 @@ const ChannelIdPage = async ({ params }: ChannelIdPageProps) => {
           channelId: channel.id,
           serverId: channel.serverId,
         }}
+        server={server}
       />
       {channel.type === ChannelType.TEXT && (
         <>

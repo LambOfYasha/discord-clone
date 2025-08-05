@@ -13,6 +13,7 @@ export type ModalType =
   | "messageFile"
   | "deleteMessage"
   | "inbox"
+  | "userList"
   | "createDm"
   | "createGroupDm"
   | "addFriend";
@@ -22,6 +23,12 @@ interface ModalData {
   channelType?: ChannelType;
   apiUrl?: string;
   query?: Record<string, any>;
+  room?: {
+    id: string;
+    type: "dm" | "group";
+    name: string;
+    members: any[];
+  };
 }
 interface ModalStore {
   type: ModalType | null;

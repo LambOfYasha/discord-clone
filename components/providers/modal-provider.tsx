@@ -15,6 +15,7 @@ import { InboxModal } from "@/components/modals/inbox-modal";
 import { CreateDmModal } from "@/components/modals/create-dm-modal";
 import { CreateGroupDmModal } from "@/components/modals/create-group-dm-modal";
 import { AddFriendModal } from "@/components/modals/add-friend-modal";
+import { UserListModal } from "@/components/modals/user-list-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -41,6 +42,7 @@ export const ModalProvider = () => {
       <CreateDmModal />
       <CreateGroupDmModal />
       <AddFriendModal />
+      <UserListModal />
     </>
   );
 };
