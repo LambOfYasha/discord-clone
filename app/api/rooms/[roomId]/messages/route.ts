@@ -1,6 +1,5 @@
 import { currentProfile } from "@/lib/current-profile";
-import { postgres, mongo } from "@/lib/db";
-import { DirectMessage } from "@/prisma/generated/mongo";
+import { postgres, mongo, withMongoFallback } from "@/lib/db";
 import { NextResponse } from "next/server";
 
 // GET - Get messages for a room (DM or group)
@@ -47,7 +46,7 @@ export async function GET(
         return new NextResponse("Access denied", { status: 403 });
       }
 
-      // Get DM messages from MongoDB
+      // Get DM messages with MongoDB primary and PostgreSQL fallback
       let messagesQuery: any = {
         conversationId: roomId,
       };
@@ -58,58 +57,68 @@ export async function GET(
         };
       }
 
-             // Add retry logic for MongoDB connection issues
-       let messages;
-       let retryCount = 0;
-       const maxRetries = 3;
-       
-       while (retryCount < maxRetries) {
-         try {
-           messages = await mongo.directMessage.findMany({
-             where: messagesQuery,
-             take: limit,
-             orderBy: {
-               createdAt: "desc",
-             },
-           });
-           break; // Success, exit retry loop
-         } catch (error) {
-           retryCount++;
-           console.log(`[ROOM_MESSAGES_GET] MongoDB retry ${retryCount}/${maxRetries}:`, error);
-           
-           if (retryCount >= maxRetries) {
-             // MongoDB is down, return empty messages for now
-             console.log("[ROOM_MESSAGES_GET] MongoDB connection failed, returning empty messages");
-             messages = [];
-             break;
-           }
-           
-           // Wait before retrying (exponential backoff)
-           await new Promise(resolve => setTimeout(resolve, 1000 * retryCount));
-         }
-       }
+      const messages = await withMongoFallback(
+        // MongoDB operation
+        async () => {
+          const mongoMessages = await mongo.directMessage.findMany({
+            where: messagesQuery,
+            take: limit,
+            orderBy: {
+              createdAt: "desc",
+            },
+          });
 
-      // Get member data for all messages
-      const memberIds = [...new Set(messages.map(msg => msg.memberId))];
-      const members = await postgres.member.findMany({
-        where: {
-          id: {
-            in: memberIds,
-          },
+          // Get member data for all messages
+          const memberIds = [...new Set(mongoMessages.map(msg => msg.memberId))];
+          const members = await postgres.member.findMany({
+            where: {
+              id: {
+                in: memberIds,
+              },
+            },
+            include: {
+              profile: true,
+            },
+          });
+
+          // Create a map for quick member lookup
+          const memberMap = new Map(members.map(member => [member.id, member]));
+
+          // Combine messages with member data
+          return mongoMessages.map(message => ({
+            ...message,
+            member: memberMap.get(message.memberId),
+          }));
         },
-        include: {
-          profile: true,
+        // PostgreSQL fallback
+        async () => {
+          let postgresQuery: any = {
+            conversationId: roomId,
+          };
+
+          if (cursor) {
+            postgresQuery.id = {
+              lt: cursor,
+            };
+          }
+
+          return await postgres.directMessage.findMany({
+            where: postgresQuery,
+            take: limit,
+            orderBy: {
+              createdAt: "desc",
+            },
+            include: {
+              member: {
+                include: {
+                  profile: true,
+                },
+              },
+            },
+          });
         },
-      });
-
-      // Create a map for quick member lookup
-      const memberMap = new Map(members.map(member => [member.id, member]));
-
-      // Combine messages with member data
-      const messagesWithMembers = messages.map(message => ({
-        ...message,
-        member: memberMap.get(message.memberId),
-      }));
+        "ROOM_MESSAGES_GET_DM"
+      );
 
       let nextCursor = null;
       if (messages.length === limit) {
@@ -117,7 +126,7 @@ export async function GET(
       }
 
       return NextResponse.json({
-        items: messagesWithMembers,
+        items: messages,
         nextCursor,
       });
     }
@@ -143,7 +152,7 @@ export async function GET(
         return new NextResponse("Access denied", { status: 403 });
       }
 
-      // Get group messages from PostgreSQL
+      // Get group messages from PostgreSQL (group messages stay in PostgreSQL)
       let messagesQuery: any = {
         groupConversationId: roomId,
       };
@@ -245,14 +254,11 @@ export async function POST(
         return new NextResponse("Access denied", { status: 403 });
       }
 
-      // Create DM message in MongoDB with retry logic
-      let message;
-      let retryCount = 0;
-      const maxRetries = 3;
-      
-      while (retryCount < maxRetries) {
-        try {
-          message = await mongo.directMessage.create({
+      // Create DM message with MongoDB primary and PostgreSQL fallback
+      const message = await withMongoFallback(
+        // MongoDB operation
+        async () => {
+          const mongoMessage = await mongo.directMessage.create({
             data: {
               content,
               fileUrl,
@@ -260,29 +266,35 @@ export async function POST(
               memberId: currentMember.id,
             },
           });
-          break; // Success, exit retry loop
-        } catch (error) {
-          retryCount++;
-          console.log(`[ROOM_MESSAGES_POST] MongoDB retry ${retryCount}/${maxRetries}:`, error);
-          
-          if (retryCount >= maxRetries) {
-            // MongoDB is down, return error for now
-            console.log("[ROOM_MESSAGES_POST] MongoDB connection failed, cannot create message");
-            return new NextResponse("Message service temporarily unavailable", { status: 503 });
-          }
-          
-          // Wait before retrying (exponential backoff)
-          await new Promise(resolve => setTimeout(resolve, 1000 * retryCount));
-        }
-      }
 
-      // Add member data to the response
-      const messageWithMember = {
-        ...message,
-        member: currentMember,
-      };
+          // Add member data to the response
+          return {
+            ...mongoMessage,
+            member: currentMember,
+          };
+        },
+        // PostgreSQL fallback
+        async () => {
+          return await postgres.directMessage.create({
+            data: {
+              content,
+              fileUrl,
+              conversationId: roomId,
+              memberId: currentMember.id,
+            },
+            include: {
+              member: {
+                include: {
+                  profile: true,
+                },
+              },
+            },
+          });
+        },
+        "ROOM_MESSAGES_POST_DM"
+      );
 
-      return NextResponse.json(messageWithMember);
+      return NextResponse.json(message);
     }
 
     // Check if it's a group conversation
@@ -332,9 +344,6 @@ export async function POST(
     
     // Provide more specific error messages
     if (error instanceof Error) {
-      if (error.message.includes("MongoDB")) {
-        return new NextResponse("Message service temporarily unavailable", { status: 503 });
-      }
       if (error.message.includes("Unauthorized")) {
         return new NextResponse("Unauthorized", { status: 401 });
       }

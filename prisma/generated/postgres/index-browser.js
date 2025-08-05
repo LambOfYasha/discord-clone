@@ -198,6 +198,17 @@ exports.Prisma.GroupMessageScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.DirectMessageScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  fileUrl: 'fileUrl',
+  deleted: 'deleted',
+  memberId: 'memberId',
+  conversationId: 'conversationId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.FriendRequestScalarFieldEnum = {
   id: 'id',
   requesterProfileId: 'requesterProfileId',
@@ -254,6 +265,7 @@ exports.Prisma.ModelName = {
   GroupConversation: 'GroupConversation',
   GroupConversationMember: 'GroupConversationMember',
   GroupMessage: 'GroupMessage',
+  DirectMessage: 'DirectMessage',
   FriendRequest: 'FriendRequest'
 };
 
