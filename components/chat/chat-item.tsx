@@ -21,6 +21,7 @@ import { MessageReactions } from "./message-reactions";
 import { Reaction } from "@/prisma/generated/mongo";
 import { EmojiPicker } from "@/components/emoji-picker";
 import { MessageThread } from "./message-thread";
+import { InviteMessageCard } from "./invite-message-card";
 
 interface ChatItemProps {
   id: string;
@@ -89,7 +90,22 @@ export const ChatItem = ({
       return;
     }
     try {
-              const response = await fetch('/api/rooms', {
+      // First, try to get existing DM room
+      const existingRoomsResponse = await fetch('/api/rooms');
+      let room = null;
+      
+      if (existingRoomsResponse.ok) {
+        const existingRooms = await existingRoomsResponse.json();
+        // Find existing DM with this member
+        room = existingRooms.find((r: any) => 
+          r.type === "dm" && 
+          r.members.some((m: any) => m.id === member.id)
+        );
+      }
+      
+      // If no existing DM, create a new one
+      if (!room) {
+        const response = await fetch('/api/rooms', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -100,12 +116,17 @@ export const ChatItem = ({
             targetMemberId: member.id,
           }),
         });
+        
+        if (response.ok) {
+          room = await response.json();
+        } else {
+          console.error('Failed to create DM room');
+          return;
+        }
+      }
       
-      if (response.ok) {
-        const room = await response.json();
+      if (room) {
         router.push(`/rooms/${room.id}`);
-      } else {
-        console.error('Failed to create DM room');
       }
     } catch (error) {
       console.error('Error creating DM room:', error);
@@ -124,6 +145,28 @@ export const ChatItem = ({
   const isPDF = fileType === "pdf" && fileUrl;
   const isImage = !isPDF && fileUrl;
   const isLoading = form.formState.isSubmitting;
+
+  // Check if this is an invite message
+  const isInviteMessage = content.includes("🎉 **Server Invitation**") && content.includes("**Invite Link:**");
+  
+  // Extract server info from invite message
+  const getInviteInfo = () => {
+    if (!isInviteMessage) return null;
+    
+    const serverNameMatch = content.match(/\*\*(.*?)\*\*/);
+    const inviteLinkMatch = content.match(/\*\*Invite Link:\*\* (.*?)(?:\n|$)/);
+    
+    if (serverNameMatch && inviteLinkMatch) {
+      return {
+        serverName: serverNameMatch[1],
+        inviteUrl: inviteLinkMatch[1].trim(),
+      };
+    }
+    
+    return null;
+  };
+
+  const inviteInfo = getInviteInfo();
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const url = qs.stringifyUrl({
@@ -224,29 +267,41 @@ export const ChatItem = ({
                   <span>Replying to a message</span>
                 </div>
               )}
-              <div
-                className={cn(
-                  "text-sm text-zinc-600 dark:text-zinc-300",
-                  deleted &&
-                    "italic text-zinc-500 text-xs mt-1 dark:text-zinc-400"
-                )}
-              >
-                {content.split('\n').map((line, index) => {
-                  if (line.startsWith('> ')) {
-                    return (
-                      <div key={index} className="border-l-4 border-zinc-300 dark:border-zinc-600 pl-3 my-2 italic text-zinc-500 dark:text-zinc-400">
-                        {line.substring(2)}
-                      </div>
-                    );
-                  }
-                  return <div key={index}>{line}</div>;
-                })}
-                {isUpdated && !deleted && (
-                  <span className="text-[10px] mx-2 text-zinc-500 dark:text-zinc-400">
-                    (edited)
-                  </span>
-                )}
-              </div>
+              
+              {isInviteMessage && inviteInfo ? (
+                <div className="mt-2">
+                  <InviteMessageCard
+                    serverName={inviteInfo.serverName}
+                    inviteUrl={inviteInfo.inviteUrl}
+                    messageId={id}
+                  />
+                </div>
+              ) : (
+                <div
+                  className={cn(
+                    "text-sm text-zinc-600 dark:text-zinc-300",
+                    deleted &&
+                      "italic text-zinc-500 text-xs mt-1 dark:text-zinc-400"
+                  )}
+                >
+                  {content.split('\n').map((line, index) => {
+                    if (line.startsWith('> ')) {
+                      return (
+                        <div key={index} className="border-l-4 border-zinc-300 dark:border-zinc-600 pl-3 my-2 italic text-zinc-500 dark:text-zinc-400">
+                          {line.substring(2)}
+                        </div>
+                      );
+                    }
+                    return <div key={index}>{line}</div>;
+                  })}
+                  {isUpdated && !deleted && (
+                    <span className="text-[10px] mx-2 text-zinc-500 dark:text-zinc-400">
+                      (edited)
+                    </span>
+                  )}
+                </div>
+              )}
+              
               {!deleted && reactions.length > 0 && (
                 <MessageReactions
                   messageId={id}

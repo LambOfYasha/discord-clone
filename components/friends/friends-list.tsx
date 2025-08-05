@@ -162,7 +162,22 @@ export const FriendsList = () => {
     }
 
     try {
-              const response = await fetch("/api/rooms", {
+      // First, try to get existing DM room
+      const existingRoomsResponse = await fetch("/api/rooms");
+      let room = null;
+      
+      if (existingRoomsResponse.ok) {
+        const existingRooms = await existingRoomsResponse.json();
+        // Find existing DM with this friend
+        room = existingRooms.find((r: any) => 
+          r.type === "dm" && 
+          r.members.some((m: any) => m.id === memberId)
+        );
+      }
+      
+      // If no existing DM, create a new one
+      if (!room) {
+        const response = await fetch("/api/rooms", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -174,12 +189,17 @@ export const FriendsList = () => {
           }),
         });
 
-      if (response.ok) {
-        const room = await response.json();
+        if (response.ok) {
+          room = await response.json();
+        } else {
+          console.error("Failed to create DM room");
+          return;
+        }
+      }
+      
+      if (room) {
         // Navigate to the room
         router.push(`/rooms/${room.id}`);
-      } else {
-        console.error("Failed to create DM room");
       }
     } catch (error) {
       console.error("Failed to create DM:", error);
