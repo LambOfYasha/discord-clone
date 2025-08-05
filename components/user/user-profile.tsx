@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { 
   Mic, 
@@ -59,13 +59,19 @@ export const UserProfile = ({
 }: UserProfileProps) => {
   const [isMuted, setIsMuted] = useState(false);
   const [isDeafened, setIsDeafened] = useState(false);
+  const [isClient, setIsClient] = useState(false);
   const { theme, setTheme } = useTheme();
   const { signOut } = useClerk();
   const router = useRouter();
   const { profile: dynamicProfile, loading } = useUserProfile();
 
-  // Use dynamic profile if available, otherwise fall back to initial profile or default user
-  const profile = dynamicProfile || initialProfile;
+  // Ensure hydration safety
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Use dynamic profile if available and client-side, otherwise fall back to initial profile or default user
+  const profile = isClient && dynamicProfile ? dynamicProfile : initialProfile;
   const displayName = profile?.name || user.name;
   const displayEmail = profile?.email || user.email;
   const displayImage = profile?.imageUrl || user.imageUrl || "";
@@ -98,6 +104,35 @@ export const UserProfile = ({
   const handleSignOut = () => {
     signOut(() => router.push("/"));
   };
+
+  // Don't render until client-side to prevent hydration mismatch
+  if (!isClient) {
+    return (
+      <div className="flex flex-col items-center gap-y-4 pb-3 mt-auto">
+        <div className="flex items-center gap-x-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 w-8 p-0 text-gray-400"
+            disabled
+          >
+            <Mic className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 w-8 p-0 text-gray-400"
+            disabled
+          >
+            <Headphones className="h-4 w-4" />
+          </Button>
+        </div>
+        <Button variant="ghost" className="h-[45px] w-[45px] p-0 rounded-full">
+          <UserAvatar src={displayImage} name={displayName} className="h-8 w-8" />
+        </Button>
+      </div>
+    );
+  }
 
   if (variant === "navigation") {
     return (
