@@ -3,34 +3,31 @@ import { auth } from "@clerk/nextjs/server";
 
 export async function GET(req: NextRequest) {
   try {
-    // Check environment variables
-    const envCheck = {
+    console.log("Testing authentication...");
+    console.log("Environment variables:", {
       CLERK_SECRET_KEY: !!process.env.CLERK_SECRET_KEY,
       CLERK_API_KEY: !!process.env.CLERK_API_KEY,
       NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
-      NODE_ENV: process.env.NODE_ENV,
-    };
+    });
 
-    // Try to get user from auth
     const { userId } = auth();
-    
+    console.log("Auth result:", { userId, authenticated: !!userId });
+
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
     return NextResponse.json({
-      envCheck,
+      success: true,
       userId,
-      authenticated: !!userId,
-      timestamp: new Date().toISOString()
+      message: "Authentication successful"
     });
   } catch (error) {
-    console.error("[DEBUG_ENV_GET]", error);
+    console.error("[TEST_AUTH_GET]", error);
     return NextResponse.json({
+      success: false,
       error: error instanceof Error ? error.message : "Unknown error",
-      envCheck: {
-        CLERK_SECRET_KEY: !!process.env.CLERK_SECRET_KEY,
-        CLERK_API_KEY: !!process.env.CLERK_API_KEY,
-        NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
-        NODE_ENV: process.env.NODE_ENV,
-      },
-      timestamp: new Date().toISOString()
+      stack: error instanceof Error ? error.stack : undefined
     }, { status: 500 });
   }
 } 

@@ -1,26 +1,61 @@
-import { checkDatabaseHealth } from "@/lib/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
+import { postgres, mongo } from "@/lib/db";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    const health = await checkDatabaseHealth();
+    // Check authentication
+    const { userId } = auth();
     
-    const status = health.mongodb && health.postgresql ? "healthy" : 
-                   health.mongodb || health.postgresql ? "degraded" : "unhealthy";
+    // Check database connections
+    let postgresStatus = "unknown";
+    let mongoStatus = "unknown";
+    
+    try {
+      await postgres.$queryRaw`SELECT 1`;
+      postgresStatus = "connected";
+    } catch (error) {
+      postgresStatus = "error";
+      console.error("PostgreSQL connection error:", error);
+    }
+    
+    try {
+      await mongo.$queryRaw`SELECT 1`;
+      mongoStatus = "connected";
+    } catch (error) {
+      mongoStatus = "error";
+      console.error("MongoDB connection error:", error);
+    }
+    
+    // Check environment variables
+    const envCheck = {
+      CLERK_SECRET_KEY: !!process.env.CLERK_SECRET_KEY,
+      CLERK_API_KEY: !!process.env.CLERK_API_KEY,
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+      POSTGRES_URL: !!process.env.POSTGRES_URL,
+      MONGO_URL: !!process.env.MONGO_URL,
+      NODE_ENV: process.env.NODE_ENV,
+    };
     
     return NextResponse.json({
-      status,
-      databases: health,
-      message: status === "healthy" ? "All databases operational" :
-               status === "degraded" ? "Some databases operational" :
-               "No databases operational"
+      status: "ok",
+      authentication: {
+        userId,
+        authenticated: !!userId
+      },
+      databases: {
+        postgres: postgresStatus,
+        mongo: mongoStatus
+      },
+      environment: envCheck,
+      timestamp: new Date().toISOString()
     });
   } catch (error) {
-    console.log("[HEALTH_CHECK]", error);
+    console.error("[HEALTH_CHECK_GET]", error);
     return NextResponse.json({
       status: "error",
-      message: "Health check failed",
-      error: error instanceof Error ? error.message : "Unknown error"
+      error: error instanceof Error ? error.message : "Unknown error",
+      timestamp: new Date().toISOString()
     }, { status: 500 });
   }
 } 

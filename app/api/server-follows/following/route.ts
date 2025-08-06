@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
-import { db } from "@/lib/db";
+import { auth, currentUser } from "@clerk/nextjs/server";
+import { postgres } from "@/lib/db";
 
 export async function GET(req: NextRequest) {
   try {
@@ -10,16 +10,29 @@ export async function GET(req: NextRequest) {
     }
 
     // Get current user's profile
-    const currentProfile = await db.profile.findUnique({
+    let currentProfile = await postgres.profile.findUnique({
       where: { userId }
     });
 
+    // If profile doesn't exist, create it
     if (!currentProfile) {
-      return new NextResponse("Profile not found", { status: 404 });
+      const user = await currentUser();
+      if (!user) {
+        return new NextResponse("User not found", { status: 404 });
+      }
+
+      currentProfile = await postgres.profile.create({
+        data: {
+          userId: user.id,
+          name: `${user.firstName} ${user.lastName}`,
+          imageUrl: user.imageUrl,
+          email: user.emailAddresses[0].emailAddress,
+        },
+      });
     }
 
     // Get followed servers
-    const following = await db.serverFollow.findMany({
+    const following = await postgres.serverFollow.findMany({
       where: {
         followerProfileId: currentProfile.id
       },
