@@ -42,13 +42,16 @@ export async function DELETE(req: Request, { params }: { params: Params }) {
       return new NextResponse("Group conversation not found or access denied", { status: 404 });
     }
 
-    // Check if user is admin (only admins can delete group conversations)
+    // Check if user is admin OR the creator of the group conversation
     const userMember = groupConversation.members.find(
       member => member.profileId === profile.id
     );
 
-    if (!userMember || userMember.role !== "ADMIN") {
-      return new NextResponse("Only group admins can delete group conversations", { status: 403 });
+    const isAdmin = userMember && userMember.role === "ADMIN";
+    const isCreator = groupConversation.profileId === profile.id;
+
+    if (!isAdmin && !isCreator) {
+      return new NextResponse("Only group admins or the creator can delete group conversations", { status: 403 });
     }
 
     // Delete all group messages in this conversation
