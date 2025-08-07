@@ -48,17 +48,21 @@ export const MessageThread = ({
         query: socketQuery,
       });
 
-      // Create a quoted reply with the original message content
-      const quotedContent = `> ${message.content}\n\n${replyContent}`;
+      // Check if the original message already contains quoted content
+      const hasQuotedContent = message.content.includes('> ');
+      
+      // If the original message already has quoted content, don't add it again
+      // Just use the reply content directly
+      const finalContent = hasQuotedContent ? replyContent : `> ${message.content}\n\n${replyContent}`;
 
       console.log("Submitting to URL:", url);
       console.log("Request body:", {
-        content: quotedContent,
+        content: finalContent,
         replyTo: message.id,
       });
 
       const response = await axios.post(url, {
-        content: quotedContent,
+        content: finalContent,
         replyTo: message.id,
       });
 
