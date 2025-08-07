@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, ChevronRight, Plus, Settings } from "lucide-react";
+import { ChevronDown, ChevronRight, Plus, Settings, Edit, Trash } from "lucide-react";
 import { Channel, ChannelType, MemberRole } from "@/prisma/generated/postgres";
 import { ServerChannel } from "./server-channel";
 import { ServerSection } from "./server-section";
@@ -37,17 +37,46 @@ export const ServerCategory = ({
 
   return (
     <div className="mb-2">
-      <button
-        onClick={() => setIsExpanded(!isExpanded)}
-        className="flex items-center w-full text-xs font-semibold text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition"
-      >
-        <ChevronDown
-          className={`h-4 w-4 mr-1 transition-transform ${
-            isExpanded ? "rotate-0" : "-rotate-90"
-          }`}
-        />
-        {name}
-      </button>
+      <div className="flex items-center justify-between">
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="flex items-center text-xs font-semibold text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition"
+        >
+          <ChevronDown
+            className={`h-4 w-4 mr-1 transition-transform ${
+              isExpanded ? "rotate-0" : "-rotate-90"
+            }`}
+          />
+          {name}
+        </button>
+        
+        {role !== MemberRole.GUEST && (
+          <div className="flex items-center gap-x-1">
+            <ActionTooltip label="Edit Category" side="top">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onOpen("editCategory", { category: { id, name } });
+                }}
+                className="text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition"
+              >
+                <Edit className="h-3 w-3" />
+              </button>
+            </ActionTooltip>
+            <ActionTooltip label="Delete Category" side="top">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onOpen("deleteCategory", { category: { id, name }, server });
+                }}
+                className="text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition"
+              >
+                <Trash className="h-3 w-3" />
+              </button>
+            </ActionTooltip>
+          </div>
+        )}
+      </div>
       
       {isExpanded && (
         <div className="mt-2 space-y-[2px]">
