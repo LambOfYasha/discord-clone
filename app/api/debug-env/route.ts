@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
     };
 
     // Try to get user from auth
-    const { userId } = auth();
+    const { userId } = await auth();
     
     return NextResponse.json({
       envCheck,

@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
       NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
     });
 
-    const { userId } = auth();
+    const { userId } = await auth();
     console.log("Auth result:", { userId, authenticated: !!userId });
 
     if (!userId) {

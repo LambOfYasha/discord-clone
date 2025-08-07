@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
     console.log("Environment check:", envCheck);
 
     // Test authentication
-    const { userId } = auth();
+    const { userId } = await auth();
     console.log("Auth result:", { userId, authenticated: !!userId });
 
     if (!userId) {

@@ -5,7 +5,7 @@ import { postgres, mongo } from "@/lib/db";
 export async function GET(req: NextRequest) {
   try {
     // Check authentication
-    const { userId } = auth();
+    const { userId } = await auth();
     
     // Check database connections
     let postgresStatus = "unknown";
