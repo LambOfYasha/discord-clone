@@ -259,22 +259,27 @@ export const FriendsList = () => {
   const allFriends = filteredFriends;
 
   const renderFriendItem = (friend: Friend) => (
-    <div key={friend.id} className="flex items-center justify-between p-3 rounded-lg hover:bg-[#1E1F22] cursor-pointer">
+    <div key={friend.id} className="flex items-center justify-between p-3 rounded-lg hover:bg-[#1E1F22]">
       <div className="flex items-center space-x-3">
         <div className="relative">
-          <Avatar className="w-10 h-10">
-            <AvatarImage src={friend.profile.imageUrl} />
-            <AvatarFallback className="bg-pink-500">
-              <span className="text-white text-sm font-semibold">
-                {friend.profile.name.charAt(0).toUpperCase()}
-              </span>
-            </AvatarFallback>
-          </Avatar>
+          <div
+            onClick={() => onOpen("userProfile", { profile: friend.profile })}
+            className="cursor-pointer"
+          >
+            <Avatar className="w-10 h-10">
+              <AvatarImage src={friend.profile.imageUrl} />
+              <AvatarFallback className="bg-pink-500">
+                <span className="text-white text-sm font-semibold">
+                  {friend.profile.name.charAt(0).toUpperCase()}
+                </span>
+              </AvatarFallback>
+            </Avatar>
+          </div>
           {friend.status === "online" && (
             <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-[#2B2D31]"></div>
           )}
         </div>
-        <div>
+        <div className="cursor-pointer">
           <p className="text-white font-medium">{friend.profile.name}</p>
           <p className="text-sm text-gray-400">{friend.statusText}</p>
         </div>
@@ -463,15 +468,20 @@ export const FriendsList = () => {
                       pendingRequests.map((request) => (
                         <div key={request.id} className="flex items-center justify-between p-3 rounded-lg border border-[#1E1F22]">
                           <div className="flex items-center space-x-3">
-                            <Avatar className="w-10 h-10">
-                              <AvatarImage src={request.requesterProfile.imageUrl} />
-                              <AvatarFallback className="bg-pink-500">
-                                <span className="text-white text-sm font-semibold">
-                                  {request.requesterProfile.name.charAt(0).toUpperCase()}
-                                </span>
-                              </AvatarFallback>
-                            </Avatar>
-                            <div>
+                            <div
+                              onClick={() => onOpen("userProfile", { profile: request.requesterProfile })}
+                              className="cursor-pointer"
+                            >
+                              <Avatar className="w-10 h-10">
+                                <AvatarImage src={request.requesterProfile.imageUrl} />
+                                <AvatarFallback className="bg-pink-500">
+                                  <span className="text-white text-sm font-semibold">
+                                    {request.requesterProfile.name.charAt(0).toUpperCase()}
+                                  </span>
+                                </AvatarFallback>
+                              </Avatar>
+                            </div>
+                            <div className="cursor-pointer">
                               <p className="text-white font-medium">{request.requesterProfile.name}</p>
                               <p className="text-sm text-gray-400">Wants to be your friend</p>
                             </div>

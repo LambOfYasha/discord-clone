@@ -29,6 +29,7 @@ import { useClerk } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { UserAvatar } from "@/components/user-avatar";
 import { useUserProfile } from "@/hooks/use-user-profile";
+import { useModal } from "@/hooks/use-modal-store";
 
 interface UserProfileProps {
   collapsed?: boolean;
@@ -64,6 +65,7 @@ export const UserProfile = ({
   const { signOut } = useClerk();
   const router = useRouter();
   const { profile: dynamicProfile, loading } = useUserProfile();
+  const { onOpen } = useModal();
 
   // Ensure hydration safety
   useEffect(() => {
@@ -162,13 +164,35 @@ export const UserProfile = ({
         {/* User Profile Dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-[45px] w-[45px] p-0 rounded-full">
-              <UserAvatar src={displayImage} name={displayName} className="h-8 w-8" />
-            </Button>
+            <div className="flex">
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (profile) {
+                    onOpen("userProfile", { profile });
+                  }
+                }}
+                className="cursor-pointer"
+              >
+                <Button variant="ghost" className="h-[45px] w-[45px] p-0 rounded-full">
+                  <UserAvatar src={displayImage} name={displayName} className="h-8 w-8" />
+                </Button>
+              </div>
+            </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end" forceMount>
             <DropdownMenuItem className="flex items-center gap-x-2">
-              <UserAvatar src={displayImage} name={displayName} className="h-8 w-8" />
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (profile) {
+                    onOpen("userProfile", { profile });
+                  }
+                }}
+                className="cursor-pointer"
+              >
+                <UserAvatar src={displayImage} name={displayName} className="h-8 w-8" />
+              </div>
               <div className="flex flex-col">
                 <p className="text-sm font-medium">{displayName}</p>
                 <p className="text-xs text-gray-500">{displayEmail}</p>
@@ -212,7 +236,16 @@ export const UserProfile = ({
   return (
     <div className="p-3 border-t border-[#1E1F22] bg-[#1E1F22]">
       <div className="flex items-center space-x-2">
-        <UserAvatar src={displayImage} name={displayName} className="h-8 w-8" />
+        <div
+          onClick={() => {
+            if (profile) {
+              onOpen("userProfile", { profile });
+            }
+          }}
+          className="cursor-pointer"
+        >
+          <UserAvatar src={displayImage} name={displayName} className="h-8 w-8" />
+        </div>
         {!collapsed && (
           <>
             <div className="flex-1 min-w-0">
@@ -250,7 +283,17 @@ export const UserProfile = ({
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56" align="end" forceMount>
                   <DropdownMenuItem className="flex items-center gap-x-2">
-                    <UserAvatar src={displayImage} name={displayName} className="h-8 w-8" />
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (profile) {
+                          onOpen("userProfile", { profile });
+                        }
+                      }}
+                      className="cursor-pointer"
+                    >
+                      <UserAvatar src={displayImage} name={displayName} className="h-8 w-8" />
+                    </div>
                     <div className="flex flex-col">
                       <p className="text-sm font-medium">{displayName}</p>
                       <p className="text-xs text-gray-500">{displayEmail}</p>

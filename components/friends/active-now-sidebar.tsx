@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ChevronLeft, ChevronRight, Users, Activity } from "lucide-react";
+import { useModal } from "@/hooks/use-modal-store";
 
 interface ActiveNowSidebarProps {
   initialCollapsed?: boolean;
@@ -18,6 +19,7 @@ export const ActiveNowSidebar = ({ initialCollapsed = false, collapsed, onToggle
   const [followedUsers, setFollowedUsers] = useState<any[]>([]);
   const [followedServers, setFollowedServers] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { onOpen } = useModal();
   const isCollapsed = typeof collapsed === 'boolean' ? collapsed : internalCollapsed;
   
   const handleToggle = () => {
@@ -103,14 +105,19 @@ export const ActiveNowSidebar = ({ initialCollapsed = false, collapsed, onToggle
                       {activeFriends.map((friend) => (
                         <div key={friend.id} className="flex flex-col items-center space-y-2">
                           <div className="relative">
-                            <Avatar className="w-12 h-12">
-                              <AvatarImage src={friend.profile.imageUrl} />
-                              <AvatarFallback className="bg-pink-500">
-                                <span className="text-white text-sm font-semibold">
-                                  {friend.profile.name.charAt(0).toUpperCase()}
-                                </span>
-                              </AvatarFallback>
-                            </Avatar>
+                            <div
+                              onClick={() => onOpen("userProfile", { profile: friend.profile })}
+                              className="cursor-pointer"
+                            >
+                              <Avatar className="w-12 h-12">
+                                <AvatarImage src={friend.profile.imageUrl} />
+                                <AvatarFallback className="bg-pink-500">
+                                  <span className="text-white text-sm font-semibold">
+                                    {friend.profile.name.charAt(0).toUpperCase()}
+                                  </span>
+                                </AvatarFallback>
+                              </Avatar>
+                            </div>
                             <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-[#2B2D31]"></div>
                           </div>
                           <div className="text-center">
@@ -134,16 +141,21 @@ export const ActiveNowSidebar = ({ initialCollapsed = false, collapsed, onToggle
                     </div>
                     <div className="space-y-2">
                       {followedUsers.map((followed) => (
-                        <div key={followed.id} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-[#1E1F22] cursor-pointer">
-                          <Avatar className="w-8 h-8">
-                            <AvatarImage src={followed.followingProfile.imageUrl} />
-                            <AvatarFallback className="bg-blue-500">
-                              <span className="text-white text-xs font-semibold">
-                                {followed.followingProfile.name.charAt(0).toUpperCase()}
-                              </span>
-                            </AvatarFallback>
-                          </Avatar>
-                          <div className="flex-1 min-w-0">
+                        <div key={followed.id} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-[#1E1F22]">
+                          <div
+                            onClick={() => onOpen("userProfile", { profile: followed.followingProfile })}
+                            className="cursor-pointer"
+                          >
+                            <Avatar className="w-8 h-8">
+                              <AvatarImage src={followed.followingProfile.imageUrl} />
+                              <AvatarFallback className="bg-blue-500">
+                                <span className="text-white text-xs font-semibold">
+                                  {followed.followingProfile.name.charAt(0).toUpperCase()}
+                                </span>
+                              </AvatarFallback>
+                            </Avatar>
+                          </div>
+                          <div className="flex-1 min-w-0 cursor-pointer">
                             <p className="text-xs text-white font-medium truncate">
                               {followed.followingProfile.name}
                             </p>

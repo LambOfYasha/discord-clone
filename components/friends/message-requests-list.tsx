@@ -15,6 +15,7 @@ import {
   MoreVertical,
   Search
 } from "lucide-react";
+import { useModal } from "@/hooks/use-modal-store";
 
 export const MessageRequestsList = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -22,6 +23,7 @@ export const MessageRequestsList = () => {
   const [pendingFriendRequests, setPendingFriendRequests] = useState<any[]>([]);
   const [pendingMessageRequests, setPendingMessageRequests] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { onOpen } = useModal();
 
   useEffect(() => {
     fetchAllRequests();
@@ -191,17 +193,22 @@ export const MessageRequestsList = () => {
                       pendingMessageRequests.map((request) => (
                         <div key={request.id} className="bg-[#1E1F22] rounded-lg p-4">
                           <div className="flex items-start space-x-3">
-                            <Avatar className="w-12 h-12">
-                              <AvatarImage src={request.requesterProfile.imageUrl} />
-                              <AvatarFallback className="bg-blue-500">
-                                <span className="text-white text-lg font-semibold">
-                                  {request.requesterProfile.name.charAt(0).toUpperCase()}
-                                </span>
-                              </AvatarFallback>
-                            </Avatar>
+                            <div
+                              onClick={() => onOpen("userProfile", { profile: request.requesterProfile })}
+                              className="cursor-pointer"
+                            >
+                              <Avatar className="w-12 h-12">
+                                <AvatarImage src={request.requesterProfile.imageUrl} />
+                                <AvatarFallback className="bg-blue-500">
+                                  <span className="text-white text-lg font-semibold">
+                                    {request.requesterProfile.name.charAt(0).toUpperCase()}
+                                  </span>
+                                </AvatarFallback>
+                              </Avatar>
+                            </div>
                             <div className="flex-1">
                               <div className="flex items-center justify-between mb-2">
-                                <div>
+                                <div className="cursor-pointer">
                                   <h4 className="text-white font-medium">{request.requesterProfile.name}</h4>
                                   <p className="text-sm text-gray-400">Wants to send you a message</p>
                                 </div>
@@ -254,17 +261,22 @@ export const MessageRequestsList = () => {
                       pendingFriendRequests.map((request) => (
                         <div key={request.id} className="bg-[#1E1F22] rounded-lg p-4">
                           <div className="flex items-start space-x-3">
-                            <Avatar className="w-12 h-12">
-                              <AvatarImage src={request.requesterProfile.imageUrl} />
-                              <AvatarFallback className="bg-green-500">
-                                <span className="text-white text-lg font-semibold">
-                                  {request.requesterProfile.name.charAt(0).toUpperCase()}
-                                </span>
-                              </AvatarFallback>
-                            </Avatar>
+                            <div
+                              onClick={() => onOpen("userProfile", { profile: request.requesterProfile })}
+                              className="cursor-pointer"
+                            >
+                              <Avatar className="w-12 h-12">
+                                <AvatarImage src={request.requesterProfile.imageUrl} />
+                                <AvatarFallback className="bg-green-500">
+                                  <span className="text-white text-lg font-semibold">
+                                    {request.requesterProfile.name.charAt(0).toUpperCase()}
+                                  </span>
+                                </AvatarFallback>
+                              </Avatar>
+                            </div>
                             <div className="flex-1">
                               <div className="flex items-center justify-between mb-2">
-                                <div>
+                                <div className="cursor-pointer">
                                   <h4 className="text-white font-medium">{request.requesterProfile.name}</h4>
                                   <p className="text-sm text-gray-400">Wants to be your friend</p>
                                 </div>

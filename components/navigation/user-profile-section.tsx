@@ -9,12 +9,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useUser } from "@clerk/nextjs";
+import { useClerk } from "@clerk/nextjs";
 import { LogOut, Settings, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useNavigationStore } from "@/hooks/use-navigation-store";
 import { useUserProfile } from "@/hooks/use-user-profile";
+import { useModal } from "@/hooks/use-modal-store";
 
 interface UserProfileSectionProps {
   profile: {
@@ -26,10 +27,11 @@ interface UserProfileSectionProps {
 }
 
 export const UserProfileSection = ({ profile: initialProfile }: UserProfileSectionProps) => {
-  const { signOut } = useUser();
+  const { signOut } = useClerk();
   const router = useRouter();
   const { isCollapsed } = useNavigationStore();
   const { profile: dynamicProfile, loading } = useUserProfile();
+  const { onOpen } = useModal();
 
   // Use dynamic profile if available, otherwise fall back to initial profile
   const profile = dynamicProfile || initialProfile;
@@ -71,27 +73,44 @@ export const UserProfileSection = ({ profile: initialProfile }: UserProfileSecti
     <div className="mt-auto p-3">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            className={cn(
-              "w-full flex items-center gap-x-2 p-2 hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition",
-              isCollapsed ? "justify-center" : "justify-start"
-            )}
-          >
-            <UserAvatar src={displayImage} className="h-8 w-8" />
-            {!isCollapsed && (
-              <div className="flex flex-col items-start min-w-0">
-                <p className="text-sm font-semibold text-zinc-700 dark:text-zinc-200 truncate max-w-[120px]">
-                  {displayName}
-                </p>
-                {displayEmail && (
-                  <p className="text-xs text-zinc-500 dark:text-zinc-400 truncate max-w-[120px]">
-                    {displayEmail}
-                  </p>
+          <div className="flex">
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                if (profile) {
+                  onOpen("userProfile", { 
+                    profile: {
+                      ...profile,
+                      userId: profile.id // Use id as userId for compatibility
+                    }
+                  });
+                }
+              }}
+              className="cursor-pointer"
+            >
+              <Button
+                variant="ghost"
+                className={cn(
+                  "w-full flex items-center gap-x-2 p-2 hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition",
+                  isCollapsed ? "justify-center" : "justify-start"
                 )}
-              </div>
-            )}
-          </Button>
+              >
+                <UserAvatar src={displayImage} className="h-8 w-8" />
+                {!isCollapsed && (
+                  <div className="flex flex-col items-start min-w-0">
+                    <p className="text-sm font-semibold text-zinc-700 dark:text-zinc-200 truncate max-w-[120px]">
+                      {displayName}
+                    </p>
+                    {displayEmail && (
+                      <p className="text-xs text-zinc-500 dark:text-zinc-400 truncate max-w-[120px]">
+                        {displayEmail}
+                      </p>
+                    )}
+                  </div>
+                )}
+              </Button>
+            </div>
+          </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56" align="end" alignOffset={11} forceMount>
           <div className="flex flex-col space-y-1 p-2">

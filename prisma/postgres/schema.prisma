@@ -12,8 +12,13 @@ model Profile {
   id String @id @default(uuid())
   userId String @unique
   name String
+  nickname String? // Display name
   imageUrl String
   email String
+  status UserStatus @default(ONLINE)
+  bio String? // About me section
+  website String? // Personal website
+  socialMedia Json? // Social media links (Twitter, Instagram, etc.)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -277,4 +282,11 @@ enum NotificationType {
   SERVER_JOIN
   MESSAGE_MENTION
   SERVER_INVITE
+}
+
+enum UserStatus {
+  ONLINE
+  IDLE
+  DO_NOT_DISTURB
+  INVISIBLE
 }

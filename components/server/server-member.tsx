@@ -5,6 +5,7 @@ import { Member, MemberRole, Profile, Server } from "../../prisma/generated/post
 import { ShieldCheck } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { UserAvatar } from "@/components/user-avatar";
+import { useModal } from "@/hooks/use-modal-store";
 
 interface ServerMemberProps {
   member: Member & { profile: Profile };
@@ -18,6 +19,7 @@ const roleIconMap = {
 export const ServerMember = ({ member }: ServerMemberProps) => {
   const params = useParams();
   const router = useRouter();
+  const { onOpen } = useModal();
   const icon = roleIconMap[member.role];
   const onClick = async () => {
     try {
@@ -51,10 +53,18 @@ export const ServerMember = ({ member }: ServerMemberProps) => {
         params?.memberId === member.id && "bg-zinc-700/20 dark:bg-zinc-700"
       )}
     >
-      <UserAvatar
-        src={member.profile.imageUrl}
-        className="h-5 w-5 md:h-5 md:w-5"
-      />
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+          onOpen("userProfile", { profile: member.profile });
+        }}
+        className="cursor-pointer"
+      >
+        <UserAvatar
+          src={member.profile.imageUrl}
+          className="h-5 w-5 md:h-5 md:w-5"
+        />
+      </div>
       <p
         className={cn(
           "font-semibold text-xs text-zinc-500 dark:text-zinc-400 group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition",

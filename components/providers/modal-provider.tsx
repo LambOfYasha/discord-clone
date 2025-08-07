@@ -20,6 +20,7 @@ import { DeleteFriendModal } from "@/components/modals/delete-friend-modal";
 import { DeleteConversationModal } from "@/components/modals/delete-conversation-modal";
 import { DeleteGroupConversationModal } from "@/components/modals/delete-group-conversation-modal";
 import { SendMessageRequestModal } from "@/components/modals/send-message-request-modal";
+import { UserProfileModal } from "@/components/modals/user-profile-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -51,6 +52,7 @@ export const ModalProvider = () => {
       <DeleteConversationModal />
       <DeleteGroupConversationModal />
       <SendMessageRequestModal />
+      <UserProfileModal />
     </>
   );
 };

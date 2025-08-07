@@ -294,22 +294,32 @@ export const FriendsSidebar = ({ servers = [], profile, collapsed = false, onTog
                     key={dm.id}
                     className="flex items-center justify-between p-2 rounded hover:bg-[#1E1F22] group"
                   >
-                    <Link
-                      href={`/rooms/${dm.id}`}
-                      className="flex items-center space-x-2 flex-1 cursor-pointer"
-                    >
-                      <UserAvatar src={dm.profile.imageUrl} name={dm.profile.name} className="w-8 h-8" />
-                      {!collapsed && (
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm text-white truncate">{dm.profile.name}</p>
-                          {dm.unreadCount > 0 && (
-                            <span className="text-xs bg-red-500 text-white px-1 rounded">
-                              {dm.unreadCount}
-                            </span>
-                          )}
-                        </div>
-                      )}
-                    </Link>
+                    <div className="flex items-center space-x-2 flex-1">
+                      <div
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onOpen("userProfile", { profile: dm.profile });
+                        }}
+                        className="cursor-pointer"
+                      >
+                        <UserAvatar src={dm.profile.imageUrl} name={dm.profile.name} className="w-8 h-8" />
+                      </div>
+                      <Link
+                        href={`/rooms/${dm.id}`}
+                        className="flex-1 cursor-pointer"
+                      >
+                        {!collapsed && (
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm text-white truncate">{dm.profile.name}</p>
+                            {dm.unreadCount > 0 && (
+                              <span className="text-xs bg-red-500 text-white px-1 rounded">
+                                {dm.unreadCount}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </Link>
+                    </div>
                     {!collapsed && (
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -353,23 +363,34 @@ export const FriendsSidebar = ({ servers = [], profile, collapsed = false, onTog
                        key={group.id}
                        className="flex items-center justify-between p-2 rounded hover:bg-[#1E1F22] group"
                      >
-                       <Link
-                         href={`/rooms/${group.id}`}
-                         className="flex items-center space-x-2 flex-1 cursor-pointer"
-                       >
-                         <UserAvatar src={group.imageUrl} name={group.name} className="w-8 h-8" />
-                         {!collapsed && (
-                           <div className="flex-1 min-w-0">
-                             <p className="text-sm text-white truncate">{group.name}</p>
-                             <p className="text-xs text-gray-400 truncate">{group.memberCount} members</p>
-                             {group.unreadCount > 0 && (
-                               <span className="text-xs bg-red-500 text-white px-1 rounded">
-                                 {group.unreadCount}
-                               </span>
-                             )}
-                           </div>
-                         )}
-                       </Link>
+                       <div className="flex items-center space-x-2 flex-1">
+                         <div
+                           onClick={(e) => {
+                             e.stopPropagation();
+                             // For group DMs, we'll show the group info instead of individual profile
+                             // You can modify this to show group details if needed
+                           }}
+                           className="cursor-pointer"
+                         >
+                           <UserAvatar src={group.imageUrl} name={group.name} className="w-8 h-8" />
+                         </div>
+                         <Link
+                           href={`/rooms/${group.id}`}
+                           className="flex-1 cursor-pointer"
+                         >
+                           {!collapsed && (
+                             <div className="flex-1 min-w-0">
+                               <p className="text-sm text-white truncate">{group.name}</p>
+                               <p className="text-xs text-gray-400 truncate">{group.memberCount} members</p>
+                               {group.unreadCount > 0 && (
+                                 <span className="text-xs bg-red-500 text-white px-1 rounded">
+                                   {group.unreadCount}
+                                 </span>
+                               )}
+                             </div>
+                           )}
+                         </Link>
+                       </div>
                        {!collapsed && (
                          <DropdownMenu>
                            <DropdownMenuTrigger asChild>

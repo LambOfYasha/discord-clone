@@ -213,7 +213,10 @@ export const ChatItem = ({
       <div className="group flex gap-x-2 items-start w-full">
         <div
           className="cursor-pointer hover:drop-shadow-md transition"
-          onClick={onMemberClick}
+          onClick={(e) => {
+            e.stopPropagation();
+            onOpen("userProfile", { profile: member.profile });
+          }}
         >
           <UserAvatar src={member.profile.imageUrl} />
         </div>

@@ -20,7 +20,8 @@ export type ModalType =
   | "deleteFriend"
   | "deleteConversation"
   | "deleteGroupConversation"
-  | "sendMessageRequest";
+  | "sendMessageRequest"
+  | "userProfile";
 interface ModalData {
   server?: Server;
   channel?: Channel;
@@ -52,6 +53,18 @@ interface ModalData {
     id: string;
     name: string;
     imageUrl: string;
+  };
+  profile?: {
+    id: string;
+    name: string;
+    nickname?: string;
+    imageUrl: string;
+    email: string;
+    status?: string;
+    bio?: string;
+    website?: string;
+    socialMedia?: any;
+    userId: string;
   };
 }
 interface ModalStore {

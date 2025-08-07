@@ -124,8 +124,13 @@ exports.Prisma.ProfileScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   name: 'name',
+  nickname: 'nickname',
   imageUrl: 'imageUrl',
   email: 'email',
+  status: 'status',
+  bio: 'bio',
+  website: 'website',
+  socialMedia: 'socialMedia',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -260,15 +265,33 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.UserStatus = exports.$Enums.UserStatus = {
+  ONLINE: 'ONLINE',
+  IDLE: 'IDLE',
+  DO_NOT_DISTURB: 'DO_NOT_DISTURB',
+  INVISIBLE: 'INVISIBLE'
+};
+
 exports.ServerCategory = exports.$Enums.ServerCategory = {
   POPULAR: 'POPULAR',
   CHRISTIANITY: 'CHRISTIANITY',
