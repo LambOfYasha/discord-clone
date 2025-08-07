@@ -64,6 +64,11 @@ export type DirectMessage = $Result.DefaultSelection<Prisma.$DirectMessagePayloa
  */
 export type FriendRequest = $Result.DefaultSelection<Prisma.$FriendRequestPayload>
 /**
+ * Model MessageRequest
+ * 
+ */
+export type MessageRequest = $Result.DefaultSelection<Prisma.$MessageRequestPayload>
+/**
  * Model Follow
  * 
  */
@@ -119,6 +124,15 @@ export const FriendRequestStatus: {
 export type FriendRequestStatus = (typeof FriendRequestStatus)[keyof typeof FriendRequestStatus]
 
 
+export const MessageRequestStatus: {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED'
+};
+
+export type MessageRequestStatus = (typeof MessageRequestStatus)[keyof typeof MessageRequestStatus]
+
+
 export const NotificationType: {
   FRIEND_ACTIVITY: 'FRIEND_ACTIVITY',
   SERVER_ACTIVITY: 'SERVER_ACTIVITY',
@@ -147,6 +161,10 @@ export const ChannelType: typeof $Enums.ChannelType
 export type FriendRequestStatus = $Enums.FriendRequestStatus
 
 export const FriendRequestStatus: typeof $Enums.FriendRequestStatus
+
+export type MessageRequestStatus = $Enums.MessageRequestStatus
+
+export const MessageRequestStatus: typeof $Enums.MessageRequestStatus
 
 export type NotificationType = $Enums.NotificationType
 
@@ -376,6 +394,16 @@ export class PrismaClient<
     * ```
     */
   get friendRequest(): Prisma.FriendRequestDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.messageRequest`: Exposes CRUD operations for the **MessageRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MessageRequests
+    * const messageRequests = await prisma.messageRequest.findMany()
+    * ```
+    */
+  get messageRequest(): Prisma.MessageRequestDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.follow`: Exposes CRUD operations for the **Follow** model.
@@ -856,6 +884,7 @@ export namespace Prisma {
     GroupMessage: 'GroupMessage',
     DirectMessage: 'DirectMessage',
     FriendRequest: 'FriendRequest',
+    MessageRequest: 'MessageRequest',
     Follow: 'Follow',
     ServerFollow: 'ServerFollow',
     Notification: 'Notification'
@@ -877,7 +906,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "profile" | "server" | "member" | "channel" | "conversation" | "groupConversation" | "groupConversationMember" | "groupMessage" | "directMessage" | "friendRequest" | "follow" | "serverFollow" | "notification"
+      modelProps: "profile" | "server" | "member" | "channel" | "conversation" | "groupConversation" | "groupConversationMember" | "groupMessage" | "directMessage" | "friendRequest" | "messageRequest" | "follow" | "serverFollow" | "notification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1621,6 +1650,80 @@ export namespace Prisma {
           }
         }
       }
+      MessageRequest: {
+        payload: Prisma.$MessageRequestPayload<ExtArgs>
+        fields: Prisma.MessageRequestFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MessageRequestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MessageRequestPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MessageRequestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MessageRequestPayload>
+          }
+          findFirst: {
+            args: Prisma.MessageRequestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MessageRequestPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MessageRequestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MessageRequestPayload>
+          }
+          findMany: {
+            args: Prisma.MessageRequestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MessageRequestPayload>[]
+          }
+          create: {
+            args: Prisma.MessageRequestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MessageRequestPayload>
+          }
+          createMany: {
+            args: Prisma.MessageRequestCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MessageRequestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MessageRequestPayload>[]
+          }
+          delete: {
+            args: Prisma.MessageRequestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MessageRequestPayload>
+          }
+          update: {
+            args: Prisma.MessageRequestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MessageRequestPayload>
+          }
+          deleteMany: {
+            args: Prisma.MessageRequestDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MessageRequestUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MessageRequestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MessageRequestPayload>[]
+          }
+          upsert: {
+            args: Prisma.MessageRequestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MessageRequestPayload>
+          }
+          aggregate: {
+            args: Prisma.MessageRequestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMessageRequest>
+          }
+          groupBy: {
+            args: Prisma.MessageRequestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MessageRequestGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MessageRequestCountArgs<ExtArgs>
+            result: $Utils.Optional<MessageRequestCountAggregateOutputType> | number
+          }
+        }
+      }
       Follow: {
         payload: Prisma.$FollowPayload<ExtArgs>
         fields: Prisma.FollowFieldRefs
@@ -1937,6 +2040,7 @@ export namespace Prisma {
     groupMessage?: GroupMessageOmit
     directMessage?: DirectMessageOmit
     friendRequest?: FriendRequestOmit
+    messageRequest?: MessageRequestOmit
     follow?: FollowOmit
     serverFollow?: ServerFollowOmit
     notification?: NotificationOmit
@@ -2042,6 +2146,8 @@ export namespace Prisma {
     groupConversationsCreated: number
     friendRequestsSent: number
     friendRequestsReceived: number
+    messageRequestsSent: number
+    messageRequestsReceived: number
     followsSent: number
     followsReceived: number
     serverFollows: number
@@ -2058,6 +2164,8 @@ export namespace Prisma {
     groupConversationsCreated?: boolean | ProfileCountOutputTypeCountGroupConversationsCreatedArgs
     friendRequestsSent?: boolean | ProfileCountOutputTypeCountFriendRequestsSentArgs
     friendRequestsReceived?: boolean | ProfileCountOutputTypeCountFriendRequestsReceivedArgs
+    messageRequestsSent?: boolean | ProfileCountOutputTypeCountMessageRequestsSentArgs
+    messageRequestsReceived?: boolean | ProfileCountOutputTypeCountMessageRequestsReceivedArgs
     followsSent?: boolean | ProfileCountOutputTypeCountFollowsSentArgs
     followsReceived?: boolean | ProfileCountOutputTypeCountFollowsReceivedArgs
     serverFollows?: boolean | ProfileCountOutputTypeCountServerFollowsArgs
@@ -2130,6 +2238,20 @@ export namespace Prisma {
    */
   export type ProfileCountOutputTypeCountFriendRequestsReceivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FriendRequestWhereInput
+  }
+
+  /**
+   * ProfileCountOutputType without action
+   */
+  export type ProfileCountOutputTypeCountMessageRequestsSentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MessageRequestWhereInput
+  }
+
+  /**
+   * ProfileCountOutputType without action
+   */
+  export type ProfileCountOutputTypeCountMessageRequestsReceivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MessageRequestWhereInput
   }
 
   /**
@@ -2556,6 +2678,8 @@ export namespace Prisma {
     groupConversationsCreated?: boolean | Profile$groupConversationsCreatedArgs<ExtArgs>
     friendRequestsSent?: boolean | Profile$friendRequestsSentArgs<ExtArgs>
     friendRequestsReceived?: boolean | Profile$friendRequestsReceivedArgs<ExtArgs>
+    messageRequestsSent?: boolean | Profile$messageRequestsSentArgs<ExtArgs>
+    messageRequestsReceived?: boolean | Profile$messageRequestsReceivedArgs<ExtArgs>
     followsSent?: boolean | Profile$followsSentArgs<ExtArgs>
     followsReceived?: boolean | Profile$followsReceivedArgs<ExtArgs>
     serverFollows?: boolean | Profile$serverFollowsArgs<ExtArgs>
@@ -2604,6 +2728,8 @@ export namespace Prisma {
     groupConversationsCreated?: boolean | Profile$groupConversationsCreatedArgs<ExtArgs>
     friendRequestsSent?: boolean | Profile$friendRequestsSentArgs<ExtArgs>
     friendRequestsReceived?: boolean | Profile$friendRequestsReceivedArgs<ExtArgs>
+    messageRequestsSent?: boolean | Profile$messageRequestsSentArgs<ExtArgs>
+    messageRequestsReceived?: boolean | Profile$messageRequestsReceivedArgs<ExtArgs>
     followsSent?: boolean | Profile$followsSentArgs<ExtArgs>
     followsReceived?: boolean | Profile$followsReceivedArgs<ExtArgs>
     serverFollows?: boolean | Profile$serverFollowsArgs<ExtArgs>
@@ -2625,6 +2751,8 @@ export namespace Prisma {
       groupConversationsCreated: Prisma.$GroupConversationPayload<ExtArgs>[]
       friendRequestsSent: Prisma.$FriendRequestPayload<ExtArgs>[]
       friendRequestsReceived: Prisma.$FriendRequestPayload<ExtArgs>[]
+      messageRequestsSent: Prisma.$MessageRequestPayload<ExtArgs>[]
+      messageRequestsReceived: Prisma.$MessageRequestPayload<ExtArgs>[]
       followsSent: Prisma.$FollowPayload<ExtArgs>[]
       followsReceived: Prisma.$FollowPayload<ExtArgs>[]
       serverFollows: Prisma.$ServerFollowPayload<ExtArgs>[]
@@ -3041,6 +3169,8 @@ export namespace Prisma {
     groupConversationsCreated<T extends Profile$groupConversationsCreatedArgs<ExtArgs> = {}>(args?: Subset<T, Profile$groupConversationsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     friendRequestsSent<T extends Profile$friendRequestsSentArgs<ExtArgs> = {}>(args?: Subset<T, Profile$friendRequestsSentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FriendRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     friendRequestsReceived<T extends Profile$friendRequestsReceivedArgs<ExtArgs> = {}>(args?: Subset<T, Profile$friendRequestsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FriendRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    messageRequestsSent<T extends Profile$messageRequestsSentArgs<ExtArgs> = {}>(args?: Subset<T, Profile$messageRequestsSentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessageRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    messageRequestsReceived<T extends Profile$messageRequestsReceivedArgs<ExtArgs> = {}>(args?: Subset<T, Profile$messageRequestsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessageRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     followsSent<T extends Profile$followsSentArgs<ExtArgs> = {}>(args?: Subset<T, Profile$followsSentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     followsReceived<T extends Profile$followsReceivedArgs<ExtArgs> = {}>(args?: Subset<T, Profile$followsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     serverFollows<T extends Profile$serverFollowsArgs<ExtArgs> = {}>(args?: Subset<T, Profile$serverFollowsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServerFollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3659,6 +3789,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: FriendRequestScalarFieldEnum | FriendRequestScalarFieldEnum[]
+  }
+
+  /**
+   * Profile.messageRequestsSent
+   */
+  export type Profile$messageRequestsSentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MessageRequest
+     */
+    select?: MessageRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MessageRequest
+     */
+    omit?: MessageRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageRequestInclude<ExtArgs> | null
+    where?: MessageRequestWhereInput
+    orderBy?: MessageRequestOrderByWithRelationInput | MessageRequestOrderByWithRelationInput[]
+    cursor?: MessageRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MessageRequestScalarFieldEnum | MessageRequestScalarFieldEnum[]
+  }
+
+  /**
+   * Profile.messageRequestsReceived
+   */
+  export type Profile$messageRequestsReceivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MessageRequest
+     */
+    select?: MessageRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MessageRequest
+     */
+    omit?: MessageRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageRequestInclude<ExtArgs> | null
+    where?: MessageRequestWhereInput
+    orderBy?: MessageRequestOrderByWithRelationInput | MessageRequestOrderByWithRelationInput[]
+    cursor?: MessageRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MessageRequestScalarFieldEnum | MessageRequestScalarFieldEnum[]
   }
 
   /**
@@ -13947,6 +14125,1098 @@ export namespace Prisma {
 
 
   /**
+   * Model MessageRequest
+   */
+
+  export type AggregateMessageRequest = {
+    _count: MessageRequestCountAggregateOutputType | null
+    _min: MessageRequestMinAggregateOutputType | null
+    _max: MessageRequestMaxAggregateOutputType | null
+  }
+
+  export type MessageRequestMinAggregateOutputType = {
+    id: string | null
+    requesterProfileId: string | null
+    targetProfileId: string | null
+    message: string | null
+    status: $Enums.MessageRequestStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MessageRequestMaxAggregateOutputType = {
+    id: string | null
+    requesterProfileId: string | null
+    targetProfileId: string | null
+    message: string | null
+    status: $Enums.MessageRequestStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MessageRequestCountAggregateOutputType = {
+    id: number
+    requesterProfileId: number
+    targetProfileId: number
+    message: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type MessageRequestMinAggregateInputType = {
+    id?: true
+    requesterProfileId?: true
+    targetProfileId?: true
+    message?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MessageRequestMaxAggregateInputType = {
+    id?: true
+    requesterProfileId?: true
+    targetProfileId?: true
+    message?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MessageRequestCountAggregateInputType = {
+    id?: true
+    requesterProfileId?: true
+    targetProfileId?: true
+    message?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type MessageRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MessageRequest to aggregate.
+     */
+    where?: MessageRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MessageRequests to fetch.
+     */
+    orderBy?: MessageRequestOrderByWithRelationInput | MessageRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MessageRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MessageRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MessageRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MessageRequests
+    **/
+    _count?: true | MessageRequestCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MessageRequestMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MessageRequestMaxAggregateInputType
+  }
+
+  export type GetMessageRequestAggregateType<T extends MessageRequestAggregateArgs> = {
+        [P in keyof T & keyof AggregateMessageRequest]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMessageRequest[P]>
+      : GetScalarType<T[P], AggregateMessageRequest[P]>
+  }
+
+
+
+
+  export type MessageRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MessageRequestWhereInput
+    orderBy?: MessageRequestOrderByWithAggregationInput | MessageRequestOrderByWithAggregationInput[]
+    by: MessageRequestScalarFieldEnum[] | MessageRequestScalarFieldEnum
+    having?: MessageRequestScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MessageRequestCountAggregateInputType | true
+    _min?: MessageRequestMinAggregateInputType
+    _max?: MessageRequestMaxAggregateInputType
+  }
+
+  export type MessageRequestGroupByOutputType = {
+    id: string
+    requesterProfileId: string
+    targetProfileId: string
+    message: string
+    status: $Enums.MessageRequestStatus
+    createdAt: Date
+    updatedAt: Date
+    _count: MessageRequestCountAggregateOutputType | null
+    _min: MessageRequestMinAggregateOutputType | null
+    _max: MessageRequestMaxAggregateOutputType | null
+  }
+
+  type GetMessageRequestGroupByPayload<T extends MessageRequestGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MessageRequestGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MessageRequestGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MessageRequestGroupByOutputType[P]>
+            : GetScalarType<T[P], MessageRequestGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MessageRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    requesterProfileId?: boolean
+    targetProfileId?: boolean
+    message?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    requesterProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    targetProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["messageRequest"]>
+
+  export type MessageRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    requesterProfileId?: boolean
+    targetProfileId?: boolean
+    message?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    requesterProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    targetProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["messageRequest"]>
+
+  export type MessageRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    requesterProfileId?: boolean
+    targetProfileId?: boolean
+    message?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    requesterProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    targetProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["messageRequest"]>
+
+  export type MessageRequestSelectScalar = {
+    id?: boolean
+    requesterProfileId?: boolean
+    targetProfileId?: boolean
+    message?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type MessageRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "requesterProfileId" | "targetProfileId" | "message" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["messageRequest"]>
+  export type MessageRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    requesterProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    targetProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+  }
+  export type MessageRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    requesterProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    targetProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+  }
+  export type MessageRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    requesterProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    targetProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+  }
+
+  export type $MessageRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MessageRequest"
+    objects: {
+      requesterProfile: Prisma.$ProfilePayload<ExtArgs>
+      targetProfile: Prisma.$ProfilePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      requesterProfileId: string
+      targetProfileId: string
+      message: string
+      status: $Enums.MessageRequestStatus
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["messageRequest"]>
+    composites: {}
+  }
+
+  type MessageRequestGetPayload<S extends boolean | null | undefined | MessageRequestDefaultArgs> = $Result.GetResult<Prisma.$MessageRequestPayload, S>
+
+  type MessageRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MessageRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MessageRequestCountAggregateInputType | true
+    }
+
+  export interface MessageRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MessageRequest'], meta: { name: 'MessageRequest' } }
+    /**
+     * Find zero or one MessageRequest that matches the filter.
+     * @param {MessageRequestFindUniqueArgs} args - Arguments to find a MessageRequest
+     * @example
+     * // Get one MessageRequest
+     * const messageRequest = await prisma.messageRequest.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MessageRequestFindUniqueArgs>(args: SelectSubset<T, MessageRequestFindUniqueArgs<ExtArgs>>): Prisma__MessageRequestClient<$Result.GetResult<Prisma.$MessageRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MessageRequest that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MessageRequestFindUniqueOrThrowArgs} args - Arguments to find a MessageRequest
+     * @example
+     * // Get one MessageRequest
+     * const messageRequest = await prisma.messageRequest.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MessageRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, MessageRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MessageRequestClient<$Result.GetResult<Prisma.$MessageRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MessageRequest that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MessageRequestFindFirstArgs} args - Arguments to find a MessageRequest
+     * @example
+     * // Get one MessageRequest
+     * const messageRequest = await prisma.messageRequest.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MessageRequestFindFirstArgs>(args?: SelectSubset<T, MessageRequestFindFirstArgs<ExtArgs>>): Prisma__MessageRequestClient<$Result.GetResult<Prisma.$MessageRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MessageRequest that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MessageRequestFindFirstOrThrowArgs} args - Arguments to find a MessageRequest
+     * @example
+     * // Get one MessageRequest
+     * const messageRequest = await prisma.messageRequest.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MessageRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, MessageRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__MessageRequestClient<$Result.GetResult<Prisma.$MessageRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MessageRequests that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MessageRequestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MessageRequests
+     * const messageRequests = await prisma.messageRequest.findMany()
+     * 
+     * // Get first 10 MessageRequests
+     * const messageRequests = await prisma.messageRequest.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const messageRequestWithIdOnly = await prisma.messageRequest.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MessageRequestFindManyArgs>(args?: SelectSubset<T, MessageRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessageRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MessageRequest.
+     * @param {MessageRequestCreateArgs} args - Arguments to create a MessageRequest.
+     * @example
+     * // Create one MessageRequest
+     * const MessageRequest = await prisma.messageRequest.create({
+     *   data: {
+     *     // ... data to create a MessageRequest
+     *   }
+     * })
+     * 
+     */
+    create<T extends MessageRequestCreateArgs>(args: SelectSubset<T, MessageRequestCreateArgs<ExtArgs>>): Prisma__MessageRequestClient<$Result.GetResult<Prisma.$MessageRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MessageRequests.
+     * @param {MessageRequestCreateManyArgs} args - Arguments to create many MessageRequests.
+     * @example
+     * // Create many MessageRequests
+     * const messageRequest = await prisma.messageRequest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MessageRequestCreateManyArgs>(args?: SelectSubset<T, MessageRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MessageRequests and returns the data saved in the database.
+     * @param {MessageRequestCreateManyAndReturnArgs} args - Arguments to create many MessageRequests.
+     * @example
+     * // Create many MessageRequests
+     * const messageRequest = await prisma.messageRequest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MessageRequests and only return the `id`
+     * const messageRequestWithIdOnly = await prisma.messageRequest.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MessageRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, MessageRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessageRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MessageRequest.
+     * @param {MessageRequestDeleteArgs} args - Arguments to delete one MessageRequest.
+     * @example
+     * // Delete one MessageRequest
+     * const MessageRequest = await prisma.messageRequest.delete({
+     *   where: {
+     *     // ... filter to delete one MessageRequest
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MessageRequestDeleteArgs>(args: SelectSubset<T, MessageRequestDeleteArgs<ExtArgs>>): Prisma__MessageRequestClient<$Result.GetResult<Prisma.$MessageRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MessageRequest.
+     * @param {MessageRequestUpdateArgs} args - Arguments to update one MessageRequest.
+     * @example
+     * // Update one MessageRequest
+     * const messageRequest = await prisma.messageRequest.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MessageRequestUpdateArgs>(args: SelectSubset<T, MessageRequestUpdateArgs<ExtArgs>>): Prisma__MessageRequestClient<$Result.GetResult<Prisma.$MessageRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MessageRequests.
+     * @param {MessageRequestDeleteManyArgs} args - Arguments to filter MessageRequests to delete.
+     * @example
+     * // Delete a few MessageRequests
+     * const { count } = await prisma.messageRequest.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MessageRequestDeleteManyArgs>(args?: SelectSubset<T, MessageRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MessageRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MessageRequestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MessageRequests
+     * const messageRequest = await prisma.messageRequest.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MessageRequestUpdateManyArgs>(args: SelectSubset<T, MessageRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MessageRequests and returns the data updated in the database.
+     * @param {MessageRequestUpdateManyAndReturnArgs} args - Arguments to update many MessageRequests.
+     * @example
+     * // Update many MessageRequests
+     * const messageRequest = await prisma.messageRequest.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MessageRequests and only return the `id`
+     * const messageRequestWithIdOnly = await prisma.messageRequest.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MessageRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, MessageRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessageRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MessageRequest.
+     * @param {MessageRequestUpsertArgs} args - Arguments to update or create a MessageRequest.
+     * @example
+     * // Update or create a MessageRequest
+     * const messageRequest = await prisma.messageRequest.upsert({
+     *   create: {
+     *     // ... data to create a MessageRequest
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MessageRequest we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MessageRequestUpsertArgs>(args: SelectSubset<T, MessageRequestUpsertArgs<ExtArgs>>): Prisma__MessageRequestClient<$Result.GetResult<Prisma.$MessageRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MessageRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MessageRequestCountArgs} args - Arguments to filter MessageRequests to count.
+     * @example
+     * // Count the number of MessageRequests
+     * const count = await prisma.messageRequest.count({
+     *   where: {
+     *     // ... the filter for the MessageRequests we want to count
+     *   }
+     * })
+    **/
+    count<T extends MessageRequestCountArgs>(
+      args?: Subset<T, MessageRequestCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MessageRequestCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MessageRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MessageRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MessageRequestAggregateArgs>(args: Subset<T, MessageRequestAggregateArgs>): Prisma.PrismaPromise<GetMessageRequestAggregateType<T>>
+
+    /**
+     * Group by MessageRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MessageRequestGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MessageRequestGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MessageRequestGroupByArgs['orderBy'] }
+        : { orderBy?: MessageRequestGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MessageRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMessageRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MessageRequest model
+   */
+  readonly fields: MessageRequestFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MessageRequest.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MessageRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    requesterProfile<T extends ProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProfileDefaultArgs<ExtArgs>>): Prisma__ProfileClient<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    targetProfile<T extends ProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProfileDefaultArgs<ExtArgs>>): Prisma__ProfileClient<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MessageRequest model
+   */
+  interface MessageRequestFieldRefs {
+    readonly id: FieldRef<"MessageRequest", 'String'>
+    readonly requesterProfileId: FieldRef<"MessageRequest", 'String'>
+    readonly targetProfileId: FieldRef<"MessageRequest", 'String'>
+    readonly message: FieldRef<"MessageRequest", 'String'>
+    readonly status: FieldRef<"MessageRequest", 'MessageRequestStatus'>
+    readonly createdAt: FieldRef<"MessageRequest", 'DateTime'>
+    readonly updatedAt: FieldRef<"MessageRequest", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MessageRequest findUnique
+   */
+  export type MessageRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MessageRequest
+     */
+    select?: MessageRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MessageRequest
+     */
+    omit?: MessageRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which MessageRequest to fetch.
+     */
+    where: MessageRequestWhereUniqueInput
+  }
+
+  /**
+   * MessageRequest findUniqueOrThrow
+   */
+  export type MessageRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MessageRequest
+     */
+    select?: MessageRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MessageRequest
+     */
+    omit?: MessageRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which MessageRequest to fetch.
+     */
+    where: MessageRequestWhereUniqueInput
+  }
+
+  /**
+   * MessageRequest findFirst
+   */
+  export type MessageRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MessageRequest
+     */
+    select?: MessageRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MessageRequest
+     */
+    omit?: MessageRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which MessageRequest to fetch.
+     */
+    where?: MessageRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MessageRequests to fetch.
+     */
+    orderBy?: MessageRequestOrderByWithRelationInput | MessageRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MessageRequests.
+     */
+    cursor?: MessageRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MessageRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MessageRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MessageRequests.
+     */
+    distinct?: MessageRequestScalarFieldEnum | MessageRequestScalarFieldEnum[]
+  }
+
+  /**
+   * MessageRequest findFirstOrThrow
+   */
+  export type MessageRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MessageRequest
+     */
+    select?: MessageRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MessageRequest
+     */
+    omit?: MessageRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which MessageRequest to fetch.
+     */
+    where?: MessageRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MessageRequests to fetch.
+     */
+    orderBy?: MessageRequestOrderByWithRelationInput | MessageRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MessageRequests.
+     */
+    cursor?: MessageRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MessageRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MessageRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MessageRequests.
+     */
+    distinct?: MessageRequestScalarFieldEnum | MessageRequestScalarFieldEnum[]
+  }
+
+  /**
+   * MessageRequest findMany
+   */
+  export type MessageRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MessageRequest
+     */
+    select?: MessageRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MessageRequest
+     */
+    omit?: MessageRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which MessageRequests to fetch.
+     */
+    where?: MessageRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MessageRequests to fetch.
+     */
+    orderBy?: MessageRequestOrderByWithRelationInput | MessageRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MessageRequests.
+     */
+    cursor?: MessageRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MessageRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MessageRequests.
+     */
+    skip?: number
+    distinct?: MessageRequestScalarFieldEnum | MessageRequestScalarFieldEnum[]
+  }
+
+  /**
+   * MessageRequest create
+   */
+  export type MessageRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MessageRequest
+     */
+    select?: MessageRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MessageRequest
+     */
+    omit?: MessageRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MessageRequest.
+     */
+    data: XOR<MessageRequestCreateInput, MessageRequestUncheckedCreateInput>
+  }
+
+  /**
+   * MessageRequest createMany
+   */
+  export type MessageRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MessageRequests.
+     */
+    data: MessageRequestCreateManyInput | MessageRequestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MessageRequest createManyAndReturn
+   */
+  export type MessageRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MessageRequest
+     */
+    select?: MessageRequestSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MessageRequest
+     */
+    omit?: MessageRequestOmit<ExtArgs> | null
+    /**
+     * The data used to create many MessageRequests.
+     */
+    data: MessageRequestCreateManyInput | MessageRequestCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageRequestIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MessageRequest update
+   */
+  export type MessageRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MessageRequest
+     */
+    select?: MessageRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MessageRequest
+     */
+    omit?: MessageRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MessageRequest.
+     */
+    data: XOR<MessageRequestUpdateInput, MessageRequestUncheckedUpdateInput>
+    /**
+     * Choose, which MessageRequest to update.
+     */
+    where: MessageRequestWhereUniqueInput
+  }
+
+  /**
+   * MessageRequest updateMany
+   */
+  export type MessageRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MessageRequests.
+     */
+    data: XOR<MessageRequestUpdateManyMutationInput, MessageRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which MessageRequests to update
+     */
+    where?: MessageRequestWhereInput
+    /**
+     * Limit how many MessageRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MessageRequest updateManyAndReturn
+   */
+  export type MessageRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MessageRequest
+     */
+    select?: MessageRequestSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MessageRequest
+     */
+    omit?: MessageRequestOmit<ExtArgs> | null
+    /**
+     * The data used to update MessageRequests.
+     */
+    data: XOR<MessageRequestUpdateManyMutationInput, MessageRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which MessageRequests to update
+     */
+    where?: MessageRequestWhereInput
+    /**
+     * Limit how many MessageRequests to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageRequestIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MessageRequest upsert
+   */
+  export type MessageRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MessageRequest
+     */
+    select?: MessageRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MessageRequest
+     */
+    omit?: MessageRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageRequestInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MessageRequest to update in case it exists.
+     */
+    where: MessageRequestWhereUniqueInput
+    /**
+     * In case the MessageRequest found by the `where` argument doesn't exist, create a new MessageRequest with this data.
+     */
+    create: XOR<MessageRequestCreateInput, MessageRequestUncheckedCreateInput>
+    /**
+     * In case the MessageRequest was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MessageRequestUpdateInput, MessageRequestUncheckedUpdateInput>
+  }
+
+  /**
+   * MessageRequest delete
+   */
+  export type MessageRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MessageRequest
+     */
+    select?: MessageRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MessageRequest
+     */
+    omit?: MessageRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageRequestInclude<ExtArgs> | null
+    /**
+     * Filter which MessageRequest to delete.
+     */
+    where: MessageRequestWhereUniqueInput
+  }
+
+  /**
+   * MessageRequest deleteMany
+   */
+  export type MessageRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MessageRequests to delete
+     */
+    where?: MessageRequestWhereInput
+    /**
+     * Limit how many MessageRequests to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MessageRequest without action
+   */
+  export type MessageRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MessageRequest
+     */
+    select?: MessageRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MessageRequest
+     */
+    omit?: MessageRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageRequestInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Follow
    */
 
@@ -17358,6 +18628,19 @@ export namespace Prisma {
   export type FriendRequestScalarFieldEnum = (typeof FriendRequestScalarFieldEnum)[keyof typeof FriendRequestScalarFieldEnum]
 
 
+  export const MessageRequestScalarFieldEnum: {
+    id: 'id',
+    requesterProfileId: 'requesterProfileId',
+    targetProfileId: 'targetProfileId',
+    message: 'message',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type MessageRequestScalarFieldEnum = (typeof MessageRequestScalarFieldEnum)[keyof typeof MessageRequestScalarFieldEnum]
+
+
   export const FollowScalarFieldEnum: {
     id: 'id',
     followerProfileId: 'followerProfileId',
@@ -17514,6 +18797,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'MessageRequestStatus'
+   */
+  export type EnumMessageRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MessageRequestStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'MessageRequestStatus[]'
+   */
+  export type ListEnumMessageRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MessageRequestStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'NotificationType'
    */
   export type EnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType'>
@@ -17563,6 +18860,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationListRelationFilter
     friendRequestsSent?: FriendRequestListRelationFilter
     friendRequestsReceived?: FriendRequestListRelationFilter
+    messageRequestsSent?: MessageRequestListRelationFilter
+    messageRequestsReceived?: MessageRequestListRelationFilter
     followsSent?: FollowListRelationFilter
     followsReceived?: FollowListRelationFilter
     serverFollows?: ServerFollowListRelationFilter
@@ -17586,6 +18885,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationOrderByRelationAggregateInput
     friendRequestsSent?: FriendRequestOrderByRelationAggregateInput
     friendRequestsReceived?: FriendRequestOrderByRelationAggregateInput
+    messageRequestsSent?: MessageRequestOrderByRelationAggregateInput
+    messageRequestsReceived?: MessageRequestOrderByRelationAggregateInput
     followsSent?: FollowOrderByRelationAggregateInput
     followsReceived?: FollowOrderByRelationAggregateInput
     serverFollows?: ServerFollowOrderByRelationAggregateInput
@@ -17612,6 +18913,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationListRelationFilter
     friendRequestsSent?: FriendRequestListRelationFilter
     friendRequestsReceived?: FriendRequestListRelationFilter
+    messageRequestsSent?: MessageRequestListRelationFilter
+    messageRequestsReceived?: MessageRequestListRelationFilter
     followsSent?: FollowListRelationFilter
     followsReceived?: FollowListRelationFilter
     serverFollows?: ServerFollowListRelationFilter
@@ -18287,6 +19590,74 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"FriendRequest"> | Date | string
   }
 
+  export type MessageRequestWhereInput = {
+    AND?: MessageRequestWhereInput | MessageRequestWhereInput[]
+    OR?: MessageRequestWhereInput[]
+    NOT?: MessageRequestWhereInput | MessageRequestWhereInput[]
+    id?: StringFilter<"MessageRequest"> | string
+    requesterProfileId?: StringFilter<"MessageRequest"> | string
+    targetProfileId?: StringFilter<"MessageRequest"> | string
+    message?: StringFilter<"MessageRequest"> | string
+    status?: EnumMessageRequestStatusFilter<"MessageRequest"> | $Enums.MessageRequestStatus
+    createdAt?: DateTimeFilter<"MessageRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"MessageRequest"> | Date | string
+    requesterProfile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
+    targetProfile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
+  }
+
+  export type MessageRequestOrderByWithRelationInput = {
+    id?: SortOrder
+    requesterProfileId?: SortOrder
+    targetProfileId?: SortOrder
+    message?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    requesterProfile?: ProfileOrderByWithRelationInput
+    targetProfile?: ProfileOrderByWithRelationInput
+  }
+
+  export type MessageRequestWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: MessageRequestWhereInput | MessageRequestWhereInput[]
+    OR?: MessageRequestWhereInput[]
+    NOT?: MessageRequestWhereInput | MessageRequestWhereInput[]
+    requesterProfileId?: StringFilter<"MessageRequest"> | string
+    targetProfileId?: StringFilter<"MessageRequest"> | string
+    message?: StringFilter<"MessageRequest"> | string
+    status?: EnumMessageRequestStatusFilter<"MessageRequest"> | $Enums.MessageRequestStatus
+    createdAt?: DateTimeFilter<"MessageRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"MessageRequest"> | Date | string
+    requesterProfile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
+    targetProfile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
+  }, "id">
+
+  export type MessageRequestOrderByWithAggregationInput = {
+    id?: SortOrder
+    requesterProfileId?: SortOrder
+    targetProfileId?: SortOrder
+    message?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: MessageRequestCountOrderByAggregateInput
+    _max?: MessageRequestMaxOrderByAggregateInput
+    _min?: MessageRequestMinOrderByAggregateInput
+  }
+
+  export type MessageRequestScalarWhereWithAggregatesInput = {
+    AND?: MessageRequestScalarWhereWithAggregatesInput | MessageRequestScalarWhereWithAggregatesInput[]
+    OR?: MessageRequestScalarWhereWithAggregatesInput[]
+    NOT?: MessageRequestScalarWhereWithAggregatesInput | MessageRequestScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MessageRequest"> | string
+    requesterProfileId?: StringWithAggregatesFilter<"MessageRequest"> | string
+    targetProfileId?: StringWithAggregatesFilter<"MessageRequest"> | string
+    message?: StringWithAggregatesFilter<"MessageRequest"> | string
+    status?: EnumMessageRequestStatusWithAggregatesFilter<"MessageRequest"> | $Enums.MessageRequestStatus
+    createdAt?: DateTimeWithAggregatesFilter<"MessageRequest"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"MessageRequest"> | Date | string
+  }
+
   export type FollowWhereInput = {
     AND?: FollowWhereInput | FollowWhereInput[]
     OR?: FollowWhereInput[]
@@ -18492,6 +19863,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
@@ -18515,6 +19888,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestUncheckedCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
@@ -18538,6 +19913,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
@@ -18561,6 +19938,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
@@ -19244,6 +20623,74 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type MessageRequestCreateInput = {
+    id?: string
+    message: string
+    status?: $Enums.MessageRequestStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    requesterProfile: ProfileCreateNestedOneWithoutMessageRequestsSentInput
+    targetProfile: ProfileCreateNestedOneWithoutMessageRequestsReceivedInput
+  }
+
+  export type MessageRequestUncheckedCreateInput = {
+    id?: string
+    requesterProfileId: string
+    targetProfileId: string
+    message: string
+    status?: $Enums.MessageRequestStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MessageRequestUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    status?: EnumMessageRequestStatusFieldUpdateOperationsInput | $Enums.MessageRequestStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    requesterProfile?: ProfileUpdateOneRequiredWithoutMessageRequestsSentNestedInput
+    targetProfile?: ProfileUpdateOneRequiredWithoutMessageRequestsReceivedNestedInput
+  }
+
+  export type MessageRequestUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requesterProfileId?: StringFieldUpdateOperationsInput | string
+    targetProfileId?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    status?: EnumMessageRequestStatusFieldUpdateOperationsInput | $Enums.MessageRequestStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MessageRequestCreateManyInput = {
+    id?: string
+    requesterProfileId: string
+    targetProfileId: string
+    message: string
+    status?: $Enums.MessageRequestStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MessageRequestUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    status?: EnumMessageRequestStatusFieldUpdateOperationsInput | $Enums.MessageRequestStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MessageRequestUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requesterProfileId?: StringFieldUpdateOperationsInput | string
+    targetProfileId?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    status?: EnumMessageRequestStatusFieldUpdateOperationsInput | $Enums.MessageRequestStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type FollowCreateInput = {
     id?: string
     createdAt?: Date | string
@@ -19487,6 +20934,12 @@ export namespace Prisma {
     none?: FriendRequestWhereInput
   }
 
+  export type MessageRequestListRelationFilter = {
+    every?: MessageRequestWhereInput
+    some?: MessageRequestWhereInput
+    none?: MessageRequestWhereInput
+  }
+
   export type FollowListRelationFilter = {
     every?: FollowWhereInput
     some?: FollowWhereInput
@@ -19530,6 +20983,10 @@ export namespace Prisma {
   }
 
   export type FriendRequestOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MessageRequestOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -20055,6 +21512,53 @@ export namespace Prisma {
     _max?: NestedEnumFriendRequestStatusFilter<$PrismaModel>
   }
 
+  export type EnumMessageRequestStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.MessageRequestStatus | EnumMessageRequestStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.MessageRequestStatus[] | ListEnumMessageRequestStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MessageRequestStatus[] | ListEnumMessageRequestStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumMessageRequestStatusFilter<$PrismaModel> | $Enums.MessageRequestStatus
+  }
+
+  export type MessageRequestCountOrderByAggregateInput = {
+    id?: SortOrder
+    requesterProfileId?: SortOrder
+    targetProfileId?: SortOrder
+    message?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MessageRequestMaxOrderByAggregateInput = {
+    id?: SortOrder
+    requesterProfileId?: SortOrder
+    targetProfileId?: SortOrder
+    message?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MessageRequestMinOrderByAggregateInput = {
+    id?: SortOrder
+    requesterProfileId?: SortOrder
+    targetProfileId?: SortOrder
+    message?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumMessageRequestStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.MessageRequestStatus | EnumMessageRequestStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.MessageRequestStatus[] | ListEnumMessageRequestStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MessageRequestStatus[] | ListEnumMessageRequestStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumMessageRequestStatusWithAggregatesFilter<$PrismaModel> | $Enums.MessageRequestStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumMessageRequestStatusFilter<$PrismaModel>
+    _max?: NestedEnumMessageRequestStatusFilter<$PrismaModel>
+  }
+
   export type FollowFollowerProfileIdFollowingProfileIdCompoundUniqueInput = {
     followerProfileId: string
     followingProfileId: string
@@ -20226,6 +21730,20 @@ export namespace Prisma {
     connect?: FriendRequestWhereUniqueInput | FriendRequestWhereUniqueInput[]
   }
 
+  export type MessageRequestCreateNestedManyWithoutRequesterProfileInput = {
+    create?: XOR<MessageRequestCreateWithoutRequesterProfileInput, MessageRequestUncheckedCreateWithoutRequesterProfileInput> | MessageRequestCreateWithoutRequesterProfileInput[] | MessageRequestUncheckedCreateWithoutRequesterProfileInput[]
+    connectOrCreate?: MessageRequestCreateOrConnectWithoutRequesterProfileInput | MessageRequestCreateOrConnectWithoutRequesterProfileInput[]
+    createMany?: MessageRequestCreateManyRequesterProfileInputEnvelope
+    connect?: MessageRequestWhereUniqueInput | MessageRequestWhereUniqueInput[]
+  }
+
+  export type MessageRequestCreateNestedManyWithoutTargetProfileInput = {
+    create?: XOR<MessageRequestCreateWithoutTargetProfileInput, MessageRequestUncheckedCreateWithoutTargetProfileInput> | MessageRequestCreateWithoutTargetProfileInput[] | MessageRequestUncheckedCreateWithoutTargetProfileInput[]
+    connectOrCreate?: MessageRequestCreateOrConnectWithoutTargetProfileInput | MessageRequestCreateOrConnectWithoutTargetProfileInput[]
+    createMany?: MessageRequestCreateManyTargetProfileInputEnvelope
+    connect?: MessageRequestWhereUniqueInput | MessageRequestWhereUniqueInput[]
+  }
+
   export type FollowCreateNestedManyWithoutFollowerProfileInput = {
     create?: XOR<FollowCreateWithoutFollowerProfileInput, FollowUncheckedCreateWithoutFollowerProfileInput> | FollowCreateWithoutFollowerProfileInput[] | FollowUncheckedCreateWithoutFollowerProfileInput[]
     connectOrCreate?: FollowCreateOrConnectWithoutFollowerProfileInput | FollowCreateOrConnectWithoutFollowerProfileInput[]
@@ -20315,6 +21833,20 @@ export namespace Prisma {
     connectOrCreate?: FriendRequestCreateOrConnectWithoutTargetProfileInput | FriendRequestCreateOrConnectWithoutTargetProfileInput[]
     createMany?: FriendRequestCreateManyTargetProfileInputEnvelope
     connect?: FriendRequestWhereUniqueInput | FriendRequestWhereUniqueInput[]
+  }
+
+  export type MessageRequestUncheckedCreateNestedManyWithoutRequesterProfileInput = {
+    create?: XOR<MessageRequestCreateWithoutRequesterProfileInput, MessageRequestUncheckedCreateWithoutRequesterProfileInput> | MessageRequestCreateWithoutRequesterProfileInput[] | MessageRequestUncheckedCreateWithoutRequesterProfileInput[]
+    connectOrCreate?: MessageRequestCreateOrConnectWithoutRequesterProfileInput | MessageRequestCreateOrConnectWithoutRequesterProfileInput[]
+    createMany?: MessageRequestCreateManyRequesterProfileInputEnvelope
+    connect?: MessageRequestWhereUniqueInput | MessageRequestWhereUniqueInput[]
+  }
+
+  export type MessageRequestUncheckedCreateNestedManyWithoutTargetProfileInput = {
+    create?: XOR<MessageRequestCreateWithoutTargetProfileInput, MessageRequestUncheckedCreateWithoutTargetProfileInput> | MessageRequestCreateWithoutTargetProfileInput[] | MessageRequestUncheckedCreateWithoutTargetProfileInput[]
+    connectOrCreate?: MessageRequestCreateOrConnectWithoutTargetProfileInput | MessageRequestCreateOrConnectWithoutTargetProfileInput[]
+    createMany?: MessageRequestCreateManyTargetProfileInputEnvelope
+    connect?: MessageRequestWhereUniqueInput | MessageRequestWhereUniqueInput[]
   }
 
   export type FollowUncheckedCreateNestedManyWithoutFollowerProfileInput = {
@@ -20470,6 +22002,34 @@ export namespace Prisma {
     update?: FriendRequestUpdateWithWhereUniqueWithoutTargetProfileInput | FriendRequestUpdateWithWhereUniqueWithoutTargetProfileInput[]
     updateMany?: FriendRequestUpdateManyWithWhereWithoutTargetProfileInput | FriendRequestUpdateManyWithWhereWithoutTargetProfileInput[]
     deleteMany?: FriendRequestScalarWhereInput | FriendRequestScalarWhereInput[]
+  }
+
+  export type MessageRequestUpdateManyWithoutRequesterProfileNestedInput = {
+    create?: XOR<MessageRequestCreateWithoutRequesterProfileInput, MessageRequestUncheckedCreateWithoutRequesterProfileInput> | MessageRequestCreateWithoutRequesterProfileInput[] | MessageRequestUncheckedCreateWithoutRequesterProfileInput[]
+    connectOrCreate?: MessageRequestCreateOrConnectWithoutRequesterProfileInput | MessageRequestCreateOrConnectWithoutRequesterProfileInput[]
+    upsert?: MessageRequestUpsertWithWhereUniqueWithoutRequesterProfileInput | MessageRequestUpsertWithWhereUniqueWithoutRequesterProfileInput[]
+    createMany?: MessageRequestCreateManyRequesterProfileInputEnvelope
+    set?: MessageRequestWhereUniqueInput | MessageRequestWhereUniqueInput[]
+    disconnect?: MessageRequestWhereUniqueInput | MessageRequestWhereUniqueInput[]
+    delete?: MessageRequestWhereUniqueInput | MessageRequestWhereUniqueInput[]
+    connect?: MessageRequestWhereUniqueInput | MessageRequestWhereUniqueInput[]
+    update?: MessageRequestUpdateWithWhereUniqueWithoutRequesterProfileInput | MessageRequestUpdateWithWhereUniqueWithoutRequesterProfileInput[]
+    updateMany?: MessageRequestUpdateManyWithWhereWithoutRequesterProfileInput | MessageRequestUpdateManyWithWhereWithoutRequesterProfileInput[]
+    deleteMany?: MessageRequestScalarWhereInput | MessageRequestScalarWhereInput[]
+  }
+
+  export type MessageRequestUpdateManyWithoutTargetProfileNestedInput = {
+    create?: XOR<MessageRequestCreateWithoutTargetProfileInput, MessageRequestUncheckedCreateWithoutTargetProfileInput> | MessageRequestCreateWithoutTargetProfileInput[] | MessageRequestUncheckedCreateWithoutTargetProfileInput[]
+    connectOrCreate?: MessageRequestCreateOrConnectWithoutTargetProfileInput | MessageRequestCreateOrConnectWithoutTargetProfileInput[]
+    upsert?: MessageRequestUpsertWithWhereUniqueWithoutTargetProfileInput | MessageRequestUpsertWithWhereUniqueWithoutTargetProfileInput[]
+    createMany?: MessageRequestCreateManyTargetProfileInputEnvelope
+    set?: MessageRequestWhereUniqueInput | MessageRequestWhereUniqueInput[]
+    disconnect?: MessageRequestWhereUniqueInput | MessageRequestWhereUniqueInput[]
+    delete?: MessageRequestWhereUniqueInput | MessageRequestWhereUniqueInput[]
+    connect?: MessageRequestWhereUniqueInput | MessageRequestWhereUniqueInput[]
+    update?: MessageRequestUpdateWithWhereUniqueWithoutTargetProfileInput | MessageRequestUpdateWithWhereUniqueWithoutTargetProfileInput[]
+    updateMany?: MessageRequestUpdateManyWithWhereWithoutTargetProfileInput | MessageRequestUpdateManyWithWhereWithoutTargetProfileInput[]
+    deleteMany?: MessageRequestScalarWhereInput | MessageRequestScalarWhereInput[]
   }
 
   export type FollowUpdateManyWithoutFollowerProfileNestedInput = {
@@ -20652,6 +22212,34 @@ export namespace Prisma {
     update?: FriendRequestUpdateWithWhereUniqueWithoutTargetProfileInput | FriendRequestUpdateWithWhereUniqueWithoutTargetProfileInput[]
     updateMany?: FriendRequestUpdateManyWithWhereWithoutTargetProfileInput | FriendRequestUpdateManyWithWhereWithoutTargetProfileInput[]
     deleteMany?: FriendRequestScalarWhereInput | FriendRequestScalarWhereInput[]
+  }
+
+  export type MessageRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput = {
+    create?: XOR<MessageRequestCreateWithoutRequesterProfileInput, MessageRequestUncheckedCreateWithoutRequesterProfileInput> | MessageRequestCreateWithoutRequesterProfileInput[] | MessageRequestUncheckedCreateWithoutRequesterProfileInput[]
+    connectOrCreate?: MessageRequestCreateOrConnectWithoutRequesterProfileInput | MessageRequestCreateOrConnectWithoutRequesterProfileInput[]
+    upsert?: MessageRequestUpsertWithWhereUniqueWithoutRequesterProfileInput | MessageRequestUpsertWithWhereUniqueWithoutRequesterProfileInput[]
+    createMany?: MessageRequestCreateManyRequesterProfileInputEnvelope
+    set?: MessageRequestWhereUniqueInput | MessageRequestWhereUniqueInput[]
+    disconnect?: MessageRequestWhereUniqueInput | MessageRequestWhereUniqueInput[]
+    delete?: MessageRequestWhereUniqueInput | MessageRequestWhereUniqueInput[]
+    connect?: MessageRequestWhereUniqueInput | MessageRequestWhereUniqueInput[]
+    update?: MessageRequestUpdateWithWhereUniqueWithoutRequesterProfileInput | MessageRequestUpdateWithWhereUniqueWithoutRequesterProfileInput[]
+    updateMany?: MessageRequestUpdateManyWithWhereWithoutRequesterProfileInput | MessageRequestUpdateManyWithWhereWithoutRequesterProfileInput[]
+    deleteMany?: MessageRequestScalarWhereInput | MessageRequestScalarWhereInput[]
+  }
+
+  export type MessageRequestUncheckedUpdateManyWithoutTargetProfileNestedInput = {
+    create?: XOR<MessageRequestCreateWithoutTargetProfileInput, MessageRequestUncheckedCreateWithoutTargetProfileInput> | MessageRequestCreateWithoutTargetProfileInput[] | MessageRequestUncheckedCreateWithoutTargetProfileInput[]
+    connectOrCreate?: MessageRequestCreateOrConnectWithoutTargetProfileInput | MessageRequestCreateOrConnectWithoutTargetProfileInput[]
+    upsert?: MessageRequestUpsertWithWhereUniqueWithoutTargetProfileInput | MessageRequestUpsertWithWhereUniqueWithoutTargetProfileInput[]
+    createMany?: MessageRequestCreateManyTargetProfileInputEnvelope
+    set?: MessageRequestWhereUniqueInput | MessageRequestWhereUniqueInput[]
+    disconnect?: MessageRequestWhereUniqueInput | MessageRequestWhereUniqueInput[]
+    delete?: MessageRequestWhereUniqueInput | MessageRequestWhereUniqueInput[]
+    connect?: MessageRequestWhereUniqueInput | MessageRequestWhereUniqueInput[]
+    update?: MessageRequestUpdateWithWhereUniqueWithoutTargetProfileInput | MessageRequestUpdateWithWhereUniqueWithoutTargetProfileInput[]
+    updateMany?: MessageRequestUpdateManyWithWhereWithoutTargetProfileInput | MessageRequestUpdateManyWithWhereWithoutTargetProfileInput[]
+    deleteMany?: MessageRequestScalarWhereInput | MessageRequestScalarWhereInput[]
   }
 
   export type FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput = {
@@ -21504,6 +23092,38 @@ export namespace Prisma {
     update?: XOR<XOR<ProfileUpdateToOneWithWhereWithoutFriendRequestsReceivedInput, ProfileUpdateWithoutFriendRequestsReceivedInput>, ProfileUncheckedUpdateWithoutFriendRequestsReceivedInput>
   }
 
+  export type ProfileCreateNestedOneWithoutMessageRequestsSentInput = {
+    create?: XOR<ProfileCreateWithoutMessageRequestsSentInput, ProfileUncheckedCreateWithoutMessageRequestsSentInput>
+    connectOrCreate?: ProfileCreateOrConnectWithoutMessageRequestsSentInput
+    connect?: ProfileWhereUniqueInput
+  }
+
+  export type ProfileCreateNestedOneWithoutMessageRequestsReceivedInput = {
+    create?: XOR<ProfileCreateWithoutMessageRequestsReceivedInput, ProfileUncheckedCreateWithoutMessageRequestsReceivedInput>
+    connectOrCreate?: ProfileCreateOrConnectWithoutMessageRequestsReceivedInput
+    connect?: ProfileWhereUniqueInput
+  }
+
+  export type EnumMessageRequestStatusFieldUpdateOperationsInput = {
+    set?: $Enums.MessageRequestStatus
+  }
+
+  export type ProfileUpdateOneRequiredWithoutMessageRequestsSentNestedInput = {
+    create?: XOR<ProfileCreateWithoutMessageRequestsSentInput, ProfileUncheckedCreateWithoutMessageRequestsSentInput>
+    connectOrCreate?: ProfileCreateOrConnectWithoutMessageRequestsSentInput
+    upsert?: ProfileUpsertWithoutMessageRequestsSentInput
+    connect?: ProfileWhereUniqueInput
+    update?: XOR<XOR<ProfileUpdateToOneWithWhereWithoutMessageRequestsSentInput, ProfileUpdateWithoutMessageRequestsSentInput>, ProfileUncheckedUpdateWithoutMessageRequestsSentInput>
+  }
+
+  export type ProfileUpdateOneRequiredWithoutMessageRequestsReceivedNestedInput = {
+    create?: XOR<ProfileCreateWithoutMessageRequestsReceivedInput, ProfileUncheckedCreateWithoutMessageRequestsReceivedInput>
+    connectOrCreate?: ProfileCreateOrConnectWithoutMessageRequestsReceivedInput
+    upsert?: ProfileUpsertWithoutMessageRequestsReceivedInput
+    connect?: ProfileWhereUniqueInput
+    update?: XOR<XOR<ProfileUpdateToOneWithWhereWithoutMessageRequestsReceivedInput, ProfileUpdateWithoutMessageRequestsReceivedInput>, ProfileUncheckedUpdateWithoutMessageRequestsReceivedInput>
+  }
+
   export type ProfileCreateNestedOneWithoutFollowsSentInput = {
     create?: XOR<ProfileCreateWithoutFollowsSentInput, ProfileUncheckedCreateWithoutFollowsSentInput>
     connectOrCreate?: ProfileCreateOrConnectWithoutFollowsSentInput
@@ -21800,6 +23420,23 @@ export namespace Prisma {
     _max?: NestedEnumFriendRequestStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumMessageRequestStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.MessageRequestStatus | EnumMessageRequestStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.MessageRequestStatus[] | ListEnumMessageRequestStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MessageRequestStatus[] | ListEnumMessageRequestStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumMessageRequestStatusFilter<$PrismaModel> | $Enums.MessageRequestStatus
+  }
+
+  export type NestedEnumMessageRequestStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.MessageRequestStatus | EnumMessageRequestStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.MessageRequestStatus[] | ListEnumMessageRequestStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MessageRequestStatus[] | ListEnumMessageRequestStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumMessageRequestStatusWithAggregatesFilter<$PrismaModel> | $Enums.MessageRequestStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumMessageRequestStatusFilter<$PrismaModel>
+    _max?: NestedEnumMessageRequestStatusFilter<$PrismaModel>
+  }
+
   export type NestedEnumNotificationTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.NotificationType | EnumNotificationTypeFieldRefInput<$PrismaModel>
     in?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
@@ -22052,6 +23689,62 @@ export namespace Prisma {
 
   export type FriendRequestCreateManyTargetProfileInputEnvelope = {
     data: FriendRequestCreateManyTargetProfileInput | FriendRequestCreateManyTargetProfileInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MessageRequestCreateWithoutRequesterProfileInput = {
+    id?: string
+    message: string
+    status?: $Enums.MessageRequestStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    targetProfile: ProfileCreateNestedOneWithoutMessageRequestsReceivedInput
+  }
+
+  export type MessageRequestUncheckedCreateWithoutRequesterProfileInput = {
+    id?: string
+    targetProfileId: string
+    message: string
+    status?: $Enums.MessageRequestStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MessageRequestCreateOrConnectWithoutRequesterProfileInput = {
+    where: MessageRequestWhereUniqueInput
+    create: XOR<MessageRequestCreateWithoutRequesterProfileInput, MessageRequestUncheckedCreateWithoutRequesterProfileInput>
+  }
+
+  export type MessageRequestCreateManyRequesterProfileInputEnvelope = {
+    data: MessageRequestCreateManyRequesterProfileInput | MessageRequestCreateManyRequesterProfileInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MessageRequestCreateWithoutTargetProfileInput = {
+    id?: string
+    message: string
+    status?: $Enums.MessageRequestStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    requesterProfile: ProfileCreateNestedOneWithoutMessageRequestsSentInput
+  }
+
+  export type MessageRequestUncheckedCreateWithoutTargetProfileInput = {
+    id?: string
+    requesterProfileId: string
+    message: string
+    status?: $Enums.MessageRequestStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MessageRequestCreateOrConnectWithoutTargetProfileInput = {
+    where: MessageRequestWhereUniqueInput
+    create: XOR<MessageRequestCreateWithoutTargetProfileInput, MessageRequestUncheckedCreateWithoutTargetProfileInput>
+  }
+
+  export type MessageRequestCreateManyTargetProfileInputEnvelope = {
+    data: MessageRequestCreateManyTargetProfileInput | MessageRequestCreateManyTargetProfileInput[]
     skipDuplicates?: boolean
   }
 
@@ -22400,6 +24093,51 @@ export namespace Prisma {
     data: XOR<FriendRequestUpdateManyMutationInput, FriendRequestUncheckedUpdateManyWithoutTargetProfileInput>
   }
 
+  export type MessageRequestUpsertWithWhereUniqueWithoutRequesterProfileInput = {
+    where: MessageRequestWhereUniqueInput
+    update: XOR<MessageRequestUpdateWithoutRequesterProfileInput, MessageRequestUncheckedUpdateWithoutRequesterProfileInput>
+    create: XOR<MessageRequestCreateWithoutRequesterProfileInput, MessageRequestUncheckedCreateWithoutRequesterProfileInput>
+  }
+
+  export type MessageRequestUpdateWithWhereUniqueWithoutRequesterProfileInput = {
+    where: MessageRequestWhereUniqueInput
+    data: XOR<MessageRequestUpdateWithoutRequesterProfileInput, MessageRequestUncheckedUpdateWithoutRequesterProfileInput>
+  }
+
+  export type MessageRequestUpdateManyWithWhereWithoutRequesterProfileInput = {
+    where: MessageRequestScalarWhereInput
+    data: XOR<MessageRequestUpdateManyMutationInput, MessageRequestUncheckedUpdateManyWithoutRequesterProfileInput>
+  }
+
+  export type MessageRequestScalarWhereInput = {
+    AND?: MessageRequestScalarWhereInput | MessageRequestScalarWhereInput[]
+    OR?: MessageRequestScalarWhereInput[]
+    NOT?: MessageRequestScalarWhereInput | MessageRequestScalarWhereInput[]
+    id?: StringFilter<"MessageRequest"> | string
+    requesterProfileId?: StringFilter<"MessageRequest"> | string
+    targetProfileId?: StringFilter<"MessageRequest"> | string
+    message?: StringFilter<"MessageRequest"> | string
+    status?: EnumMessageRequestStatusFilter<"MessageRequest"> | $Enums.MessageRequestStatus
+    createdAt?: DateTimeFilter<"MessageRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"MessageRequest"> | Date | string
+  }
+
+  export type MessageRequestUpsertWithWhereUniqueWithoutTargetProfileInput = {
+    where: MessageRequestWhereUniqueInput
+    update: XOR<MessageRequestUpdateWithoutTargetProfileInput, MessageRequestUncheckedUpdateWithoutTargetProfileInput>
+    create: XOR<MessageRequestCreateWithoutTargetProfileInput, MessageRequestUncheckedCreateWithoutTargetProfileInput>
+  }
+
+  export type MessageRequestUpdateWithWhereUniqueWithoutTargetProfileInput = {
+    where: MessageRequestWhereUniqueInput
+    data: XOR<MessageRequestUpdateWithoutTargetProfileInput, MessageRequestUncheckedUpdateWithoutTargetProfileInput>
+  }
+
+  export type MessageRequestUpdateManyWithWhereWithoutTargetProfileInput = {
+    where: MessageRequestScalarWhereInput
+    data: XOR<MessageRequestUpdateManyMutationInput, MessageRequestUncheckedUpdateManyWithoutTargetProfileInput>
+  }
+
   export type FollowUpsertWithWhereUniqueWithoutFollowerProfileInput = {
     where: FollowWhereUniqueInput
     update: XOR<FollowUpdateWithoutFollowerProfileInput, FollowUncheckedUpdateWithoutFollowerProfileInput>
@@ -22530,6 +24268,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
@@ -22552,6 +24292,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestUncheckedCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
@@ -22708,6 +24450,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
@@ -22730,6 +24474,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
@@ -22816,6 +24562,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
@@ -22838,6 +24586,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestUncheckedCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
@@ -23051,6 +24801,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
@@ -23073,6 +24825,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
@@ -23240,6 +24994,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
@@ -23262,6 +25018,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestUncheckedCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
@@ -23331,6 +25089,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
@@ -23353,6 +25113,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
@@ -23474,6 +25236,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
@@ -23496,6 +25260,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestUncheckedCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
@@ -23638,6 +25404,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
@@ -23660,6 +25428,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
@@ -23698,6 +25468,8 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
@@ -23720,6 +25492,8 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberUncheckedCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestUncheckedCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
@@ -23816,6 +25590,8 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
@@ -23838,6 +25614,8 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberUncheckedUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
@@ -23892,6 +25670,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
@@ -23914,6 +25694,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestUncheckedCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
@@ -24008,6 +25790,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
@@ -24030,6 +25814,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
@@ -24364,6 +26150,8 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberCreateNestedManyWithoutProfileInput
     groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
     friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
@@ -24386,6 +26174,8 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberUncheckedCreateNestedManyWithoutProfileInput
     groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
     friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestUncheckedCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
@@ -24413,6 +26203,8 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberCreateNestedManyWithoutProfileInput
     groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsSent?: MessageRequestCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
@@ -24435,6 +26227,8 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberUncheckedCreateNestedManyWithoutProfileInput
     groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsSent?: MessageRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestUncheckedCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
@@ -24473,6 +26267,8 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberUpdateManyWithoutProfileNestedInput
     groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
     friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
@@ -24495,6 +26291,8 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberUncheckedUpdateManyWithoutProfileNestedInput
     groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
     friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
@@ -24528,6 +26326,8 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberUpdateManyWithoutProfileNestedInput
     groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsSent?: MessageRequestUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
@@ -24550,6 +26350,232 @@ export namespace Prisma {
     groupConversations?: GroupConversationMemberUncheckedUpdateManyWithoutProfileNestedInput
     groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsSent?: MessageRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+  }
+
+  export type ProfileCreateWithoutMessageRequestsSentInput = {
+    id?: string
+    userId: string
+    name: string
+    imageUrl: string
+    email: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    servers?: ServerCreateNestedManyWithoutProfileInput
+    members?: MemberCreateNestedManyWithoutProfileInput
+    channels?: ChannelCreateNestedManyWithoutProfileInput
+    conversations?: ConversationCreateNestedManyWithoutProfileInput
+    groupConversations?: GroupConversationMemberCreateNestedManyWithoutProfileInput
+    groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
+    friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
+    friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    messageRequestsReceived?: MessageRequestCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
+  }
+
+  export type ProfileUncheckedCreateWithoutMessageRequestsSentInput = {
+    id?: string
+    userId: string
+    name: string
+    imageUrl: string
+    email: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    servers?: ServerUncheckedCreateNestedManyWithoutProfileInput
+    members?: MemberUncheckedCreateNestedManyWithoutProfileInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutProfileInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutProfileInput
+    groupConversations?: GroupConversationMemberUncheckedCreateNestedManyWithoutProfileInput
+    groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
+    friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    messageRequestsReceived?: MessageRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
+  }
+
+  export type ProfileCreateOrConnectWithoutMessageRequestsSentInput = {
+    where: ProfileWhereUniqueInput
+    create: XOR<ProfileCreateWithoutMessageRequestsSentInput, ProfileUncheckedCreateWithoutMessageRequestsSentInput>
+  }
+
+  export type ProfileCreateWithoutMessageRequestsReceivedInput = {
+    id?: string
+    userId: string
+    name: string
+    imageUrl: string
+    email: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    servers?: ServerCreateNestedManyWithoutProfileInput
+    members?: MemberCreateNestedManyWithoutProfileInput
+    channels?: ChannelCreateNestedManyWithoutProfileInput
+    conversations?: ConversationCreateNestedManyWithoutProfileInput
+    groupConversations?: GroupConversationMemberCreateNestedManyWithoutProfileInput
+    groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
+    friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
+    friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestCreateNestedManyWithoutRequesterProfileInput
+    followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
+  }
+
+  export type ProfileUncheckedCreateWithoutMessageRequestsReceivedInput = {
+    id?: string
+    userId: string
+    name: string
+    imageUrl: string
+    email: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    servers?: ServerUncheckedCreateNestedManyWithoutProfileInput
+    members?: MemberUncheckedCreateNestedManyWithoutProfileInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutProfileInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutProfileInput
+    groupConversations?: GroupConversationMemberUncheckedCreateNestedManyWithoutProfileInput
+    groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
+    friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
+  }
+
+  export type ProfileCreateOrConnectWithoutMessageRequestsReceivedInput = {
+    where: ProfileWhereUniqueInput
+    create: XOR<ProfileCreateWithoutMessageRequestsReceivedInput, ProfileUncheckedCreateWithoutMessageRequestsReceivedInput>
+  }
+
+  export type ProfileUpsertWithoutMessageRequestsSentInput = {
+    update: XOR<ProfileUpdateWithoutMessageRequestsSentInput, ProfileUncheckedUpdateWithoutMessageRequestsSentInput>
+    create: XOR<ProfileCreateWithoutMessageRequestsSentInput, ProfileUncheckedCreateWithoutMessageRequestsSentInput>
+    where?: ProfileWhereInput
+  }
+
+  export type ProfileUpdateToOneWithWhereWithoutMessageRequestsSentInput = {
+    where?: ProfileWhereInput
+    data: XOR<ProfileUpdateWithoutMessageRequestsSentInput, ProfileUncheckedUpdateWithoutMessageRequestsSentInput>
+  }
+
+  export type ProfileUpdateWithoutMessageRequestsSentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    servers?: ServerUpdateManyWithoutProfileNestedInput
+    members?: MemberUpdateManyWithoutProfileNestedInput
+    channels?: ChannelUpdateManyWithoutProfileNestedInput
+    conversations?: ConversationUpdateManyWithoutProfileNestedInput
+    groupConversations?: GroupConversationMemberUpdateManyWithoutProfileNestedInput
+    groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
+    friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
+    friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsReceived?: MessageRequestUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
+  }
+
+  export type ProfileUncheckedUpdateWithoutMessageRequestsSentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    servers?: ServerUncheckedUpdateManyWithoutProfileNestedInput
+    members?: MemberUncheckedUpdateManyWithoutProfileNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutProfileNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutProfileNestedInput
+    groupConversations?: GroupConversationMemberUncheckedUpdateManyWithoutProfileNestedInput
+    groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
+    friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsReceived?: MessageRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+  }
+
+  export type ProfileUpsertWithoutMessageRequestsReceivedInput = {
+    update: XOR<ProfileUpdateWithoutMessageRequestsReceivedInput, ProfileUncheckedUpdateWithoutMessageRequestsReceivedInput>
+    create: XOR<ProfileCreateWithoutMessageRequestsReceivedInput, ProfileUncheckedCreateWithoutMessageRequestsReceivedInput>
+    where?: ProfileWhereInput
+  }
+
+  export type ProfileUpdateToOneWithWhereWithoutMessageRequestsReceivedInput = {
+    where?: ProfileWhereInput
+    data: XOR<ProfileUpdateWithoutMessageRequestsReceivedInput, ProfileUncheckedUpdateWithoutMessageRequestsReceivedInput>
+  }
+
+  export type ProfileUpdateWithoutMessageRequestsReceivedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    servers?: ServerUpdateManyWithoutProfileNestedInput
+    members?: MemberUpdateManyWithoutProfileNestedInput
+    channels?: ChannelUpdateManyWithoutProfileNestedInput
+    conversations?: ConversationUpdateManyWithoutProfileNestedInput
+    groupConversations?: GroupConversationMemberUpdateManyWithoutProfileNestedInput
+    groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
+    friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
+    friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUpdateManyWithoutRequesterProfileNestedInput
+    followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
+  }
+
+  export type ProfileUncheckedUpdateWithoutMessageRequestsReceivedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    servers?: ServerUncheckedUpdateManyWithoutProfileNestedInput
+    members?: MemberUncheckedUpdateManyWithoutProfileNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutProfileNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutProfileNestedInput
+    groupConversations?: GroupConversationMemberUncheckedUpdateManyWithoutProfileNestedInput
+    groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
+    friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
     followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
@@ -24573,6 +26599,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestCreateNestedManyWithoutTargetProfileInput
     followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
@@ -24595,6 +26623,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestUncheckedCreateNestedManyWithoutTargetProfileInput
     followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
@@ -24622,6 +26652,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
@@ -24644,6 +26676,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestUncheckedCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
@@ -24682,6 +26716,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUpdateManyWithoutTargetProfileNestedInput
     followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
@@ -24704,6 +26740,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
     followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
@@ -24737,6 +26775,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
@@ -24759,6 +26799,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
@@ -24781,6 +26823,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
@@ -24803,6 +26847,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestUncheckedCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
@@ -24872,6 +26918,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
@@ -24894,6 +26942,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
@@ -24953,6 +27003,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
@@ -24975,6 +27027,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestUncheckedCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
@@ -25002,6 +27056,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
@@ -25024,6 +27080,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
     friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
     friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestUncheckedCreateNestedManyWithoutTargetProfileInput
     followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
@@ -25093,6 +27151,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
@@ -25115,6 +27175,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
@@ -25148,6 +27210,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
@@ -25170,6 +27234,8 @@ export namespace Prisma {
     groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
     friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
     friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
     followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
@@ -25276,6 +27342,24 @@ export namespace Prisma {
     id?: string
     requesterProfileId: string
     status?: $Enums.FriendRequestStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MessageRequestCreateManyRequesterProfileInput = {
+    id?: string
+    targetProfileId: string
+    message: string
+    status?: $Enums.MessageRequestStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MessageRequestCreateManyTargetProfileInput = {
+    id?: string
+    requesterProfileId: string
+    message: string
+    status?: $Enums.MessageRequestStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -25541,6 +27625,60 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     requesterProfileId?: StringFieldUpdateOperationsInput | string
     status?: EnumFriendRequestStatusFieldUpdateOperationsInput | $Enums.FriendRequestStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MessageRequestUpdateWithoutRequesterProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    status?: EnumMessageRequestStatusFieldUpdateOperationsInput | $Enums.MessageRequestStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    targetProfile?: ProfileUpdateOneRequiredWithoutMessageRequestsReceivedNestedInput
+  }
+
+  export type MessageRequestUncheckedUpdateWithoutRequesterProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    targetProfileId?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    status?: EnumMessageRequestStatusFieldUpdateOperationsInput | $Enums.MessageRequestStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MessageRequestUncheckedUpdateManyWithoutRequesterProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    targetProfileId?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    status?: EnumMessageRequestStatusFieldUpdateOperationsInput | $Enums.MessageRequestStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MessageRequestUpdateWithoutTargetProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    status?: EnumMessageRequestStatusFieldUpdateOperationsInput | $Enums.MessageRequestStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    requesterProfile?: ProfileUpdateOneRequiredWithoutMessageRequestsSentNestedInput
+  }
+
+  export type MessageRequestUncheckedUpdateWithoutTargetProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requesterProfileId?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    status?: EnumMessageRequestStatusFieldUpdateOperationsInput | $Enums.MessageRequestStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MessageRequestUncheckedUpdateManyWithoutTargetProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requesterProfileId?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    status?: EnumMessageRequestStatusFieldUpdateOperationsInput | $Enums.MessageRequestStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

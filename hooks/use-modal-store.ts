@@ -19,7 +19,8 @@ export type ModalType =
   | "addFriend"
   | "deleteFriend"
   | "deleteConversation"
-  | "deleteGroupConversation";
+  | "deleteGroupConversation"
+  | "sendMessageRequest";
 interface ModalData {
   server?: Server;
   channel?: Channel;
@@ -46,6 +47,11 @@ interface ModalData {
     id: string;
     name: string;
     type: "group";
+  };
+  targetProfile?: {
+    id: string;
+    name: string;
+    imageUrl: string;
   };
 }
 interface ModalStore {

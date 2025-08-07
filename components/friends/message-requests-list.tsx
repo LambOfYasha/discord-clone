@@ -19,29 +19,38 @@ import {
 export const MessageRequestsList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("requests");
-  const [pendingRequests, setPendingRequests] = useState<any[]>([]);
+  const [pendingFriendRequests, setPendingFriendRequests] = useState<any[]>([]);
+  const [pendingMessageRequests, setPendingMessageRequests] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchPendingRequests();
+    fetchAllRequests();
   }, []);
 
-  const fetchPendingRequests = async () => {
+  const fetchAllRequests = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/friends");
-      if (response.ok) {
-        const data = await response.json();
-        setPendingRequests(data.pendingRequests);
+      // Fetch friend requests
+      const friendsResponse = await fetch("/api/friends");
+      if (friendsResponse.ok) {
+        const friendsData = await friendsResponse.json();
+        setPendingFriendRequests(friendsData.pendingRequests);
+      }
+
+      // Fetch message requests
+      const messageResponse = await fetch("/api/message-requests");
+      if (messageResponse.ok) {
+        const messageData = await messageResponse.json();
+        setPendingMessageRequests(messageData.pending);
       }
     } catch (error) {
-      console.error("Failed to fetch pending requests:", error);
+      console.error("Failed to fetch requests:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleAcceptRequest = async (requesterProfileId: string) => {
+  const handleAcceptFriendRequest = async (requesterProfileId: string) => {
     try {
       const response = await fetch(`/api/friend-requests/${requesterProfileId}`, {
         method: "PATCH",
@@ -52,14 +61,14 @@ export const MessageRequestsList = () => {
       });
 
       if (response.ok) {
-        fetchPendingRequests(); // Refresh data
+        fetchAllRequests(); // Refresh data
       }
     } catch (error) {
       console.error("Failed to accept friend request:", error);
     }
   };
 
-  const handleRejectRequest = async (requesterProfileId: string) => {
+  const handleRejectFriendRequest = async (requesterProfileId: string) => {
     try {
       const response = await fetch(`/api/friend-requests/${requesterProfileId}`, {
         method: "PATCH",
@@ -70,10 +79,46 @@ export const MessageRequestsList = () => {
       });
 
       if (response.ok) {
-        fetchPendingRequests(); // Refresh data
+        fetchAllRequests(); // Refresh data
       }
     } catch (error) {
       console.error("Failed to reject friend request:", error);
+    }
+  };
+
+  const handleAcceptMessageRequest = async (requesterProfileId: string) => {
+    try {
+      const response = await fetch(`/api/message-requests/${requesterProfileId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ action: "accept" }),
+      });
+
+      if (response.ok) {
+        fetchAllRequests(); // Refresh data
+      }
+    } catch (error) {
+      console.error("Failed to accept message request:", error);
+    }
+  };
+
+  const handleRejectMessageRequest = async (requesterProfileId: string) => {
+    try {
+      const response = await fetch(`/api/message-requests/${requesterProfileId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ action: "reject" }),
+      });
+
+      if (response.ok) {
+        fetchAllRequests(); // Refresh data
+      }
+    } catch (error) {
+      console.error("Failed to reject message request:", error);
     }
   };
 
@@ -134,11 +179,62 @@ export const MessageRequestsList = () => {
               {activeTab === "requests" && (
                 <div>
                   <h3 className="text-sm font-semibold text-gray-400 mb-4">
-                    Message Requests — 0
+                    Message Requests — {pendingMessageRequests.length}
                   </h3>
                   
-                  <div className="text-center py-8">
-                    <p className="text-gray-400">No message requests</p>
+                  <div className="space-y-3">
+                    {pendingMessageRequests.length === 0 ? (
+                      <div className="text-center py-8">
+                        <p className="text-gray-400">No message requests</p>
+                      </div>
+                    ) : (
+                      pendingMessageRequests.map((request) => (
+                        <div key={request.id} className="bg-[#1E1F22] rounded-lg p-4">
+                          <div className="flex items-start space-x-3">
+                            <Avatar className="w-12 h-12">
+                              <AvatarImage src={request.requesterProfile.imageUrl} />
+                              <AvatarFallback className="bg-blue-500">
+                                <span className="text-white text-lg font-semibold">
+                                  {request.requesterProfile.name.charAt(0).toUpperCase()}
+                                </span>
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className="flex-1">
+                              <div className="flex items-center justify-between mb-2">
+                                <div>
+                                  <h4 className="text-white font-medium">{request.requesterProfile.name}</h4>
+                                  <p className="text-sm text-gray-400">Wants to send you a message</p>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                  <Button
+                                    size="sm"
+                                    className="bg-green-500 hover:bg-green-600 text-white"
+                                    onClick={() => handleAcceptMessageRequest(request.requesterProfile.id)}
+                                  >
+                                    <Check className="h-4 w-4 mr-1" />
+                                    Accept
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
+                                    onClick={() => handleRejectMessageRequest(request.requesterProfile.id)}
+                                  >
+                                    <X className="h-4 w-4 mr-1" />
+                                    Decline
+                                  </Button>
+                                </div>
+                              </div>
+                              <div className="bg-[#2B2D31] rounded p-3 mt-2">
+                                <p className="text-gray-300 text-sm">
+                                  "{request.message}"
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
               )}
@@ -146,16 +242,16 @@ export const MessageRequestsList = () => {
               {activeTab === "friends" && (
                 <div>
                   <h3 className="text-sm font-semibold text-gray-400 mb-4">
-                    Friend Requests — {pendingRequests.length}
+                    Friend Requests — {pendingFriendRequests.length}
                   </h3>
                   
                   <div className="space-y-3">
-                    {pendingRequests.length === 0 ? (
+                    {pendingFriendRequests.length === 0 ? (
                       <div className="text-center py-8">
                         <p className="text-gray-400">No pending friend requests</p>
                       </div>
                     ) : (
-                      pendingRequests.map((request) => (
+                      pendingFriendRequests.map((request) => (
                         <div key={request.id} className="bg-[#1E1F22] rounded-lg p-4">
                           <div className="flex items-start space-x-3">
                             <Avatar className="w-12 h-12">
@@ -176,7 +272,7 @@ export const MessageRequestsList = () => {
                                   <Button
                                     size="sm"
                                     className="bg-green-500 hover:bg-green-600 text-white"
-                                    onClick={() => handleAcceptRequest(request.requesterProfile.id)}
+                                    onClick={() => handleAcceptFriendRequest(request.requesterProfile.id)}
                                   >
                                     <UserPlus className="h-4 w-4 mr-1" />
                                     Accept
@@ -185,7 +281,7 @@ export const MessageRequestsList = () => {
                                     size="sm"
                                     variant="outline"
                                     className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
-                                    onClick={() => handleRejectRequest(request.requesterProfile.id)}
+                                    onClick={() => handleRejectFriendRequest(request.requesterProfile.id)}
                                   >
                                     <UserMinus className="h-4 w-4 mr-1" />
                                     Decline

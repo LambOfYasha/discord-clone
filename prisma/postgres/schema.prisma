@@ -25,6 +25,8 @@ model Profile {
   groupConversationsCreated GroupConversation[]
   friendRequestsSent FriendRequest[] @relation("FriendRequestRequester")
   friendRequestsReceived FriendRequest[] @relation("FriendRequestTarget")
+  messageRequestsSent MessageRequest[] @relation("MessageRequestRequester")
+  messageRequestsReceived MessageRequest[] @relation("MessageRequestTarget")
   followsSent Follow[] @relation("FollowerProfile")
   followsReceived Follow[] @relation("FollowingProfile")
   serverFollows ServerFollow[] @relation("ServerFollowerProfile")
@@ -174,6 +176,20 @@ model FriendRequest {
   @@map("friend_requests")
 }
 
+model MessageRequest {
+  id String @id @default(uuid())
+  requesterProfileId String
+  requesterProfile Profile @relation("MessageRequestRequester", fields: [requesterProfileId], references: [id], onDelete: Cascade)
+  targetProfileId String
+  targetProfile Profile @relation("MessageRequestTarget", fields: [targetProfileId], references: [id], onDelete: Cascade)
+  message String
+  status MessageRequestStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("message_requests")
+}
+
 model Follow {
   id String @id @default(uuid())
   followerProfileId String
@@ -234,6 +250,12 @@ enum ChannelType {
 }
 
 enum FriendRequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+enum MessageRequestStatus {
   PENDING
   ACCEPTED
   REJECTED
