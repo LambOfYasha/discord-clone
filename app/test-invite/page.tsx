@@ -4,12 +4,16 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 const TestInvitePage = async () => {
+  // Check authentication first
+  const { userId } = await auth();
+  if (!userId) {
+    redirect("/sign-in");
+  }
+
   const profile = await currentProfile();
 
   if (!profile) {
-    const authInstance = await auth();
-    authInstance.redirectToSignIn();
-    return null;
+    redirect("/setup");
   }
 
   // Get all servers to test with

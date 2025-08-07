@@ -16,13 +16,18 @@ const InviteCodePage = async ({ params }: InviteCodePageProps) => {
 
     console.log(`[INVITE] Processing invite code: ${inviteCode}`);
 
+    // Check authentication first
+    const { userId } = await auth();
+    if (!userId) {
+      console.log("[INVITE] No user authenticated, redirecting to sign in");
+      redirect("/sign-in");
+    }
+
     const profile = await currentProfile();
 
     if (!profile) {
-      console.log("[INVITE] No profile found, redirecting to sign in");
-      const authInstance = await auth();
-      authInstance.redirectToSignIn();
-      return null; // This will not be rendered because of the redirection
+      console.log("[INVITE] No profile found, redirecting to setup");
+      redirect("/setup");
     }
 
     console.log(`[INVITE] Profile found: ${profile.id} (${profile.name})`);

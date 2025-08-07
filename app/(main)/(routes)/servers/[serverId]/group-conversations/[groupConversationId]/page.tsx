@@ -23,7 +23,7 @@ const GroupConversationIdPage = async ({
   const profile = await currentProfile();
 
   if (!profile) {
-    return redirect("/sign-in");
+    return redirect("/setup");
   }
 
   const groupConversation = await postgres.groupConversation.findUnique({

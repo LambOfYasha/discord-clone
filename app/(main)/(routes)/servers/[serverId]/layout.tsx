@@ -12,10 +12,16 @@ const ServerIdLayout = async ({
   params: Promise<{ serverId: string }>;
 }) => {
   const { serverId } = await params;
+  
+  // Check authentication first
+  const { userId } = await auth();
+  if (!userId) {
+    redirect("/sign-in");
+  }
+
   const profile = await currentProfile();
   if (!profile) {
-    const authInstance = await auth();
-    return authInstance.redirectToSignIn();
+    redirect("/setup");
   }
 
   const server = await db.server.findUnique({

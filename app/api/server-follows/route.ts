@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
-import { db } from "@/lib/db";
+import { auth, currentUser } from "@clerk/nextjs/server";
+import { postgres } from "@/lib/db";
 import { NotificationService } from "@/lib/notification-service";
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId } = auth();
+    const { userId } = await auth();
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
@@ -17,16 +17,29 @@ export async function POST(req: NextRequest) {
     }
 
     // Get current user's profile
-    const currentProfile = await db.profile.findUnique({
+    let currentProfile = await postgres.profile.findUnique({
       where: { userId }
     });
 
+    // If profile doesn't exist, create it
     if (!currentProfile) {
-      return new NextResponse("Profile not found", { status: 404 });
+      const user = await currentUser();
+      if (!user) {
+        return new NextResponse("User not found", { status: 404 });
+      }
+
+      currentProfile = await postgres.profile.create({
+        data: {
+          userId: user.id,
+          name: `${user.firstName} ${user.lastName}`,
+          imageUrl: user.imageUrl,
+          email: user.emailAddresses[0].emailAddress,
+        },
+      });
     }
 
     // Check if server exists
-    const server = await db.server.findUnique({
+    const server = await postgres.server.findUnique({
       where: { id: serverId }
     });
 
@@ -35,7 +48,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Check if already following
-    const existingFollow = await db.serverFollow.findUnique({
+    const existingFollow = await postgres.serverFollow.findUnique({
       where: {
         followerProfileId_serverId: {
           followerProfileId: currentProfile.id,
@@ -49,7 +62,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Create server follow
-    const serverFollow = await db.serverFollow.create({
+    const serverFollow = await postgres.serverFollow.create({
       data: {
         followerProfileId: currentProfile.id,
         serverId: serverId
@@ -74,7 +87,7 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const { userId } = auth();
+    const { userId } = await auth();
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
@@ -87,16 +100,29 @@ export async function DELETE(req: NextRequest) {
     }
 
     // Get current user's profile
-    const currentProfile = await db.profile.findUnique({
+    let currentProfile = await postgres.profile.findUnique({
       where: { userId }
     });
 
+    // If profile doesn't exist, create it
     if (!currentProfile) {
-      return new NextResponse("Profile not found", { status: 404 });
+      const user = await currentUser();
+      if (!user) {
+        return new NextResponse("User not found", { status: 404 });
+      }
+
+      currentProfile = await postgres.profile.create({
+        data: {
+          userId: user.id,
+          name: `${user.firstName} ${user.lastName}`,
+          imageUrl: user.imageUrl,
+          email: user.emailAddresses[0].emailAddress,
+        },
+      });
     }
 
     // Delete server follow
-    await db.serverFollow.delete({
+    await postgres.serverFollow.delete({
       where: {
         followerProfileId_serverId: {
           followerProfileId: currentProfile.id,
@@ -114,7 +140,7 @@ export async function DELETE(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
-    const { userId } = auth();
+    const { userId } = await auth();
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
@@ -127,16 +153,29 @@ export async function GET(req: NextRequest) {
     }
 
     // Get current user's profile
-    const currentProfile = await db.profile.findUnique({
+    let currentProfile = await postgres.profile.findUnique({
       where: { userId }
     });
 
+    // If profile doesn't exist, create it
     if (!currentProfile) {
-      return new NextResponse("Profile not found", { status: 404 });
+      const user = await currentUser();
+      if (!user) {
+        return new NextResponse("User not found", { status: 404 });
+      }
+
+      currentProfile = await postgres.profile.create({
+        data: {
+          userId: user.id,
+          name: `${user.firstName} ${user.lastName}`,
+          imageUrl: user.imageUrl,
+          email: user.emailAddresses[0].emailAddress,
+        },
+      });
     }
 
     // Check if following
-    const serverFollow = await db.serverFollow.findUnique({
+    const serverFollow = await postgres.serverFollow.findUnique({
       where: {
         followerProfileId_serverId: {
           followerProfileId: currentProfile.id,

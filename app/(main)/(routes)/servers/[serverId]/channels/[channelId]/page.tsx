@@ -17,11 +17,18 @@ const ChannelIdPage = async ({ params }: ChannelIdPageProps) => {
   // Await the params, since they are now a promise
   const resolvedParams = await params;
   const { channelId, serverId } = resolvedParams;
+  
+  // Check authentication first
+  const { userId } = await auth();
+  if (!userId) {
+    redirect("/sign-in");
+  }
+
   const profile = await currentProfile();
   if (!profile) {
-    const authInstance = await auth();
-    return authInstance.redirectToSignIn();
+    redirect("/setup");
   }
+
   const channel = await db.channel.findUnique({
     where: {
       id: channelId,

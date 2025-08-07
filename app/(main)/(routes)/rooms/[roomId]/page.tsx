@@ -23,11 +23,17 @@ interface RoomPageProps {
 const RoomPage = async ({ params, searchParams }: RoomPageProps) => {
   const { roomId } = await params;
   const { video } = await searchParams;
+  
+  // Check authentication first
+  const { userId } = await auth();
+  if (!userId) {
+    redirect("/sign-in");
+  }
+
   const profile = await currentProfile();
   
   if (!profile) {
-    const authInstance = await auth();
-    return authInstance.redirectToSignIn();
+    redirect("/setup");
   }
 
   // Get current user's member record
@@ -96,8 +102,8 @@ const RoomPage = async ({ params, searchParams }: RoomPageProps) => {
                 profile: true,
               },
             },
-            profile: true,
           },
+          profile: true,
         },
       },
     });

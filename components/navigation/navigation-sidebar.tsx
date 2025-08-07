@@ -6,7 +6,7 @@ import { NavigationSidebarClient } from "./navigation-sidebar-client";
 export const NavigationSidebar = async () => {
   const profile = await currentProfile();
   if (!profile) {
-    return redirect("/");
+    return redirect("/setup");
   }
 
   const servers = await db.server.findMany({

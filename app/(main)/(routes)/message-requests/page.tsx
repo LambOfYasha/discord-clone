@@ -5,10 +5,15 @@ import { redirect } from "next/navigation";
 import MessageRequestsPageClient from "@/components/message-requests/message-requests-page-client";
 
 const MessageRequestsPage = async () => {
+  // Check authentication first
+  const { userId } = await auth();
+  if (!userId) {
+    redirect("/sign-in");
+  }
+
   const profile = await currentProfile();
   if (!profile) {
-    const authInstance = await auth();
-    return authInstance.redirectToSignIn();
+    redirect("/setup");
   }
 
   // Get user's servers to redirect if they have any

@@ -6,7 +6,7 @@ const ProfilePage = async () => {
   const profile = await currentProfile();
 
   if (!profile) {
-    return redirect("/");
+    return redirect("/setup");
   }
 
   return (

@@ -8,11 +8,16 @@ export default async function RoomLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Check authentication first
+  const { userId } = await auth();
+  if (!userId) {
+    redirect("/sign-in");
+  }
+
   const profile = await currentProfile();
 
   if (!profile) {
-    const authInstance = await auth();
-    return authInstance.redirectToSignIn();
+    redirect("/setup");
   }
 
   return (
