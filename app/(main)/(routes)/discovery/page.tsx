@@ -39,14 +39,14 @@ const DiscoveryPage = async ({ searchParams }: DiscoveryPageProps) => {
     whereClause.OR = [
       {
         name: {
-          contains: searchParams.search,
+          contains: params.search,
           mode: "insensitive",
         },
       },
       {
         profile: {
           name: {
-            contains: searchParams.search,
+            contains: params.search,
             mode: "insensitive",
           },
         },
@@ -90,16 +90,18 @@ const DiscoveryPage = async ({ searchParams }: DiscoveryPageProps) => {
   
   const totalMembers = serversWithMembers.reduce((sum, server) => sum + server._count.members, 0);
 
-  // Get category statistics - use a simpler approach
+  // Get category statistics - exclude POPULAR from trending
   const allServers = await postgres.server.findMany({
     select: {
       category: true,
     },
   });
   
-  // Group by category manually
+  // Group by category manually, excluding POPULAR
   const categoryCounts = allServers.reduce((acc, server) => {
-    acc[server.category] = (acc[server.category] || 0) + 1;
+    if (server.category !== ServerCategory.POPULAR) {
+      acc[server.category] = (acc[server.category] || 0) + 1;
+    }
     return acc;
   }, {} as Record<string, number>);
   

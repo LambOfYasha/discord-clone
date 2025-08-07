@@ -30,12 +30,6 @@ interface DiscoveryPageClientProps {
 }
 
 const categoryConfig = {
-  [ServerCategory.POPULAR]: {
-    label: "Popular",
-    icon: "🔥",
-    description: "Trending servers with high activity",
-    color: "bg-gradient-to-r from-orange-500 to-red-500",
-  },
   [ServerCategory.CHRISTIANITY]: {
     label: "Christianity",
     icon: "✝️",
@@ -85,6 +79,14 @@ export default function DiscoveryPageClient({ servers }: DiscoveryPageClientProp
     const newUrl = params.toString() ? `?${params.toString()}` : "";
     router.replace(`/discovery${newUrl}`, { scroll: false });
   }, [selectedCategory, searchQuery, router]);
+
+  // Separate popular servers (based on member count)
+  const popularServers = useMemo(() => {
+    return servers
+      .filter(server => server._count.members >= 3) // Servers with 3+ members (lowered threshold)
+      .sort((a, b) => b._count.members - a._count.members)
+      .slice(0, 6); // Top 6 popular servers
+  }, [servers]);
 
   const filteredServers = useMemo(() => {
     let filtered = servers;
@@ -144,6 +146,73 @@ export default function DiscoveryPageClient({ servers }: DiscoveryPageClientProp
         </div>
       </div>
 
+      {/* Popular Servers Section */}
+      {popularServers.length > 0 && selectedCategory === "ALL" && !searchQuery.trim() && (
+        <div className="mb-12">
+          <div className="flex items-center mb-6">
+            <span className="text-2xl mr-3">🔥</span>
+            <h2 className="text-2xl font-bold text-white">Popular Servers</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {popularServers.map((server) => (
+              <Card key={server.id} className="bg-[#2B2D31] border-gray-600 hover:bg-[#3B3D41] transition-colors">
+                <CardHeader className="pb-3">
+                  <div className="flex items-center space-x-3">
+                    <Avatar className="h-12 w-12">
+                      <AvatarImage 
+                        src={server.imageUrl} 
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                        }}
+                      />
+                      <AvatarFallback className="bg-[#5865F2] text-white">
+                        {server.name.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0">
+                      <CardTitle className="text-white text-lg truncate">
+                        {server.name}
+                      </CardTitle>
+                      <p className="text-gray-400 text-sm truncate">
+                        by {server.profile.name}
+                      </p>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <div className="flex items-center justify-between mb-4">
+                    <Badge 
+                      variant="secondary" 
+                      className="bg-gradient-to-r from-orange-500 to-red-500 text-white"
+                    >
+                      🔥 Popular
+                    </Badge>
+                    <div className="flex items-center text-gray-400 text-sm">
+                      <Users className="h-4 w-4 mr-1" />
+                      {server._count.members}
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center text-gray-400 text-sm">
+                      <Hash className="h-4 w-4 mr-1" />
+                      <span>#{server.inviteCode.slice(0, 8)}</span>
+                    </div>
+                    <Button
+                      onClick={() => handleJoinServer(server.inviteCode)}
+                      className="bg-[#5865F2] hover:bg-[#4752C4] text-white"
+                      size="sm"
+                    >
+                      Join Server
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Category Filter */}
       <div className="mb-8">
         <div className="flex flex-wrap gap-3">
@@ -172,22 +241,22 @@ export default function DiscoveryPageClient({ servers }: DiscoveryPageClientProp
         </div>
       </div>
 
-      {/* Category Description */}
-      {selectedCategory !== "ALL" && (
-        <div className="mb-6 p-4 rounded-lg bg-[#2B2D31] border border-gray-600">
-          <div className="flex items-center mb-2">
-            <span className="text-2xl mr-3">
-              {categoryConfig[selectedCategory as ServerCategory].icon}
-            </span>
-            <h2 className="text-xl font-semibold text-white">
-              {categoryConfig[selectedCategory as ServerCategory].label}
-            </h2>
-          </div>
-          <p className="text-gray-400">
-            {categoryConfig[selectedCategory as ServerCategory].description}
-          </p>
-        </div>
-      )}
+             {/* Category Description */}
+       {selectedCategory !== "ALL" && categoryConfig[selectedCategory as ServerCategory] && (
+         <div className="mb-6 p-4 rounded-lg bg-[#2B2D31] border border-gray-600">
+           <div className="flex items-center mb-2">
+             <span className="text-2xl mr-3">
+               {categoryConfig[selectedCategory as ServerCategory].icon}
+             </span>
+             <h2 className="text-xl font-semibold text-white">
+               {categoryConfig[selectedCategory as ServerCategory].label}
+             </h2>
+           </div>
+           <p className="text-gray-400">
+             {categoryConfig[selectedCategory as ServerCategory].description}
+           </p>
+         </div>
+       )}
 
       {/* Servers Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -199,7 +268,6 @@ export default function DiscoveryPageClient({ servers }: DiscoveryPageClientProp
                   <AvatarImage 
                     src={server.imageUrl} 
                     onError={(e) => {
-                      // Hide the image on error, fallback will show
                       e.currentTarget.style.display = 'none';
                     }}
                   />
@@ -219,14 +287,14 @@ export default function DiscoveryPageClient({ servers }: DiscoveryPageClientProp
             </CardHeader>
             <CardContent className="pt-0">
               <div className="flex items-center justify-between mb-4">
-                <Badge 
-                  variant="secondary" 
-                  className={`${
-                    categoryConfig[server.category].color
-                  } text-white`}
-                >
-                  {categoryConfig[server.category].icon} {categoryConfig[server.category].label}
-                </Badge>
+                                 <Badge 
+                   variant="secondary" 
+                   className={`${
+                     categoryConfig[server.category]?.color || "bg-gray-500"
+                   } text-white`}
+                 >
+                   {categoryConfig[server.category]?.icon || "📁"} {categoryConfig[server.category]?.label || server.category}
+                 </Badge>
                 <div className="flex items-center text-gray-400 text-sm">
                   <Users className="h-4 w-4 mr-1" />
                   {server._count.members}
@@ -257,12 +325,12 @@ export default function DiscoveryPageClient({ servers }: DiscoveryPageClientProp
           <div className="text-gray-400 mb-4">
             <Search className="h-16 w-16 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-white mb-2">No servers found</h3>
-            <p className="text-gray-400">
-              {searchQuery 
-                ? `No servers match "${searchQuery}" in ${selectedCategory === "ALL" ? "all categories" : categoryConfig[selectedCategory as ServerCategory].label}`
-                : `No servers available in ${selectedCategory === "ALL" ? "all categories" : categoryConfig[selectedCategory as ServerCategory].label}`
-              }
-            </p>
+                         <p className="text-gray-400">
+               {searchQuery 
+                 ? `No servers match "${searchQuery}" in ${selectedCategory === "ALL" ? "all categories" : categoryConfig[selectedCategory as ServerCategory]?.label || selectedCategory}`
+                 : `No servers available in ${selectedCategory === "ALL" ? "all categories" : categoryConfig[selectedCategory as ServerCategory]?.label || selectedCategory}`
+               }
+             </p>
           </div>
         </div>
       )}
