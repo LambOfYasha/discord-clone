@@ -122,6 +122,8 @@ exports.Prisma.MessageScalarFieldEnum = {
   deleted: 'deleted',
   pinned: 'pinned',
   replyTo: 'replyTo',
+  threadId: 'threadId',
+  threadParentId: 'threadParentId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -156,6 +158,16 @@ exports.Prisma.CategoryScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ThreadScalarFieldEnum = {
+  id: 'id',
+  channelId: 'channelId',
+  parentMessageId: 'parentMessageId',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  messageCount: 'messageCount'
+};
+
 exports.Prisma.ReactionScalarFieldEnum = {
   id: 'id',
   emoji: 'emoji',
@@ -180,6 +192,7 @@ exports.Prisma.ModelName = {
   DirectMessage: 'DirectMessage',
   GroupMessage: 'GroupMessage',
   Category: 'Category',
+  Thread: 'Thread',
   Reaction: 'Reaction'
 };
 

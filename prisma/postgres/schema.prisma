@@ -89,6 +89,7 @@ model Channel {
   server Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
   categoryId String?
   category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  threads Thread[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -233,6 +234,19 @@ model ServerFollow {
 
   @@unique([followerProfileId, serverId])
   @@map("server_follows")
+}
+
+model Thread {
+  id String @id @default(uuid())
+  channelId String
+  channel Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  parentMessageId String?
+  name String?
+  messageCount Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("threads")
 }
 
 model Notification {

@@ -24,7 +24,8 @@ export type ModalType =
   | "deleteConversation"
   | "deleteGroupConversation"
   | "sendMessageRequest"
-  | "userProfile";
+  | "userProfile"
+  | "createThread";
 interface ModalData {
   server?: Server;
   channel?: Channel;
@@ -68,6 +69,16 @@ interface ModalData {
     website?: string;
     socialMedia?: any;
     userId: string;
+  };
+  parentMessage?: {
+    id: string;
+    content: string;
+    member: {
+      profile: {
+        name: string;
+        imageUrl: string;
+      };
+    };
   };
 }
 interface ModalStore {

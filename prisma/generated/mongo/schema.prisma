@@ -9,17 +9,19 @@ datasource db {
 }
 
 model Message {
-  id        String     @id @default(auto()) @map("_id") @db.ObjectId
-  content   String
-  fileUrl   String?
-  memberId  String
-  channelId String
-  deleted   Boolean    @default(false)
-  pinned    Boolean    @default(false)
-  replyTo   String?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  reactions Reaction[]
+  id             String     @id @default(auto()) @map("_id") @db.ObjectId
+  content        String
+  fileUrl        String?
+  memberId       String
+  channelId      String
+  deleted        Boolean    @default(false)
+  pinned         Boolean    @default(false)
+  replyTo        String?
+  threadId       String?
+  threadParentId String?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  reactions      Reaction[]
 
   @@map("messages")
 }
@@ -58,6 +60,18 @@ model Category {
   updatedAt DateTime @updatedAt
 
   @@map("categories")
+}
+
+model Thread {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  channelId       String
+  parentMessageId String?
+  name            String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  messageCount    Int      @default(0)
+
+  @@map("threads")
 }
 
 model Reaction {

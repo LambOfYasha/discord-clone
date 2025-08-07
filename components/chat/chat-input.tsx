@@ -4,21 +4,31 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Plus } from "lucide-react";
+import { Plus, MessageSquare, Paperclip } from "lucide-react";
 import qs from "query-string";
 import axios from "axios";
 import { useModal } from "@/hooks/use-modal-store";
 import { EmojiPicker } from "@/components/emoji-picker";
 import { useRouter } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+
 interface ChatInputProps {
   apiUrl: string;
   query: Record<string, any>;
   name: string;
   type: "conversation" | "channel";
 }
+
 const formSchema = z.object({
   content: z.string().min(1),
 });
+
 export const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
   const { onOpen } = useModal();
   const router = useRouter();
@@ -63,13 +73,38 @@ export const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
             <FormItem>
               <FormControl>
                 <div className="relative p-4 pb-6">
-                  <button
-                    type="button"
-                    onClick={() => onOpen("messageFile", { apiUrl, query })}
-                    className="absolute top-7 left-8 h-[24px] w-[24px] bg-zinc-500 dark:bg-zinc-400 hover:bg-zinc-600 dark:hover:bg-zinc-300 transition rounded-full p-1 flex items-center justify-center"
-                  >
-                    <Plus className="text-white dark:text-[#313338]" />
-                  </button>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="absolute top-7 left-8 h-[24px] w-[24px] bg-zinc-500 dark:bg-zinc-400 hover:bg-zinc-600 dark:hover:bg-zinc-300 transition rounded-full p-1 flex items-center justify-center"
+                      >
+                        <Plus className="text-white dark:text-[#313338]" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                      side="top"
+                      align="start"
+                      className="w-48 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700"
+                    >
+                      <DropdownMenuItem
+                        onClick={() => onOpen("messageFile", { apiUrl, query })}
+                        className="flex items-center gap-x-2 cursor-pointer"
+                      >
+                        <Paperclip className="h-4 w-4" />
+                        <span>Add Attachment</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => onOpen("createThread", { apiUrl, query })}
+                        className="flex items-center gap-x-2 cursor-pointer"
+                      >
+                        <MessageSquare className="h-4 w-4" />
+                        <span>Create Thread</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                   <Input
                     placeholder={`Message ${
                       type === "conversation" ? name : "#" + name

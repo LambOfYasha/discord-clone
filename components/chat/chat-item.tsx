@@ -3,7 +3,7 @@
 import { Member, MemberRole, Profile } from "../../prisma/generated/postgres";
 import { UserAvatar } from "@/components/user-avatar";
 import { ActionTooltip } from "@/components/action-tooltip";
-import { Edit, FileIcon, ShieldCheck, Trash, Smile, Reply, Pin } from "lucide-react";
+import { Edit, FileIcon, ShieldCheck, Trash, Smile, Reply, Pin, MessageSquare } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
@@ -357,6 +357,22 @@ export const ChatItem = ({
               <ActionTooltip label="Reply">
                 <Reply
                   onClick={() => setShowThread(true)}
+                  className="cursor-pointer w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition"
+                />
+              </ActionTooltip>
+              <ActionTooltip label="Create Thread">
+                <MessageSquare
+                  onClick={() => onOpen("createThread", { 
+                    apiUrl: "/api/threads",
+                    query: socketQuery,
+                    parentMessage: {
+                      id,
+                      content,
+                      member: {
+                        profile: member.profile
+                      }
+                    }
+                  })}
                   className="cursor-pointer w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition"
                 />
               </ActionTooltip>

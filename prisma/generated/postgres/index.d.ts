@@ -84,6 +84,11 @@ export type Follow = $Result.DefaultSelection<Prisma.$FollowPayload>
  */
 export type ServerFollow = $Result.DefaultSelection<Prisma.$ServerFollowPayload>
 /**
+ * Model Thread
+ * 
+ */
+export type Thread = $Result.DefaultSelection<Prisma.$ThreadPayload>
+/**
  * Model Notification
  * 
  */
@@ -468,6 +473,16 @@ export class PrismaClient<
     * ```
     */
   get serverFollow(): Prisma.ServerFollowDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.thread`: Exposes CRUD operations for the **Thread** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Threads
+    * const threads = await prisma.thread.findMany()
+    * ```
+    */
+  get thread(): Prisma.ThreadDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.notification`: Exposes CRUD operations for the **Notification** model.
@@ -932,6 +947,7 @@ export namespace Prisma {
     MessageRequest: 'MessageRequest',
     Follow: 'Follow',
     ServerFollow: 'ServerFollow',
+    Thread: 'Thread',
     Notification: 'Notification'
   };
 
@@ -951,7 +967,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "profile" | "server" | "member" | "channel" | "category" | "conversation" | "groupConversation" | "groupConversationMember" | "groupMessage" | "directMessage" | "friendRequest" | "messageRequest" | "follow" | "serverFollow" | "notification"
+      modelProps: "profile" | "server" | "member" | "channel" | "category" | "conversation" | "groupConversation" | "groupConversationMember" | "groupMessage" | "directMessage" | "friendRequest" | "messageRequest" | "follow" | "serverFollow" | "thread" | "notification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1991,6 +2007,80 @@ export namespace Prisma {
           }
         }
       }
+      Thread: {
+        payload: Prisma.$ThreadPayload<ExtArgs>
+        fields: Prisma.ThreadFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ThreadFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ThreadPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ThreadFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ThreadPayload>
+          }
+          findFirst: {
+            args: Prisma.ThreadFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ThreadPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ThreadFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ThreadPayload>
+          }
+          findMany: {
+            args: Prisma.ThreadFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ThreadPayload>[]
+          }
+          create: {
+            args: Prisma.ThreadCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ThreadPayload>
+          }
+          createMany: {
+            args: Prisma.ThreadCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ThreadCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ThreadPayload>[]
+          }
+          delete: {
+            args: Prisma.ThreadDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ThreadPayload>
+          }
+          update: {
+            args: Prisma.ThreadUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ThreadPayload>
+          }
+          deleteMany: {
+            args: Prisma.ThreadDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ThreadUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ThreadUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ThreadPayload>[]
+          }
+          upsert: {
+            args: Prisma.ThreadUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ThreadPayload>
+          }
+          aggregate: {
+            args: Prisma.ThreadAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateThread>
+          }
+          groupBy: {
+            args: Prisma.ThreadGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ThreadGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ThreadCountArgs<ExtArgs>
+            result: $Utils.Optional<ThreadCountAggregateOutputType> | number
+          }
+        }
+      }
       Notification: {
         payload: Prisma.$NotificationPayload<ExtArgs>
         fields: Prisma.NotificationFieldRefs
@@ -2163,6 +2253,7 @@ export namespace Prisma {
     messageRequest?: MessageRequestOmit
     follow?: FollowOmit
     serverFollow?: ServerFollowOmit
+    thread?: ThreadOmit
     notification?: NotificationOmit
   }
 
@@ -2541,6 +2632,37 @@ export namespace Prisma {
    */
   export type MemberCountOutputTypeCountDirectMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DirectMessageWhereInput
+  }
+
+
+  /**
+   * Count Type ChannelCountOutputType
+   */
+
+  export type ChannelCountOutputType = {
+    threads: number
+  }
+
+  export type ChannelCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    threads?: boolean | ChannelCountOutputTypeCountThreadsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ChannelCountOutputType without action
+   */
+  export type ChannelCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChannelCountOutputType
+     */
+    select?: ChannelCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ChannelCountOutputType without action
+   */
+  export type ChannelCountOutputTypeCountThreadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ThreadWhereInput
   }
 
 
@@ -6850,6 +6972,8 @@ export namespace Prisma {
     profile?: boolean | ProfileDefaultArgs<ExtArgs>
     server?: boolean | ServerDefaultArgs<ExtArgs>
     category?: boolean | Channel$categoryArgs<ExtArgs>
+    threads?: boolean | Channel$threadsArgs<ExtArgs>
+    _count?: boolean | ChannelCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["channel"]>
 
   export type ChannelSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6896,6 +7020,8 @@ export namespace Prisma {
     profile?: boolean | ProfileDefaultArgs<ExtArgs>
     server?: boolean | ServerDefaultArgs<ExtArgs>
     category?: boolean | Channel$categoryArgs<ExtArgs>
+    threads?: boolean | Channel$threadsArgs<ExtArgs>
+    _count?: boolean | ChannelCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ChannelIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     profile?: boolean | ProfileDefaultArgs<ExtArgs>
@@ -6914,6 +7040,7 @@ export namespace Prisma {
       profile: Prisma.$ProfilePayload<ExtArgs>
       server: Prisma.$ServerPayload<ExtArgs>
       category: Prisma.$CategoryPayload<ExtArgs> | null
+      threads: Prisma.$ThreadPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7321,6 +7448,7 @@ export namespace Prisma {
     profile<T extends ProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProfileDefaultArgs<ExtArgs>>): Prisma__ProfileClient<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     server<T extends ServerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServerDefaultArgs<ExtArgs>>): Prisma__ServerClient<$Result.GetResult<Prisma.$ServerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     category<T extends Channel$categoryArgs<ExtArgs> = {}>(args?: Subset<T, Channel$categoryArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    threads<T extends Channel$threadsArgs<ExtArgs> = {}>(args?: Subset<T, Channel$threadsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ThreadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7770,6 +7898,30 @@ export namespace Prisma {
      */
     include?: CategoryInclude<ExtArgs> | null
     where?: CategoryWhereInput
+  }
+
+  /**
+   * Channel.threads
+   */
+  export type Channel$threadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Thread
+     */
+    select?: ThreadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Thread
+     */
+    omit?: ThreadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreadInclude<ExtArgs> | null
+    where?: ThreadWhereInput
+    orderBy?: ThreadOrderByWithRelationInput | ThreadOrderByWithRelationInput[]
+    cursor?: ThreadWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ThreadScalarFieldEnum | ThreadScalarFieldEnum[]
   }
 
   /**
@@ -18713,6 +18865,1124 @@ export namespace Prisma {
 
 
   /**
+   * Model Thread
+   */
+
+  export type AggregateThread = {
+    _count: ThreadCountAggregateOutputType | null
+    _avg: ThreadAvgAggregateOutputType | null
+    _sum: ThreadSumAggregateOutputType | null
+    _min: ThreadMinAggregateOutputType | null
+    _max: ThreadMaxAggregateOutputType | null
+  }
+
+  export type ThreadAvgAggregateOutputType = {
+    messageCount: number | null
+  }
+
+  export type ThreadSumAggregateOutputType = {
+    messageCount: number | null
+  }
+
+  export type ThreadMinAggregateOutputType = {
+    id: string | null
+    channelId: string | null
+    parentMessageId: string | null
+    name: string | null
+    messageCount: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ThreadMaxAggregateOutputType = {
+    id: string | null
+    channelId: string | null
+    parentMessageId: string | null
+    name: string | null
+    messageCount: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ThreadCountAggregateOutputType = {
+    id: number
+    channelId: number
+    parentMessageId: number
+    name: number
+    messageCount: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ThreadAvgAggregateInputType = {
+    messageCount?: true
+  }
+
+  export type ThreadSumAggregateInputType = {
+    messageCount?: true
+  }
+
+  export type ThreadMinAggregateInputType = {
+    id?: true
+    channelId?: true
+    parentMessageId?: true
+    name?: true
+    messageCount?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ThreadMaxAggregateInputType = {
+    id?: true
+    channelId?: true
+    parentMessageId?: true
+    name?: true
+    messageCount?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ThreadCountAggregateInputType = {
+    id?: true
+    channelId?: true
+    parentMessageId?: true
+    name?: true
+    messageCount?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ThreadAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Thread to aggregate.
+     */
+    where?: ThreadWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Threads to fetch.
+     */
+    orderBy?: ThreadOrderByWithRelationInput | ThreadOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ThreadWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Threads from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Threads.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Threads
+    **/
+    _count?: true | ThreadCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ThreadAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ThreadSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ThreadMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ThreadMaxAggregateInputType
+  }
+
+  export type GetThreadAggregateType<T extends ThreadAggregateArgs> = {
+        [P in keyof T & keyof AggregateThread]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateThread[P]>
+      : GetScalarType<T[P], AggregateThread[P]>
+  }
+
+
+
+
+  export type ThreadGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ThreadWhereInput
+    orderBy?: ThreadOrderByWithAggregationInput | ThreadOrderByWithAggregationInput[]
+    by: ThreadScalarFieldEnum[] | ThreadScalarFieldEnum
+    having?: ThreadScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ThreadCountAggregateInputType | true
+    _avg?: ThreadAvgAggregateInputType
+    _sum?: ThreadSumAggregateInputType
+    _min?: ThreadMinAggregateInputType
+    _max?: ThreadMaxAggregateInputType
+  }
+
+  export type ThreadGroupByOutputType = {
+    id: string
+    channelId: string
+    parentMessageId: string | null
+    name: string | null
+    messageCount: number
+    createdAt: Date
+    updatedAt: Date
+    _count: ThreadCountAggregateOutputType | null
+    _avg: ThreadAvgAggregateOutputType | null
+    _sum: ThreadSumAggregateOutputType | null
+    _min: ThreadMinAggregateOutputType | null
+    _max: ThreadMaxAggregateOutputType | null
+  }
+
+  type GetThreadGroupByPayload<T extends ThreadGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ThreadGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ThreadGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ThreadGroupByOutputType[P]>
+            : GetScalarType<T[P], ThreadGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ThreadSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    channelId?: boolean
+    parentMessageId?: boolean
+    name?: boolean
+    messageCount?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    channel?: boolean | ChannelDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["thread"]>
+
+  export type ThreadSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    channelId?: boolean
+    parentMessageId?: boolean
+    name?: boolean
+    messageCount?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    channel?: boolean | ChannelDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["thread"]>
+
+  export type ThreadSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    channelId?: boolean
+    parentMessageId?: boolean
+    name?: boolean
+    messageCount?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    channel?: boolean | ChannelDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["thread"]>
+
+  export type ThreadSelectScalar = {
+    id?: boolean
+    channelId?: boolean
+    parentMessageId?: boolean
+    name?: boolean
+    messageCount?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ThreadOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "channelId" | "parentMessageId" | "name" | "messageCount" | "createdAt" | "updatedAt", ExtArgs["result"]["thread"]>
+  export type ThreadInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    channel?: boolean | ChannelDefaultArgs<ExtArgs>
+  }
+  export type ThreadIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    channel?: boolean | ChannelDefaultArgs<ExtArgs>
+  }
+  export type ThreadIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    channel?: boolean | ChannelDefaultArgs<ExtArgs>
+  }
+
+  export type $ThreadPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Thread"
+    objects: {
+      channel: Prisma.$ChannelPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      channelId: string
+      parentMessageId: string | null
+      name: string | null
+      messageCount: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["thread"]>
+    composites: {}
+  }
+
+  type ThreadGetPayload<S extends boolean | null | undefined | ThreadDefaultArgs> = $Result.GetResult<Prisma.$ThreadPayload, S>
+
+  type ThreadCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ThreadFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ThreadCountAggregateInputType | true
+    }
+
+  export interface ThreadDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Thread'], meta: { name: 'Thread' } }
+    /**
+     * Find zero or one Thread that matches the filter.
+     * @param {ThreadFindUniqueArgs} args - Arguments to find a Thread
+     * @example
+     * // Get one Thread
+     * const thread = await prisma.thread.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ThreadFindUniqueArgs>(args: SelectSubset<T, ThreadFindUniqueArgs<ExtArgs>>): Prisma__ThreadClient<$Result.GetResult<Prisma.$ThreadPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Thread that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ThreadFindUniqueOrThrowArgs} args - Arguments to find a Thread
+     * @example
+     * // Get one Thread
+     * const thread = await prisma.thread.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ThreadFindUniqueOrThrowArgs>(args: SelectSubset<T, ThreadFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ThreadClient<$Result.GetResult<Prisma.$ThreadPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Thread that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ThreadFindFirstArgs} args - Arguments to find a Thread
+     * @example
+     * // Get one Thread
+     * const thread = await prisma.thread.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ThreadFindFirstArgs>(args?: SelectSubset<T, ThreadFindFirstArgs<ExtArgs>>): Prisma__ThreadClient<$Result.GetResult<Prisma.$ThreadPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Thread that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ThreadFindFirstOrThrowArgs} args - Arguments to find a Thread
+     * @example
+     * // Get one Thread
+     * const thread = await prisma.thread.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ThreadFindFirstOrThrowArgs>(args?: SelectSubset<T, ThreadFindFirstOrThrowArgs<ExtArgs>>): Prisma__ThreadClient<$Result.GetResult<Prisma.$ThreadPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Threads that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ThreadFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Threads
+     * const threads = await prisma.thread.findMany()
+     * 
+     * // Get first 10 Threads
+     * const threads = await prisma.thread.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const threadWithIdOnly = await prisma.thread.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ThreadFindManyArgs>(args?: SelectSubset<T, ThreadFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ThreadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Thread.
+     * @param {ThreadCreateArgs} args - Arguments to create a Thread.
+     * @example
+     * // Create one Thread
+     * const Thread = await prisma.thread.create({
+     *   data: {
+     *     // ... data to create a Thread
+     *   }
+     * })
+     * 
+     */
+    create<T extends ThreadCreateArgs>(args: SelectSubset<T, ThreadCreateArgs<ExtArgs>>): Prisma__ThreadClient<$Result.GetResult<Prisma.$ThreadPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Threads.
+     * @param {ThreadCreateManyArgs} args - Arguments to create many Threads.
+     * @example
+     * // Create many Threads
+     * const thread = await prisma.thread.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ThreadCreateManyArgs>(args?: SelectSubset<T, ThreadCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Threads and returns the data saved in the database.
+     * @param {ThreadCreateManyAndReturnArgs} args - Arguments to create many Threads.
+     * @example
+     * // Create many Threads
+     * const thread = await prisma.thread.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Threads and only return the `id`
+     * const threadWithIdOnly = await prisma.thread.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ThreadCreateManyAndReturnArgs>(args?: SelectSubset<T, ThreadCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ThreadPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Thread.
+     * @param {ThreadDeleteArgs} args - Arguments to delete one Thread.
+     * @example
+     * // Delete one Thread
+     * const Thread = await prisma.thread.delete({
+     *   where: {
+     *     // ... filter to delete one Thread
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ThreadDeleteArgs>(args: SelectSubset<T, ThreadDeleteArgs<ExtArgs>>): Prisma__ThreadClient<$Result.GetResult<Prisma.$ThreadPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Thread.
+     * @param {ThreadUpdateArgs} args - Arguments to update one Thread.
+     * @example
+     * // Update one Thread
+     * const thread = await prisma.thread.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ThreadUpdateArgs>(args: SelectSubset<T, ThreadUpdateArgs<ExtArgs>>): Prisma__ThreadClient<$Result.GetResult<Prisma.$ThreadPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Threads.
+     * @param {ThreadDeleteManyArgs} args - Arguments to filter Threads to delete.
+     * @example
+     * // Delete a few Threads
+     * const { count } = await prisma.thread.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ThreadDeleteManyArgs>(args?: SelectSubset<T, ThreadDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Threads.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ThreadUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Threads
+     * const thread = await prisma.thread.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ThreadUpdateManyArgs>(args: SelectSubset<T, ThreadUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Threads and returns the data updated in the database.
+     * @param {ThreadUpdateManyAndReturnArgs} args - Arguments to update many Threads.
+     * @example
+     * // Update many Threads
+     * const thread = await prisma.thread.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Threads and only return the `id`
+     * const threadWithIdOnly = await prisma.thread.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ThreadUpdateManyAndReturnArgs>(args: SelectSubset<T, ThreadUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ThreadPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Thread.
+     * @param {ThreadUpsertArgs} args - Arguments to update or create a Thread.
+     * @example
+     * // Update or create a Thread
+     * const thread = await prisma.thread.upsert({
+     *   create: {
+     *     // ... data to create a Thread
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Thread we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ThreadUpsertArgs>(args: SelectSubset<T, ThreadUpsertArgs<ExtArgs>>): Prisma__ThreadClient<$Result.GetResult<Prisma.$ThreadPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Threads.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ThreadCountArgs} args - Arguments to filter Threads to count.
+     * @example
+     * // Count the number of Threads
+     * const count = await prisma.thread.count({
+     *   where: {
+     *     // ... the filter for the Threads we want to count
+     *   }
+     * })
+    **/
+    count<T extends ThreadCountArgs>(
+      args?: Subset<T, ThreadCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ThreadCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Thread.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ThreadAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ThreadAggregateArgs>(args: Subset<T, ThreadAggregateArgs>): Prisma.PrismaPromise<GetThreadAggregateType<T>>
+
+    /**
+     * Group by Thread.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ThreadGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ThreadGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ThreadGroupByArgs['orderBy'] }
+        : { orderBy?: ThreadGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ThreadGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetThreadGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Thread model
+   */
+  readonly fields: ThreadFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Thread.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ThreadClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    channel<T extends ChannelDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ChannelDefaultArgs<ExtArgs>>): Prisma__ChannelClient<$Result.GetResult<Prisma.$ChannelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Thread model
+   */
+  interface ThreadFieldRefs {
+    readonly id: FieldRef<"Thread", 'String'>
+    readonly channelId: FieldRef<"Thread", 'String'>
+    readonly parentMessageId: FieldRef<"Thread", 'String'>
+    readonly name: FieldRef<"Thread", 'String'>
+    readonly messageCount: FieldRef<"Thread", 'Int'>
+    readonly createdAt: FieldRef<"Thread", 'DateTime'>
+    readonly updatedAt: FieldRef<"Thread", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Thread findUnique
+   */
+  export type ThreadFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Thread
+     */
+    select?: ThreadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Thread
+     */
+    omit?: ThreadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreadInclude<ExtArgs> | null
+    /**
+     * Filter, which Thread to fetch.
+     */
+    where: ThreadWhereUniqueInput
+  }
+
+  /**
+   * Thread findUniqueOrThrow
+   */
+  export type ThreadFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Thread
+     */
+    select?: ThreadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Thread
+     */
+    omit?: ThreadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreadInclude<ExtArgs> | null
+    /**
+     * Filter, which Thread to fetch.
+     */
+    where: ThreadWhereUniqueInput
+  }
+
+  /**
+   * Thread findFirst
+   */
+  export type ThreadFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Thread
+     */
+    select?: ThreadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Thread
+     */
+    omit?: ThreadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreadInclude<ExtArgs> | null
+    /**
+     * Filter, which Thread to fetch.
+     */
+    where?: ThreadWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Threads to fetch.
+     */
+    orderBy?: ThreadOrderByWithRelationInput | ThreadOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Threads.
+     */
+    cursor?: ThreadWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Threads from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Threads.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Threads.
+     */
+    distinct?: ThreadScalarFieldEnum | ThreadScalarFieldEnum[]
+  }
+
+  /**
+   * Thread findFirstOrThrow
+   */
+  export type ThreadFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Thread
+     */
+    select?: ThreadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Thread
+     */
+    omit?: ThreadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreadInclude<ExtArgs> | null
+    /**
+     * Filter, which Thread to fetch.
+     */
+    where?: ThreadWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Threads to fetch.
+     */
+    orderBy?: ThreadOrderByWithRelationInput | ThreadOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Threads.
+     */
+    cursor?: ThreadWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Threads from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Threads.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Threads.
+     */
+    distinct?: ThreadScalarFieldEnum | ThreadScalarFieldEnum[]
+  }
+
+  /**
+   * Thread findMany
+   */
+  export type ThreadFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Thread
+     */
+    select?: ThreadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Thread
+     */
+    omit?: ThreadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreadInclude<ExtArgs> | null
+    /**
+     * Filter, which Threads to fetch.
+     */
+    where?: ThreadWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Threads to fetch.
+     */
+    orderBy?: ThreadOrderByWithRelationInput | ThreadOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Threads.
+     */
+    cursor?: ThreadWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Threads from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Threads.
+     */
+    skip?: number
+    distinct?: ThreadScalarFieldEnum | ThreadScalarFieldEnum[]
+  }
+
+  /**
+   * Thread create
+   */
+  export type ThreadCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Thread
+     */
+    select?: ThreadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Thread
+     */
+    omit?: ThreadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreadInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Thread.
+     */
+    data: XOR<ThreadCreateInput, ThreadUncheckedCreateInput>
+  }
+
+  /**
+   * Thread createMany
+   */
+  export type ThreadCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Threads.
+     */
+    data: ThreadCreateManyInput | ThreadCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Thread createManyAndReturn
+   */
+  export type ThreadCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Thread
+     */
+    select?: ThreadSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Thread
+     */
+    omit?: ThreadOmit<ExtArgs> | null
+    /**
+     * The data used to create many Threads.
+     */
+    data: ThreadCreateManyInput | ThreadCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreadIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Thread update
+   */
+  export type ThreadUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Thread
+     */
+    select?: ThreadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Thread
+     */
+    omit?: ThreadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreadInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Thread.
+     */
+    data: XOR<ThreadUpdateInput, ThreadUncheckedUpdateInput>
+    /**
+     * Choose, which Thread to update.
+     */
+    where: ThreadWhereUniqueInput
+  }
+
+  /**
+   * Thread updateMany
+   */
+  export type ThreadUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Threads.
+     */
+    data: XOR<ThreadUpdateManyMutationInput, ThreadUncheckedUpdateManyInput>
+    /**
+     * Filter which Threads to update
+     */
+    where?: ThreadWhereInput
+    /**
+     * Limit how many Threads to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Thread updateManyAndReturn
+   */
+  export type ThreadUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Thread
+     */
+    select?: ThreadSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Thread
+     */
+    omit?: ThreadOmit<ExtArgs> | null
+    /**
+     * The data used to update Threads.
+     */
+    data: XOR<ThreadUpdateManyMutationInput, ThreadUncheckedUpdateManyInput>
+    /**
+     * Filter which Threads to update
+     */
+    where?: ThreadWhereInput
+    /**
+     * Limit how many Threads to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreadIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Thread upsert
+   */
+  export type ThreadUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Thread
+     */
+    select?: ThreadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Thread
+     */
+    omit?: ThreadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreadInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Thread to update in case it exists.
+     */
+    where: ThreadWhereUniqueInput
+    /**
+     * In case the Thread found by the `where` argument doesn't exist, create a new Thread with this data.
+     */
+    create: XOR<ThreadCreateInput, ThreadUncheckedCreateInput>
+    /**
+     * In case the Thread was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ThreadUpdateInput, ThreadUncheckedUpdateInput>
+  }
+
+  /**
+   * Thread delete
+   */
+  export type ThreadDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Thread
+     */
+    select?: ThreadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Thread
+     */
+    omit?: ThreadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreadInclude<ExtArgs> | null
+    /**
+     * Filter which Thread to delete.
+     */
+    where: ThreadWhereUniqueInput
+  }
+
+  /**
+   * Thread deleteMany
+   */
+  export type ThreadDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Threads to delete
+     */
+    where?: ThreadWhereInput
+    /**
+     * Limit how many Threads to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Thread without action
+   */
+  export type ThreadDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Thread
+     */
+    select?: ThreadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Thread
+     */
+    omit?: ThreadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreadInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Notification
    */
 
@@ -20069,6 +21339,19 @@ export namespace Prisma {
   export type ServerFollowScalarFieldEnum = (typeof ServerFollowScalarFieldEnum)[keyof typeof ServerFollowScalarFieldEnum]
 
 
+  export const ThreadScalarFieldEnum: {
+    id: 'id',
+    channelId: 'channelId',
+    parentMessageId: 'parentMessageId',
+    name: 'name',
+    messageCount: 'messageCount',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ThreadScalarFieldEnum = (typeof ThreadScalarFieldEnum)[keyof typeof ThreadScalarFieldEnum]
+
+
   export const NotificationScalarFieldEnum: {
     id: 'id',
     recipientProfileId: 'recipientProfileId',
@@ -20278,6 +21561,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
    * Reference to a field of type 'NotificationType'
    */
   export type EnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType'>
@@ -20292,16 +21589,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
+   * Reference to a field of type 'Float'
    */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
     
 
 
   /**
-   * Reference to a field of type 'Int[]'
+   * Reference to a field of type 'Float[]'
    */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
   /**
    * Deep Input Types
@@ -20619,6 +21916,7 @@ export namespace Prisma {
     profile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
     server?: XOR<ServerScalarRelationFilter, ServerWhereInput>
     category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
+    threads?: ThreadListRelationFilter
   }
 
   export type ChannelOrderByWithRelationInput = {
@@ -20633,6 +21931,7 @@ export namespace Prisma {
     profile?: ProfileOrderByWithRelationInput
     server?: ServerOrderByWithRelationInput
     category?: CategoryOrderByWithRelationInput
+    threads?: ThreadOrderByRelationAggregateInput
   }
 
   export type ChannelWhereUniqueInput = Prisma.AtLeast<{
@@ -20650,6 +21949,7 @@ export namespace Prisma {
     profile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
     server?: XOR<ServerScalarRelationFilter, ServerWhereInput>
     category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
+    threads?: ThreadListRelationFilter
   }, "id">
 
   export type ChannelOrderByWithAggregationInput = {
@@ -21332,6 +22632,73 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"ServerFollow"> | Date | string
   }
 
+  export type ThreadWhereInput = {
+    AND?: ThreadWhereInput | ThreadWhereInput[]
+    OR?: ThreadWhereInput[]
+    NOT?: ThreadWhereInput | ThreadWhereInput[]
+    id?: StringFilter<"Thread"> | string
+    channelId?: StringFilter<"Thread"> | string
+    parentMessageId?: StringNullableFilter<"Thread"> | string | null
+    name?: StringNullableFilter<"Thread"> | string | null
+    messageCount?: IntFilter<"Thread"> | number
+    createdAt?: DateTimeFilter<"Thread"> | Date | string
+    updatedAt?: DateTimeFilter<"Thread"> | Date | string
+    channel?: XOR<ChannelScalarRelationFilter, ChannelWhereInput>
+  }
+
+  export type ThreadOrderByWithRelationInput = {
+    id?: SortOrder
+    channelId?: SortOrder
+    parentMessageId?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    messageCount?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    channel?: ChannelOrderByWithRelationInput
+  }
+
+  export type ThreadWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ThreadWhereInput | ThreadWhereInput[]
+    OR?: ThreadWhereInput[]
+    NOT?: ThreadWhereInput | ThreadWhereInput[]
+    channelId?: StringFilter<"Thread"> | string
+    parentMessageId?: StringNullableFilter<"Thread"> | string | null
+    name?: StringNullableFilter<"Thread"> | string | null
+    messageCount?: IntFilter<"Thread"> | number
+    createdAt?: DateTimeFilter<"Thread"> | Date | string
+    updatedAt?: DateTimeFilter<"Thread"> | Date | string
+    channel?: XOR<ChannelScalarRelationFilter, ChannelWhereInput>
+  }, "id">
+
+  export type ThreadOrderByWithAggregationInput = {
+    id?: SortOrder
+    channelId?: SortOrder
+    parentMessageId?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    messageCount?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ThreadCountOrderByAggregateInput
+    _avg?: ThreadAvgOrderByAggregateInput
+    _max?: ThreadMaxOrderByAggregateInput
+    _min?: ThreadMinOrderByAggregateInput
+    _sum?: ThreadSumOrderByAggregateInput
+  }
+
+  export type ThreadScalarWhereWithAggregatesInput = {
+    AND?: ThreadScalarWhereWithAggregatesInput | ThreadScalarWhereWithAggregatesInput[]
+    OR?: ThreadScalarWhereWithAggregatesInput[]
+    NOT?: ThreadScalarWhereWithAggregatesInput | ThreadScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Thread"> | string
+    channelId?: StringWithAggregatesFilter<"Thread"> | string
+    parentMessageId?: StringNullableWithAggregatesFilter<"Thread"> | string | null
+    name?: StringNullableWithAggregatesFilter<"Thread"> | string | null
+    messageCount?: IntWithAggregatesFilter<"Thread"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Thread"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Thread"> | Date | string
+  }
+
   export type NotificationWhereInput = {
     AND?: NotificationWhereInput | NotificationWhereInput[]
     OR?: NotificationWhereInput[]
@@ -21764,6 +23131,7 @@ export namespace Prisma {
     profile: ProfileCreateNestedOneWithoutChannelsInput
     server: ServerCreateNestedOneWithoutChannelsInput
     category?: CategoryCreateNestedOneWithoutChannelsInput
+    threads?: ThreadCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelUncheckedCreateInput = {
@@ -21775,6 +23143,7 @@ export namespace Prisma {
     categoryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    threads?: ThreadUncheckedCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelUpdateInput = {
@@ -21786,6 +23155,7 @@ export namespace Prisma {
     profile?: ProfileUpdateOneRequiredWithoutChannelsNestedInput
     server?: ServerUpdateOneRequiredWithoutChannelsNestedInput
     category?: CategoryUpdateOneWithoutChannelsNestedInput
+    threads?: ThreadUpdateManyWithoutChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateInput = {
@@ -21797,6 +23167,7 @@ export namespace Prisma {
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    threads?: ThreadUncheckedUpdateManyWithoutChannelNestedInput
   }
 
   export type ChannelCreateManyInput = {
@@ -22462,6 +23833,75 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ThreadCreateInput = {
+    id?: string
+    parentMessageId?: string | null
+    name?: string | null
+    messageCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    channel: ChannelCreateNestedOneWithoutThreadsInput
+  }
+
+  export type ThreadUncheckedCreateInput = {
+    id?: string
+    channelId: string
+    parentMessageId?: string | null
+    name?: string | null
+    messageCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ThreadUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    parentMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    messageCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    channel?: ChannelUpdateOneRequiredWithoutThreadsNestedInput
+  }
+
+  export type ThreadUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    parentMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    messageCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ThreadCreateManyInput = {
+    id?: string
+    channelId: string
+    parentMessageId?: string | null
+    name?: string | null
+    messageCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ThreadUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    parentMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    messageCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ThreadUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    parentMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    messageCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type NotificationCreateInput = {
     id?: string
     type: $Enums.NotificationType
@@ -23009,6 +24449,16 @@ export namespace Prisma {
     isNot?: CategoryWhereInput | null
   }
 
+  export type ThreadListRelationFilter = {
+    every?: ThreadWhereInput
+    some?: ThreadWhereInput
+    none?: ThreadWhereInput
+  }
+
+  export type ThreadOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type ChannelCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -23427,6 +24877,76 @@ export namespace Prisma {
     followerProfileId?: SortOrder
     serverId?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type ChannelScalarRelationFilter = {
+    is?: ChannelWhereInput
+    isNot?: ChannelWhereInput
+  }
+
+  export type ThreadCountOrderByAggregateInput = {
+    id?: SortOrder
+    channelId?: SortOrder
+    parentMessageId?: SortOrder
+    name?: SortOrder
+    messageCount?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ThreadAvgOrderByAggregateInput = {
+    messageCount?: SortOrder
+  }
+
+  export type ThreadMaxOrderByAggregateInput = {
+    id?: SortOrder
+    channelId?: SortOrder
+    parentMessageId?: SortOrder
+    name?: SortOrder
+    messageCount?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ThreadMinOrderByAggregateInput = {
+    id?: SortOrder
+    channelId?: SortOrder
+    parentMessageId?: SortOrder
+    name?: SortOrder
+    messageCount?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ThreadSumOrderByAggregateInput = {
+    messageCount?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type EnumNotificationTypeFilter<$PrismaModel = never> = {
@@ -24626,6 +26146,20 @@ export namespace Prisma {
     connect?: CategoryWhereUniqueInput
   }
 
+  export type ThreadCreateNestedManyWithoutChannelInput = {
+    create?: XOR<ThreadCreateWithoutChannelInput, ThreadUncheckedCreateWithoutChannelInput> | ThreadCreateWithoutChannelInput[] | ThreadUncheckedCreateWithoutChannelInput[]
+    connectOrCreate?: ThreadCreateOrConnectWithoutChannelInput | ThreadCreateOrConnectWithoutChannelInput[]
+    createMany?: ThreadCreateManyChannelInputEnvelope
+    connect?: ThreadWhereUniqueInput | ThreadWhereUniqueInput[]
+  }
+
+  export type ThreadUncheckedCreateNestedManyWithoutChannelInput = {
+    create?: XOR<ThreadCreateWithoutChannelInput, ThreadUncheckedCreateWithoutChannelInput> | ThreadCreateWithoutChannelInput[] | ThreadUncheckedCreateWithoutChannelInput[]
+    connectOrCreate?: ThreadCreateOrConnectWithoutChannelInput | ThreadCreateOrConnectWithoutChannelInput[]
+    createMany?: ThreadCreateManyChannelInputEnvelope
+    connect?: ThreadWhereUniqueInput | ThreadWhereUniqueInput[]
+  }
+
   export type EnumChannelTypeFieldUpdateOperationsInput = {
     set?: $Enums.ChannelType
   }
@@ -24654,6 +26188,34 @@ export namespace Prisma {
     delete?: CategoryWhereInput | boolean
     connect?: CategoryWhereUniqueInput
     update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutChannelsInput, CategoryUpdateWithoutChannelsInput>, CategoryUncheckedUpdateWithoutChannelsInput>
+  }
+
+  export type ThreadUpdateManyWithoutChannelNestedInput = {
+    create?: XOR<ThreadCreateWithoutChannelInput, ThreadUncheckedCreateWithoutChannelInput> | ThreadCreateWithoutChannelInput[] | ThreadUncheckedCreateWithoutChannelInput[]
+    connectOrCreate?: ThreadCreateOrConnectWithoutChannelInput | ThreadCreateOrConnectWithoutChannelInput[]
+    upsert?: ThreadUpsertWithWhereUniqueWithoutChannelInput | ThreadUpsertWithWhereUniqueWithoutChannelInput[]
+    createMany?: ThreadCreateManyChannelInputEnvelope
+    set?: ThreadWhereUniqueInput | ThreadWhereUniqueInput[]
+    disconnect?: ThreadWhereUniqueInput | ThreadWhereUniqueInput[]
+    delete?: ThreadWhereUniqueInput | ThreadWhereUniqueInput[]
+    connect?: ThreadWhereUniqueInput | ThreadWhereUniqueInput[]
+    update?: ThreadUpdateWithWhereUniqueWithoutChannelInput | ThreadUpdateWithWhereUniqueWithoutChannelInput[]
+    updateMany?: ThreadUpdateManyWithWhereWithoutChannelInput | ThreadUpdateManyWithWhereWithoutChannelInput[]
+    deleteMany?: ThreadScalarWhereInput | ThreadScalarWhereInput[]
+  }
+
+  export type ThreadUncheckedUpdateManyWithoutChannelNestedInput = {
+    create?: XOR<ThreadCreateWithoutChannelInput, ThreadUncheckedCreateWithoutChannelInput> | ThreadCreateWithoutChannelInput[] | ThreadUncheckedCreateWithoutChannelInput[]
+    connectOrCreate?: ThreadCreateOrConnectWithoutChannelInput | ThreadCreateOrConnectWithoutChannelInput[]
+    upsert?: ThreadUpsertWithWhereUniqueWithoutChannelInput | ThreadUpsertWithWhereUniqueWithoutChannelInput[]
+    createMany?: ThreadCreateManyChannelInputEnvelope
+    set?: ThreadWhereUniqueInput | ThreadWhereUniqueInput[]
+    disconnect?: ThreadWhereUniqueInput | ThreadWhereUniqueInput[]
+    delete?: ThreadWhereUniqueInput | ThreadWhereUniqueInput[]
+    connect?: ThreadWhereUniqueInput | ThreadWhereUniqueInput[]
+    update?: ThreadUpdateWithWhereUniqueWithoutChannelInput | ThreadUpdateWithWhereUniqueWithoutChannelInput[]
+    updateMany?: ThreadUpdateManyWithWhereWithoutChannelInput | ThreadUpdateManyWithWhereWithoutChannelInput[]
+    deleteMany?: ThreadScalarWhereInput | ThreadScalarWhereInput[]
   }
 
   export type ServerCreateNestedOneWithoutCategoriesInput = {
@@ -25120,6 +26682,28 @@ export namespace Prisma {
     update?: XOR<XOR<ServerUpdateToOneWithWhereWithoutServerFollowsInput, ServerUpdateWithoutServerFollowsInput>, ServerUncheckedUpdateWithoutServerFollowsInput>
   }
 
+  export type ChannelCreateNestedOneWithoutThreadsInput = {
+    create?: XOR<ChannelCreateWithoutThreadsInput, ChannelUncheckedCreateWithoutThreadsInput>
+    connectOrCreate?: ChannelCreateOrConnectWithoutThreadsInput
+    connect?: ChannelWhereUniqueInput
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type ChannelUpdateOneRequiredWithoutThreadsNestedInput = {
+    create?: XOR<ChannelCreateWithoutThreadsInput, ChannelUncheckedCreateWithoutThreadsInput>
+    connectOrCreate?: ChannelCreateOrConnectWithoutThreadsInput
+    upsert?: ChannelUpsertWithoutThreadsInput
+    connect?: ChannelWhereUniqueInput
+    update?: XOR<XOR<ChannelUpdateToOneWithWhereWithoutThreadsInput, ChannelUpdateWithoutThreadsInput>, ChannelUncheckedUpdateWithoutThreadsInput>
+  }
+
   export type ProfileCreateNestedOneWithoutNotificationsReceivedInput = {
     create?: XOR<ProfileCreateWithoutNotificationsReceivedInput, ProfileUncheckedCreateWithoutNotificationsReceivedInput>
     connectOrCreate?: ProfileCreateOrConnectWithoutNotificationsReceivedInput
@@ -25434,6 +27018,33 @@ export namespace Prisma {
     _max?: NestedEnumMessageRequestStatusFilter<$PrismaModel>
   }
 
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type NestedEnumNotificationTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.NotificationType | EnumNotificationTypeFieldRefInput<$PrismaModel>
     in?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
@@ -25535,6 +27146,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     server: ServerCreateNestedOneWithoutChannelsInput
     category?: CategoryCreateNestedOneWithoutChannelsInput
+    threads?: ThreadCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelUncheckedCreateWithoutProfileInput = {
@@ -25545,6 +27157,7 @@ export namespace Prisma {
     categoryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    threads?: ThreadUncheckedCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelCreateOrConnectWithoutProfileInput = {
@@ -26365,6 +27978,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     profile: ProfileCreateNestedOneWithoutChannelsInput
     category?: CategoryCreateNestedOneWithoutChannelsInput
+    threads?: ThreadCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelUncheckedCreateWithoutServerInput = {
@@ -26375,6 +27989,7 @@ export namespace Prisma {
     categoryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    threads?: ThreadUncheckedCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelCreateOrConnectWithoutServerInput = {
@@ -27206,6 +28821,34 @@ export namespace Prisma {
     create: XOR<CategoryCreateWithoutChannelsInput, CategoryUncheckedCreateWithoutChannelsInput>
   }
 
+  export type ThreadCreateWithoutChannelInput = {
+    id?: string
+    parentMessageId?: string | null
+    name?: string | null
+    messageCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ThreadUncheckedCreateWithoutChannelInput = {
+    id?: string
+    parentMessageId?: string | null
+    name?: string | null
+    messageCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ThreadCreateOrConnectWithoutChannelInput = {
+    where: ThreadWhereUniqueInput
+    create: XOR<ThreadCreateWithoutChannelInput, ThreadUncheckedCreateWithoutChannelInput>
+  }
+
+  export type ThreadCreateManyChannelInputEnvelope = {
+    data: ThreadCreateManyChannelInput | ThreadCreateManyChannelInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ProfileUpsertWithoutChannelsInput = {
     update: XOR<ProfileUpdateWithoutChannelsInput, ProfileUncheckedUpdateWithoutChannelsInput>
     create: XOR<ProfileCreateWithoutChannelsInput, ProfileUncheckedCreateWithoutChannelsInput>
@@ -27343,6 +28986,35 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ThreadUpsertWithWhereUniqueWithoutChannelInput = {
+    where: ThreadWhereUniqueInput
+    update: XOR<ThreadUpdateWithoutChannelInput, ThreadUncheckedUpdateWithoutChannelInput>
+    create: XOR<ThreadCreateWithoutChannelInput, ThreadUncheckedCreateWithoutChannelInput>
+  }
+
+  export type ThreadUpdateWithWhereUniqueWithoutChannelInput = {
+    where: ThreadWhereUniqueInput
+    data: XOR<ThreadUpdateWithoutChannelInput, ThreadUncheckedUpdateWithoutChannelInput>
+  }
+
+  export type ThreadUpdateManyWithWhereWithoutChannelInput = {
+    where: ThreadScalarWhereInput
+    data: XOR<ThreadUpdateManyMutationInput, ThreadUncheckedUpdateManyWithoutChannelInput>
+  }
+
+  export type ThreadScalarWhereInput = {
+    AND?: ThreadScalarWhereInput | ThreadScalarWhereInput[]
+    OR?: ThreadScalarWhereInput[]
+    NOT?: ThreadScalarWhereInput | ThreadScalarWhereInput[]
+    id?: StringFilter<"Thread"> | string
+    channelId?: StringFilter<"Thread"> | string
+    parentMessageId?: StringNullableFilter<"Thread"> | string | null
+    name?: StringNullableFilter<"Thread"> | string | null
+    messageCount?: IntFilter<"Thread"> | number
+    createdAt?: DateTimeFilter<"Thread"> | Date | string
+    updatedAt?: DateTimeFilter<"Thread"> | Date | string
+  }
+
   export type ServerCreateWithoutCategoriesInput = {
     id?: string
     name: string
@@ -27386,6 +29058,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     profile: ProfileCreateNestedOneWithoutChannelsInput
     server: ServerCreateNestedOneWithoutChannelsInput
+    threads?: ThreadCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelUncheckedCreateWithoutCategoryInput = {
@@ -27396,6 +29069,7 @@ export namespace Prisma {
     serverId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    threads?: ThreadUncheckedCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelCreateOrConnectWithoutCategoryInput = {
@@ -29501,6 +31175,66 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedServerNestedInput
   }
 
+  export type ChannelCreateWithoutThreadsInput = {
+    id?: string
+    name: string
+    type?: $Enums.ChannelType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    profile: ProfileCreateNestedOneWithoutChannelsInput
+    server: ServerCreateNestedOneWithoutChannelsInput
+    category?: CategoryCreateNestedOneWithoutChannelsInput
+  }
+
+  export type ChannelUncheckedCreateWithoutThreadsInput = {
+    id?: string
+    name: string
+    type?: $Enums.ChannelType
+    profileId: string
+    serverId: string
+    categoryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ChannelCreateOrConnectWithoutThreadsInput = {
+    where: ChannelWhereUniqueInput
+    create: XOR<ChannelCreateWithoutThreadsInput, ChannelUncheckedCreateWithoutThreadsInput>
+  }
+
+  export type ChannelUpsertWithoutThreadsInput = {
+    update: XOR<ChannelUpdateWithoutThreadsInput, ChannelUncheckedUpdateWithoutThreadsInput>
+    create: XOR<ChannelCreateWithoutThreadsInput, ChannelUncheckedCreateWithoutThreadsInput>
+    where?: ChannelWhereInput
+  }
+
+  export type ChannelUpdateToOneWithWhereWithoutThreadsInput = {
+    where?: ChannelWhereInput
+    data: XOR<ChannelUpdateWithoutThreadsInput, ChannelUncheckedUpdateWithoutThreadsInput>
+  }
+
+  export type ChannelUpdateWithoutThreadsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumChannelTypeFieldUpdateOperationsInput | $Enums.ChannelType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    profile?: ProfileUpdateOneRequiredWithoutChannelsNestedInput
+    server?: ServerUpdateOneRequiredWithoutChannelsNestedInput
+    category?: CategoryUpdateOneWithoutChannelsNestedInput
+  }
+
+  export type ChannelUncheckedUpdateWithoutThreadsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumChannelTypeFieldUpdateOperationsInput | $Enums.ChannelType
+    profileId?: StringFieldUpdateOperationsInput | string
+    serverId?: StringFieldUpdateOperationsInput | string
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ProfileCreateWithoutNotificationsReceivedInput = {
     id?: string
     userId: string
@@ -30050,6 +31784,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     server?: ServerUpdateOneRequiredWithoutChannelsNestedInput
     category?: CategoryUpdateOneWithoutChannelsNestedInput
+    threads?: ThreadUpdateManyWithoutChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateWithoutProfileInput = {
@@ -30060,6 +31795,7 @@ export namespace Prisma {
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    threads?: ThreadUncheckedUpdateManyWithoutChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateManyWithoutProfileInput = {
@@ -30459,6 +32195,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profile?: ProfileUpdateOneRequiredWithoutChannelsNestedInput
     category?: CategoryUpdateOneWithoutChannelsNestedInput
+    threads?: ThreadUpdateManyWithoutChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateWithoutServerInput = {
@@ -30469,6 +32206,7 @@ export namespace Prisma {
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    threads?: ThreadUncheckedUpdateManyWithoutChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateManyWithoutServerInput = {
@@ -30739,6 +32477,42 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ThreadCreateManyChannelInput = {
+    id?: string
+    parentMessageId?: string | null
+    name?: string | null
+    messageCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ThreadUpdateWithoutChannelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    parentMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    messageCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ThreadUncheckedUpdateWithoutChannelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    parentMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    messageCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ThreadUncheckedUpdateManyWithoutChannelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    parentMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    messageCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ChannelCreateManyCategoryInput = {
     id?: string
     name: string
@@ -30757,6 +32531,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profile?: ProfileUpdateOneRequiredWithoutChannelsNestedInput
     server?: ServerUpdateOneRequiredWithoutChannelsNestedInput
+    threads?: ThreadUpdateManyWithoutChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateWithoutCategoryInput = {
@@ -30767,6 +32542,7 @@ export namespace Prisma {
     serverId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    threads?: ThreadUncheckedUpdateManyWithoutChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateManyWithoutCategoryInput = {

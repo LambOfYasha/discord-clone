@@ -257,6 +257,16 @@ exports.Prisma.ServerFollowScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ThreadScalarFieldEnum = {
+  id: 'id',
+  channelId: 'channelId',
+  parentMessageId: 'parentMessageId',
+  name: 'name',
+  messageCount: 'messageCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.NotificationScalarFieldEnum = {
   id: 'id',
   recipientProfileId: 'recipientProfileId',
@@ -363,6 +373,7 @@ exports.Prisma.ModelName = {
   MessageRequest: 'MessageRequest',
   Follow: 'Follow',
   ServerFollow: 'ServerFollow',
+  Thread: 'Thread',
   Notification: 'Notification'
 };
 
