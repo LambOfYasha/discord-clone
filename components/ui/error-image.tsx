@@ -47,9 +47,12 @@ export const ErrorImage = ({
   }, [src]);
 
   const handleError = async () => {
-    console.error("Image failed to load:", src);
+    // Only log in development mode to reduce console noise
+    if (process.env.NODE_ENV === 'development') {
+      console.warn("Image failed to load:", src);
+    }
     
-    // Log the error for debugging
+    // Log the error for debugging (silently in production)
     logImageError(src, "Image load failed");
     
     // For avatar images, be more lenient with URL validation

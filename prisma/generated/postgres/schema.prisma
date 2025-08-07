@@ -41,6 +41,7 @@ model Server {
   name                 String
   imageUrl             String
   inviteCode           String         @unique
+  category             ServerCategory @default(POPULAR)
   profileId            String
   profile              Profile        @relation(fields: [profileId], references: [id], onDelete: Cascade)
   members              Member[]
@@ -259,6 +260,14 @@ enum MessageRequestStatus {
   PENDING
   ACCEPTED
   REJECTED
+}
+
+enum ServerCategory {
+  POPULAR
+  CHRISTIANITY
+  BUSINESS
+  SOCIAL
+  SCIENCE_AND_EDUCATION
 }
 
 enum NotificationType {

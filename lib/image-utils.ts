@@ -45,7 +45,10 @@ export const logImageError = (url: string, error: string): void => {
     imageErrorLog.shift();
   }
   
-  console.error('Image error logged:', errorInfo);
+  // Only log in development mode to reduce console noise
+  if (process.env.NODE_ENV === 'development') {
+    console.warn('Image error logged:', errorInfo);
+  }
 };
 
 /**

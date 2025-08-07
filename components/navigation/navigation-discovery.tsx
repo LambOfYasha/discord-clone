@@ -14,7 +14,7 @@ export const NavigationDiscovery = () => {
 
   return (
     <div>
-      <ActionTooltip side="right" align="center" label="Server Discovery">
+      <ActionTooltip side="right" align="center" label="Discover Servers">
         <Link href="/discovery">
           <div className="group flex items-center">
             <div className={cn(

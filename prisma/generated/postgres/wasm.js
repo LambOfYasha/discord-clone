@@ -135,6 +135,7 @@ exports.Prisma.ServerScalarFieldEnum = {
   name: 'name',
   imageUrl: 'imageUrl',
   inviteCode: 'inviteCode',
+  category: 'category',
   profileId: 'profileId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -268,6 +269,14 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.ServerCategory = exports.$Enums.ServerCategory = {
+  POPULAR: 'POPULAR',
+  CHRISTIANITY: 'CHRISTIANITY',
+  BUSINESS: 'BUSINESS',
+  SOCIAL: 'SOCIAL',
+  SCIENCE_AND_EDUCATION: 'SCIENCE_AND_EDUCATION'
+};
+
 exports.MemberRole = exports.$Enums.MemberRole = {
   ADMIN: 'ADMIN',
   MODERATOR: 'MODERATOR',

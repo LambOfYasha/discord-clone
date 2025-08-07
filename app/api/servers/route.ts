@@ -6,8 +6,8 @@ import { MemberRole } from "@/prisma/generated/postgres";
 
 export async function POST(req: Request) {
   try {
-    const { name, imageUrl } = await req.json();
-    console.log("Creating server with:", { name, imageUrl });
+    const { name, imageUrl, category } = await req.json();
+    console.log("Creating server with:", { name, imageUrl, category });
     
     const profile = await initialProfile();
     console.log("Current profile:", profile);
@@ -21,6 +21,7 @@ export async function POST(req: Request) {
         profileId: profile.id,
         name,
         imageUrl,
+        category: category || "POPULAR",
         inviteCode: uuidv4(),
         channels: {
           create: [{ name: "general", profileId: profile.id }],

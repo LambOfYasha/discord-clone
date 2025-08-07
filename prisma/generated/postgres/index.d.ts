@@ -133,6 +133,17 @@ export const MessageRequestStatus: {
 export type MessageRequestStatus = (typeof MessageRequestStatus)[keyof typeof MessageRequestStatus]
 
 
+export const ServerCategory: {
+  POPULAR: 'POPULAR',
+  CHRISTIANITY: 'CHRISTIANITY',
+  BUSINESS: 'BUSINESS',
+  SOCIAL: 'SOCIAL',
+  SCIENCE_AND_EDUCATION: 'SCIENCE_AND_EDUCATION'
+};
+
+export type ServerCategory = (typeof ServerCategory)[keyof typeof ServerCategory]
+
+
 export const NotificationType: {
   FRIEND_ACTIVITY: 'FRIEND_ACTIVITY',
   SERVER_ACTIVITY: 'SERVER_ACTIVITY',
@@ -165,6 +176,10 @@ export const FriendRequestStatus: typeof $Enums.FriendRequestStatus
 export type MessageRequestStatus = $Enums.MessageRequestStatus
 
 export const MessageRequestStatus: typeof $Enums.MessageRequestStatus
+
+export type ServerCategory = $Enums.ServerCategory
+
+export const ServerCategory: typeof $Enums.ServerCategory
 
 export type NotificationType = $Enums.NotificationType
 
@@ -3993,6 +4008,7 @@ export namespace Prisma {
     name: string | null
     imageUrl: string | null
     inviteCode: string | null
+    category: $Enums.ServerCategory | null
     profileId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -4003,6 +4019,7 @@ export namespace Prisma {
     name: string | null
     imageUrl: string | null
     inviteCode: string | null
+    category: $Enums.ServerCategory | null
     profileId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -4013,6 +4030,7 @@ export namespace Prisma {
     name: number
     imageUrl: number
     inviteCode: number
+    category: number
     profileId: number
     createdAt: number
     updatedAt: number
@@ -4025,6 +4043,7 @@ export namespace Prisma {
     name?: true
     imageUrl?: true
     inviteCode?: true
+    category?: true
     profileId?: true
     createdAt?: true
     updatedAt?: true
@@ -4035,6 +4054,7 @@ export namespace Prisma {
     name?: true
     imageUrl?: true
     inviteCode?: true
+    category?: true
     profileId?: true
     createdAt?: true
     updatedAt?: true
@@ -4045,6 +4065,7 @@ export namespace Prisma {
     name?: true
     imageUrl?: true
     inviteCode?: true
+    category?: true
     profileId?: true
     createdAt?: true
     updatedAt?: true
@@ -4128,6 +4149,7 @@ export namespace Prisma {
     name: string
     imageUrl: string
     inviteCode: string
+    category: $Enums.ServerCategory
     profileId: string
     createdAt: Date
     updatedAt: Date
@@ -4155,6 +4177,7 @@ export namespace Prisma {
     name?: boolean
     imageUrl?: boolean
     inviteCode?: boolean
+    category?: boolean
     profileId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -4171,6 +4194,7 @@ export namespace Prisma {
     name?: boolean
     imageUrl?: boolean
     inviteCode?: boolean
+    category?: boolean
     profileId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -4182,6 +4206,7 @@ export namespace Prisma {
     name?: boolean
     imageUrl?: boolean
     inviteCode?: boolean
+    category?: boolean
     profileId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -4193,12 +4218,13 @@ export namespace Prisma {
     name?: boolean
     imageUrl?: boolean
     inviteCode?: boolean
+    category?: boolean
     profileId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ServerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "imageUrl" | "inviteCode" | "profileId" | "createdAt" | "updatedAt", ExtArgs["result"]["server"]>
+  export type ServerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "imageUrl" | "inviteCode" | "category" | "profileId" | "createdAt" | "updatedAt", ExtArgs["result"]["server"]>
   export type ServerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     profile?: boolean | ProfileDefaultArgs<ExtArgs>
     members?: boolean | Server$membersArgs<ExtArgs>
@@ -4228,6 +4254,7 @@ export namespace Prisma {
       name: string
       imageUrl: string
       inviteCode: string
+      category: $Enums.ServerCategory
       profileId: string
       createdAt: Date
       updatedAt: Date
@@ -4663,6 +4690,7 @@ export namespace Prisma {
     readonly name: FieldRef<"Server", 'String'>
     readonly imageUrl: FieldRef<"Server", 'String'>
     readonly inviteCode: FieldRef<"Server", 'String'>
+    readonly category: FieldRef<"Server", 'ServerCategory'>
     readonly profileId: FieldRef<"Server", 'String'>
     readonly createdAt: FieldRef<"Server", 'DateTime'>
     readonly updatedAt: FieldRef<"Server", 'DateTime'>
@@ -18518,6 +18546,7 @@ export namespace Prisma {
     name: 'name',
     imageUrl: 'imageUrl',
     inviteCode: 'inviteCode',
+    category: 'category',
     profileId: 'profileId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -18730,6 +18759,20 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ServerCategory'
+   */
+  export type EnumServerCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ServerCategory'>
+    
+
+
+  /**
+   * Reference to a field of type 'ServerCategory[]'
+   */
+  export type ListEnumServerCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ServerCategory[]'>
     
 
 
@@ -18956,6 +18999,7 @@ export namespace Prisma {
     name?: StringFilter<"Server"> | string
     imageUrl?: StringFilter<"Server"> | string
     inviteCode?: StringFilter<"Server"> | string
+    category?: EnumServerCategoryFilter<"Server"> | $Enums.ServerCategory
     profileId?: StringFilter<"Server"> | string
     createdAt?: DateTimeFilter<"Server"> | Date | string
     updatedAt?: DateTimeFilter<"Server"> | Date | string
@@ -18971,6 +19015,7 @@ export namespace Prisma {
     name?: SortOrder
     imageUrl?: SortOrder
     inviteCode?: SortOrder
+    category?: SortOrder
     profileId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -18989,6 +19034,7 @@ export namespace Prisma {
     NOT?: ServerWhereInput | ServerWhereInput[]
     name?: StringFilter<"Server"> | string
     imageUrl?: StringFilter<"Server"> | string
+    category?: EnumServerCategoryFilter<"Server"> | $Enums.ServerCategory
     profileId?: StringFilter<"Server"> | string
     createdAt?: DateTimeFilter<"Server"> | Date | string
     updatedAt?: DateTimeFilter<"Server"> | Date | string
@@ -19004,6 +19050,7 @@ export namespace Prisma {
     name?: SortOrder
     imageUrl?: SortOrder
     inviteCode?: SortOrder
+    category?: SortOrder
     profileId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -19020,6 +19067,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Server"> | string
     imageUrl?: StringWithAggregatesFilter<"Server"> | string
     inviteCode?: StringWithAggregatesFilter<"Server"> | string
+    category?: EnumServerCategoryWithAggregatesFilter<"Server"> | $Enums.ServerCategory
     profileId?: StringWithAggregatesFilter<"Server"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Server"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Server"> | Date | string
@@ -19982,6 +20030,7 @@ export namespace Prisma {
     name: string
     imageUrl: string
     inviteCode: string
+    category?: $Enums.ServerCategory
     createdAt?: Date | string
     updatedAt?: Date | string
     profile: ProfileCreateNestedOneWithoutServersInput
@@ -19996,6 +20045,7 @@ export namespace Prisma {
     name: string
     imageUrl: string
     inviteCode: string
+    category?: $Enums.ServerCategory
     profileId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -20010,6 +20060,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     inviteCode?: StringFieldUpdateOperationsInput | string
+    category?: EnumServerCategoryFieldUpdateOperationsInput | $Enums.ServerCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profile?: ProfileUpdateOneRequiredWithoutServersNestedInput
@@ -20024,6 +20075,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     inviteCode?: StringFieldUpdateOperationsInput | string
+    category?: EnumServerCategoryFieldUpdateOperationsInput | $Enums.ServerCategory
     profileId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20038,6 +20090,7 @@ export namespace Prisma {
     name: string
     imageUrl: string
     inviteCode: string
+    category?: $Enums.ServerCategory
     profileId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -20048,6 +20101,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     inviteCode?: StringFieldUpdateOperationsInput | string
+    category?: EnumServerCategoryFieldUpdateOperationsInput | $Enums.ServerCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20057,6 +20111,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     inviteCode?: StringFieldUpdateOperationsInput | string
+    category?: EnumServerCategoryFieldUpdateOperationsInput | $Enums.ServerCategory
     profileId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21064,6 +21119,13 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type EnumServerCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.ServerCategory | EnumServerCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.ServerCategory[] | ListEnumServerCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ServerCategory[] | ListEnumServerCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumServerCategoryFilter<$PrismaModel> | $Enums.ServerCategory
+  }
+
   export type ProfileScalarRelationFilter = {
     is?: ProfileWhereInput
     isNot?: ProfileWhereInput
@@ -21074,6 +21136,7 @@ export namespace Prisma {
     name?: SortOrder
     imageUrl?: SortOrder
     inviteCode?: SortOrder
+    category?: SortOrder
     profileId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -21084,6 +21147,7 @@ export namespace Prisma {
     name?: SortOrder
     imageUrl?: SortOrder
     inviteCode?: SortOrder
+    category?: SortOrder
     profileId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -21094,9 +21158,20 @@ export namespace Prisma {
     name?: SortOrder
     imageUrl?: SortOrder
     inviteCode?: SortOrder
+    category?: SortOrder
     profileId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type EnumServerCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ServerCategory | EnumServerCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.ServerCategory[] | ListEnumServerCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ServerCategory[] | ListEnumServerCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumServerCategoryWithAggregatesFilter<$PrismaModel> | $Enums.ServerCategory
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumServerCategoryFilter<$PrismaModel>
+    _max?: NestedEnumServerCategoryFilter<$PrismaModel>
   }
 
   export type EnumMemberRoleFilter<$PrismaModel = never> = {
@@ -22374,6 +22449,10 @@ export namespace Prisma {
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
+  export type EnumServerCategoryFieldUpdateOperationsInput = {
+    set?: $Enums.ServerCategory
+  }
+
   export type ProfileUpdateOneRequiredWithoutServersNestedInput = {
     create?: XOR<ProfileCreateWithoutServersInput, ProfileUncheckedCreateWithoutServersInput>
     connectOrCreate?: ProfileCreateOrConnectWithoutServersInput
@@ -23297,6 +23376,23 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedEnumServerCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.ServerCategory | EnumServerCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.ServerCategory[] | ListEnumServerCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ServerCategory[] | ListEnumServerCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumServerCategoryFilter<$PrismaModel> | $Enums.ServerCategory
+  }
+
+  export type NestedEnumServerCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ServerCategory | EnumServerCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.ServerCategory[] | ListEnumServerCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ServerCategory[] | ListEnumServerCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumServerCategoryWithAggregatesFilter<$PrismaModel> | $Enums.ServerCategory
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumServerCategoryFilter<$PrismaModel>
+    _max?: NestedEnumServerCategoryFilter<$PrismaModel>
+  }
+
   export type NestedEnumMemberRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.MemberRole | EnumMemberRoleFieldRefInput<$PrismaModel>
     in?: $Enums.MemberRole[] | ListEnumMemberRoleFieldRefInput<$PrismaModel>
@@ -23459,6 +23555,7 @@ export namespace Prisma {
     name: string
     imageUrl: string
     inviteCode: string
+    category?: $Enums.ServerCategory
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: MemberCreateNestedManyWithoutServerInput
@@ -23472,6 +23569,7 @@ export namespace Prisma {
     name: string
     imageUrl: string
     inviteCode: string
+    category?: $Enums.ServerCategory
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: MemberUncheckedCreateNestedManyWithoutServerInput
@@ -23902,6 +24000,7 @@ export namespace Prisma {
     name?: StringFilter<"Server"> | string
     imageUrl?: StringFilter<"Server"> | string
     inviteCode?: StringFilter<"Server"> | string
+    category?: EnumServerCategoryFilter<"Server"> | $Enums.ServerCategory
     profileId?: StringFilter<"Server"> | string
     createdAt?: DateTimeFilter<"Server"> | Date | string
     updatedAt?: DateTimeFilter<"Server"> | Date | string
@@ -24605,6 +24704,7 @@ export namespace Prisma {
     name: string
     imageUrl: string
     inviteCode: string
+    category?: $Enums.ServerCategory
     createdAt?: Date | string
     updatedAt?: Date | string
     profile: ProfileCreateNestedOneWithoutServersInput
@@ -24618,6 +24718,7 @@ export namespace Prisma {
     name: string
     imageUrl: string
     inviteCode: string
+    category?: $Enums.ServerCategory
     profileId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -24850,6 +24951,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     inviteCode?: StringFieldUpdateOperationsInput | string
+    category?: EnumServerCategoryFieldUpdateOperationsInput | $Enums.ServerCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profile?: ProfileUpdateOneRequiredWithoutServersNestedInput
@@ -24863,6 +24965,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     inviteCode?: StringFieldUpdateOperationsInput | string
+    category?: EnumServerCategoryFieldUpdateOperationsInput | $Enums.ServerCategory
     profileId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25037,6 +25140,7 @@ export namespace Prisma {
     name: string
     imageUrl: string
     inviteCode: string
+    category?: $Enums.ServerCategory
     createdAt?: Date | string
     updatedAt?: Date | string
     profile: ProfileCreateNestedOneWithoutServersInput
@@ -25050,6 +25154,7 @@ export namespace Prisma {
     name: string
     imageUrl: string
     inviteCode: string
+    category?: $Enums.ServerCategory
     profileId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -25138,6 +25243,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     inviteCode?: StringFieldUpdateOperationsInput | string
+    category?: EnumServerCategoryFieldUpdateOperationsInput | $Enums.ServerCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profile?: ProfileUpdateOneRequiredWithoutServersNestedInput
@@ -25151,6 +25257,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     inviteCode?: StringFieldUpdateOperationsInput | string
+    category?: EnumServerCategoryFieldUpdateOperationsInput | $Enums.ServerCategory
     profileId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26865,6 +26972,7 @@ export namespace Prisma {
     name: string
     imageUrl: string
     inviteCode: string
+    category?: $Enums.ServerCategory
     createdAt?: Date | string
     updatedAt?: Date | string
     profile: ProfileCreateNestedOneWithoutServersInput
@@ -26878,6 +26986,7 @@ export namespace Prisma {
     name: string
     imageUrl: string
     inviteCode: string
+    category?: $Enums.ServerCategory
     profileId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26966,6 +27075,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     inviteCode?: StringFieldUpdateOperationsInput | string
+    category?: EnumServerCategoryFieldUpdateOperationsInput | $Enums.ServerCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profile?: ProfileUpdateOneRequiredWithoutServersNestedInput
@@ -26979,6 +27089,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     inviteCode?: StringFieldUpdateOperationsInput | string
+    category?: EnumServerCategoryFieldUpdateOperationsInput | $Enums.ServerCategory
     profileId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27098,6 +27209,7 @@ export namespace Prisma {
     name: string
     imageUrl: string
     inviteCode: string
+    category?: $Enums.ServerCategory
     createdAt?: Date | string
     updatedAt?: Date | string
     profile: ProfileCreateNestedOneWithoutServersInput
@@ -27111,6 +27223,7 @@ export namespace Prisma {
     name: string
     imageUrl: string
     inviteCode: string
+    category?: $Enums.ServerCategory
     profileId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -27258,6 +27371,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     inviteCode?: StringFieldUpdateOperationsInput | string
+    category?: EnumServerCategoryFieldUpdateOperationsInput | $Enums.ServerCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profile?: ProfileUpdateOneRequiredWithoutServersNestedInput
@@ -27271,6 +27385,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     inviteCode?: StringFieldUpdateOperationsInput | string
+    category?: EnumServerCategoryFieldUpdateOperationsInput | $Enums.ServerCategory
     profileId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27284,6 +27399,7 @@ export namespace Prisma {
     name: string
     imageUrl: string
     inviteCode: string
+    category?: $Enums.ServerCategory
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -27409,6 +27525,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     inviteCode?: StringFieldUpdateOperationsInput | string
+    category?: EnumServerCategoryFieldUpdateOperationsInput | $Enums.ServerCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: MemberUpdateManyWithoutServerNestedInput
@@ -27422,6 +27539,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     inviteCode?: StringFieldUpdateOperationsInput | string
+    category?: EnumServerCategoryFieldUpdateOperationsInput | $Enums.ServerCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: MemberUncheckedUpdateManyWithoutServerNestedInput
@@ -27435,6 +27553,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     inviteCode?: StringFieldUpdateOperationsInput | string
+    category?: EnumServerCategoryFieldUpdateOperationsInput | $Enums.ServerCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

@@ -28,6 +28,8 @@ import { FileUpload } from "@/components/file-upload";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal-store";
 import { Loader2, Server } from "lucide-react";
+import { ServerCategory } from "@/prisma/generated/postgres";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -37,6 +39,9 @@ const formSchema = z.object({
   }),
   imageUrl: z.string().min(1, {
     message: "Server image is required",
+  }),
+  category: z.nativeEnum(ServerCategory, {
+    message: "Please select a category",
   }),
 });
 
@@ -53,6 +58,7 @@ export const CreateServerModal = () => {
     defaultValues: {
       name: "",
       imageUrl: "",
+      category: ServerCategory.POPULAR,
     },
   });
 
@@ -157,6 +163,37 @@ export const CreateServerModal = () => {
                       </FormControl>
                       <FormDescription className="text-xs text-zinc-400">
                         This is how your server will appear to others
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Server Category Selection */}
+                <FormField
+                  control={form.control}
+                  name="category"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                        Category
+                      </FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="border-0 bg-zinc-100 focus-visible:ring-2 focus-visible:ring-indigo-500 text-black focus-visible:ring-offset-0 transition-all duration-200">
+                            <SelectValue placeholder="Select a category" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value={ServerCategory.POPULAR}>🔥 Popular</SelectItem>
+                          <SelectItem value={ServerCategory.CHRISTIANITY}>✝️ Christianity</SelectItem>
+                          <SelectItem value={ServerCategory.BUSINESS}>💼 Business</SelectItem>
+                          <SelectItem value={ServerCategory.SOCIAL}>👥 Social</SelectItem>
+                          <SelectItem value={ServerCategory.SCIENCE_AND_EDUCATION}>🔬 Science & Education</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormDescription className="text-xs text-zinc-400">
+                        Choose a category to help others discover your server
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
