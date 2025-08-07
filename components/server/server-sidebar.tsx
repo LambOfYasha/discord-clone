@@ -5,10 +5,11 @@ import { ChannelType, MemberRole } from "../../prisma/generated/postgres";
 import { ServerHeader } from "@/components/server/server-header";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ServerSearch } from "@/components/server/server-search";
-import { Hash, Mic, ShieldCheck, Video } from "lucide-react";
+import { Hash, Mic, ShieldCheck, Video, Plus } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { ServerSection } from "@/components/server/server-section";
 import { ServerChannel } from "@/components/server/server-channel";
+import { ServerCategory } from "@/components/server/server-category";
 import { ServerMember } from "@/components/server/server-member";
 import { UserProfile } from "@/components/user/user-profile";
 
@@ -34,6 +35,17 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
     where: { id: serverId },
     include: {
       channels: {
+        include: {
+          category: true,
+        },
+        orderBy: {
+          createdAt: "asc",
+        },
+      },
+      categories: {
+        include: {
+          channels: true,
+        },
         orderBy: {
           createdAt: "asc",
         },
@@ -49,12 +61,17 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
     },
   });
 
-  const textChannels = server?.channels.filter((channel) => {
+  // Separate channels by category and uncategorized
+  const categorizedChannels = server?.categories || [];
+  const uncategorizedChannels = server?.channels.filter((channel) => !channel.categoryId) || [];
+  
+  const uncategorizedTextChannels = uncategorizedChannels.filter((channel) => {
     return channel.type === ChannelType.TEXT;
   });
-  const voiceChannels = server?.channels.filter((channel) => {
+  const uncategorizedVoiceChannels = uncategorizedChannels.filter((channel) => {
     return channel.type === ChannelType.AUDIO;
   });
+  
   const members = server?.members.filter((member) => {
     return member.profileId !== profile.id;
   });
@@ -77,7 +94,7 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
               {
                 label: "Text Channels",
                 type: "channel",
-                data: textChannels?.map((channel) => ({
+                data: uncategorizedTextChannels?.map((channel) => ({
                   id: channel.id,
                   name: channel.name,
                   icon: iconMap[channel.type],
@@ -86,7 +103,7 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
               {
                 label: "Voice Channels",
                 type: "channel",
-                data: voiceChannels?.map((channel) => ({
+                data: uncategorizedVoiceChannels?.map((channel) => ({
                   id: channel.id,
                   name: channel.name,
                   icon: iconMap[channel.type],
@@ -105,7 +122,23 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
           />
         </div>
         <Separator className="bg-zinc-200 dark:bg-zinc-700 rounded-md my-2" />
-        {!!textChannels?.length && (
+        
+        {/* Categories */}
+        {categorizedChannels.map((category) => (
+          <ServerCategory
+            key={category.id}
+            id={category.id}
+            name={category.name}
+            channels={category.channels}
+            role={role}
+            server={server}
+          />
+        ))}
+        
+
+        
+        {/* Uncategorized Channels */}
+        {!!uncategorizedTextChannels?.length && (
           <div className="mb-2">
             <ServerSection
               sectionType="channels"
@@ -114,7 +147,7 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
               label="Text Channels"
             />
             <div className="space-y-[2px]">
-              {textChannels.map((channel) => (
+              {uncategorizedTextChannels.map((channel) => (
                 <ServerChannel
                   key={channel.id}
                   channel={channel}
@@ -125,7 +158,7 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
             </div>
           </div>
         )}
-        {!!voiceChannels?.length && (
+        {!!uncategorizedVoiceChannels?.length && (
           <div className="mb-2">
             <ServerSection
               sectionType="channels"
@@ -134,7 +167,7 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
               label="Voice Channels"
             />
             <div className="space-y-[2px]">
-              {voiceChannels.map((channel) => (
+              {uncategorizedVoiceChannels.map((channel) => (
                 <ServerChannel
                   key={channel.id}
                   channel={channel}

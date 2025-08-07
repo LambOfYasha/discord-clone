@@ -20,6 +20,7 @@ import {
   User,
   Hash,
   X,
+  Folder,
 } from "lucide-react";
 import { useModal } from "@/hooks/use-modal-store";
 import { useState, useEffect } from "react";
@@ -152,6 +153,15 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
             >
               Create Channel
               <PlusCircle className="h-4 w-4 ml-auto" />
+            </DropdownMenuItem>
+          )}
+          {isModerator && (
+            <DropdownMenuItem
+              className="text-sm cursor-pointer px-3 py-2"
+              onClick={() => onOpen("createCategory", { server })}
+            >
+              Create Category
+              <Folder className="h-4 w-4 ml-auto" />
             </DropdownMenuItem>
           )}
           {isModerator && <DropdownMenuSeparator />}

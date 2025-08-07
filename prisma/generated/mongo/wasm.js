@@ -148,6 +148,14 @@ exports.Prisma.GroupMessageScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  serverId: 'serverId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ReactionScalarFieldEnum = {
   id: 'id',
   emoji: 'emoji',
@@ -171,6 +179,7 @@ exports.Prisma.ModelName = {
   Message: 'Message',
   DirectMessage: 'DirectMessage',
   GroupMessage: 'GroupMessage',
+  Category: 'Category',
   Reaction: 'Reaction'
 };
 

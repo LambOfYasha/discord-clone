@@ -161,6 +161,15 @@ exports.Prisma.ChannelScalarFieldEnum = {
   type: 'type',
   profileId: 'profileId',
   serverId: 'serverId',
+  categoryId: 'categoryId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  serverId: 'serverId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -344,6 +353,7 @@ exports.Prisma.ModelName = {
   Server: 'Server',
   Member: 'Member',
   Channel: 'Channel',
+  Category: 'Category',
   Conversation: 'Conversation',
   GroupConversation: 'GroupConversation',
   GroupConversationMember: 'GroupConversationMember',

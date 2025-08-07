@@ -51,6 +51,7 @@ model Server {
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
   members Member[]
   channels Channel[]
+  categories Category[]
   serverFollows ServerFollow[]
   notificationsRelated Notification[] @relation("NotificationRelatedServer")
   createdAt DateTime @default(now())
@@ -86,10 +87,24 @@ model Channel {
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
   serverId String
   server Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  categoryId String?
+  category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("channels")
+}
+
+model Category {
+  id String @id @default(uuid())
+  name String
+  serverId String
+  server Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  channels Channel[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("categories")
 }
 
 model Conversation {

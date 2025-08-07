@@ -50,6 +50,16 @@ model GroupMessage {
   @@map("group_messages")
 }
 
+model Category {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  serverId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("categories")
+}
+
 model Reaction {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   emoji     String

@@ -50,6 +50,7 @@ const formSchema = z.object({
       message: "Channel name can not be 'general'",
     }),
   type: z.nativeEnum(ChannelType),
+  categoryId: z.string().optional(),
 });
 
 export const CreateChannelModal = () => {
@@ -58,14 +59,17 @@ export const CreateChannelModal = () => {
   const router = useRouter();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(false);
   const isModalOpen = isOpen && type === "createChannel";
-  const { channelType } = data;
+  const { channelType, categoryId } = data;
   
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       type: channelType || ChannelType.TEXT,
+      categoryId: categoryId || undefined,
     },
   });
   
@@ -75,9 +79,33 @@ export const CreateChannelModal = () => {
     } else {
       form.setValue("type", ChannelType.TEXT);
     }
-  }, [channelType, form]);
+    if (categoryId) {
+      form.setValue("categoryId", categoryId);
+    }
+  }, [channelType, categoryId, form]);
 
   const isLoading = form.formState.isSubmitting;
+
+  // Fetch categories when modal opens
+  useEffect(() => {
+    if (isModalOpen) {
+      fetchCategories();
+    }
+  }, [isModalOpen]);
+
+  const fetchCategories = async () => {
+    if (!params?.serverId) return;
+    
+    setIsLoadingCategories(true);
+    try {
+      const response = await axios.get(`/api/categories?serverId=${params.serverId}`);
+      setCategories(response.data);
+    } catch (error) {
+      console.error("Failed to fetch categories:", error);
+    } finally {
+      setIsLoadingCategories(false);
+    }
+  };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -88,7 +116,14 @@ export const CreateChannelModal = () => {
           serverId: params?.serverId,
         },
       });
-      await axios.post(url, values);
+      
+      // Handle categoryId - if it's "none", send null
+      const channelData = {
+        ...values,
+        categoryId: values.categoryId === "none" ? null : values.categoryId,
+      };
+      
+      await axios.post(url, channelData);
       form.reset();
       onClose();
       router.refresh();
@@ -202,6 +237,44 @@ export const CreateChannelModal = () => {
                       </Select>
                       <FormDescription className="text-xs text-zinc-400">
                         Choose how members will interact in this channel
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Category Select */}
+                <FormField
+                  control={form.control}
+                  name="categoryId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                        Category (Optional)
+                      </FormLabel>
+                      <Select
+                        value={field.value}
+                        onValueChange={field.onChange}
+                        disabled={isLoading}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="bg-zinc-100 border-0 focus:ring-2 focus:ring-indigo-500 text-black ring-offset-0 capitalize focus:ring-offset-0 outline-none transition-all duration-200">
+                            <SelectValue placeholder="Select a category (optional)" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="none">
+                            No Category
+                          </SelectItem>
+                          {categories.map((category) => (
+                            <SelectItem key={category.id} value={category.id}>
+                              {category.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormDescription className="text-xs text-zinc-400">
+                        Choose a category to organize this channel
                       </FormDescription>
                       <FormMessage />
                     </FormItem>

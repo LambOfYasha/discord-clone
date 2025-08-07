@@ -55,7 +55,7 @@ export async function DELETE(req: Request, { params }: { params: Params }) {
 export async function PATCH(req: Request, { params }: { params: Params }) {
   try {
     const profile = await currentProfile();
-    const { name, type } = await req.json();
+    const { name, type, categoryId } = await req.json();
     const { searchParams } = new URL(req.url);
     const serverId = searchParams.get("serverId");
     const { channelId } = await params;
@@ -68,9 +68,7 @@ export async function PATCH(req: Request, { params }: { params: Params }) {
     if (!channelId) {
       return new NextResponse("Channel ID missing", { status: 400 });
     }
-    if (name === "general") {
-      return new NextResponse("Name cannot be 'general'", { status: 400 });
-    }
+
     const isAuthorized = await db.member.findFirst({
       where: {
         profileId: profile.id,
@@ -89,7 +87,11 @@ export async function PATCH(req: Request, { params }: { params: Params }) {
       where: {
         id: channelId,
       },
-      data: { name, type },
+      data: { 
+        name, 
+        type, 
+        categoryId: categoryId === "none" ? null : categoryId 
+      },
     });
 
     return NextResponse.json(updatedChannel);
