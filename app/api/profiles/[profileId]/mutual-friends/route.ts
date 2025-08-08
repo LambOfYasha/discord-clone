@@ -4,9 +4,10 @@ import { postgres } from "@/lib/db";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { profileId: string } }
+  { params }: { params: Promise<{ profileId: string }> }
 ) {
   try {
+    const { profileId } = await params;
     const currentUserProfile = await currentProfile();
     if (!currentUserProfile) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -31,11 +32,11 @@ export async function GET(
           {
             OR: [
               {
-                requesterProfileId: params.profileId,
+                requesterProfileId: profileId,
                 status: "ACCEPTED",
               },
               {
-                targetProfileId: params.profileId,
+                targetProfileId: profileId,
                 status: "ACCEPTED",
               },
             ],
@@ -66,11 +67,11 @@ export async function GET(
           {
             OR: [
               {
-                requesterProfileId: params.profileId,
+                requesterProfileId: profileId,
                 status: "ACCEPTED",
               },
               {
-                targetProfileId: params.profileId,
+                targetProfileId: profileId,
                 status: "ACCEPTED",
               },
             ],
@@ -86,7 +87,7 @@ export async function GET(
     // Find mutual friends
     const mutualFriendProfiles = [];
     targetUserFriends.forEach((request) => {
-      const friendProfile = request.requesterProfileId === params.profileId 
+      const friendProfile = request.requesterProfileId === profileId 
         ? request.targetProfile 
         : request.requesterProfile;
       
