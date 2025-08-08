@@ -36,7 +36,7 @@ export async function PATCH(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { name, imageUrl, email } = body;
+    const { name, imageUrl, email, status } = body;
 
     const profile = await postgres.profile.findUnique({
       where: {
@@ -56,6 +56,7 @@ export async function PATCH(req: NextRequest) {
         ...(name && { name }),
         ...(imageUrl && { imageUrl }),
         ...(email && { email }),
+        ...(status && { status }),
       },
     });
 

@@ -12,6 +12,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -22,6 +29,7 @@ const formSchema = z.object({
   name: z.string().min(1, "Name is required").max(50, "Name must be less than 50 characters"),
   email: z.string().email("Invalid email address"),
   imageUrl: z.string().url("Invalid image URL").optional().or(z.literal("")),
+  status: z.enum(["ONLINE", "IDLE", "DO_NOT_DISTURB", "INVISIBLE"]),
 });
 
 interface ProfileFormProps {
@@ -30,6 +38,7 @@ interface ProfileFormProps {
     name: string;
     imageUrl: string;
     email: string;
+    status?: string;
   };
 }
 
@@ -45,6 +54,7 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
       name: initialData.name,
       email: initialData.email,
       imageUrl: initialData.imageUrl,
+      status: (initialData.status as "ONLINE" | "IDLE" | "DO_NOT_DISTURB" | "INVISIBLE") || "ONLINE",
     },
   });
 
@@ -57,6 +67,7 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
         name: values.name,
         email: values.email,
         imageUrl: values.imageUrl || "",
+        status: values.status,
       });
 
       if (updatedProfile) {
@@ -126,6 +137,30 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
                     {...field}
                   />
                 </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <FormField
+            control={form.control}
+            name="status"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Status</FormLabel>
+                <Select disabled={isLoading} onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select your status" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="ONLINE">Online</SelectItem>
+                    <SelectItem value="IDLE">Idle</SelectItem>
+                    <SelectItem value="DO_NOT_DISTURB">Do Not Disturb</SelectItem>
+                    <SelectItem value="INVISIBLE">Invisible</SelectItem>
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}

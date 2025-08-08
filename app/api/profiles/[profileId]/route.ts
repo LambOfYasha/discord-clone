@@ -4,9 +4,10 @@ import { postgres } from "@/lib/db";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { profileId: string } }
+  { params }: { params: Promise<{ profileId: string }> }
 ) {
   try {
+    const { profileId } = await params;
     const profile = await currentProfile();
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -14,7 +15,7 @@ export async function GET(
 
     const targetProfile = await postgres.profile.findUnique({
       where: {
-        id: params.profileId,
+        id: profileId,
       },
     });
 
@@ -31,16 +32,17 @@ export async function GET(
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { profileId: string } }
+  { params }: { params: Promise<{ profileId: string }> }
 ) {
   try {
+    const { profileId } = await params;
     const profile = await currentProfile();
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
     // Only allow users to update their own profile
-    if (profile.id !== params.profileId) {
+    if (profile.id !== profileId) {
       return new NextResponse("Forbidden", { status: 403 });
     }
 
@@ -49,7 +51,7 @@ export async function PATCH(
 
     const updatedProfile = await postgres.profile.update({
       where: {
-        id: params.profileId,
+        id: profileId,
       },
       data: {
         nickname,

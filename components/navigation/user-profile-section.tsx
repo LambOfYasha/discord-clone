@@ -23,8 +23,48 @@ interface UserProfileSectionProps {
     name: string;
     imageUrl: string;
     email: string;
+    status?: string;
   };
 }
+
+const StatusIndicator = ({ status }: { status?: string }) => {
+  const getStatusColor = (status?: string) => {
+    switch (status) {
+      case "ONLINE":
+        return "bg-green-500";
+      case "IDLE":
+        return "bg-yellow-500";
+      case "DO_NOT_DISTURB":
+        return "bg-red-500";
+      case "INVISIBLE":
+        return "bg-gray-500";
+      default:
+        return "bg-green-500";
+    }
+  };
+
+  const getStatusText = (status?: string) => {
+    switch (status) {
+      case "ONLINE":
+        return "Online";
+      case "IDLE":
+        return "Idle";
+      case "DO_NOT_DISTURB":
+        return "Do Not Disturb";
+      case "INVISIBLE":
+        return "Invisible";
+      default:
+        return "Online";
+    }
+  };
+
+  return (
+    <div className="flex items-center gap-1">
+      <div className={cn("w-2 h-2 rounded-full", getStatusColor(status))} />
+      <span className="text-xs text-muted-foreground">{getStatusText(status)}</span>
+    </div>
+  );
+};
 
 export const UserProfileSection = ({ profile: initialProfile }: UserProfileSectionProps) => {
   const { signOut } = useClerk();
@@ -49,6 +89,7 @@ export const UserProfileSection = ({ profile: initialProfile }: UserProfileSecti
   const displayName = profile?.name || "User";
   const displayEmail = profile?.email || "";
   const displayImage = profile?.imageUrl || "";
+  const displayStatus = profile?.status || "ONLINE";
 
   if (loading) {
     return (
@@ -101,11 +142,7 @@ export const UserProfileSection = ({ profile: initialProfile }: UserProfileSecti
                     <p className="text-sm font-semibold text-zinc-700 dark:text-zinc-200 truncate max-w-[120px]">
                       {displayName}
                     </p>
-                    {displayEmail && (
-                      <p className="text-xs text-zinc-500 dark:text-zinc-400 truncate max-w-[120px]">
-                        {displayEmail}
-                      </p>
-                    )}
+                    <StatusIndicator status={displayStatus} />
                   </div>
                 )}
               </Button>
@@ -115,6 +152,7 @@ export const UserProfileSection = ({ profile: initialProfile }: UserProfileSecti
         <DropdownMenuContent className="w-56" align="end" alignOffset={11} forceMount>
           <div className="flex flex-col space-y-1 p-2">
             <p className="text-sm font-medium leading-none">{displayName}</p>
+            <StatusIndicator status={displayStatus} />
             {displayEmail && (
               <p className="text-xs leading-none text-muted-foreground">
                 {displayEmail}

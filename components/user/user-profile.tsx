@@ -30,6 +30,7 @@ import { useRouter } from "next/navigation";
 import { UserAvatar } from "@/components/user-avatar";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { useModal } from "@/hooks/use-modal-store";
+import { cn } from "@/lib/utils";
 
 interface UserProfileProps {
   collapsed?: boolean;
@@ -39,14 +40,59 @@ interface UserProfileProps {
     name: string;
     imageUrl: string;
     email: string;
+    status?: string;
+    userId?: string;
+    nickname?: string;
+    bio?: string;
+    website?: string;
+    socialMedia?: any;
   };
   user?: {
     name: string;
     email: string;
     imageUrl?: string;
-    status?: "online" | "idle" | "dnd" | "offline";
+    status?: "ONLINE" | "IDLE" | "DO_NOT_DISTURB" | "INVISIBLE";
   };
 }
+
+const StatusIndicator = ({ status }: { status?: string }) => {
+  const getStatusColor = (status?: string) => {
+    switch (status) {
+      case "ONLINE":
+        return "bg-green-500";
+      case "IDLE":
+        return "bg-yellow-500";
+      case "DO_NOT_DISTURB":
+        return "bg-red-500";
+      case "INVISIBLE":
+        return "bg-gray-500";
+      default:
+        return "bg-green-500";
+    }
+  };
+
+  const getStatusText = (status?: string) => {
+    switch (status) {
+      case "ONLINE":
+        return "Online";
+      case "IDLE":
+        return "Idle";
+      case "DO_NOT_DISTURB":
+        return "Do Not Disturb";
+      case "INVISIBLE":
+        return "Invisible";
+      default:
+        return "Online";
+    }
+  };
+
+  return (
+    <div className="flex items-center gap-1">
+      <div className={cn("w-2 h-2 rounded-full", getStatusColor(status))} />
+      <span className="text-xs text-muted-foreground">{getStatusText(status)}</span>
+    </div>
+  );
+};
 
 export const UserProfile = ({ 
   collapsed = false, 
@@ -55,7 +101,7 @@ export const UserProfile = ({
   user = {
     name: "אביר (Brian)",
     email: "brian@example.com",
-    status: "idle"
+    status: "IDLE"
   }
 }: UserProfileProps) => {
   const [isMuted, setIsMuted] = useState(false);
@@ -77,30 +123,11 @@ export const UserProfile = ({
   const displayName = profile?.name || user.name;
   const displayEmail = profile?.email || user.email;
   const displayImage = profile?.imageUrl || user.imageUrl || "";
+  const displayStatus = profile?.status || user.status || "ONLINE";
 
   // Generate initials for avatar fallback
   const getInitials = (name: string) => {
     return name.split(' ').map(n => n.charAt(0)).join('').toUpperCase().slice(0, 2);
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "online": return "bg-green-500";
-      case "idle": return "bg-yellow-500";
-      case "dnd": return "bg-red-500";
-      case "offline": return "bg-gray-500";
-      default: return "bg-yellow-500";
-    }
-  };
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case "online": return "Online";
-      case "idle": return "Idle";
-      case "dnd": return "Do Not Disturb";
-      case "offline": return "Offline";
-      default: return "Idle";
-    }
   };
 
   const handleSignOut = () => {
@@ -169,7 +196,20 @@ export const UserProfile = ({
                 onClick={(e) => {
                   e.stopPropagation();
                   if (profile) {
-                    onOpen("userProfile", { profile });
+                    onOpen("userProfile", { 
+                      profile: {
+                        id: profile.id,
+                        name: profile.name,
+                        imageUrl: profile.imageUrl,
+                        email: profile.email,
+                        status: profile.status,
+                        userId: profile.id, // Use id as userId since that's what we have
+                        nickname: undefined,
+                        bio: undefined,
+                        website: undefined,
+                        socialMedia: undefined
+                      }
+                    });
                   }
                 }}
                 className="cursor-pointer"
@@ -186,7 +226,20 @@ export const UserProfile = ({
                 onClick={(e) => {
                   e.stopPropagation();
                   if (profile) {
-                    onOpen("userProfile", { profile });
+                    onOpen("userProfile", { 
+                      profile: {
+                        id: profile.id,
+                        name: profile.name,
+                        imageUrl: profile.imageUrl,
+                        email: profile.email,
+                        status: profile.status,
+                        userId: profile.id, // Use id as userId since that's what we have
+                        nickname: undefined,
+                        bio: undefined,
+                        website: undefined,
+                        socialMedia: undefined
+                      }
+                    });
                   }
                 }}
                 className="cursor-pointer"
@@ -195,7 +248,7 @@ export const UserProfile = ({
               </div>
               <div className="flex flex-col">
                 <p className="text-sm font-medium">{displayName}</p>
-                <p className="text-xs text-gray-500">{displayEmail}</p>
+                <StatusIndicator status={displayStatus} />
               </div>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
@@ -239,7 +292,20 @@ export const UserProfile = ({
         <div
           onClick={() => {
             if (profile) {
-              onOpen("userProfile", { profile });
+              onOpen("userProfile", { 
+                profile: {
+                  id: profile.id,
+                  name: profile.name,
+                  imageUrl: profile.imageUrl,
+                  email: profile.email,
+                  status: profile.status,
+                  userId: profile.id, // Use id as userId since that's what we have
+                  nickname: undefined,
+                  bio: undefined,
+                  website: undefined,
+                  socialMedia: undefined
+                }
+              });
             }
           }}
           className="cursor-pointer"
@@ -250,7 +316,7 @@ export const UserProfile = ({
           <>
             <div className="flex-1 min-w-0">
               <p className="text-sm text-white truncate">{displayName}</p>
-              <p className="text-xs text-gray-400">{getStatusText(user.status || "idle")}</p>
+              <StatusIndicator status={displayStatus} />
             </div>
             <div className="flex items-center space-x-1">
               <Button
@@ -287,7 +353,20 @@ export const UserProfile = ({
                       onClick={(e) => {
                         e.stopPropagation();
                         if (profile) {
-                          onOpen("userProfile", { profile });
+                          onOpen("userProfile", { 
+                            profile: {
+                              id: profile.id,
+                              name: profile.name,
+                              imageUrl: profile.imageUrl,
+                              email: profile.email,
+                              status: profile.status,
+                              userId: profile.id, // Use id as userId since that's what we have
+                              nickname: undefined,
+                              bio: undefined,
+                              website: undefined,
+                              socialMedia: undefined
+                            }
+                          });
                         }
                       }}
                       className="cursor-pointer"
@@ -296,7 +375,7 @@ export const UserProfile = ({
                     </div>
                     <div className="flex flex-col">
                       <p className="text-sm font-medium">{displayName}</p>
-                      <p className="text-xs text-gray-500">{displayEmail}</p>
+                      <StatusIndicator status={displayStatus} />
                     </div>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />

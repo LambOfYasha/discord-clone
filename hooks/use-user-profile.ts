@@ -8,6 +8,7 @@ interface UserProfile {
   name: string;
   imageUrl: string;
   email: string;
+  status?: string;
 }
 
 export const useUserProfile = () => {
@@ -35,6 +36,7 @@ export const useUserProfile = () => {
             name: `${user.firstName || ""} ${user.lastName || ""}`.trim() || "User",
             imageUrl: user.imageUrl || "",
             email: user.emailAddresses[0]?.emailAddress || "",
+            status: "ONLINE",
           });
         }
       } catch (error) {
@@ -45,6 +47,7 @@ export const useUserProfile = () => {
           name: `${user.firstName || ""} ${user.lastName || ""}`.trim() || "User",
           imageUrl: user.imageUrl || "",
           email: user.emailAddresses[0]?.emailAddress || "",
+          status: "ONLINE",
         });
       } finally {
         setLoading(false);
