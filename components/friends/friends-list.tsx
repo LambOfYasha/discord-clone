@@ -16,7 +16,8 @@ import {
   Users,
   Check,
   X,
-  Trash2
+  Trash2,
+  Filter
 } from "lucide-react";
 import { useModal } from "@/hooks/use-modal-store";
 import { useRouter } from "next/navigation";
@@ -66,6 +67,7 @@ interface DirectMessage {
 export const FriendsList = () => {
   const [activeTab, setActiveTab] = useState("online");
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchFilter, setSearchFilter] = useState<"all" | "online" | "offline">("all");
   const [friends, setFriends] = useState<Friend[]>([]);
   const [pendingRequests, setPendingRequests] = useState<PendingRequest[]>([]);
   const [directMessages, setDirectMessages] = useState<DirectMessage[]>([]);
@@ -81,6 +83,22 @@ export const FriendsList = () => {
 
   useEffect(() => {
     fetchFriendsData();
+  }, []);
+
+  // Keyboard shortcut for search (Ctrl+F)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key === 'f') {
+        e.preventDefault();
+        const searchInput = document.getElementById('friends-search-input');
+        if (searchInput) {
+          searchInput.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   const fetchFriendsData = async () => {
@@ -250,13 +268,38 @@ export const FriendsList = () => {
     });
   };
 
-  const filteredFriends = friends.filter(friend =>
-    friend.profile.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    friend.profile.email.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Enhanced filtering logic
+  const getFilteredFriends = () => {
+    let filtered = friends;
 
+    // Filter by search query
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(friend =>
+        friend.profile.name.toLowerCase().includes(query) ||
+        friend.profile.email.toLowerCase().includes(query) ||
+        friend.statusText.toLowerCase().includes(query)
+      );
+    }
+
+    // Filter by status
+    if (searchFilter === "online") {
+      filtered = filtered.filter(friend => friend.status === "online");
+    } else if (searchFilter === "offline") {
+      filtered = filtered.filter(friend => friend.status !== "online");
+    }
+
+    return filtered;
+  };
+
+  const filteredFriends = getFilteredFriends();
   const onlineFriends = filteredFriends.filter(friend => friend.status === "online");
   const allFriends = filteredFriends;
+
+  const clearSearch = () => {
+    setSearchQuery("");
+    setSearchFilter("all");
+  };
 
   const renderFriendItem = (friend: Friend) => (
     <div key={friend.id} className="flex items-center justify-between p-3 rounded-lg hover:bg-[#1E1F22]">
@@ -395,16 +438,62 @@ export const FriendsList = () => {
         </div>
       </div>
 
-      {/* Search */}
+      {/* Enhanced Search */}
       <div className="p-4 border-b border-[#1E1F22] bg-[#2B2D31]">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-          <Input
-            placeholder="Search"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-[#1E1F22] border-[#1E1F22] text-white placeholder:text-gray-400"
-          />
+        <div className="space-y-3">
+          {/* Search Input */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Input
+              id="friends-search-input"
+              placeholder="Search friends by name, email, or status... (Ctrl+F)"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 pr-10 bg-[#1E1F22] border-[#1E1F22] text-white placeholder:text-gray-400"
+            />
+            {searchQuery && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={clearSearch}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0 text-gray-400 hover:text-white"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
+          
+          {/* Search Filters */}
+          {(searchQuery || searchFilter !== "all") && (
+            <div className="flex items-center space-x-2">
+              <Filter className="h-4 w-4 text-gray-400" />
+              <span className="text-sm text-gray-400">Filter:</span>
+              <Button
+                variant={searchFilter === "all" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSearchFilter("all")}
+                className="h-6 text-xs"
+              >
+                All
+              </Button>
+              <Button
+                variant={searchFilter === "online" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSearchFilter("online")}
+                className="h-6 text-xs"
+              >
+                Online
+              </Button>
+              <Button
+                variant={searchFilter === "offline" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSearchFilter("offline")}
+                className="h-6 text-xs"
+              >
+                Offline
+              </Button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -421,12 +510,19 @@ export const FriendsList = () => {
                 <div>
                   <h3 className="text-sm font-semibold text-gray-400 mb-4">
                     Online — {onlineFriends.length}
+                    {searchQuery && (
+                      <span className="text-xs text-gray-500 ml-2">
+                        (filtered from {friends.filter(f => f.status === "online").length})
+                      </span>
+                    )}
                   </h3>
                   
                   <div className="space-y-2">
                     {onlineFriends.length === 0 ? (
                       <div className="text-center py-4">
-                        <p className="text-gray-400">No friends online</p>
+                        <p className="text-gray-400">
+                          {searchQuery ? "No online friends match your search" : "No friends online"}
+                        </p>
                       </div>
                     ) : (
                       onlineFriends.map(renderFriendItem)
@@ -439,12 +535,19 @@ export const FriendsList = () => {
                 <div>
                   <h3 className="text-sm font-semibold text-gray-400 mb-4">
                     All Friends — {allFriends.length}
+                    {searchQuery && (
+                      <span className="text-xs text-gray-500 ml-2">
+                        (filtered from {friends.length})
+                      </span>
+                    )}
                   </h3>
                   
                   <div className="space-y-2">
                     {allFriends.length === 0 ? (
                       <div className="text-center py-4">
-                        <p className="text-gray-400">No friends yet</p>
+                        <p className="text-gray-400">
+                          {searchQuery ? "No friends match your search" : "No friends yet"}
+                        </p>
                       </div>
                     ) : (
                       allFriends.map(renderFriendItem)

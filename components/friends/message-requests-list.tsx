@@ -13,12 +13,14 @@ import {
   Check,
   X,
   MoreVertical,
-  Search
+  Search,
+  Filter
 } from "lucide-react";
 import { useModal } from "@/hooks/use-modal-store";
 
 export const MessageRequestsList = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchFilter, setSearchFilter] = useState<"all" | "messages" | "friends">("all");
   const [activeTab, setActiveTab] = useState("requests");
   const [pendingFriendRequests, setPendingFriendRequests] = useState<any[]>([]);
   const [pendingMessageRequests, setPendingMessageRequests] = useState<any[]>([]);
@@ -27,6 +29,22 @@ export const MessageRequestsList = () => {
 
   useEffect(() => {
     fetchAllRequests();
+  }, []);
+
+  // Keyboard shortcut for search (Ctrl+F)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key === 'f') {
+        e.preventDefault();
+        const searchInput = document.getElementById('requests-search-input');
+        if (searchInput) {
+          searchInput.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   const fetchAllRequests = async () => {
@@ -124,6 +142,44 @@ export const MessageRequestsList = () => {
     }
   };
 
+  // Enhanced filtering logic
+  const getFilteredMessageRequests = () => {
+    let filtered = pendingMessageRequests;
+
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(request =>
+        request.requesterProfile.name.toLowerCase().includes(query) ||
+        request.requesterProfile.email.toLowerCase().includes(query) ||
+        request.message?.toLowerCase().includes(query)
+      );
+    }
+
+    return filtered;
+  };
+
+  const getFilteredFriendRequests = () => {
+    let filtered = pendingFriendRequests;
+
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(request =>
+        request.requesterProfile.name.toLowerCase().includes(query) ||
+        request.requesterProfile.email.toLowerCase().includes(query)
+      );
+    }
+
+    return filtered;
+  };
+
+  const filteredMessageRequests = getFilteredMessageRequests();
+  const filteredFriendRequests = getFilteredFriendRequests();
+
+  const clearSearch = () => {
+    setSearchQuery("");
+    setSearchFilter("all");
+  };
+
   return (
     <div className="h-full flex flex-col">
       {/* Header */}
@@ -143,7 +199,7 @@ export const MessageRequestsList = () => {
             onClick={() => setActiveTab("requests")}
             className={activeTab === "requests" ? "bg-[#5865F2] text-white" : "text-gray-400 hover:text-white"}
           >
-            Message Requests
+            Message Requests ({filteredMessageRequests.length})
           </Button>
           <Button
             variant={activeTab === "friends" ? "default" : "ghost"}
@@ -151,21 +207,67 @@ export const MessageRequestsList = () => {
             onClick={() => setActiveTab("friends")}
             className={activeTab === "friends" ? "bg-[#5865F2] text-white" : "text-gray-400 hover:text-white"}
           >
-            Friend Requests
+            Friend Requests ({filteredFriendRequests.length})
           </Button>
         </div>
       </div>
 
-      {/* Search */}
+      {/* Enhanced Search */}
       <div className="p-4 border-b border-[#1E1F22] bg-[#2B2D31]">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-          <Input
-            placeholder="Search requests..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-[#1E1F22] border-[#1E1F22] text-white placeholder:text-gray-400"
-          />
+        <div className="space-y-3">
+          {/* Search Input */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Input
+              id="requests-search-input"
+              placeholder="Search requests by name, email, or message... (Ctrl+F)"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 pr-10 bg-[#1E1F22] border-[#1E1F22] text-white placeholder:text-gray-400"
+            />
+            {searchQuery && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={clearSearch}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0 text-gray-400 hover:text-white"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
+          
+          {/* Search Filters */}
+          {(searchQuery || searchFilter !== "all") && (
+            <div className="flex items-center space-x-2">
+              <Filter className="h-4 w-4 text-gray-400" />
+              <span className="text-sm text-gray-400">Filter:</span>
+              <Button
+                variant={searchFilter === "all" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSearchFilter("all")}
+                className="h-6 text-xs"
+              >
+                All
+              </Button>
+              <Button
+                variant={searchFilter === "messages" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSearchFilter("messages")}
+                className="h-6 text-xs"
+              >
+                Messages
+              </Button>
+              <Button
+                variant={searchFilter === "friends" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSearchFilter("friends")}
+                className="h-6 text-xs"
+              >
+                Friends
+              </Button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -181,16 +283,24 @@ export const MessageRequestsList = () => {
               {activeTab === "requests" && (
                 <div>
                   <h3 className="text-sm font-semibold text-gray-400 mb-4">
-                    Message Requests — {pendingMessageRequests.length}
+                    Message Requests — {filteredMessageRequests.length}
+                    {searchQuery && (
+                      <span className="text-xs text-gray-500 ml-2">
+                        (filtered from {pendingMessageRequests.length})
+                      </span>
+                    )}
                   </h3>
                   
                   <div className="space-y-3">
-                    {pendingMessageRequests.length === 0 ? (
+                    {filteredMessageRequests.length === 0 ? (
                       <div className="text-center py-8">
-                        <p className="text-gray-400">No message requests</p>
+                        <MessageSquare className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                        <p className="text-gray-400">
+                          {searchQuery ? "No message requests match your search" : "No message requests"}
+                        </p>
                       </div>
                     ) : (
-                      pendingMessageRequests.map((request) => (
+                      filteredMessageRequests.map((request) => (
                         <div key={request.id} className="bg-[#1E1F22] rounded-lg p-4">
                           <div className="flex items-start space-x-3">
                             <div
@@ -249,16 +359,24 @@ export const MessageRequestsList = () => {
               {activeTab === "friends" && (
                 <div>
                   <h3 className="text-sm font-semibold text-gray-400 mb-4">
-                    Friend Requests — {pendingFriendRequests.length}
+                    Friend Requests — {filteredFriendRequests.length}
+                    {searchQuery && (
+                      <span className="text-xs text-gray-500 ml-2">
+                        (filtered from {pendingFriendRequests.length})
+                      </span>
+                    )}
                   </h3>
                   
                   <div className="space-y-3">
-                    {pendingFriendRequests.length === 0 ? (
+                    {filteredFriendRequests.length === 0 ? (
                       <div className="text-center py-8">
-                        <p className="text-gray-400">No pending friend requests</p>
+                        <User className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                        <p className="text-gray-400">
+                          {searchQuery ? "No friend requests match your search" : "No pending friend requests"}
+                        </p>
                       </div>
                     ) : (
-                      pendingFriendRequests.map((request) => (
+                      filteredFriendRequests.map((request) => (
                         <div key={request.id} className="bg-[#1E1F22] rounded-lg p-4">
                           <div className="flex items-start space-x-3">
                             <div
