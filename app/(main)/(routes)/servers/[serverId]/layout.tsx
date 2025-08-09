@@ -3,6 +3,8 @@ import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import { CreateEventModal } from "@/components/modals/create-event-modal";
+import { EventsModal } from "@/components/modals/events-modal";
 
 const ServerIdLayout = async ({
   children,
@@ -47,6 +49,9 @@ const ServerIdLayout = async ({
         <ServerSidebar serverId={serverId} />
       </div>
       <main className="h-full md:pl-60">{children}</main>
+      {/* Quick-mounted modals for server routes */}
+      <CreateEventModal />
+      <EventsModal />
     </div>
   );
 };

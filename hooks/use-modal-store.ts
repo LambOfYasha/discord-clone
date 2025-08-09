@@ -1,4 +1,4 @@
-import { Channel, ChannelType, Server } from "@/prisma/generated/postgres";
+import { Channel, ChannelType, Server, MemberRole } from "@/prisma/generated/postgres";
 import { create } from "zustand";
 export type ModalType =
   | "createServer"
@@ -26,9 +26,13 @@ export type ModalType =
   | "sendMessageRequest"
   | "userProfile"
   | "createThread"
+  | "createEvent"
+  | "eventsList"
   | "forwardMessage";
 interface ModalData {
   server?: Server;
+  event?: any;
+  role?: MemberRole;
   channel?: Channel;
   channelType?: ChannelType;
   apiUrl?: string;
@@ -100,10 +104,21 @@ export const useModal = create<ModalStore>((set) => ({
   data: {},
   isOpen: false,
   onOpen: (type, data = {}) =>
-    set({
-      isOpen: true,
-      type,
-      data,
+    set(() => {
+      if (typeof window !== "undefined") {
+        console.log("[useModal] onOpen", type, data);
+      }
+      return {
+        isOpen: true,
+        type,
+        data,
+      };
     }),
-  onClose: () => set({ type: null, isOpen: false }),
+  onClose: () =>
+    set(() => {
+      if (typeof window !== "undefined") {
+        console.log("[useModal] onClose");
+      }
+      return { type: null, isOpen: false };
+    }),
 }));

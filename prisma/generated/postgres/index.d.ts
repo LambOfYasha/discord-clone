@@ -93,6 +93,11 @@ export type Thread = $Result.DefaultSelection<Prisma.$ThreadPayload>
  * 
  */
 export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
+/**
+ * Model ServerEvent
+ * 
+ */
+export type ServerEvent = $Result.DefaultSelection<Prisma.$ServerEventPayload>
 
 /**
  * Enums
@@ -175,6 +180,23 @@ export const UserStatus: {
 
 export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
 
+
+export const EventType: {
+  VOICE: 'VOICE',
+  OTHER: 'OTHER'
+};
+
+export type EventType = (typeof EventType)[keyof typeof EventType]
+
+
+export const OtherEventLocationType: {
+  TEXT_CHANNEL: 'TEXT_CHANNEL',
+  EXTERNAL: 'EXTERNAL',
+  LOCATION: 'LOCATION'
+};
+
+export type OtherEventLocationType = (typeof OtherEventLocationType)[keyof typeof OtherEventLocationType]
+
 }
 
 export type MemberRole = $Enums.MemberRole
@@ -208,6 +230,14 @@ export const NotificationType: typeof $Enums.NotificationType
 export type UserStatus = $Enums.UserStatus
 
 export const UserStatus: typeof $Enums.UserStatus
+
+export type EventType = $Enums.EventType
+
+export const EventType: typeof $Enums.EventType
+
+export type OtherEventLocationType = $Enums.OtherEventLocationType
+
+export const OtherEventLocationType: typeof $Enums.OtherEventLocationType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -493,6 +523,16 @@ export class PrismaClient<
     * ```
     */
   get notification(): Prisma.NotificationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.serverEvent`: Exposes CRUD operations for the **ServerEvent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ServerEvents
+    * const serverEvents = await prisma.serverEvent.findMany()
+    * ```
+    */
+  get serverEvent(): Prisma.ServerEventDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -948,7 +988,8 @@ export namespace Prisma {
     Follow: 'Follow',
     ServerFollow: 'ServerFollow',
     Thread: 'Thread',
-    Notification: 'Notification'
+    Notification: 'Notification',
+    ServerEvent: 'ServerEvent'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -967,7 +1008,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "profile" | "server" | "member" | "channel" | "category" | "conversation" | "groupConversation" | "groupConversationMember" | "groupMessage" | "directMessage" | "friendRequest" | "messageRequest" | "follow" | "serverFollow" | "thread" | "notification"
+      modelProps: "profile" | "server" | "member" | "channel" | "category" | "conversation" | "groupConversation" | "groupConversationMember" | "groupMessage" | "directMessage" | "friendRequest" | "messageRequest" | "follow" | "serverFollow" | "thread" | "notification" | "serverEvent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2155,6 +2196,80 @@ export namespace Prisma {
           }
         }
       }
+      ServerEvent: {
+        payload: Prisma.$ServerEventPayload<ExtArgs>
+        fields: Prisma.ServerEventFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ServerEventFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServerEventPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ServerEventFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServerEventPayload>
+          }
+          findFirst: {
+            args: Prisma.ServerEventFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServerEventPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ServerEventFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServerEventPayload>
+          }
+          findMany: {
+            args: Prisma.ServerEventFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServerEventPayload>[]
+          }
+          create: {
+            args: Prisma.ServerEventCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServerEventPayload>
+          }
+          createMany: {
+            args: Prisma.ServerEventCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ServerEventCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServerEventPayload>[]
+          }
+          delete: {
+            args: Prisma.ServerEventDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServerEventPayload>
+          }
+          update: {
+            args: Prisma.ServerEventUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServerEventPayload>
+          }
+          deleteMany: {
+            args: Prisma.ServerEventDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ServerEventUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ServerEventUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServerEventPayload>[]
+          }
+          upsert: {
+            args: Prisma.ServerEventUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServerEventPayload>
+          }
+          aggregate: {
+            args: Prisma.ServerEventAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateServerEvent>
+          }
+          groupBy: {
+            args: Prisma.ServerEventGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ServerEventGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ServerEventCountArgs<ExtArgs>
+            result: $Utils.Optional<ServerEventCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2255,6 +2370,7 @@ export namespace Prisma {
     serverFollow?: ServerFollowOmit
     thread?: ThreadOmit
     notification?: NotificationOmit
+    serverEvent?: ServerEventOmit
   }
 
   /* Types for Logging */
@@ -2364,6 +2480,7 @@ export namespace Prisma {
     serverFollows: number
     notificationsReceived: number
     notificationsRelated: number
+    serverEventsCreated: number
   }
 
   export type ProfileCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2382,6 +2499,7 @@ export namespace Prisma {
     serverFollows?: boolean | ProfileCountOutputTypeCountServerFollowsArgs
     notificationsReceived?: boolean | ProfileCountOutputTypeCountNotificationsReceivedArgs
     notificationsRelated?: boolean | ProfileCountOutputTypeCountNotificationsRelatedArgs
+    serverEventsCreated?: boolean | ProfileCountOutputTypeCountServerEventsCreatedArgs
   }
 
   // Custom InputTypes
@@ -2500,6 +2618,13 @@ export namespace Prisma {
     where?: NotificationWhereInput
   }
 
+  /**
+   * ProfileCountOutputType without action
+   */
+  export type ProfileCountOutputTypeCountServerEventsCreatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServerEventWhereInput
+  }
+
 
   /**
    * Count Type ServerCountOutputType
@@ -2511,6 +2636,7 @@ export namespace Prisma {
     categories: number
     serverFollows: number
     notificationsRelated: number
+    events: number
   }
 
   export type ServerCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2519,6 +2645,7 @@ export namespace Prisma {
     categories?: boolean | ServerCountOutputTypeCountCategoriesArgs
     serverFollows?: boolean | ServerCountOutputTypeCountServerFollowsArgs
     notificationsRelated?: boolean | ServerCountOutputTypeCountNotificationsRelatedArgs
+    events?: boolean | ServerCountOutputTypeCountEventsArgs
   }
 
   // Custom InputTypes
@@ -2565,6 +2692,13 @@ export namespace Prisma {
    */
   export type ServerCountOutputTypeCountNotificationsRelatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NotificationWhereInput
+  }
+
+  /**
+   * ServerCountOutputType without action
+   */
+  export type ServerCountOutputTypeCountEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServerEventWhereInput
   }
 
 
@@ -2641,10 +2775,14 @@ export namespace Prisma {
 
   export type ChannelCountOutputType = {
     threads: number
+    voiceEvents: number
+    textEvents: number
   }
 
   export type ChannelCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     threads?: boolean | ChannelCountOutputTypeCountThreadsArgs
+    voiceEvents?: boolean | ChannelCountOutputTypeCountVoiceEventsArgs
+    textEvents?: boolean | ChannelCountOutputTypeCountTextEventsArgs
   }
 
   // Custom InputTypes
@@ -2663,6 +2801,20 @@ export namespace Prisma {
    */
   export type ChannelCountOutputTypeCountThreadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ThreadWhereInput
+  }
+
+  /**
+   * ChannelCountOutputType without action
+   */
+  export type ChannelCountOutputTypeCountVoiceEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServerEventWhereInput
+  }
+
+  /**
+   * ChannelCountOutputType without action
+   */
+  export type ChannelCountOutputTypeCountTextEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServerEventWhereInput
   }
 
 
@@ -3003,6 +3155,7 @@ export namespace Prisma {
     serverFollows?: boolean | Profile$serverFollowsArgs<ExtArgs>
     notificationsReceived?: boolean | Profile$notificationsReceivedArgs<ExtArgs>
     notificationsRelated?: boolean | Profile$notificationsRelatedArgs<ExtArgs>
+    serverEventsCreated?: boolean | Profile$serverEventsCreatedArgs<ExtArgs>
     _count?: boolean | ProfileCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["profile"]>
 
@@ -3068,6 +3221,7 @@ export namespace Prisma {
     serverFollows?: boolean | Profile$serverFollowsArgs<ExtArgs>
     notificationsReceived?: boolean | Profile$notificationsReceivedArgs<ExtArgs>
     notificationsRelated?: boolean | Profile$notificationsRelatedArgs<ExtArgs>
+    serverEventsCreated?: boolean | Profile$serverEventsCreatedArgs<ExtArgs>
     _count?: boolean | ProfileCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProfileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3091,6 +3245,7 @@ export namespace Prisma {
       serverFollows: Prisma.$ServerFollowPayload<ExtArgs>[]
       notificationsReceived: Prisma.$NotificationPayload<ExtArgs>[]
       notificationsRelated: Prisma.$NotificationPayload<ExtArgs>[]
+      serverEventsCreated: Prisma.$ServerEventPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3514,6 +3669,7 @@ export namespace Prisma {
     serverFollows<T extends Profile$serverFollowsArgs<ExtArgs> = {}>(args?: Subset<T, Profile$serverFollowsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServerFollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notificationsReceived<T extends Profile$notificationsReceivedArgs<ExtArgs> = {}>(args?: Subset<T, Profile$notificationsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notificationsRelated<T extends Profile$notificationsRelatedArgs<ExtArgs> = {}>(args?: Subset<T, Profile$notificationsRelatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    serverEventsCreated<T extends Profile$serverEventsCreatedArgs<ExtArgs> = {}>(args?: Subset<T, Profile$serverEventsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServerEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4303,6 +4459,30 @@ export namespace Prisma {
   }
 
   /**
+   * Profile.serverEventsCreated
+   */
+  export type Profile$serverEventsCreatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerEvent
+     */
+    select?: ServerEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerEvent
+     */
+    omit?: ServerEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerEventInclude<ExtArgs> | null
+    where?: ServerEventWhereInput
+    orderBy?: ServerEventOrderByWithRelationInput | ServerEventOrderByWithRelationInput[]
+    cursor?: ServerEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ServerEventScalarFieldEnum | ServerEventScalarFieldEnum[]
+  }
+
+  /**
    * Profile without action
    */
   export type ProfileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4515,6 +4695,7 @@ export namespace Prisma {
     categories?: boolean | Server$categoriesArgs<ExtArgs>
     serverFollows?: boolean | Server$serverFollowsArgs<ExtArgs>
     notificationsRelated?: boolean | Server$notificationsRelatedArgs<ExtArgs>
+    events?: boolean | Server$eventsArgs<ExtArgs>
     _count?: boolean | ServerCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["server"]>
 
@@ -4561,6 +4742,7 @@ export namespace Prisma {
     categories?: boolean | Server$categoriesArgs<ExtArgs>
     serverFollows?: boolean | Server$serverFollowsArgs<ExtArgs>
     notificationsRelated?: boolean | Server$notificationsRelatedArgs<ExtArgs>
+    events?: boolean | Server$eventsArgs<ExtArgs>
     _count?: boolean | ServerCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ServerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4579,6 +4761,7 @@ export namespace Prisma {
       categories: Prisma.$CategoryPayload<ExtArgs>[]
       serverFollows: Prisma.$ServerFollowPayload<ExtArgs>[]
       notificationsRelated: Prisma.$NotificationPayload<ExtArgs>[]
+      events: Prisma.$ServerEventPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4989,6 +5172,7 @@ export namespace Prisma {
     categories<T extends Server$categoriesArgs<ExtArgs> = {}>(args?: Subset<T, Server$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     serverFollows<T extends Server$serverFollowsArgs<ExtArgs> = {}>(args?: Subset<T, Server$serverFollowsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServerFollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notificationsRelated<T extends Server$notificationsRelatedArgs<ExtArgs> = {}>(args?: Subset<T, Server$notificationsRelatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    events<T extends Server$eventsArgs<ExtArgs> = {}>(args?: Subset<T, Server$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServerEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5539,6 +5723,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Server.events
+   */
+  export type Server$eventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerEvent
+     */
+    select?: ServerEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerEvent
+     */
+    omit?: ServerEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerEventInclude<ExtArgs> | null
+    where?: ServerEventWhereInput
+    orderBy?: ServerEventOrderByWithRelationInput | ServerEventOrderByWithRelationInput[]
+    cursor?: ServerEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ServerEventScalarFieldEnum | ServerEventScalarFieldEnum[]
   }
 
   /**
@@ -6973,6 +7181,8 @@ export namespace Prisma {
     server?: boolean | ServerDefaultArgs<ExtArgs>
     category?: boolean | Channel$categoryArgs<ExtArgs>
     threads?: boolean | Channel$threadsArgs<ExtArgs>
+    voiceEvents?: boolean | Channel$voiceEventsArgs<ExtArgs>
+    textEvents?: boolean | Channel$textEventsArgs<ExtArgs>
     _count?: boolean | ChannelCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["channel"]>
 
@@ -7021,6 +7231,8 @@ export namespace Prisma {
     server?: boolean | ServerDefaultArgs<ExtArgs>
     category?: boolean | Channel$categoryArgs<ExtArgs>
     threads?: boolean | Channel$threadsArgs<ExtArgs>
+    voiceEvents?: boolean | Channel$voiceEventsArgs<ExtArgs>
+    textEvents?: boolean | Channel$textEventsArgs<ExtArgs>
     _count?: boolean | ChannelCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ChannelIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7041,6 +7253,8 @@ export namespace Prisma {
       server: Prisma.$ServerPayload<ExtArgs>
       category: Prisma.$CategoryPayload<ExtArgs> | null
       threads: Prisma.$ThreadPayload<ExtArgs>[]
+      voiceEvents: Prisma.$ServerEventPayload<ExtArgs>[]
+      textEvents: Prisma.$ServerEventPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7449,6 +7663,8 @@ export namespace Prisma {
     server<T extends ServerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServerDefaultArgs<ExtArgs>>): Prisma__ServerClient<$Result.GetResult<Prisma.$ServerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     category<T extends Channel$categoryArgs<ExtArgs> = {}>(args?: Subset<T, Channel$categoryArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     threads<T extends Channel$threadsArgs<ExtArgs> = {}>(args?: Subset<T, Channel$threadsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ThreadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    voiceEvents<T extends Channel$voiceEventsArgs<ExtArgs> = {}>(args?: Subset<T, Channel$voiceEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServerEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    textEvents<T extends Channel$textEventsArgs<ExtArgs> = {}>(args?: Subset<T, Channel$textEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServerEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7922,6 +8138,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ThreadScalarFieldEnum | ThreadScalarFieldEnum[]
+  }
+
+  /**
+   * Channel.voiceEvents
+   */
+  export type Channel$voiceEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerEvent
+     */
+    select?: ServerEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerEvent
+     */
+    omit?: ServerEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerEventInclude<ExtArgs> | null
+    where?: ServerEventWhereInput
+    orderBy?: ServerEventOrderByWithRelationInput | ServerEventOrderByWithRelationInput[]
+    cursor?: ServerEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ServerEventScalarFieldEnum | ServerEventScalarFieldEnum[]
+  }
+
+  /**
+   * Channel.textEvents
+   */
+  export type Channel$textEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerEvent
+     */
+    select?: ServerEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerEvent
+     */
+    omit?: ServerEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerEventInclude<ExtArgs> | null
+    where?: ServerEventWhereInput
+    orderBy?: ServerEventOrderByWithRelationInput | ServerEventOrderByWithRelationInput[]
+    cursor?: ServerEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ServerEventScalarFieldEnum | ServerEventScalarFieldEnum[]
   }
 
   /**
@@ -21147,6 +21411,1256 @@ export namespace Prisma {
 
 
   /**
+   * Model ServerEvent
+   */
+
+  export type AggregateServerEvent = {
+    _count: ServerEventCountAggregateOutputType | null
+    _min: ServerEventMinAggregateOutputType | null
+    _max: ServerEventMaxAggregateOutputType | null
+  }
+
+  export type ServerEventMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    description: string | null
+    type: $Enums.EventType | null
+    otherLocationType: $Enums.OtherEventLocationType | null
+    serverId: string | null
+    creatorProfileId: string | null
+    voiceChannelId: string | null
+    textChannelId: string | null
+    externalUrl: string | null
+    location: string | null
+    scheduledStartTime: Date | null
+    scheduledEndTime: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ServerEventMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    description: string | null
+    type: $Enums.EventType | null
+    otherLocationType: $Enums.OtherEventLocationType | null
+    serverId: string | null
+    creatorProfileId: string | null
+    voiceChannelId: string | null
+    textChannelId: string | null
+    externalUrl: string | null
+    location: string | null
+    scheduledStartTime: Date | null
+    scheduledEndTime: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ServerEventCountAggregateOutputType = {
+    id: number
+    title: number
+    description: number
+    type: number
+    otherLocationType: number
+    serverId: number
+    creatorProfileId: number
+    voiceChannelId: number
+    textChannelId: number
+    externalUrl: number
+    location: number
+    scheduledStartTime: number
+    scheduledEndTime: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ServerEventMinAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    type?: true
+    otherLocationType?: true
+    serverId?: true
+    creatorProfileId?: true
+    voiceChannelId?: true
+    textChannelId?: true
+    externalUrl?: true
+    location?: true
+    scheduledStartTime?: true
+    scheduledEndTime?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ServerEventMaxAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    type?: true
+    otherLocationType?: true
+    serverId?: true
+    creatorProfileId?: true
+    voiceChannelId?: true
+    textChannelId?: true
+    externalUrl?: true
+    location?: true
+    scheduledStartTime?: true
+    scheduledEndTime?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ServerEventCountAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    type?: true
+    otherLocationType?: true
+    serverId?: true
+    creatorProfileId?: true
+    voiceChannelId?: true
+    textChannelId?: true
+    externalUrl?: true
+    location?: true
+    scheduledStartTime?: true
+    scheduledEndTime?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ServerEventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ServerEvent to aggregate.
+     */
+    where?: ServerEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServerEvents to fetch.
+     */
+    orderBy?: ServerEventOrderByWithRelationInput | ServerEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ServerEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServerEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServerEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ServerEvents
+    **/
+    _count?: true | ServerEventCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ServerEventMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ServerEventMaxAggregateInputType
+  }
+
+  export type GetServerEventAggregateType<T extends ServerEventAggregateArgs> = {
+        [P in keyof T & keyof AggregateServerEvent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateServerEvent[P]>
+      : GetScalarType<T[P], AggregateServerEvent[P]>
+  }
+
+
+
+
+  export type ServerEventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServerEventWhereInput
+    orderBy?: ServerEventOrderByWithAggregationInput | ServerEventOrderByWithAggregationInput[]
+    by: ServerEventScalarFieldEnum[] | ServerEventScalarFieldEnum
+    having?: ServerEventScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ServerEventCountAggregateInputType | true
+    _min?: ServerEventMinAggregateInputType
+    _max?: ServerEventMaxAggregateInputType
+  }
+
+  export type ServerEventGroupByOutputType = {
+    id: string
+    title: string
+    description: string | null
+    type: $Enums.EventType
+    otherLocationType: $Enums.OtherEventLocationType | null
+    serverId: string
+    creatorProfileId: string
+    voiceChannelId: string | null
+    textChannelId: string | null
+    externalUrl: string | null
+    location: string | null
+    scheduledStartTime: Date
+    scheduledEndTime: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ServerEventCountAggregateOutputType | null
+    _min: ServerEventMinAggregateOutputType | null
+    _max: ServerEventMaxAggregateOutputType | null
+  }
+
+  type GetServerEventGroupByPayload<T extends ServerEventGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ServerEventGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ServerEventGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ServerEventGroupByOutputType[P]>
+            : GetScalarType<T[P], ServerEventGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ServerEventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    type?: boolean
+    otherLocationType?: boolean
+    serverId?: boolean
+    creatorProfileId?: boolean
+    voiceChannelId?: boolean
+    textChannelId?: boolean
+    externalUrl?: boolean
+    location?: boolean
+    scheduledStartTime?: boolean
+    scheduledEndTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    server?: boolean | ServerDefaultArgs<ExtArgs>
+    creatorProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    voiceChannel?: boolean | ServerEvent$voiceChannelArgs<ExtArgs>
+    textChannel?: boolean | ServerEvent$textChannelArgs<ExtArgs>
+  }, ExtArgs["result"]["serverEvent"]>
+
+  export type ServerEventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    type?: boolean
+    otherLocationType?: boolean
+    serverId?: boolean
+    creatorProfileId?: boolean
+    voiceChannelId?: boolean
+    textChannelId?: boolean
+    externalUrl?: boolean
+    location?: boolean
+    scheduledStartTime?: boolean
+    scheduledEndTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    server?: boolean | ServerDefaultArgs<ExtArgs>
+    creatorProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    voiceChannel?: boolean | ServerEvent$voiceChannelArgs<ExtArgs>
+    textChannel?: boolean | ServerEvent$textChannelArgs<ExtArgs>
+  }, ExtArgs["result"]["serverEvent"]>
+
+  export type ServerEventSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    type?: boolean
+    otherLocationType?: boolean
+    serverId?: boolean
+    creatorProfileId?: boolean
+    voiceChannelId?: boolean
+    textChannelId?: boolean
+    externalUrl?: boolean
+    location?: boolean
+    scheduledStartTime?: boolean
+    scheduledEndTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    server?: boolean | ServerDefaultArgs<ExtArgs>
+    creatorProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    voiceChannel?: boolean | ServerEvent$voiceChannelArgs<ExtArgs>
+    textChannel?: boolean | ServerEvent$textChannelArgs<ExtArgs>
+  }, ExtArgs["result"]["serverEvent"]>
+
+  export type ServerEventSelectScalar = {
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    type?: boolean
+    otherLocationType?: boolean
+    serverId?: boolean
+    creatorProfileId?: boolean
+    voiceChannelId?: boolean
+    textChannelId?: boolean
+    externalUrl?: boolean
+    location?: boolean
+    scheduledStartTime?: boolean
+    scheduledEndTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ServerEventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "type" | "otherLocationType" | "serverId" | "creatorProfileId" | "voiceChannelId" | "textChannelId" | "externalUrl" | "location" | "scheduledStartTime" | "scheduledEndTime" | "createdAt" | "updatedAt", ExtArgs["result"]["serverEvent"]>
+  export type ServerEventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    server?: boolean | ServerDefaultArgs<ExtArgs>
+    creatorProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    voiceChannel?: boolean | ServerEvent$voiceChannelArgs<ExtArgs>
+    textChannel?: boolean | ServerEvent$textChannelArgs<ExtArgs>
+  }
+  export type ServerEventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    server?: boolean | ServerDefaultArgs<ExtArgs>
+    creatorProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    voiceChannel?: boolean | ServerEvent$voiceChannelArgs<ExtArgs>
+    textChannel?: boolean | ServerEvent$textChannelArgs<ExtArgs>
+  }
+  export type ServerEventIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    server?: boolean | ServerDefaultArgs<ExtArgs>
+    creatorProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+    voiceChannel?: boolean | ServerEvent$voiceChannelArgs<ExtArgs>
+    textChannel?: boolean | ServerEvent$textChannelArgs<ExtArgs>
+  }
+
+  export type $ServerEventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ServerEvent"
+    objects: {
+      server: Prisma.$ServerPayload<ExtArgs>
+      creatorProfile: Prisma.$ProfilePayload<ExtArgs>
+      voiceChannel: Prisma.$ChannelPayload<ExtArgs> | null
+      textChannel: Prisma.$ChannelPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      description: string | null
+      type: $Enums.EventType
+      otherLocationType: $Enums.OtherEventLocationType | null
+      serverId: string
+      creatorProfileId: string
+      voiceChannelId: string | null
+      textChannelId: string | null
+      externalUrl: string | null
+      location: string | null
+      scheduledStartTime: Date
+      scheduledEndTime: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["serverEvent"]>
+    composites: {}
+  }
+
+  type ServerEventGetPayload<S extends boolean | null | undefined | ServerEventDefaultArgs> = $Result.GetResult<Prisma.$ServerEventPayload, S>
+
+  type ServerEventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ServerEventFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ServerEventCountAggregateInputType | true
+    }
+
+  export interface ServerEventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ServerEvent'], meta: { name: 'ServerEvent' } }
+    /**
+     * Find zero or one ServerEvent that matches the filter.
+     * @param {ServerEventFindUniqueArgs} args - Arguments to find a ServerEvent
+     * @example
+     * // Get one ServerEvent
+     * const serverEvent = await prisma.serverEvent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ServerEventFindUniqueArgs>(args: SelectSubset<T, ServerEventFindUniqueArgs<ExtArgs>>): Prisma__ServerEventClient<$Result.GetResult<Prisma.$ServerEventPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ServerEvent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ServerEventFindUniqueOrThrowArgs} args - Arguments to find a ServerEvent
+     * @example
+     * // Get one ServerEvent
+     * const serverEvent = await prisma.serverEvent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ServerEventFindUniqueOrThrowArgs>(args: SelectSubset<T, ServerEventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ServerEventClient<$Result.GetResult<Prisma.$ServerEventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ServerEvent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServerEventFindFirstArgs} args - Arguments to find a ServerEvent
+     * @example
+     * // Get one ServerEvent
+     * const serverEvent = await prisma.serverEvent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ServerEventFindFirstArgs>(args?: SelectSubset<T, ServerEventFindFirstArgs<ExtArgs>>): Prisma__ServerEventClient<$Result.GetResult<Prisma.$ServerEventPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ServerEvent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServerEventFindFirstOrThrowArgs} args - Arguments to find a ServerEvent
+     * @example
+     * // Get one ServerEvent
+     * const serverEvent = await prisma.serverEvent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ServerEventFindFirstOrThrowArgs>(args?: SelectSubset<T, ServerEventFindFirstOrThrowArgs<ExtArgs>>): Prisma__ServerEventClient<$Result.GetResult<Prisma.$ServerEventPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ServerEvents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServerEventFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ServerEvents
+     * const serverEvents = await prisma.serverEvent.findMany()
+     * 
+     * // Get first 10 ServerEvents
+     * const serverEvents = await prisma.serverEvent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const serverEventWithIdOnly = await prisma.serverEvent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ServerEventFindManyArgs>(args?: SelectSubset<T, ServerEventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServerEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ServerEvent.
+     * @param {ServerEventCreateArgs} args - Arguments to create a ServerEvent.
+     * @example
+     * // Create one ServerEvent
+     * const ServerEvent = await prisma.serverEvent.create({
+     *   data: {
+     *     // ... data to create a ServerEvent
+     *   }
+     * })
+     * 
+     */
+    create<T extends ServerEventCreateArgs>(args: SelectSubset<T, ServerEventCreateArgs<ExtArgs>>): Prisma__ServerEventClient<$Result.GetResult<Prisma.$ServerEventPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ServerEvents.
+     * @param {ServerEventCreateManyArgs} args - Arguments to create many ServerEvents.
+     * @example
+     * // Create many ServerEvents
+     * const serverEvent = await prisma.serverEvent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ServerEventCreateManyArgs>(args?: SelectSubset<T, ServerEventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ServerEvents and returns the data saved in the database.
+     * @param {ServerEventCreateManyAndReturnArgs} args - Arguments to create many ServerEvents.
+     * @example
+     * // Create many ServerEvents
+     * const serverEvent = await prisma.serverEvent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ServerEvents and only return the `id`
+     * const serverEventWithIdOnly = await prisma.serverEvent.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ServerEventCreateManyAndReturnArgs>(args?: SelectSubset<T, ServerEventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServerEventPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ServerEvent.
+     * @param {ServerEventDeleteArgs} args - Arguments to delete one ServerEvent.
+     * @example
+     * // Delete one ServerEvent
+     * const ServerEvent = await prisma.serverEvent.delete({
+     *   where: {
+     *     // ... filter to delete one ServerEvent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ServerEventDeleteArgs>(args: SelectSubset<T, ServerEventDeleteArgs<ExtArgs>>): Prisma__ServerEventClient<$Result.GetResult<Prisma.$ServerEventPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ServerEvent.
+     * @param {ServerEventUpdateArgs} args - Arguments to update one ServerEvent.
+     * @example
+     * // Update one ServerEvent
+     * const serverEvent = await prisma.serverEvent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ServerEventUpdateArgs>(args: SelectSubset<T, ServerEventUpdateArgs<ExtArgs>>): Prisma__ServerEventClient<$Result.GetResult<Prisma.$ServerEventPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ServerEvents.
+     * @param {ServerEventDeleteManyArgs} args - Arguments to filter ServerEvents to delete.
+     * @example
+     * // Delete a few ServerEvents
+     * const { count } = await prisma.serverEvent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ServerEventDeleteManyArgs>(args?: SelectSubset<T, ServerEventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ServerEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServerEventUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ServerEvents
+     * const serverEvent = await prisma.serverEvent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ServerEventUpdateManyArgs>(args: SelectSubset<T, ServerEventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ServerEvents and returns the data updated in the database.
+     * @param {ServerEventUpdateManyAndReturnArgs} args - Arguments to update many ServerEvents.
+     * @example
+     * // Update many ServerEvents
+     * const serverEvent = await prisma.serverEvent.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ServerEvents and only return the `id`
+     * const serverEventWithIdOnly = await prisma.serverEvent.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ServerEventUpdateManyAndReturnArgs>(args: SelectSubset<T, ServerEventUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServerEventPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ServerEvent.
+     * @param {ServerEventUpsertArgs} args - Arguments to update or create a ServerEvent.
+     * @example
+     * // Update or create a ServerEvent
+     * const serverEvent = await prisma.serverEvent.upsert({
+     *   create: {
+     *     // ... data to create a ServerEvent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ServerEvent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ServerEventUpsertArgs>(args: SelectSubset<T, ServerEventUpsertArgs<ExtArgs>>): Prisma__ServerEventClient<$Result.GetResult<Prisma.$ServerEventPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ServerEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServerEventCountArgs} args - Arguments to filter ServerEvents to count.
+     * @example
+     * // Count the number of ServerEvents
+     * const count = await prisma.serverEvent.count({
+     *   where: {
+     *     // ... the filter for the ServerEvents we want to count
+     *   }
+     * })
+    **/
+    count<T extends ServerEventCountArgs>(
+      args?: Subset<T, ServerEventCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ServerEventCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ServerEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServerEventAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ServerEventAggregateArgs>(args: Subset<T, ServerEventAggregateArgs>): Prisma.PrismaPromise<GetServerEventAggregateType<T>>
+
+    /**
+     * Group by ServerEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServerEventGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ServerEventGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ServerEventGroupByArgs['orderBy'] }
+        : { orderBy?: ServerEventGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ServerEventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetServerEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ServerEvent model
+   */
+  readonly fields: ServerEventFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ServerEvent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ServerEventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    server<T extends ServerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServerDefaultArgs<ExtArgs>>): Prisma__ServerClient<$Result.GetResult<Prisma.$ServerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    creatorProfile<T extends ProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProfileDefaultArgs<ExtArgs>>): Prisma__ProfileClient<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    voiceChannel<T extends ServerEvent$voiceChannelArgs<ExtArgs> = {}>(args?: Subset<T, ServerEvent$voiceChannelArgs<ExtArgs>>): Prisma__ChannelClient<$Result.GetResult<Prisma.$ChannelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    textChannel<T extends ServerEvent$textChannelArgs<ExtArgs> = {}>(args?: Subset<T, ServerEvent$textChannelArgs<ExtArgs>>): Prisma__ChannelClient<$Result.GetResult<Prisma.$ChannelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ServerEvent model
+   */
+  interface ServerEventFieldRefs {
+    readonly id: FieldRef<"ServerEvent", 'String'>
+    readonly title: FieldRef<"ServerEvent", 'String'>
+    readonly description: FieldRef<"ServerEvent", 'String'>
+    readonly type: FieldRef<"ServerEvent", 'EventType'>
+    readonly otherLocationType: FieldRef<"ServerEvent", 'OtherEventLocationType'>
+    readonly serverId: FieldRef<"ServerEvent", 'String'>
+    readonly creatorProfileId: FieldRef<"ServerEvent", 'String'>
+    readonly voiceChannelId: FieldRef<"ServerEvent", 'String'>
+    readonly textChannelId: FieldRef<"ServerEvent", 'String'>
+    readonly externalUrl: FieldRef<"ServerEvent", 'String'>
+    readonly location: FieldRef<"ServerEvent", 'String'>
+    readonly scheduledStartTime: FieldRef<"ServerEvent", 'DateTime'>
+    readonly scheduledEndTime: FieldRef<"ServerEvent", 'DateTime'>
+    readonly createdAt: FieldRef<"ServerEvent", 'DateTime'>
+    readonly updatedAt: FieldRef<"ServerEvent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ServerEvent findUnique
+   */
+  export type ServerEventFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerEvent
+     */
+    select?: ServerEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerEvent
+     */
+    omit?: ServerEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ServerEvent to fetch.
+     */
+    where: ServerEventWhereUniqueInput
+  }
+
+  /**
+   * ServerEvent findUniqueOrThrow
+   */
+  export type ServerEventFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerEvent
+     */
+    select?: ServerEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerEvent
+     */
+    omit?: ServerEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ServerEvent to fetch.
+     */
+    where: ServerEventWhereUniqueInput
+  }
+
+  /**
+   * ServerEvent findFirst
+   */
+  export type ServerEventFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerEvent
+     */
+    select?: ServerEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerEvent
+     */
+    omit?: ServerEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ServerEvent to fetch.
+     */
+    where?: ServerEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServerEvents to fetch.
+     */
+    orderBy?: ServerEventOrderByWithRelationInput | ServerEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ServerEvents.
+     */
+    cursor?: ServerEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServerEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServerEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ServerEvents.
+     */
+    distinct?: ServerEventScalarFieldEnum | ServerEventScalarFieldEnum[]
+  }
+
+  /**
+   * ServerEvent findFirstOrThrow
+   */
+  export type ServerEventFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerEvent
+     */
+    select?: ServerEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerEvent
+     */
+    omit?: ServerEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ServerEvent to fetch.
+     */
+    where?: ServerEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServerEvents to fetch.
+     */
+    orderBy?: ServerEventOrderByWithRelationInput | ServerEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ServerEvents.
+     */
+    cursor?: ServerEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServerEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServerEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ServerEvents.
+     */
+    distinct?: ServerEventScalarFieldEnum | ServerEventScalarFieldEnum[]
+  }
+
+  /**
+   * ServerEvent findMany
+   */
+  export type ServerEventFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerEvent
+     */
+    select?: ServerEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerEvent
+     */
+    omit?: ServerEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ServerEvents to fetch.
+     */
+    where?: ServerEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServerEvents to fetch.
+     */
+    orderBy?: ServerEventOrderByWithRelationInput | ServerEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ServerEvents.
+     */
+    cursor?: ServerEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServerEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServerEvents.
+     */
+    skip?: number
+    distinct?: ServerEventScalarFieldEnum | ServerEventScalarFieldEnum[]
+  }
+
+  /**
+   * ServerEvent create
+   */
+  export type ServerEventCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerEvent
+     */
+    select?: ServerEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerEvent
+     */
+    omit?: ServerEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerEventInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ServerEvent.
+     */
+    data: XOR<ServerEventCreateInput, ServerEventUncheckedCreateInput>
+  }
+
+  /**
+   * ServerEvent createMany
+   */
+  export type ServerEventCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ServerEvents.
+     */
+    data: ServerEventCreateManyInput | ServerEventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ServerEvent createManyAndReturn
+   */
+  export type ServerEventCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerEvent
+     */
+    select?: ServerEventSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerEvent
+     */
+    omit?: ServerEventOmit<ExtArgs> | null
+    /**
+     * The data used to create many ServerEvents.
+     */
+    data: ServerEventCreateManyInput | ServerEventCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerEventIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ServerEvent update
+   */
+  export type ServerEventUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerEvent
+     */
+    select?: ServerEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerEvent
+     */
+    omit?: ServerEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerEventInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ServerEvent.
+     */
+    data: XOR<ServerEventUpdateInput, ServerEventUncheckedUpdateInput>
+    /**
+     * Choose, which ServerEvent to update.
+     */
+    where: ServerEventWhereUniqueInput
+  }
+
+  /**
+   * ServerEvent updateMany
+   */
+  export type ServerEventUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ServerEvents.
+     */
+    data: XOR<ServerEventUpdateManyMutationInput, ServerEventUncheckedUpdateManyInput>
+    /**
+     * Filter which ServerEvents to update
+     */
+    where?: ServerEventWhereInput
+    /**
+     * Limit how many ServerEvents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ServerEvent updateManyAndReturn
+   */
+  export type ServerEventUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerEvent
+     */
+    select?: ServerEventSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerEvent
+     */
+    omit?: ServerEventOmit<ExtArgs> | null
+    /**
+     * The data used to update ServerEvents.
+     */
+    data: XOR<ServerEventUpdateManyMutationInput, ServerEventUncheckedUpdateManyInput>
+    /**
+     * Filter which ServerEvents to update
+     */
+    where?: ServerEventWhereInput
+    /**
+     * Limit how many ServerEvents to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerEventIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ServerEvent upsert
+   */
+  export type ServerEventUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerEvent
+     */
+    select?: ServerEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerEvent
+     */
+    omit?: ServerEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerEventInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ServerEvent to update in case it exists.
+     */
+    where: ServerEventWhereUniqueInput
+    /**
+     * In case the ServerEvent found by the `where` argument doesn't exist, create a new ServerEvent with this data.
+     */
+    create: XOR<ServerEventCreateInput, ServerEventUncheckedCreateInput>
+    /**
+     * In case the ServerEvent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ServerEventUpdateInput, ServerEventUncheckedUpdateInput>
+  }
+
+  /**
+   * ServerEvent delete
+   */
+  export type ServerEventDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerEvent
+     */
+    select?: ServerEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerEvent
+     */
+    omit?: ServerEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerEventInclude<ExtArgs> | null
+    /**
+     * Filter which ServerEvent to delete.
+     */
+    where: ServerEventWhereUniqueInput
+  }
+
+  /**
+   * ServerEvent deleteMany
+   */
+  export type ServerEventDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ServerEvents to delete
+     */
+    where?: ServerEventWhereInput
+    /**
+     * Limit how many ServerEvents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ServerEvent.voiceChannel
+   */
+  export type ServerEvent$voiceChannelArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Channel
+     */
+    select?: ChannelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Channel
+     */
+    omit?: ChannelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChannelInclude<ExtArgs> | null
+    where?: ChannelWhereInput
+  }
+
+  /**
+   * ServerEvent.textChannel
+   */
+  export type ServerEvent$textChannelArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Channel
+     */
+    select?: ChannelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Channel
+     */
+    omit?: ChannelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChannelInclude<ExtArgs> | null
+    where?: ChannelWhereInput
+  }
+
+  /**
+   * ServerEvent without action
+   */
+  export type ServerEventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServerEvent
+     */
+    select?: ServerEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServerEvent
+     */
+    omit?: ServerEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServerEventInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -21365,6 +22879,27 @@ export namespace Prisma {
   };
 
   export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+  export const ServerEventScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    description: 'description',
+    type: 'type',
+    otherLocationType: 'otherLocationType',
+    serverId: 'serverId',
+    creatorProfileId: 'creatorProfileId',
+    voiceChannelId: 'voiceChannelId',
+    textChannelId: 'textChannelId',
+    externalUrl: 'externalUrl',
+    location: 'location',
+    scheduledStartTime: 'scheduledStartTime',
+    scheduledEndTime: 'scheduledEndTime',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ServerEventScalarFieldEnum = (typeof ServerEventScalarFieldEnum)[keyof typeof ServerEventScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -21589,6 +23124,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'EventType'
+   */
+  export type EnumEventTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EventType'>
+    
+
+
+  /**
+   * Reference to a field of type 'EventType[]'
+   */
+  export type ListEnumEventTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EventType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'OtherEventLocationType'
+   */
+  export type EnumOtherEventLocationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OtherEventLocationType'>
+    
+
+
+  /**
+   * Reference to a field of type 'OtherEventLocationType[]'
+   */
+  export type ListEnumOtherEventLocationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OtherEventLocationType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -21636,6 +23199,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowListRelationFilter
     notificationsReceived?: NotificationListRelationFilter
     notificationsRelated?: NotificationListRelationFilter
+    serverEventsCreated?: ServerEventListRelationFilter
   }
 
   export type ProfileOrderByWithRelationInput = {
@@ -21666,6 +23230,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowOrderByRelationAggregateInput
     notificationsReceived?: NotificationOrderByRelationAggregateInput
     notificationsRelated?: NotificationOrderByRelationAggregateInput
+    serverEventsCreated?: ServerEventOrderByRelationAggregateInput
   }
 
   export type ProfileWhereUniqueInput = Prisma.AtLeast<{
@@ -21699,6 +23264,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowListRelationFilter
     notificationsReceived?: NotificationListRelationFilter
     notificationsRelated?: NotificationListRelationFilter
+    serverEventsCreated?: ServerEventListRelationFilter
   }, "id" | "userId">
 
   export type ProfileOrderByWithAggregationInput = {
@@ -21755,6 +23321,7 @@ export namespace Prisma {
     categories?: CategoryListRelationFilter
     serverFollows?: ServerFollowListRelationFilter
     notificationsRelated?: NotificationListRelationFilter
+    events?: ServerEventListRelationFilter
   }
 
   export type ServerOrderByWithRelationInput = {
@@ -21772,6 +23339,7 @@ export namespace Prisma {
     categories?: CategoryOrderByRelationAggregateInput
     serverFollows?: ServerFollowOrderByRelationAggregateInput
     notificationsRelated?: NotificationOrderByRelationAggregateInput
+    events?: ServerEventOrderByRelationAggregateInput
   }
 
   export type ServerWhereUniqueInput = Prisma.AtLeast<{
@@ -21792,6 +23360,7 @@ export namespace Prisma {
     categories?: CategoryListRelationFilter
     serverFollows?: ServerFollowListRelationFilter
     notificationsRelated?: NotificationListRelationFilter
+    events?: ServerEventListRelationFilter
   }, "id" | "inviteCode">
 
   export type ServerOrderByWithAggregationInput = {
@@ -21917,6 +23486,8 @@ export namespace Prisma {
     server?: XOR<ServerScalarRelationFilter, ServerWhereInput>
     category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
     threads?: ThreadListRelationFilter
+    voiceEvents?: ServerEventListRelationFilter
+    textEvents?: ServerEventListRelationFilter
   }
 
   export type ChannelOrderByWithRelationInput = {
@@ -21932,6 +23503,8 @@ export namespace Prisma {
     server?: ServerOrderByWithRelationInput
     category?: CategoryOrderByWithRelationInput
     threads?: ThreadOrderByRelationAggregateInput
+    voiceEvents?: ServerEventOrderByRelationAggregateInput
+    textEvents?: ServerEventOrderByRelationAggregateInput
   }
 
   export type ChannelWhereUniqueInput = Prisma.AtLeast<{
@@ -21950,6 +23523,8 @@ export namespace Prisma {
     server?: XOR<ServerScalarRelationFilter, ServerWhereInput>
     category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
     threads?: ThreadListRelationFilter
+    voiceEvents?: ServerEventListRelationFilter
+    textEvents?: ServerEventListRelationFilter
   }, "id">
 
   export type ChannelOrderByWithAggregationInput = {
@@ -22780,6 +24355,120 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
   }
 
+  export type ServerEventWhereInput = {
+    AND?: ServerEventWhereInput | ServerEventWhereInput[]
+    OR?: ServerEventWhereInput[]
+    NOT?: ServerEventWhereInput | ServerEventWhereInput[]
+    id?: StringFilter<"ServerEvent"> | string
+    title?: StringFilter<"ServerEvent"> | string
+    description?: StringNullableFilter<"ServerEvent"> | string | null
+    type?: EnumEventTypeFilter<"ServerEvent"> | $Enums.EventType
+    otherLocationType?: EnumOtherEventLocationTypeNullableFilter<"ServerEvent"> | $Enums.OtherEventLocationType | null
+    serverId?: StringFilter<"ServerEvent"> | string
+    creatorProfileId?: StringFilter<"ServerEvent"> | string
+    voiceChannelId?: StringNullableFilter<"ServerEvent"> | string | null
+    textChannelId?: StringNullableFilter<"ServerEvent"> | string | null
+    externalUrl?: StringNullableFilter<"ServerEvent"> | string | null
+    location?: StringNullableFilter<"ServerEvent"> | string | null
+    scheduledStartTime?: DateTimeFilter<"ServerEvent"> | Date | string
+    scheduledEndTime?: DateTimeNullableFilter<"ServerEvent"> | Date | string | null
+    createdAt?: DateTimeFilter<"ServerEvent"> | Date | string
+    updatedAt?: DateTimeFilter<"ServerEvent"> | Date | string
+    server?: XOR<ServerScalarRelationFilter, ServerWhereInput>
+    creatorProfile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
+    voiceChannel?: XOR<ChannelNullableScalarRelationFilter, ChannelWhereInput> | null
+    textChannel?: XOR<ChannelNullableScalarRelationFilter, ChannelWhereInput> | null
+  }
+
+  export type ServerEventOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    type?: SortOrder
+    otherLocationType?: SortOrderInput | SortOrder
+    serverId?: SortOrder
+    creatorProfileId?: SortOrder
+    voiceChannelId?: SortOrderInput | SortOrder
+    textChannelId?: SortOrderInput | SortOrder
+    externalUrl?: SortOrderInput | SortOrder
+    location?: SortOrderInput | SortOrder
+    scheduledStartTime?: SortOrder
+    scheduledEndTime?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    server?: ServerOrderByWithRelationInput
+    creatorProfile?: ProfileOrderByWithRelationInput
+    voiceChannel?: ChannelOrderByWithRelationInput
+    textChannel?: ChannelOrderByWithRelationInput
+  }
+
+  export type ServerEventWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ServerEventWhereInput | ServerEventWhereInput[]
+    OR?: ServerEventWhereInput[]
+    NOT?: ServerEventWhereInput | ServerEventWhereInput[]
+    title?: StringFilter<"ServerEvent"> | string
+    description?: StringNullableFilter<"ServerEvent"> | string | null
+    type?: EnumEventTypeFilter<"ServerEvent"> | $Enums.EventType
+    otherLocationType?: EnumOtherEventLocationTypeNullableFilter<"ServerEvent"> | $Enums.OtherEventLocationType | null
+    serverId?: StringFilter<"ServerEvent"> | string
+    creatorProfileId?: StringFilter<"ServerEvent"> | string
+    voiceChannelId?: StringNullableFilter<"ServerEvent"> | string | null
+    textChannelId?: StringNullableFilter<"ServerEvent"> | string | null
+    externalUrl?: StringNullableFilter<"ServerEvent"> | string | null
+    location?: StringNullableFilter<"ServerEvent"> | string | null
+    scheduledStartTime?: DateTimeFilter<"ServerEvent"> | Date | string
+    scheduledEndTime?: DateTimeNullableFilter<"ServerEvent"> | Date | string | null
+    createdAt?: DateTimeFilter<"ServerEvent"> | Date | string
+    updatedAt?: DateTimeFilter<"ServerEvent"> | Date | string
+    server?: XOR<ServerScalarRelationFilter, ServerWhereInput>
+    creatorProfile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
+    voiceChannel?: XOR<ChannelNullableScalarRelationFilter, ChannelWhereInput> | null
+    textChannel?: XOR<ChannelNullableScalarRelationFilter, ChannelWhereInput> | null
+  }, "id">
+
+  export type ServerEventOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    type?: SortOrder
+    otherLocationType?: SortOrderInput | SortOrder
+    serverId?: SortOrder
+    creatorProfileId?: SortOrder
+    voiceChannelId?: SortOrderInput | SortOrder
+    textChannelId?: SortOrderInput | SortOrder
+    externalUrl?: SortOrderInput | SortOrder
+    location?: SortOrderInput | SortOrder
+    scheduledStartTime?: SortOrder
+    scheduledEndTime?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ServerEventCountOrderByAggregateInput
+    _max?: ServerEventMaxOrderByAggregateInput
+    _min?: ServerEventMinOrderByAggregateInput
+  }
+
+  export type ServerEventScalarWhereWithAggregatesInput = {
+    AND?: ServerEventScalarWhereWithAggregatesInput | ServerEventScalarWhereWithAggregatesInput[]
+    OR?: ServerEventScalarWhereWithAggregatesInput[]
+    NOT?: ServerEventScalarWhereWithAggregatesInput | ServerEventScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ServerEvent"> | string
+    title?: StringWithAggregatesFilter<"ServerEvent"> | string
+    description?: StringNullableWithAggregatesFilter<"ServerEvent"> | string | null
+    type?: EnumEventTypeWithAggregatesFilter<"ServerEvent"> | $Enums.EventType
+    otherLocationType?: EnumOtherEventLocationTypeNullableWithAggregatesFilter<"ServerEvent"> | $Enums.OtherEventLocationType | null
+    serverId?: StringWithAggregatesFilter<"ServerEvent"> | string
+    creatorProfileId?: StringWithAggregatesFilter<"ServerEvent"> | string
+    voiceChannelId?: StringNullableWithAggregatesFilter<"ServerEvent"> | string | null
+    textChannelId?: StringNullableWithAggregatesFilter<"ServerEvent"> | string | null
+    externalUrl?: StringNullableWithAggregatesFilter<"ServerEvent"> | string | null
+    location?: StringNullableWithAggregatesFilter<"ServerEvent"> | string | null
+    scheduledStartTime?: DateTimeWithAggregatesFilter<"ServerEvent"> | Date | string
+    scheduledEndTime?: DateTimeNullableWithAggregatesFilter<"ServerEvent"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ServerEvent"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ServerEvent"> | Date | string
+  }
+
   export type ProfileCreateInput = {
     id?: string
     userId: string
@@ -22808,6 +24497,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateInput = {
@@ -22838,6 +24528,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUpdateInput = {
@@ -22868,6 +24559,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateInput = {
@@ -22898,6 +24590,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileCreateManyInput = {
@@ -22959,6 +24652,7 @@ export namespace Prisma {
     categories?: CategoryCreateNestedManyWithoutServerInput
     serverFollows?: ServerFollowCreateNestedManyWithoutServerInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedServerInput
+    events?: ServerEventCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateInput = {
@@ -22975,6 +24669,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedCreateNestedManyWithoutServerInput
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutServerInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedServerInput
+    events?: ServerEventUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerUpdateInput = {
@@ -22991,6 +24686,7 @@ export namespace Prisma {
     categories?: CategoryUpdateManyWithoutServerNestedInput
     serverFollows?: ServerFollowUpdateManyWithoutServerNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedServerNestedInput
+    events?: ServerEventUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateInput = {
@@ -23007,6 +24703,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedUpdateManyWithoutServerNestedInput
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutServerNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedServerNestedInput
+    events?: ServerEventUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type ServerCreateManyInput = {
@@ -23132,6 +24829,8 @@ export namespace Prisma {
     server: ServerCreateNestedOneWithoutChannelsInput
     category?: CategoryCreateNestedOneWithoutChannelsInput
     threads?: ThreadCreateNestedManyWithoutChannelInput
+    voiceEvents?: ServerEventCreateNestedManyWithoutVoiceChannelInput
+    textEvents?: ServerEventCreateNestedManyWithoutTextChannelInput
   }
 
   export type ChannelUncheckedCreateInput = {
@@ -23144,6 +24843,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     threads?: ThreadUncheckedCreateNestedManyWithoutChannelInput
+    voiceEvents?: ServerEventUncheckedCreateNestedManyWithoutVoiceChannelInput
+    textEvents?: ServerEventUncheckedCreateNestedManyWithoutTextChannelInput
   }
 
   export type ChannelUpdateInput = {
@@ -23156,6 +24857,8 @@ export namespace Prisma {
     server?: ServerUpdateOneRequiredWithoutChannelsNestedInput
     category?: CategoryUpdateOneWithoutChannelsNestedInput
     threads?: ThreadUpdateManyWithoutChannelNestedInput
+    voiceEvents?: ServerEventUpdateManyWithoutVoiceChannelNestedInput
+    textEvents?: ServerEventUpdateManyWithoutTextChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateInput = {
@@ -23168,6 +24871,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     threads?: ThreadUncheckedUpdateManyWithoutChannelNestedInput
+    voiceEvents?: ServerEventUncheckedUpdateManyWithoutVoiceChannelNestedInput
+    textEvents?: ServerEventUncheckedUpdateManyWithoutTextChannelNestedInput
   }
 
   export type ChannelCreateManyInput = {
@@ -23983,6 +25688,128 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ServerEventCreateInput = {
+    id?: string
+    title: string
+    description?: string | null
+    type: $Enums.EventType
+    otherLocationType?: $Enums.OtherEventLocationType | null
+    externalUrl?: string | null
+    location?: string | null
+    scheduledStartTime: Date | string
+    scheduledEndTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    server: ServerCreateNestedOneWithoutEventsInput
+    creatorProfile: ProfileCreateNestedOneWithoutServerEventsCreatedInput
+    voiceChannel?: ChannelCreateNestedOneWithoutVoiceEventsInput
+    textChannel?: ChannelCreateNestedOneWithoutTextEventsInput
+  }
+
+  export type ServerEventUncheckedCreateInput = {
+    id?: string
+    title: string
+    description?: string | null
+    type: $Enums.EventType
+    otherLocationType?: $Enums.OtherEventLocationType | null
+    serverId: string
+    creatorProfileId: string
+    voiceChannelId?: string | null
+    textChannelId?: string | null
+    externalUrl?: string | null
+    location?: string | null
+    scheduledStartTime: Date | string
+    scheduledEndTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ServerEventUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    otherLocationType?: NullableEnumOtherEventLocationTypeFieldUpdateOperationsInput | $Enums.OtherEventLocationType | null
+    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledStartTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduledEndTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    server?: ServerUpdateOneRequiredWithoutEventsNestedInput
+    creatorProfile?: ProfileUpdateOneRequiredWithoutServerEventsCreatedNestedInput
+    voiceChannel?: ChannelUpdateOneWithoutVoiceEventsNestedInput
+    textChannel?: ChannelUpdateOneWithoutTextEventsNestedInput
+  }
+
+  export type ServerEventUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    otherLocationType?: NullableEnumOtherEventLocationTypeFieldUpdateOperationsInput | $Enums.OtherEventLocationType | null
+    serverId?: StringFieldUpdateOperationsInput | string
+    creatorProfileId?: StringFieldUpdateOperationsInput | string
+    voiceChannelId?: NullableStringFieldUpdateOperationsInput | string | null
+    textChannelId?: NullableStringFieldUpdateOperationsInput | string | null
+    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledStartTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduledEndTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServerEventCreateManyInput = {
+    id?: string
+    title: string
+    description?: string | null
+    type: $Enums.EventType
+    otherLocationType?: $Enums.OtherEventLocationType | null
+    serverId: string
+    creatorProfileId: string
+    voiceChannelId?: string | null
+    textChannelId?: string | null
+    externalUrl?: string | null
+    location?: string | null
+    scheduledStartTime: Date | string
+    scheduledEndTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ServerEventUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    otherLocationType?: NullableEnumOtherEventLocationTypeFieldUpdateOperationsInput | $Enums.OtherEventLocationType | null
+    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledStartTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduledEndTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServerEventUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    otherLocationType?: NullableEnumOtherEventLocationTypeFieldUpdateOperationsInput | $Enums.OtherEventLocationType | null
+    serverId?: StringFieldUpdateOperationsInput | string
+    creatorProfileId?: StringFieldUpdateOperationsInput | string
+    voiceChannelId?: NullableStringFieldUpdateOperationsInput | string | null
+    textChannelId?: NullableStringFieldUpdateOperationsInput | string | null
+    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledStartTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduledEndTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -24120,6 +25947,12 @@ export namespace Prisma {
     none?: NotificationWhereInput
   }
 
+  export type ServerEventListRelationFilter = {
+    every?: ServerEventWhereInput
+    some?: ServerEventWhereInput
+    none?: ServerEventWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -24166,6 +25999,10 @@ export namespace Prisma {
   }
 
   export type NotificationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ServerEventOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -25012,6 +26849,124 @@ export namespace Prisma {
     _max?: NestedEnumNotificationTypeFilter<$PrismaModel>
   }
 
+  export type EnumEventTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.EventType | EnumEventTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.EventType[] | ListEnumEventTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EventType[] | ListEnumEventTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumEventTypeFilter<$PrismaModel> | $Enums.EventType
+  }
+
+  export type EnumOtherEventLocationTypeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.OtherEventLocationType | EnumOtherEventLocationTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.OtherEventLocationType[] | ListEnumOtherEventLocationTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.OtherEventLocationType[] | ListEnumOtherEventLocationTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumOtherEventLocationTypeNullableFilter<$PrismaModel> | $Enums.OtherEventLocationType | null
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type ChannelNullableScalarRelationFilter = {
+    is?: ChannelWhereInput | null
+    isNot?: ChannelWhereInput | null
+  }
+
+  export type ServerEventCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    type?: SortOrder
+    otherLocationType?: SortOrder
+    serverId?: SortOrder
+    creatorProfileId?: SortOrder
+    voiceChannelId?: SortOrder
+    textChannelId?: SortOrder
+    externalUrl?: SortOrder
+    location?: SortOrder
+    scheduledStartTime?: SortOrder
+    scheduledEndTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ServerEventMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    type?: SortOrder
+    otherLocationType?: SortOrder
+    serverId?: SortOrder
+    creatorProfileId?: SortOrder
+    voiceChannelId?: SortOrder
+    textChannelId?: SortOrder
+    externalUrl?: SortOrder
+    location?: SortOrder
+    scheduledStartTime?: SortOrder
+    scheduledEndTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ServerEventMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    type?: SortOrder
+    otherLocationType?: SortOrder
+    serverId?: SortOrder
+    creatorProfileId?: SortOrder
+    voiceChannelId?: SortOrder
+    textChannelId?: SortOrder
+    externalUrl?: SortOrder
+    location?: SortOrder
+    scheduledStartTime?: SortOrder
+    scheduledEndTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumEventTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.EventType | EnumEventTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.EventType[] | ListEnumEventTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EventType[] | ListEnumEventTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumEventTypeWithAggregatesFilter<$PrismaModel> | $Enums.EventType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEventTypeFilter<$PrismaModel>
+    _max?: NestedEnumEventTypeFilter<$PrismaModel>
+  }
+
+  export type EnumOtherEventLocationTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OtherEventLocationType | EnumOtherEventLocationTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.OtherEventLocationType[] | ListEnumOtherEventLocationTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.OtherEventLocationType[] | ListEnumOtherEventLocationTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumOtherEventLocationTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.OtherEventLocationType | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumOtherEventLocationTypeNullableFilter<$PrismaModel>
+    _max?: NestedEnumOtherEventLocationTypeNullableFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type ServerCreateNestedManyWithoutProfileInput = {
     create?: XOR<ServerCreateWithoutProfileInput, ServerUncheckedCreateWithoutProfileInput> | ServerCreateWithoutProfileInput[] | ServerUncheckedCreateWithoutProfileInput[]
     connectOrCreate?: ServerCreateOrConnectWithoutProfileInput | ServerCreateOrConnectWithoutProfileInput[]
@@ -25117,6 +27072,13 @@ export namespace Prisma {
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
+  export type ServerEventCreateNestedManyWithoutCreatorProfileInput = {
+    create?: XOR<ServerEventCreateWithoutCreatorProfileInput, ServerEventUncheckedCreateWithoutCreatorProfileInput> | ServerEventCreateWithoutCreatorProfileInput[] | ServerEventUncheckedCreateWithoutCreatorProfileInput[]
+    connectOrCreate?: ServerEventCreateOrConnectWithoutCreatorProfileInput | ServerEventCreateOrConnectWithoutCreatorProfileInput[]
+    createMany?: ServerEventCreateManyCreatorProfileInputEnvelope
+    connect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+  }
+
   export type ServerUncheckedCreateNestedManyWithoutProfileInput = {
     create?: XOR<ServerCreateWithoutProfileInput, ServerUncheckedCreateWithoutProfileInput> | ServerCreateWithoutProfileInput[] | ServerUncheckedCreateWithoutProfileInput[]
     connectOrCreate?: ServerCreateOrConnectWithoutProfileInput | ServerCreateOrConnectWithoutProfileInput[]
@@ -25220,6 +27182,13 @@ export namespace Prisma {
     connectOrCreate?: NotificationCreateOrConnectWithoutRelatedProfileInput | NotificationCreateOrConnectWithoutRelatedProfileInput[]
     createMany?: NotificationCreateManyRelatedProfileInputEnvelope
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput = {
+    create?: XOR<ServerEventCreateWithoutCreatorProfileInput, ServerEventUncheckedCreateWithoutCreatorProfileInput> | ServerEventCreateWithoutCreatorProfileInput[] | ServerEventUncheckedCreateWithoutCreatorProfileInput[]
+    connectOrCreate?: ServerEventCreateOrConnectWithoutCreatorProfileInput | ServerEventCreateOrConnectWithoutCreatorProfileInput[]
+    createMany?: ServerEventCreateManyCreatorProfileInputEnvelope
+    connect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -25448,6 +27417,20 @@ export namespace Prisma {
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
+  export type ServerEventUpdateManyWithoutCreatorProfileNestedInput = {
+    create?: XOR<ServerEventCreateWithoutCreatorProfileInput, ServerEventUncheckedCreateWithoutCreatorProfileInput> | ServerEventCreateWithoutCreatorProfileInput[] | ServerEventUncheckedCreateWithoutCreatorProfileInput[]
+    connectOrCreate?: ServerEventCreateOrConnectWithoutCreatorProfileInput | ServerEventCreateOrConnectWithoutCreatorProfileInput[]
+    upsert?: ServerEventUpsertWithWhereUniqueWithoutCreatorProfileInput | ServerEventUpsertWithWhereUniqueWithoutCreatorProfileInput[]
+    createMany?: ServerEventCreateManyCreatorProfileInputEnvelope
+    set?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    disconnect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    delete?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    connect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    update?: ServerEventUpdateWithWhereUniqueWithoutCreatorProfileInput | ServerEventUpdateWithWhereUniqueWithoutCreatorProfileInput[]
+    updateMany?: ServerEventUpdateManyWithWhereWithoutCreatorProfileInput | ServerEventUpdateManyWithWhereWithoutCreatorProfileInput[]
+    deleteMany?: ServerEventScalarWhereInput | ServerEventScalarWhereInput[]
+  }
+
   export type ServerUncheckedUpdateManyWithoutProfileNestedInput = {
     create?: XOR<ServerCreateWithoutProfileInput, ServerUncheckedCreateWithoutProfileInput> | ServerCreateWithoutProfileInput[] | ServerUncheckedCreateWithoutProfileInput[]
     connectOrCreate?: ServerCreateOrConnectWithoutProfileInput | ServerCreateOrConnectWithoutProfileInput[]
@@ -25658,6 +27641,20 @@ export namespace Prisma {
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
+  export type ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput = {
+    create?: XOR<ServerEventCreateWithoutCreatorProfileInput, ServerEventUncheckedCreateWithoutCreatorProfileInput> | ServerEventCreateWithoutCreatorProfileInput[] | ServerEventUncheckedCreateWithoutCreatorProfileInput[]
+    connectOrCreate?: ServerEventCreateOrConnectWithoutCreatorProfileInput | ServerEventCreateOrConnectWithoutCreatorProfileInput[]
+    upsert?: ServerEventUpsertWithWhereUniqueWithoutCreatorProfileInput | ServerEventUpsertWithWhereUniqueWithoutCreatorProfileInput[]
+    createMany?: ServerEventCreateManyCreatorProfileInputEnvelope
+    set?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    disconnect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    delete?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    connect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    update?: ServerEventUpdateWithWhereUniqueWithoutCreatorProfileInput | ServerEventUpdateWithWhereUniqueWithoutCreatorProfileInput[]
+    updateMany?: ServerEventUpdateManyWithWhereWithoutCreatorProfileInput | ServerEventUpdateManyWithWhereWithoutCreatorProfileInput[]
+    deleteMany?: ServerEventScalarWhereInput | ServerEventScalarWhereInput[]
+  }
+
   export type ProfileCreateNestedOneWithoutServersInput = {
     create?: XOR<ProfileCreateWithoutServersInput, ProfileUncheckedCreateWithoutServersInput>
     connectOrCreate?: ProfileCreateOrConnectWithoutServersInput
@@ -25699,6 +27696,13 @@ export namespace Prisma {
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
+  export type ServerEventCreateNestedManyWithoutServerInput = {
+    create?: XOR<ServerEventCreateWithoutServerInput, ServerEventUncheckedCreateWithoutServerInput> | ServerEventCreateWithoutServerInput[] | ServerEventUncheckedCreateWithoutServerInput[]
+    connectOrCreate?: ServerEventCreateOrConnectWithoutServerInput | ServerEventCreateOrConnectWithoutServerInput[]
+    createMany?: ServerEventCreateManyServerInputEnvelope
+    connect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+  }
+
   export type MemberUncheckedCreateNestedManyWithoutServerInput = {
     create?: XOR<MemberCreateWithoutServerInput, MemberUncheckedCreateWithoutServerInput> | MemberCreateWithoutServerInput[] | MemberUncheckedCreateWithoutServerInput[]
     connectOrCreate?: MemberCreateOrConnectWithoutServerInput | MemberCreateOrConnectWithoutServerInput[]
@@ -25732,6 +27736,13 @@ export namespace Prisma {
     connectOrCreate?: NotificationCreateOrConnectWithoutRelatedServerInput | NotificationCreateOrConnectWithoutRelatedServerInput[]
     createMany?: NotificationCreateManyRelatedServerInputEnvelope
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type ServerEventUncheckedCreateNestedManyWithoutServerInput = {
+    create?: XOR<ServerEventCreateWithoutServerInput, ServerEventUncheckedCreateWithoutServerInput> | ServerEventCreateWithoutServerInput[] | ServerEventUncheckedCreateWithoutServerInput[]
+    connectOrCreate?: ServerEventCreateOrConnectWithoutServerInput | ServerEventCreateOrConnectWithoutServerInput[]
+    createMany?: ServerEventCreateManyServerInputEnvelope
+    connect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
   }
 
   export type EnumServerCategoryFieldUpdateOperationsInput = {
@@ -25816,6 +27827,20 @@ export namespace Prisma {
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
+  export type ServerEventUpdateManyWithoutServerNestedInput = {
+    create?: XOR<ServerEventCreateWithoutServerInput, ServerEventUncheckedCreateWithoutServerInput> | ServerEventCreateWithoutServerInput[] | ServerEventUncheckedCreateWithoutServerInput[]
+    connectOrCreate?: ServerEventCreateOrConnectWithoutServerInput | ServerEventCreateOrConnectWithoutServerInput[]
+    upsert?: ServerEventUpsertWithWhereUniqueWithoutServerInput | ServerEventUpsertWithWhereUniqueWithoutServerInput[]
+    createMany?: ServerEventCreateManyServerInputEnvelope
+    set?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    disconnect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    delete?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    connect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    update?: ServerEventUpdateWithWhereUniqueWithoutServerInput | ServerEventUpdateWithWhereUniqueWithoutServerInput[]
+    updateMany?: ServerEventUpdateManyWithWhereWithoutServerInput | ServerEventUpdateManyWithWhereWithoutServerInput[]
+    deleteMany?: ServerEventScalarWhereInput | ServerEventScalarWhereInput[]
+  }
+
   export type MemberUncheckedUpdateManyWithoutServerNestedInput = {
     create?: XOR<MemberCreateWithoutServerInput, MemberUncheckedCreateWithoutServerInput> | MemberCreateWithoutServerInput[] | MemberUncheckedCreateWithoutServerInput[]
     connectOrCreate?: MemberCreateOrConnectWithoutServerInput | MemberCreateOrConnectWithoutServerInput[]
@@ -25884,6 +27909,20 @@ export namespace Prisma {
     update?: NotificationUpdateWithWhereUniqueWithoutRelatedServerInput | NotificationUpdateWithWhereUniqueWithoutRelatedServerInput[]
     updateMany?: NotificationUpdateManyWithWhereWithoutRelatedServerInput | NotificationUpdateManyWithWhereWithoutRelatedServerInput[]
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type ServerEventUncheckedUpdateManyWithoutServerNestedInput = {
+    create?: XOR<ServerEventCreateWithoutServerInput, ServerEventUncheckedCreateWithoutServerInput> | ServerEventCreateWithoutServerInput[] | ServerEventUncheckedCreateWithoutServerInput[]
+    connectOrCreate?: ServerEventCreateOrConnectWithoutServerInput | ServerEventCreateOrConnectWithoutServerInput[]
+    upsert?: ServerEventUpsertWithWhereUniqueWithoutServerInput | ServerEventUpsertWithWhereUniqueWithoutServerInput[]
+    createMany?: ServerEventCreateManyServerInputEnvelope
+    set?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    disconnect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    delete?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    connect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    update?: ServerEventUpdateWithWhereUniqueWithoutServerInput | ServerEventUpdateWithWhereUniqueWithoutServerInput[]
+    updateMany?: ServerEventUpdateManyWithWhereWithoutServerInput | ServerEventUpdateManyWithWhereWithoutServerInput[]
+    deleteMany?: ServerEventScalarWhereInput | ServerEventScalarWhereInput[]
   }
 
   export type ProfileCreateNestedOneWithoutMembersInput = {
@@ -26153,11 +28192,39 @@ export namespace Prisma {
     connect?: ThreadWhereUniqueInput | ThreadWhereUniqueInput[]
   }
 
+  export type ServerEventCreateNestedManyWithoutVoiceChannelInput = {
+    create?: XOR<ServerEventCreateWithoutVoiceChannelInput, ServerEventUncheckedCreateWithoutVoiceChannelInput> | ServerEventCreateWithoutVoiceChannelInput[] | ServerEventUncheckedCreateWithoutVoiceChannelInput[]
+    connectOrCreate?: ServerEventCreateOrConnectWithoutVoiceChannelInput | ServerEventCreateOrConnectWithoutVoiceChannelInput[]
+    createMany?: ServerEventCreateManyVoiceChannelInputEnvelope
+    connect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+  }
+
+  export type ServerEventCreateNestedManyWithoutTextChannelInput = {
+    create?: XOR<ServerEventCreateWithoutTextChannelInput, ServerEventUncheckedCreateWithoutTextChannelInput> | ServerEventCreateWithoutTextChannelInput[] | ServerEventUncheckedCreateWithoutTextChannelInput[]
+    connectOrCreate?: ServerEventCreateOrConnectWithoutTextChannelInput | ServerEventCreateOrConnectWithoutTextChannelInput[]
+    createMany?: ServerEventCreateManyTextChannelInputEnvelope
+    connect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+  }
+
   export type ThreadUncheckedCreateNestedManyWithoutChannelInput = {
     create?: XOR<ThreadCreateWithoutChannelInput, ThreadUncheckedCreateWithoutChannelInput> | ThreadCreateWithoutChannelInput[] | ThreadUncheckedCreateWithoutChannelInput[]
     connectOrCreate?: ThreadCreateOrConnectWithoutChannelInput | ThreadCreateOrConnectWithoutChannelInput[]
     createMany?: ThreadCreateManyChannelInputEnvelope
     connect?: ThreadWhereUniqueInput | ThreadWhereUniqueInput[]
+  }
+
+  export type ServerEventUncheckedCreateNestedManyWithoutVoiceChannelInput = {
+    create?: XOR<ServerEventCreateWithoutVoiceChannelInput, ServerEventUncheckedCreateWithoutVoiceChannelInput> | ServerEventCreateWithoutVoiceChannelInput[] | ServerEventUncheckedCreateWithoutVoiceChannelInput[]
+    connectOrCreate?: ServerEventCreateOrConnectWithoutVoiceChannelInput | ServerEventCreateOrConnectWithoutVoiceChannelInput[]
+    createMany?: ServerEventCreateManyVoiceChannelInputEnvelope
+    connect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+  }
+
+  export type ServerEventUncheckedCreateNestedManyWithoutTextChannelInput = {
+    create?: XOR<ServerEventCreateWithoutTextChannelInput, ServerEventUncheckedCreateWithoutTextChannelInput> | ServerEventCreateWithoutTextChannelInput[] | ServerEventUncheckedCreateWithoutTextChannelInput[]
+    connectOrCreate?: ServerEventCreateOrConnectWithoutTextChannelInput | ServerEventCreateOrConnectWithoutTextChannelInput[]
+    createMany?: ServerEventCreateManyTextChannelInputEnvelope
+    connect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
   }
 
   export type EnumChannelTypeFieldUpdateOperationsInput = {
@@ -26204,6 +28271,34 @@ export namespace Prisma {
     deleteMany?: ThreadScalarWhereInput | ThreadScalarWhereInput[]
   }
 
+  export type ServerEventUpdateManyWithoutVoiceChannelNestedInput = {
+    create?: XOR<ServerEventCreateWithoutVoiceChannelInput, ServerEventUncheckedCreateWithoutVoiceChannelInput> | ServerEventCreateWithoutVoiceChannelInput[] | ServerEventUncheckedCreateWithoutVoiceChannelInput[]
+    connectOrCreate?: ServerEventCreateOrConnectWithoutVoiceChannelInput | ServerEventCreateOrConnectWithoutVoiceChannelInput[]
+    upsert?: ServerEventUpsertWithWhereUniqueWithoutVoiceChannelInput | ServerEventUpsertWithWhereUniqueWithoutVoiceChannelInput[]
+    createMany?: ServerEventCreateManyVoiceChannelInputEnvelope
+    set?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    disconnect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    delete?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    connect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    update?: ServerEventUpdateWithWhereUniqueWithoutVoiceChannelInput | ServerEventUpdateWithWhereUniqueWithoutVoiceChannelInput[]
+    updateMany?: ServerEventUpdateManyWithWhereWithoutVoiceChannelInput | ServerEventUpdateManyWithWhereWithoutVoiceChannelInput[]
+    deleteMany?: ServerEventScalarWhereInput | ServerEventScalarWhereInput[]
+  }
+
+  export type ServerEventUpdateManyWithoutTextChannelNestedInput = {
+    create?: XOR<ServerEventCreateWithoutTextChannelInput, ServerEventUncheckedCreateWithoutTextChannelInput> | ServerEventCreateWithoutTextChannelInput[] | ServerEventUncheckedCreateWithoutTextChannelInput[]
+    connectOrCreate?: ServerEventCreateOrConnectWithoutTextChannelInput | ServerEventCreateOrConnectWithoutTextChannelInput[]
+    upsert?: ServerEventUpsertWithWhereUniqueWithoutTextChannelInput | ServerEventUpsertWithWhereUniqueWithoutTextChannelInput[]
+    createMany?: ServerEventCreateManyTextChannelInputEnvelope
+    set?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    disconnect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    delete?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    connect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    update?: ServerEventUpdateWithWhereUniqueWithoutTextChannelInput | ServerEventUpdateWithWhereUniqueWithoutTextChannelInput[]
+    updateMany?: ServerEventUpdateManyWithWhereWithoutTextChannelInput | ServerEventUpdateManyWithWhereWithoutTextChannelInput[]
+    deleteMany?: ServerEventScalarWhereInput | ServerEventScalarWhereInput[]
+  }
+
   export type ThreadUncheckedUpdateManyWithoutChannelNestedInput = {
     create?: XOR<ThreadCreateWithoutChannelInput, ThreadUncheckedCreateWithoutChannelInput> | ThreadCreateWithoutChannelInput[] | ThreadUncheckedCreateWithoutChannelInput[]
     connectOrCreate?: ThreadCreateOrConnectWithoutChannelInput | ThreadCreateOrConnectWithoutChannelInput[]
@@ -26216,6 +28311,34 @@ export namespace Prisma {
     update?: ThreadUpdateWithWhereUniqueWithoutChannelInput | ThreadUpdateWithWhereUniqueWithoutChannelInput[]
     updateMany?: ThreadUpdateManyWithWhereWithoutChannelInput | ThreadUpdateManyWithWhereWithoutChannelInput[]
     deleteMany?: ThreadScalarWhereInput | ThreadScalarWhereInput[]
+  }
+
+  export type ServerEventUncheckedUpdateManyWithoutVoiceChannelNestedInput = {
+    create?: XOR<ServerEventCreateWithoutVoiceChannelInput, ServerEventUncheckedCreateWithoutVoiceChannelInput> | ServerEventCreateWithoutVoiceChannelInput[] | ServerEventUncheckedCreateWithoutVoiceChannelInput[]
+    connectOrCreate?: ServerEventCreateOrConnectWithoutVoiceChannelInput | ServerEventCreateOrConnectWithoutVoiceChannelInput[]
+    upsert?: ServerEventUpsertWithWhereUniqueWithoutVoiceChannelInput | ServerEventUpsertWithWhereUniqueWithoutVoiceChannelInput[]
+    createMany?: ServerEventCreateManyVoiceChannelInputEnvelope
+    set?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    disconnect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    delete?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    connect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    update?: ServerEventUpdateWithWhereUniqueWithoutVoiceChannelInput | ServerEventUpdateWithWhereUniqueWithoutVoiceChannelInput[]
+    updateMany?: ServerEventUpdateManyWithWhereWithoutVoiceChannelInput | ServerEventUpdateManyWithWhereWithoutVoiceChannelInput[]
+    deleteMany?: ServerEventScalarWhereInput | ServerEventScalarWhereInput[]
+  }
+
+  export type ServerEventUncheckedUpdateManyWithoutTextChannelNestedInput = {
+    create?: XOR<ServerEventCreateWithoutTextChannelInput, ServerEventUncheckedCreateWithoutTextChannelInput> | ServerEventCreateWithoutTextChannelInput[] | ServerEventUncheckedCreateWithoutTextChannelInput[]
+    connectOrCreate?: ServerEventCreateOrConnectWithoutTextChannelInput | ServerEventCreateOrConnectWithoutTextChannelInput[]
+    upsert?: ServerEventUpsertWithWhereUniqueWithoutTextChannelInput | ServerEventUpsertWithWhereUniqueWithoutTextChannelInput[]
+    createMany?: ServerEventCreateManyTextChannelInputEnvelope
+    set?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    disconnect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    delete?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    connect?: ServerEventWhereUniqueInput | ServerEventWhereUniqueInput[]
+    update?: ServerEventUpdateWithWhereUniqueWithoutTextChannelInput | ServerEventUpdateWithWhereUniqueWithoutTextChannelInput[]
+    updateMany?: ServerEventUpdateManyWithWhereWithoutTextChannelInput | ServerEventUpdateManyWithWhereWithoutTextChannelInput[]
+    deleteMany?: ServerEventScalarWhereInput | ServerEventScalarWhereInput[]
   }
 
   export type ServerCreateNestedOneWithoutCategoriesInput = {
@@ -26754,6 +28877,78 @@ export namespace Prisma {
     update?: XOR<XOR<ServerUpdateToOneWithWhereWithoutNotificationsRelatedInput, ServerUpdateWithoutNotificationsRelatedInput>, ServerUncheckedUpdateWithoutNotificationsRelatedInput>
   }
 
+  export type ServerCreateNestedOneWithoutEventsInput = {
+    create?: XOR<ServerCreateWithoutEventsInput, ServerUncheckedCreateWithoutEventsInput>
+    connectOrCreate?: ServerCreateOrConnectWithoutEventsInput
+    connect?: ServerWhereUniqueInput
+  }
+
+  export type ProfileCreateNestedOneWithoutServerEventsCreatedInput = {
+    create?: XOR<ProfileCreateWithoutServerEventsCreatedInput, ProfileUncheckedCreateWithoutServerEventsCreatedInput>
+    connectOrCreate?: ProfileCreateOrConnectWithoutServerEventsCreatedInput
+    connect?: ProfileWhereUniqueInput
+  }
+
+  export type ChannelCreateNestedOneWithoutVoiceEventsInput = {
+    create?: XOR<ChannelCreateWithoutVoiceEventsInput, ChannelUncheckedCreateWithoutVoiceEventsInput>
+    connectOrCreate?: ChannelCreateOrConnectWithoutVoiceEventsInput
+    connect?: ChannelWhereUniqueInput
+  }
+
+  export type ChannelCreateNestedOneWithoutTextEventsInput = {
+    create?: XOR<ChannelCreateWithoutTextEventsInput, ChannelUncheckedCreateWithoutTextEventsInput>
+    connectOrCreate?: ChannelCreateOrConnectWithoutTextEventsInput
+    connect?: ChannelWhereUniqueInput
+  }
+
+  export type EnumEventTypeFieldUpdateOperationsInput = {
+    set?: $Enums.EventType
+  }
+
+  export type NullableEnumOtherEventLocationTypeFieldUpdateOperationsInput = {
+    set?: $Enums.OtherEventLocationType | null
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type ServerUpdateOneRequiredWithoutEventsNestedInput = {
+    create?: XOR<ServerCreateWithoutEventsInput, ServerUncheckedCreateWithoutEventsInput>
+    connectOrCreate?: ServerCreateOrConnectWithoutEventsInput
+    upsert?: ServerUpsertWithoutEventsInput
+    connect?: ServerWhereUniqueInput
+    update?: XOR<XOR<ServerUpdateToOneWithWhereWithoutEventsInput, ServerUpdateWithoutEventsInput>, ServerUncheckedUpdateWithoutEventsInput>
+  }
+
+  export type ProfileUpdateOneRequiredWithoutServerEventsCreatedNestedInput = {
+    create?: XOR<ProfileCreateWithoutServerEventsCreatedInput, ProfileUncheckedCreateWithoutServerEventsCreatedInput>
+    connectOrCreate?: ProfileCreateOrConnectWithoutServerEventsCreatedInput
+    upsert?: ProfileUpsertWithoutServerEventsCreatedInput
+    connect?: ProfileWhereUniqueInput
+    update?: XOR<XOR<ProfileUpdateToOneWithWhereWithoutServerEventsCreatedInput, ProfileUpdateWithoutServerEventsCreatedInput>, ProfileUncheckedUpdateWithoutServerEventsCreatedInput>
+  }
+
+  export type ChannelUpdateOneWithoutVoiceEventsNestedInput = {
+    create?: XOR<ChannelCreateWithoutVoiceEventsInput, ChannelUncheckedCreateWithoutVoiceEventsInput>
+    connectOrCreate?: ChannelCreateOrConnectWithoutVoiceEventsInput
+    upsert?: ChannelUpsertWithoutVoiceEventsInput
+    disconnect?: ChannelWhereInput | boolean
+    delete?: ChannelWhereInput | boolean
+    connect?: ChannelWhereUniqueInput
+    update?: XOR<XOR<ChannelUpdateToOneWithWhereWithoutVoiceEventsInput, ChannelUpdateWithoutVoiceEventsInput>, ChannelUncheckedUpdateWithoutVoiceEventsInput>
+  }
+
+  export type ChannelUpdateOneWithoutTextEventsNestedInput = {
+    create?: XOR<ChannelCreateWithoutTextEventsInput, ChannelUncheckedCreateWithoutTextEventsInput>
+    connectOrCreate?: ChannelCreateOrConnectWithoutTextEventsInput
+    upsert?: ChannelUpsertWithoutTextEventsInput
+    disconnect?: ChannelWhereInput | boolean
+    delete?: ChannelWhereInput | boolean
+    connect?: ChannelWhereUniqueInput
+    update?: XOR<XOR<ChannelUpdateToOneWithWhereWithoutTextEventsInput, ChannelUpdateWithoutTextEventsInput>, ChannelUncheckedUpdateWithoutTextEventsInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -27062,6 +29257,65 @@ export namespace Prisma {
     _max?: NestedEnumNotificationTypeFilter<$PrismaModel>
   }
 
+  export type NestedEnumEventTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.EventType | EnumEventTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.EventType[] | ListEnumEventTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EventType[] | ListEnumEventTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumEventTypeFilter<$PrismaModel> | $Enums.EventType
+  }
+
+  export type NestedEnumOtherEventLocationTypeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.OtherEventLocationType | EnumOtherEventLocationTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.OtherEventLocationType[] | ListEnumOtherEventLocationTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.OtherEventLocationType[] | ListEnumOtherEventLocationTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumOtherEventLocationTypeNullableFilter<$PrismaModel> | $Enums.OtherEventLocationType | null
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedEnumEventTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.EventType | EnumEventTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.EventType[] | ListEnumEventTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EventType[] | ListEnumEventTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumEventTypeWithAggregatesFilter<$PrismaModel> | $Enums.EventType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEventTypeFilter<$PrismaModel>
+    _max?: NestedEnumEventTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumOtherEventLocationTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OtherEventLocationType | EnumOtherEventLocationTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.OtherEventLocationType[] | ListEnumOtherEventLocationTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.OtherEventLocationType[] | ListEnumOtherEventLocationTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumOtherEventLocationTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.OtherEventLocationType | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumOtherEventLocationTypeNullableFilter<$PrismaModel>
+    _max?: NestedEnumOtherEventLocationTypeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type ServerCreateWithoutProfileInput = {
     id?: string
     name: string
@@ -27075,6 +29329,7 @@ export namespace Prisma {
     categories?: CategoryCreateNestedManyWithoutServerInput
     serverFollows?: ServerFollowCreateNestedManyWithoutServerInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedServerInput
+    events?: ServerEventCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateWithoutProfileInput = {
@@ -27090,6 +29345,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedCreateNestedManyWithoutServerInput
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutServerInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedServerInput
+    events?: ServerEventUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerCreateOrConnectWithoutProfileInput = {
@@ -27147,6 +29403,8 @@ export namespace Prisma {
     server: ServerCreateNestedOneWithoutChannelsInput
     category?: CategoryCreateNestedOneWithoutChannelsInput
     threads?: ThreadCreateNestedManyWithoutChannelInput
+    voiceEvents?: ServerEventCreateNestedManyWithoutVoiceChannelInput
+    textEvents?: ServerEventCreateNestedManyWithoutTextChannelInput
   }
 
   export type ChannelUncheckedCreateWithoutProfileInput = {
@@ -27158,6 +29416,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     threads?: ThreadUncheckedCreateNestedManyWithoutChannelInput
+    voiceEvents?: ServerEventUncheckedCreateNestedManyWithoutVoiceChannelInput
+    textEvents?: ServerEventUncheckedCreateNestedManyWithoutTextChannelInput
   }
 
   export type ChannelCreateOrConnectWithoutProfileInput = {
@@ -27491,6 +29751,50 @@ export namespace Prisma {
 
   export type NotificationCreateManyRelatedProfileInputEnvelope = {
     data: NotificationCreateManyRelatedProfileInput | NotificationCreateManyRelatedProfileInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ServerEventCreateWithoutCreatorProfileInput = {
+    id?: string
+    title: string
+    description?: string | null
+    type: $Enums.EventType
+    otherLocationType?: $Enums.OtherEventLocationType | null
+    externalUrl?: string | null
+    location?: string | null
+    scheduledStartTime: Date | string
+    scheduledEndTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    server: ServerCreateNestedOneWithoutEventsInput
+    voiceChannel?: ChannelCreateNestedOneWithoutVoiceEventsInput
+    textChannel?: ChannelCreateNestedOneWithoutTextEventsInput
+  }
+
+  export type ServerEventUncheckedCreateWithoutCreatorProfileInput = {
+    id?: string
+    title: string
+    description?: string | null
+    type: $Enums.EventType
+    otherLocationType?: $Enums.OtherEventLocationType | null
+    serverId: string
+    voiceChannelId?: string | null
+    textChannelId?: string | null
+    externalUrl?: string | null
+    location?: string | null
+    scheduledStartTime: Date | string
+    scheduledEndTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ServerEventCreateOrConnectWithoutCreatorProfileInput = {
+    where: ServerEventWhereUniqueInput
+    create: XOR<ServerEventCreateWithoutCreatorProfileInput, ServerEventUncheckedCreateWithoutCreatorProfileInput>
+  }
+
+  export type ServerEventCreateManyCreatorProfileInputEnvelope = {
+    data: ServerEventCreateManyCreatorProfileInput | ServerEventCreateManyCreatorProfileInput[]
     skipDuplicates?: boolean
   }
 
@@ -27871,6 +30175,43 @@ export namespace Prisma {
     data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutRelatedProfileInput>
   }
 
+  export type ServerEventUpsertWithWhereUniqueWithoutCreatorProfileInput = {
+    where: ServerEventWhereUniqueInput
+    update: XOR<ServerEventUpdateWithoutCreatorProfileInput, ServerEventUncheckedUpdateWithoutCreatorProfileInput>
+    create: XOR<ServerEventCreateWithoutCreatorProfileInput, ServerEventUncheckedCreateWithoutCreatorProfileInput>
+  }
+
+  export type ServerEventUpdateWithWhereUniqueWithoutCreatorProfileInput = {
+    where: ServerEventWhereUniqueInput
+    data: XOR<ServerEventUpdateWithoutCreatorProfileInput, ServerEventUncheckedUpdateWithoutCreatorProfileInput>
+  }
+
+  export type ServerEventUpdateManyWithWhereWithoutCreatorProfileInput = {
+    where: ServerEventScalarWhereInput
+    data: XOR<ServerEventUpdateManyMutationInput, ServerEventUncheckedUpdateManyWithoutCreatorProfileInput>
+  }
+
+  export type ServerEventScalarWhereInput = {
+    AND?: ServerEventScalarWhereInput | ServerEventScalarWhereInput[]
+    OR?: ServerEventScalarWhereInput[]
+    NOT?: ServerEventScalarWhereInput | ServerEventScalarWhereInput[]
+    id?: StringFilter<"ServerEvent"> | string
+    title?: StringFilter<"ServerEvent"> | string
+    description?: StringNullableFilter<"ServerEvent"> | string | null
+    type?: EnumEventTypeFilter<"ServerEvent"> | $Enums.EventType
+    otherLocationType?: EnumOtherEventLocationTypeNullableFilter<"ServerEvent"> | $Enums.OtherEventLocationType | null
+    serverId?: StringFilter<"ServerEvent"> | string
+    creatorProfileId?: StringFilter<"ServerEvent"> | string
+    voiceChannelId?: StringNullableFilter<"ServerEvent"> | string | null
+    textChannelId?: StringNullableFilter<"ServerEvent"> | string | null
+    externalUrl?: StringNullableFilter<"ServerEvent"> | string | null
+    location?: StringNullableFilter<"ServerEvent"> | string | null
+    scheduledStartTime?: DateTimeFilter<"ServerEvent"> | Date | string
+    scheduledEndTime?: DateTimeNullableFilter<"ServerEvent"> | Date | string | null
+    createdAt?: DateTimeFilter<"ServerEvent"> | Date | string
+    updatedAt?: DateTimeFilter<"ServerEvent"> | Date | string
+  }
+
   export type ProfileCreateWithoutServersInput = {
     id?: string
     userId: string
@@ -27898,6 +30239,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutServersInput = {
@@ -27927,6 +30269,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutServersInput = {
@@ -27979,6 +30322,8 @@ export namespace Prisma {
     profile: ProfileCreateNestedOneWithoutChannelsInput
     category?: CategoryCreateNestedOneWithoutChannelsInput
     threads?: ThreadCreateNestedManyWithoutChannelInput
+    voiceEvents?: ServerEventCreateNestedManyWithoutVoiceChannelInput
+    textEvents?: ServerEventCreateNestedManyWithoutTextChannelInput
   }
 
   export type ChannelUncheckedCreateWithoutServerInput = {
@@ -27990,6 +30335,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     threads?: ThreadUncheckedCreateNestedManyWithoutChannelInput
+    voiceEvents?: ServerEventUncheckedCreateNestedManyWithoutVoiceChannelInput
+    textEvents?: ServerEventUncheckedCreateNestedManyWithoutTextChannelInput
   }
 
   export type ChannelCreateOrConnectWithoutServerInput = {
@@ -28082,6 +30429,50 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ServerEventCreateWithoutServerInput = {
+    id?: string
+    title: string
+    description?: string | null
+    type: $Enums.EventType
+    otherLocationType?: $Enums.OtherEventLocationType | null
+    externalUrl?: string | null
+    location?: string | null
+    scheduledStartTime: Date | string
+    scheduledEndTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creatorProfile: ProfileCreateNestedOneWithoutServerEventsCreatedInput
+    voiceChannel?: ChannelCreateNestedOneWithoutVoiceEventsInput
+    textChannel?: ChannelCreateNestedOneWithoutTextEventsInput
+  }
+
+  export type ServerEventUncheckedCreateWithoutServerInput = {
+    id?: string
+    title: string
+    description?: string | null
+    type: $Enums.EventType
+    otherLocationType?: $Enums.OtherEventLocationType | null
+    creatorProfileId: string
+    voiceChannelId?: string | null
+    textChannelId?: string | null
+    externalUrl?: string | null
+    location?: string | null
+    scheduledStartTime: Date | string
+    scheduledEndTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ServerEventCreateOrConnectWithoutServerInput = {
+    where: ServerEventWhereUniqueInput
+    create: XOR<ServerEventCreateWithoutServerInput, ServerEventUncheckedCreateWithoutServerInput>
+  }
+
+  export type ServerEventCreateManyServerInputEnvelope = {
+    data: ServerEventCreateManyServerInput | ServerEventCreateManyServerInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ProfileUpsertWithoutServersInput = {
     update: XOR<ProfileUpdateWithoutServersInput, ProfileUncheckedUpdateWithoutServersInput>
     create: XOR<ProfileCreateWithoutServersInput, ProfileUncheckedCreateWithoutServersInput>
@@ -28120,6 +30511,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutServersInput = {
@@ -28149,6 +30541,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type MemberUpsertWithWhereUniqueWithoutServerInput = {
@@ -28242,6 +30635,22 @@ export namespace Prisma {
     data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutRelatedServerInput>
   }
 
+  export type ServerEventUpsertWithWhereUniqueWithoutServerInput = {
+    where: ServerEventWhereUniqueInput
+    update: XOR<ServerEventUpdateWithoutServerInput, ServerEventUncheckedUpdateWithoutServerInput>
+    create: XOR<ServerEventCreateWithoutServerInput, ServerEventUncheckedCreateWithoutServerInput>
+  }
+
+  export type ServerEventUpdateWithWhereUniqueWithoutServerInput = {
+    where: ServerEventWhereUniqueInput
+    data: XOR<ServerEventUpdateWithoutServerInput, ServerEventUncheckedUpdateWithoutServerInput>
+  }
+
+  export type ServerEventUpdateManyWithWhereWithoutServerInput = {
+    where: ServerEventScalarWhereInput
+    data: XOR<ServerEventUpdateManyMutationInput, ServerEventUncheckedUpdateManyWithoutServerInput>
+  }
+
   export type ProfileCreateWithoutMembersInput = {
     id?: string
     userId: string
@@ -28269,6 +30678,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutMembersInput = {
@@ -28298,6 +30708,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutMembersInput = {
@@ -28318,6 +30729,7 @@ export namespace Prisma {
     categories?: CategoryCreateNestedManyWithoutServerInput
     serverFollows?: ServerFollowCreateNestedManyWithoutServerInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedServerInput
+    events?: ServerEventCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateWithoutMembersInput = {
@@ -28333,6 +30745,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedCreateNestedManyWithoutServerInput
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutServerInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedServerInput
+    events?: ServerEventUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerCreateOrConnectWithoutMembersInput = {
@@ -28522,6 +30935,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutMembersInput = {
@@ -28551,6 +30965,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ServerUpsertWithoutMembersInput = {
@@ -28577,6 +30992,7 @@ export namespace Prisma {
     categories?: CategoryUpdateManyWithoutServerNestedInput
     serverFollows?: ServerFollowUpdateManyWithoutServerNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedServerNestedInput
+    events?: ServerEventUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutMembersInput = {
@@ -28592,6 +31008,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedUpdateManyWithoutServerNestedInput
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutServerNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedServerNestedInput
+    events?: ServerEventUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type ConversationUpsertWithWhereUniqueWithoutMemberOneInput = {
@@ -28729,6 +31146,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutChannelsInput = {
@@ -28758,6 +31176,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutChannelsInput = {
@@ -28778,6 +31197,7 @@ export namespace Prisma {
     categories?: CategoryCreateNestedManyWithoutServerInput
     serverFollows?: ServerFollowCreateNestedManyWithoutServerInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedServerInput
+    events?: ServerEventCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateWithoutChannelsInput = {
@@ -28793,6 +31213,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedCreateNestedManyWithoutServerInput
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutServerInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedServerInput
+    events?: ServerEventUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerCreateOrConnectWithoutChannelsInput = {
@@ -28849,6 +31270,94 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ServerEventCreateWithoutVoiceChannelInput = {
+    id?: string
+    title: string
+    description?: string | null
+    type: $Enums.EventType
+    otherLocationType?: $Enums.OtherEventLocationType | null
+    externalUrl?: string | null
+    location?: string | null
+    scheduledStartTime: Date | string
+    scheduledEndTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    server: ServerCreateNestedOneWithoutEventsInput
+    creatorProfile: ProfileCreateNestedOneWithoutServerEventsCreatedInput
+    textChannel?: ChannelCreateNestedOneWithoutTextEventsInput
+  }
+
+  export type ServerEventUncheckedCreateWithoutVoiceChannelInput = {
+    id?: string
+    title: string
+    description?: string | null
+    type: $Enums.EventType
+    otherLocationType?: $Enums.OtherEventLocationType | null
+    serverId: string
+    creatorProfileId: string
+    textChannelId?: string | null
+    externalUrl?: string | null
+    location?: string | null
+    scheduledStartTime: Date | string
+    scheduledEndTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ServerEventCreateOrConnectWithoutVoiceChannelInput = {
+    where: ServerEventWhereUniqueInput
+    create: XOR<ServerEventCreateWithoutVoiceChannelInput, ServerEventUncheckedCreateWithoutVoiceChannelInput>
+  }
+
+  export type ServerEventCreateManyVoiceChannelInputEnvelope = {
+    data: ServerEventCreateManyVoiceChannelInput | ServerEventCreateManyVoiceChannelInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ServerEventCreateWithoutTextChannelInput = {
+    id?: string
+    title: string
+    description?: string | null
+    type: $Enums.EventType
+    otherLocationType?: $Enums.OtherEventLocationType | null
+    externalUrl?: string | null
+    location?: string | null
+    scheduledStartTime: Date | string
+    scheduledEndTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    server: ServerCreateNestedOneWithoutEventsInput
+    creatorProfile: ProfileCreateNestedOneWithoutServerEventsCreatedInput
+    voiceChannel?: ChannelCreateNestedOneWithoutVoiceEventsInput
+  }
+
+  export type ServerEventUncheckedCreateWithoutTextChannelInput = {
+    id?: string
+    title: string
+    description?: string | null
+    type: $Enums.EventType
+    otherLocationType?: $Enums.OtherEventLocationType | null
+    serverId: string
+    creatorProfileId: string
+    voiceChannelId?: string | null
+    externalUrl?: string | null
+    location?: string | null
+    scheduledStartTime: Date | string
+    scheduledEndTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ServerEventCreateOrConnectWithoutTextChannelInput = {
+    where: ServerEventWhereUniqueInput
+    create: XOR<ServerEventCreateWithoutTextChannelInput, ServerEventUncheckedCreateWithoutTextChannelInput>
+  }
+
+  export type ServerEventCreateManyTextChannelInputEnvelope = {
+    data: ServerEventCreateManyTextChannelInput | ServerEventCreateManyTextChannelInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ProfileUpsertWithoutChannelsInput = {
     update: XOR<ProfileUpdateWithoutChannelsInput, ProfileUncheckedUpdateWithoutChannelsInput>
     create: XOR<ProfileCreateWithoutChannelsInput, ProfileUncheckedCreateWithoutChannelsInput>
@@ -28887,6 +31396,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutChannelsInput = {
@@ -28916,6 +31426,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ServerUpsertWithoutChannelsInput = {
@@ -28942,6 +31453,7 @@ export namespace Prisma {
     categories?: CategoryUpdateManyWithoutServerNestedInput
     serverFollows?: ServerFollowUpdateManyWithoutServerNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedServerNestedInput
+    events?: ServerEventUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutChannelsInput = {
@@ -28957,6 +31469,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedUpdateManyWithoutServerNestedInput
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutServerNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedServerNestedInput
+    events?: ServerEventUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type CategoryUpsertWithoutChannelsInput = {
@@ -29015,6 +31528,38 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Thread"> | Date | string
   }
 
+  export type ServerEventUpsertWithWhereUniqueWithoutVoiceChannelInput = {
+    where: ServerEventWhereUniqueInput
+    update: XOR<ServerEventUpdateWithoutVoiceChannelInput, ServerEventUncheckedUpdateWithoutVoiceChannelInput>
+    create: XOR<ServerEventCreateWithoutVoiceChannelInput, ServerEventUncheckedCreateWithoutVoiceChannelInput>
+  }
+
+  export type ServerEventUpdateWithWhereUniqueWithoutVoiceChannelInput = {
+    where: ServerEventWhereUniqueInput
+    data: XOR<ServerEventUpdateWithoutVoiceChannelInput, ServerEventUncheckedUpdateWithoutVoiceChannelInput>
+  }
+
+  export type ServerEventUpdateManyWithWhereWithoutVoiceChannelInput = {
+    where: ServerEventScalarWhereInput
+    data: XOR<ServerEventUpdateManyMutationInput, ServerEventUncheckedUpdateManyWithoutVoiceChannelInput>
+  }
+
+  export type ServerEventUpsertWithWhereUniqueWithoutTextChannelInput = {
+    where: ServerEventWhereUniqueInput
+    update: XOR<ServerEventUpdateWithoutTextChannelInput, ServerEventUncheckedUpdateWithoutTextChannelInput>
+    create: XOR<ServerEventCreateWithoutTextChannelInput, ServerEventUncheckedCreateWithoutTextChannelInput>
+  }
+
+  export type ServerEventUpdateWithWhereUniqueWithoutTextChannelInput = {
+    where: ServerEventWhereUniqueInput
+    data: XOR<ServerEventUpdateWithoutTextChannelInput, ServerEventUncheckedUpdateWithoutTextChannelInput>
+  }
+
+  export type ServerEventUpdateManyWithWhereWithoutTextChannelInput = {
+    where: ServerEventScalarWhereInput
+    data: XOR<ServerEventUpdateManyMutationInput, ServerEventUncheckedUpdateManyWithoutTextChannelInput>
+  }
+
   export type ServerCreateWithoutCategoriesInput = {
     id?: string
     name: string
@@ -29028,6 +31573,7 @@ export namespace Prisma {
     channels?: ChannelCreateNestedManyWithoutServerInput
     serverFollows?: ServerFollowCreateNestedManyWithoutServerInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedServerInput
+    events?: ServerEventCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateWithoutCategoriesInput = {
@@ -29043,6 +31589,7 @@ export namespace Prisma {
     channels?: ChannelUncheckedCreateNestedManyWithoutServerInput
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutServerInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedServerInput
+    events?: ServerEventUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerCreateOrConnectWithoutCategoriesInput = {
@@ -29059,6 +31606,8 @@ export namespace Prisma {
     profile: ProfileCreateNestedOneWithoutChannelsInput
     server: ServerCreateNestedOneWithoutChannelsInput
     threads?: ThreadCreateNestedManyWithoutChannelInput
+    voiceEvents?: ServerEventCreateNestedManyWithoutVoiceChannelInput
+    textEvents?: ServerEventCreateNestedManyWithoutTextChannelInput
   }
 
   export type ChannelUncheckedCreateWithoutCategoryInput = {
@@ -29070,6 +31619,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     threads?: ThreadUncheckedCreateNestedManyWithoutChannelInput
+    voiceEvents?: ServerEventUncheckedCreateNestedManyWithoutVoiceChannelInput
+    textEvents?: ServerEventUncheckedCreateNestedManyWithoutTextChannelInput
   }
 
   export type ChannelCreateOrConnectWithoutCategoryInput = {
@@ -29106,6 +31657,7 @@ export namespace Prisma {
     channels?: ChannelUpdateManyWithoutServerNestedInput
     serverFollows?: ServerFollowUpdateManyWithoutServerNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedServerNestedInput
+    events?: ServerEventUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutCategoriesInput = {
@@ -29121,6 +31673,7 @@ export namespace Prisma {
     channels?: ChannelUncheckedUpdateManyWithoutServerNestedInput
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutServerNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedServerNestedInput
+    events?: ServerEventUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type ChannelUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -29228,6 +31781,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutConversationsInput = {
@@ -29257,6 +31811,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutConversationsInput = {
@@ -29406,6 +31961,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutConversationsInput = {
@@ -29435,6 +31991,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type DirectMessageUpsertWithWhereUniqueWithoutConversationInput = {
@@ -29480,6 +32037,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutGroupConversationsCreatedInput = {
@@ -29509,6 +32067,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutGroupConversationsCreatedInput = {
@@ -29612,6 +32171,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutGroupConversationsCreatedInput = {
@@ -29641,6 +32201,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type GroupConversationMemberUpsertWithWhereUniqueWithoutGroupConversationInput = {
@@ -29702,6 +32263,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutGroupConversationsInput = {
@@ -29731,6 +32293,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutGroupConversationsInput = {
@@ -29832,6 +32395,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutGroupConversationsInput = {
@@ -29861,6 +32425,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type MemberUpsertWithoutGroupConversationsInput = {
@@ -30202,6 +32767,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutFriendRequestsSentInput = {
@@ -30231,6 +32797,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutFriendRequestsSentInput = {
@@ -30265,6 +32832,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutFriendRequestsReceivedInput = {
@@ -30294,6 +32862,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutFriendRequestsReceivedInput = {
@@ -30339,6 +32908,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutFriendRequestsSentInput = {
@@ -30368,6 +32938,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUpsertWithoutFriendRequestsReceivedInput = {
@@ -30408,6 +32979,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutFriendRequestsReceivedInput = {
@@ -30437,6 +33009,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileCreateWithoutMessageRequestsSentInput = {
@@ -30466,6 +33039,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutMessageRequestsSentInput = {
@@ -30495,6 +33069,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutMessageRequestsSentInput = {
@@ -30529,6 +33104,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutMessageRequestsReceivedInput = {
@@ -30558,6 +33134,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutMessageRequestsReceivedInput = {
@@ -30603,6 +33180,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutMessageRequestsSentInput = {
@@ -30632,6 +33210,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUpsertWithoutMessageRequestsReceivedInput = {
@@ -30672,6 +33251,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutMessageRequestsReceivedInput = {
@@ -30701,6 +33281,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileCreateWithoutFollowsSentInput = {
@@ -30730,6 +33311,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutFollowsSentInput = {
@@ -30759,6 +33341,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutFollowsSentInput = {
@@ -30793,6 +33376,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutFollowsReceivedInput = {
@@ -30822,6 +33406,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutFollowsReceivedInput = {
@@ -30867,6 +33452,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutFollowsSentInput = {
@@ -30896,6 +33482,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUpsertWithoutFollowsReceivedInput = {
@@ -30936,6 +33523,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutFollowsReceivedInput = {
@@ -30965,6 +33553,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileCreateWithoutServerFollowsInput = {
@@ -30994,6 +33583,7 @@ export namespace Prisma {
     followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutServerFollowsInput = {
@@ -31023,6 +33613,7 @@ export namespace Prisma {
     followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutServerFollowsInput = {
@@ -31043,6 +33634,7 @@ export namespace Prisma {
     channels?: ChannelCreateNestedManyWithoutServerInput
     categories?: CategoryCreateNestedManyWithoutServerInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedServerInput
+    events?: ServerEventCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateWithoutServerFollowsInput = {
@@ -31058,6 +33650,7 @@ export namespace Prisma {
     channels?: ChannelUncheckedCreateNestedManyWithoutServerInput
     categories?: CategoryUncheckedCreateNestedManyWithoutServerInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedServerInput
+    events?: ServerEventUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerCreateOrConnectWithoutServerFollowsInput = {
@@ -31103,6 +33696,7 @@ export namespace Prisma {
     followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutServerFollowsInput = {
@@ -31132,6 +33726,7 @@ export namespace Prisma {
     followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ServerUpsertWithoutServerFollowsInput = {
@@ -31158,6 +33753,7 @@ export namespace Prisma {
     channels?: ChannelUpdateManyWithoutServerNestedInput
     categories?: CategoryUpdateManyWithoutServerNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedServerNestedInput
+    events?: ServerEventUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutServerFollowsInput = {
@@ -31173,6 +33769,7 @@ export namespace Prisma {
     channels?: ChannelUncheckedUpdateManyWithoutServerNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutServerNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedServerNestedInput
+    events?: ServerEventUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type ChannelCreateWithoutThreadsInput = {
@@ -31184,6 +33781,8 @@ export namespace Prisma {
     profile: ProfileCreateNestedOneWithoutChannelsInput
     server: ServerCreateNestedOneWithoutChannelsInput
     category?: CategoryCreateNestedOneWithoutChannelsInput
+    voiceEvents?: ServerEventCreateNestedManyWithoutVoiceChannelInput
+    textEvents?: ServerEventCreateNestedManyWithoutTextChannelInput
   }
 
   export type ChannelUncheckedCreateWithoutThreadsInput = {
@@ -31195,6 +33794,8 @@ export namespace Prisma {
     categoryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    voiceEvents?: ServerEventUncheckedCreateNestedManyWithoutVoiceChannelInput
+    textEvents?: ServerEventUncheckedCreateNestedManyWithoutTextChannelInput
   }
 
   export type ChannelCreateOrConnectWithoutThreadsInput = {
@@ -31222,6 +33823,8 @@ export namespace Prisma {
     profile?: ProfileUpdateOneRequiredWithoutChannelsNestedInput
     server?: ServerUpdateOneRequiredWithoutChannelsNestedInput
     category?: CategoryUpdateOneWithoutChannelsNestedInput
+    voiceEvents?: ServerEventUpdateManyWithoutVoiceChannelNestedInput
+    textEvents?: ServerEventUpdateManyWithoutTextChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateWithoutThreadsInput = {
@@ -31233,6 +33836,8 @@ export namespace Prisma {
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    voiceEvents?: ServerEventUncheckedUpdateManyWithoutVoiceChannelNestedInput
+    textEvents?: ServerEventUncheckedUpdateManyWithoutTextChannelNestedInput
   }
 
   export type ProfileCreateWithoutNotificationsReceivedInput = {
@@ -31262,6 +33867,7 @@ export namespace Prisma {
     followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutNotificationsReceivedInput = {
@@ -31291,6 +33897,7 @@ export namespace Prisma {
     followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutNotificationsReceivedInput = {
@@ -31325,6 +33932,7 @@ export namespace Prisma {
     followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
+    serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutNotificationsRelatedInput = {
@@ -31354,6 +33962,7 @@ export namespace Prisma {
     followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
+    serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutNotificationsRelatedInput = {
@@ -31374,6 +33983,7 @@ export namespace Prisma {
     channels?: ChannelCreateNestedManyWithoutServerInput
     categories?: CategoryCreateNestedManyWithoutServerInput
     serverFollows?: ServerFollowCreateNestedManyWithoutServerInput
+    events?: ServerEventCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateWithoutNotificationsRelatedInput = {
@@ -31389,6 +33999,7 @@ export namespace Prisma {
     channels?: ChannelUncheckedCreateNestedManyWithoutServerInput
     categories?: CategoryUncheckedCreateNestedManyWithoutServerInput
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutServerInput
+    events?: ServerEventUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerCreateOrConnectWithoutNotificationsRelatedInput = {
@@ -31434,6 +34045,7 @@ export namespace Prisma {
     followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutNotificationsReceivedInput = {
@@ -31463,6 +34075,7 @@ export namespace Prisma {
     followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUpsertWithoutNotificationsRelatedInput = {
@@ -31503,6 +34116,7 @@ export namespace Prisma {
     followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
+    serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutNotificationsRelatedInput = {
@@ -31532,6 +34146,7 @@ export namespace Prisma {
     followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
+    serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ServerUpsertWithoutNotificationsRelatedInput = {
@@ -31558,6 +34173,7 @@ export namespace Prisma {
     channels?: ChannelUpdateManyWithoutServerNestedInput
     categories?: CategoryUpdateManyWithoutServerNestedInput
     serverFollows?: ServerFollowUpdateManyWithoutServerNestedInput
+    events?: ServerEventUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutNotificationsRelatedInput = {
@@ -31573,6 +34189,359 @@ export namespace Prisma {
     channels?: ChannelUncheckedUpdateManyWithoutServerNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutServerNestedInput
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutServerNestedInput
+    events?: ServerEventUncheckedUpdateManyWithoutServerNestedInput
+  }
+
+  export type ServerCreateWithoutEventsInput = {
+    id?: string
+    name: string
+    imageUrl: string
+    inviteCode: string
+    category?: $Enums.ServerCategory
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    profile: ProfileCreateNestedOneWithoutServersInput
+    members?: MemberCreateNestedManyWithoutServerInput
+    channels?: ChannelCreateNestedManyWithoutServerInput
+    categories?: CategoryCreateNestedManyWithoutServerInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutServerInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedServerInput
+  }
+
+  export type ServerUncheckedCreateWithoutEventsInput = {
+    id?: string
+    name: string
+    imageUrl: string
+    inviteCode: string
+    category?: $Enums.ServerCategory
+    profileId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: MemberUncheckedCreateNestedManyWithoutServerInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutServerInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutServerInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutServerInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedServerInput
+  }
+
+  export type ServerCreateOrConnectWithoutEventsInput = {
+    where: ServerWhereUniqueInput
+    create: XOR<ServerCreateWithoutEventsInput, ServerUncheckedCreateWithoutEventsInput>
+  }
+
+  export type ProfileCreateWithoutServerEventsCreatedInput = {
+    id?: string
+    userId: string
+    name: string
+    nickname?: string | null
+    imageUrl: string
+    email: string
+    status?: $Enums.UserStatus
+    bio?: string | null
+    website?: string | null
+    socialMedia?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    servers?: ServerCreateNestedManyWithoutProfileInput
+    members?: MemberCreateNestedManyWithoutProfileInput
+    channels?: ChannelCreateNestedManyWithoutProfileInput
+    conversations?: ConversationCreateNestedManyWithoutProfileInput
+    groupConversations?: GroupConversationMemberCreateNestedManyWithoutProfileInput
+    groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
+    friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
+    friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
+  }
+
+  export type ProfileUncheckedCreateWithoutServerEventsCreatedInput = {
+    id?: string
+    userId: string
+    name: string
+    nickname?: string | null
+    imageUrl: string
+    email: string
+    status?: $Enums.UserStatus
+    bio?: string | null
+    website?: string | null
+    socialMedia?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    servers?: ServerUncheckedCreateNestedManyWithoutProfileInput
+    members?: MemberUncheckedCreateNestedManyWithoutProfileInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutProfileInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutProfileInput
+    groupConversations?: GroupConversationMemberUncheckedCreateNestedManyWithoutProfileInput
+    groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
+    friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
+  }
+
+  export type ProfileCreateOrConnectWithoutServerEventsCreatedInput = {
+    where: ProfileWhereUniqueInput
+    create: XOR<ProfileCreateWithoutServerEventsCreatedInput, ProfileUncheckedCreateWithoutServerEventsCreatedInput>
+  }
+
+  export type ChannelCreateWithoutVoiceEventsInput = {
+    id?: string
+    name: string
+    type?: $Enums.ChannelType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    profile: ProfileCreateNestedOneWithoutChannelsInput
+    server: ServerCreateNestedOneWithoutChannelsInput
+    category?: CategoryCreateNestedOneWithoutChannelsInput
+    threads?: ThreadCreateNestedManyWithoutChannelInput
+    textEvents?: ServerEventCreateNestedManyWithoutTextChannelInput
+  }
+
+  export type ChannelUncheckedCreateWithoutVoiceEventsInput = {
+    id?: string
+    name: string
+    type?: $Enums.ChannelType
+    profileId: string
+    serverId: string
+    categoryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    threads?: ThreadUncheckedCreateNestedManyWithoutChannelInput
+    textEvents?: ServerEventUncheckedCreateNestedManyWithoutTextChannelInput
+  }
+
+  export type ChannelCreateOrConnectWithoutVoiceEventsInput = {
+    where: ChannelWhereUniqueInput
+    create: XOR<ChannelCreateWithoutVoiceEventsInput, ChannelUncheckedCreateWithoutVoiceEventsInput>
+  }
+
+  export type ChannelCreateWithoutTextEventsInput = {
+    id?: string
+    name: string
+    type?: $Enums.ChannelType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    profile: ProfileCreateNestedOneWithoutChannelsInput
+    server: ServerCreateNestedOneWithoutChannelsInput
+    category?: CategoryCreateNestedOneWithoutChannelsInput
+    threads?: ThreadCreateNestedManyWithoutChannelInput
+    voiceEvents?: ServerEventCreateNestedManyWithoutVoiceChannelInput
+  }
+
+  export type ChannelUncheckedCreateWithoutTextEventsInput = {
+    id?: string
+    name: string
+    type?: $Enums.ChannelType
+    profileId: string
+    serverId: string
+    categoryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    threads?: ThreadUncheckedCreateNestedManyWithoutChannelInput
+    voiceEvents?: ServerEventUncheckedCreateNestedManyWithoutVoiceChannelInput
+  }
+
+  export type ChannelCreateOrConnectWithoutTextEventsInput = {
+    where: ChannelWhereUniqueInput
+    create: XOR<ChannelCreateWithoutTextEventsInput, ChannelUncheckedCreateWithoutTextEventsInput>
+  }
+
+  export type ServerUpsertWithoutEventsInput = {
+    update: XOR<ServerUpdateWithoutEventsInput, ServerUncheckedUpdateWithoutEventsInput>
+    create: XOR<ServerCreateWithoutEventsInput, ServerUncheckedCreateWithoutEventsInput>
+    where?: ServerWhereInput
+  }
+
+  export type ServerUpdateToOneWithWhereWithoutEventsInput = {
+    where?: ServerWhereInput
+    data: XOR<ServerUpdateWithoutEventsInput, ServerUncheckedUpdateWithoutEventsInput>
+  }
+
+  export type ServerUpdateWithoutEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    category?: EnumServerCategoryFieldUpdateOperationsInput | $Enums.ServerCategory
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    profile?: ProfileUpdateOneRequiredWithoutServersNestedInput
+    members?: MemberUpdateManyWithoutServerNestedInput
+    channels?: ChannelUpdateManyWithoutServerNestedInput
+    categories?: CategoryUpdateManyWithoutServerNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutServerNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedServerNestedInput
+  }
+
+  export type ServerUncheckedUpdateWithoutEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    category?: EnumServerCategoryFieldUpdateOperationsInput | $Enums.ServerCategory
+    profileId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: MemberUncheckedUpdateManyWithoutServerNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutServerNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutServerNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutServerNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedServerNestedInput
+  }
+
+  export type ProfileUpsertWithoutServerEventsCreatedInput = {
+    update: XOR<ProfileUpdateWithoutServerEventsCreatedInput, ProfileUncheckedUpdateWithoutServerEventsCreatedInput>
+    create: XOR<ProfileCreateWithoutServerEventsCreatedInput, ProfileUncheckedCreateWithoutServerEventsCreatedInput>
+    where?: ProfileWhereInput
+  }
+
+  export type ProfileUpdateToOneWithWhereWithoutServerEventsCreatedInput = {
+    where?: ProfileWhereInput
+    data: XOR<ProfileUpdateWithoutServerEventsCreatedInput, ProfileUncheckedUpdateWithoutServerEventsCreatedInput>
+  }
+
+  export type ProfileUpdateWithoutServerEventsCreatedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    socialMedia?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    servers?: ServerUpdateManyWithoutProfileNestedInput
+    members?: MemberUpdateManyWithoutProfileNestedInput
+    channels?: ChannelUpdateManyWithoutProfileNestedInput
+    conversations?: ConversationUpdateManyWithoutProfileNestedInput
+    groupConversations?: GroupConversationMemberUpdateManyWithoutProfileNestedInput
+    groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
+    friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
+    friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
+  }
+
+  export type ProfileUncheckedUpdateWithoutServerEventsCreatedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    socialMedia?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    servers?: ServerUncheckedUpdateManyWithoutProfileNestedInput
+    members?: MemberUncheckedUpdateManyWithoutProfileNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutProfileNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutProfileNestedInput
+    groupConversations?: GroupConversationMemberUncheckedUpdateManyWithoutProfileNestedInput
+    groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
+    friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+  }
+
+  export type ChannelUpsertWithoutVoiceEventsInput = {
+    update: XOR<ChannelUpdateWithoutVoiceEventsInput, ChannelUncheckedUpdateWithoutVoiceEventsInput>
+    create: XOR<ChannelCreateWithoutVoiceEventsInput, ChannelUncheckedCreateWithoutVoiceEventsInput>
+    where?: ChannelWhereInput
+  }
+
+  export type ChannelUpdateToOneWithWhereWithoutVoiceEventsInput = {
+    where?: ChannelWhereInput
+    data: XOR<ChannelUpdateWithoutVoiceEventsInput, ChannelUncheckedUpdateWithoutVoiceEventsInput>
+  }
+
+  export type ChannelUpdateWithoutVoiceEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumChannelTypeFieldUpdateOperationsInput | $Enums.ChannelType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    profile?: ProfileUpdateOneRequiredWithoutChannelsNestedInput
+    server?: ServerUpdateOneRequiredWithoutChannelsNestedInput
+    category?: CategoryUpdateOneWithoutChannelsNestedInput
+    threads?: ThreadUpdateManyWithoutChannelNestedInput
+    textEvents?: ServerEventUpdateManyWithoutTextChannelNestedInput
+  }
+
+  export type ChannelUncheckedUpdateWithoutVoiceEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumChannelTypeFieldUpdateOperationsInput | $Enums.ChannelType
+    profileId?: StringFieldUpdateOperationsInput | string
+    serverId?: StringFieldUpdateOperationsInput | string
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    threads?: ThreadUncheckedUpdateManyWithoutChannelNestedInput
+    textEvents?: ServerEventUncheckedUpdateManyWithoutTextChannelNestedInput
+  }
+
+  export type ChannelUpsertWithoutTextEventsInput = {
+    update: XOR<ChannelUpdateWithoutTextEventsInput, ChannelUncheckedUpdateWithoutTextEventsInput>
+    create: XOR<ChannelCreateWithoutTextEventsInput, ChannelUncheckedCreateWithoutTextEventsInput>
+    where?: ChannelWhereInput
+  }
+
+  export type ChannelUpdateToOneWithWhereWithoutTextEventsInput = {
+    where?: ChannelWhereInput
+    data: XOR<ChannelUpdateWithoutTextEventsInput, ChannelUncheckedUpdateWithoutTextEventsInput>
+  }
+
+  export type ChannelUpdateWithoutTextEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumChannelTypeFieldUpdateOperationsInput | $Enums.ChannelType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    profile?: ProfileUpdateOneRequiredWithoutChannelsNestedInput
+    server?: ServerUpdateOneRequiredWithoutChannelsNestedInput
+    category?: CategoryUpdateOneWithoutChannelsNestedInput
+    threads?: ThreadUpdateManyWithoutChannelNestedInput
+    voiceEvents?: ServerEventUpdateManyWithoutVoiceChannelNestedInput
+  }
+
+  export type ChannelUncheckedUpdateWithoutTextEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumChannelTypeFieldUpdateOperationsInput | $Enums.ChannelType
+    profileId?: StringFieldUpdateOperationsInput | string
+    serverId?: StringFieldUpdateOperationsInput | string
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    threads?: ThreadUncheckedUpdateManyWithoutChannelNestedInput
+    voiceEvents?: ServerEventUncheckedUpdateManyWithoutVoiceChannelNestedInput
   }
 
   export type ServerCreateManyProfileInput = {
@@ -31702,6 +34671,23 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type ServerEventCreateManyCreatorProfileInput = {
+    id?: string
+    title: string
+    description?: string | null
+    type: $Enums.EventType
+    otherLocationType?: $Enums.OtherEventLocationType | null
+    serverId: string
+    voiceChannelId?: string | null
+    textChannelId?: string | null
+    externalUrl?: string | null
+    location?: string | null
+    scheduledStartTime: Date | string
+    scheduledEndTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ServerUpdateWithoutProfileInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -31715,6 +34701,7 @@ export namespace Prisma {
     categories?: CategoryUpdateManyWithoutServerNestedInput
     serverFollows?: ServerFollowUpdateManyWithoutServerNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedServerNestedInput
+    events?: ServerEventUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutProfileInput = {
@@ -31730,6 +34717,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedUpdateManyWithoutServerNestedInput
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutServerNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedServerNestedInput
+    events?: ServerEventUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateManyWithoutProfileInput = {
@@ -31785,6 +34773,8 @@ export namespace Prisma {
     server?: ServerUpdateOneRequiredWithoutChannelsNestedInput
     category?: CategoryUpdateOneWithoutChannelsNestedInput
     threads?: ThreadUpdateManyWithoutChannelNestedInput
+    voiceEvents?: ServerEventUpdateManyWithoutVoiceChannelNestedInput
+    textEvents?: ServerEventUpdateManyWithoutTextChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateWithoutProfileInput = {
@@ -31796,6 +34786,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     threads?: ThreadUncheckedUpdateManyWithoutChannelNestedInput
+    voiceEvents?: ServerEventUncheckedUpdateManyWithoutVoiceChannelNestedInput
+    textEvents?: ServerEventUncheckedUpdateManyWithoutTextChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateManyWithoutProfileInput = {
@@ -32111,6 +35103,57 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ServerEventUpdateWithoutCreatorProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    otherLocationType?: NullableEnumOtherEventLocationTypeFieldUpdateOperationsInput | $Enums.OtherEventLocationType | null
+    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledStartTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduledEndTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    server?: ServerUpdateOneRequiredWithoutEventsNestedInput
+    voiceChannel?: ChannelUpdateOneWithoutVoiceEventsNestedInput
+    textChannel?: ChannelUpdateOneWithoutTextEventsNestedInput
+  }
+
+  export type ServerEventUncheckedUpdateWithoutCreatorProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    otherLocationType?: NullableEnumOtherEventLocationTypeFieldUpdateOperationsInput | $Enums.OtherEventLocationType | null
+    serverId?: StringFieldUpdateOperationsInput | string
+    voiceChannelId?: NullableStringFieldUpdateOperationsInput | string | null
+    textChannelId?: NullableStringFieldUpdateOperationsInput | string | null
+    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledStartTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduledEndTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServerEventUncheckedUpdateManyWithoutCreatorProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    otherLocationType?: NullableEnumOtherEventLocationTypeFieldUpdateOperationsInput | $Enums.OtherEventLocationType | null
+    serverId?: StringFieldUpdateOperationsInput | string
+    voiceChannelId?: NullableStringFieldUpdateOperationsInput | string | null
+    textChannelId?: NullableStringFieldUpdateOperationsInput | string | null
+    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledStartTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduledEndTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type MemberCreateManyServerInput = {
     id?: string
     role?: $Enums.MemberRole
@@ -32151,6 +35194,23 @@ export namespace Prisma {
     relatedProfileId?: string | null
     isRead?: boolean
     createdAt?: Date | string
+  }
+
+  export type ServerEventCreateManyServerInput = {
+    id?: string
+    title: string
+    description?: string | null
+    type: $Enums.EventType
+    otherLocationType?: $Enums.OtherEventLocationType | null
+    creatorProfileId: string
+    voiceChannelId?: string | null
+    textChannelId?: string | null
+    externalUrl?: string | null
+    location?: string | null
+    scheduledStartTime: Date | string
+    scheduledEndTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MemberUpdateWithoutServerInput = {
@@ -32196,6 +35256,8 @@ export namespace Prisma {
     profile?: ProfileUpdateOneRequiredWithoutChannelsNestedInput
     category?: CategoryUpdateOneWithoutChannelsNestedInput
     threads?: ThreadUpdateManyWithoutChannelNestedInput
+    voiceEvents?: ServerEventUpdateManyWithoutVoiceChannelNestedInput
+    textEvents?: ServerEventUpdateManyWithoutTextChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateWithoutServerInput = {
@@ -32207,6 +35269,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     threads?: ThreadUncheckedUpdateManyWithoutChannelNestedInput
+    voiceEvents?: ServerEventUncheckedUpdateManyWithoutVoiceChannelNestedInput
+    textEvents?: ServerEventUncheckedUpdateManyWithoutTextChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateManyWithoutServerInput = {
@@ -32291,6 +35355,57 @@ export namespace Prisma {
     relatedProfileId?: NullableStringFieldUpdateOperationsInput | string | null
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServerEventUpdateWithoutServerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    otherLocationType?: NullableEnumOtherEventLocationTypeFieldUpdateOperationsInput | $Enums.OtherEventLocationType | null
+    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledStartTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduledEndTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creatorProfile?: ProfileUpdateOneRequiredWithoutServerEventsCreatedNestedInput
+    voiceChannel?: ChannelUpdateOneWithoutVoiceEventsNestedInput
+    textChannel?: ChannelUpdateOneWithoutTextEventsNestedInput
+  }
+
+  export type ServerEventUncheckedUpdateWithoutServerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    otherLocationType?: NullableEnumOtherEventLocationTypeFieldUpdateOperationsInput | $Enums.OtherEventLocationType | null
+    creatorProfileId?: StringFieldUpdateOperationsInput | string
+    voiceChannelId?: NullableStringFieldUpdateOperationsInput | string | null
+    textChannelId?: NullableStringFieldUpdateOperationsInput | string | null
+    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledStartTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduledEndTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServerEventUncheckedUpdateManyWithoutServerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    otherLocationType?: NullableEnumOtherEventLocationTypeFieldUpdateOperationsInput | $Enums.OtherEventLocationType | null
+    creatorProfileId?: StringFieldUpdateOperationsInput | string
+    voiceChannelId?: NullableStringFieldUpdateOperationsInput | string | null
+    textChannelId?: NullableStringFieldUpdateOperationsInput | string | null
+    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledStartTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduledEndTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ConversationCreateManyMemberOneInput = {
@@ -32486,6 +35601,40 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ServerEventCreateManyVoiceChannelInput = {
+    id?: string
+    title: string
+    description?: string | null
+    type: $Enums.EventType
+    otherLocationType?: $Enums.OtherEventLocationType | null
+    serverId: string
+    creatorProfileId: string
+    textChannelId?: string | null
+    externalUrl?: string | null
+    location?: string | null
+    scheduledStartTime: Date | string
+    scheduledEndTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ServerEventCreateManyTextChannelInput = {
+    id?: string
+    title: string
+    description?: string | null
+    type: $Enums.EventType
+    otherLocationType?: $Enums.OtherEventLocationType | null
+    serverId: string
+    creatorProfileId: string
+    voiceChannelId?: string | null
+    externalUrl?: string | null
+    location?: string | null
+    scheduledStartTime: Date | string
+    scheduledEndTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ThreadUpdateWithoutChannelInput = {
     id?: StringFieldUpdateOperationsInput | string
     parentMessageId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -32513,6 +35662,108 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ServerEventUpdateWithoutVoiceChannelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    otherLocationType?: NullableEnumOtherEventLocationTypeFieldUpdateOperationsInput | $Enums.OtherEventLocationType | null
+    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledStartTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduledEndTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    server?: ServerUpdateOneRequiredWithoutEventsNestedInput
+    creatorProfile?: ProfileUpdateOneRequiredWithoutServerEventsCreatedNestedInput
+    textChannel?: ChannelUpdateOneWithoutTextEventsNestedInput
+  }
+
+  export type ServerEventUncheckedUpdateWithoutVoiceChannelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    otherLocationType?: NullableEnumOtherEventLocationTypeFieldUpdateOperationsInput | $Enums.OtherEventLocationType | null
+    serverId?: StringFieldUpdateOperationsInput | string
+    creatorProfileId?: StringFieldUpdateOperationsInput | string
+    textChannelId?: NullableStringFieldUpdateOperationsInput | string | null
+    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledStartTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduledEndTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServerEventUncheckedUpdateManyWithoutVoiceChannelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    otherLocationType?: NullableEnumOtherEventLocationTypeFieldUpdateOperationsInput | $Enums.OtherEventLocationType | null
+    serverId?: StringFieldUpdateOperationsInput | string
+    creatorProfileId?: StringFieldUpdateOperationsInput | string
+    textChannelId?: NullableStringFieldUpdateOperationsInput | string | null
+    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledStartTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduledEndTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServerEventUpdateWithoutTextChannelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    otherLocationType?: NullableEnumOtherEventLocationTypeFieldUpdateOperationsInput | $Enums.OtherEventLocationType | null
+    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledStartTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduledEndTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    server?: ServerUpdateOneRequiredWithoutEventsNestedInput
+    creatorProfile?: ProfileUpdateOneRequiredWithoutServerEventsCreatedNestedInput
+    voiceChannel?: ChannelUpdateOneWithoutVoiceEventsNestedInput
+  }
+
+  export type ServerEventUncheckedUpdateWithoutTextChannelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    otherLocationType?: NullableEnumOtherEventLocationTypeFieldUpdateOperationsInput | $Enums.OtherEventLocationType | null
+    serverId?: StringFieldUpdateOperationsInput | string
+    creatorProfileId?: StringFieldUpdateOperationsInput | string
+    voiceChannelId?: NullableStringFieldUpdateOperationsInput | string | null
+    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledStartTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduledEndTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServerEventUncheckedUpdateManyWithoutTextChannelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    otherLocationType?: NullableEnumOtherEventLocationTypeFieldUpdateOperationsInput | $Enums.OtherEventLocationType | null
+    serverId?: StringFieldUpdateOperationsInput | string
+    creatorProfileId?: StringFieldUpdateOperationsInput | string
+    voiceChannelId?: NullableStringFieldUpdateOperationsInput | string | null
+    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledStartTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduledEndTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ChannelCreateManyCategoryInput = {
     id?: string
     name: string
@@ -32532,6 +35783,8 @@ export namespace Prisma {
     profile?: ProfileUpdateOneRequiredWithoutChannelsNestedInput
     server?: ServerUpdateOneRequiredWithoutChannelsNestedInput
     threads?: ThreadUpdateManyWithoutChannelNestedInput
+    voiceEvents?: ServerEventUpdateManyWithoutVoiceChannelNestedInput
+    textEvents?: ServerEventUpdateManyWithoutTextChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateWithoutCategoryInput = {
@@ -32543,6 +35796,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     threads?: ThreadUncheckedUpdateManyWithoutChannelNestedInput
+    voiceEvents?: ServerEventUncheckedUpdateManyWithoutVoiceChannelNestedInput
+    textEvents?: ServerEventUncheckedUpdateManyWithoutTextChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateManyWithoutCategoryInput = {

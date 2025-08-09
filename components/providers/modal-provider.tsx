@@ -26,11 +26,16 @@ import { SendMessageRequestModal } from "@/components/modals/send-message-reques
 import { UserProfileModal } from "@/components/modals/user-profile-modal";
 import { CreateThreadModal } from "@/components/modals/create-thread-modal";
 import { ForwardMessageModal } from "@/components/modals/forward-message-modal";
+import { CreateEventModal } from "@/components/modals/create-event-modal";
+import { EventsModal } from "@/components/modals/events-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
     setIsMounted(true);
+    if (typeof window !== "undefined") {
+      console.log("[ModalProvider] mounted");
+    }
   }, []);
   if (!isMounted) {
     return null;
@@ -63,6 +68,8 @@ export const ModalProvider = () => {
       <UserProfileModal />
       <CreateThreadModal />
       <ForwardMessageModal />
+      <CreateEventModal />
+      <EventsModal />
     </>
   );
 };

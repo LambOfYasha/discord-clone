@@ -5,7 +5,7 @@ import { ChannelType, MemberRole } from "../../prisma/generated/postgres";
 import { ServerHeader } from "@/components/server/server-header";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ServerSearch } from "@/components/server/server-search";
-import { Hash, Mic, ShieldCheck, Video, Plus } from "lucide-react";
+import { Hash, Mic, ShieldCheck, Video } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { ServerSection } from "@/components/server/server-section";
 import { ServerChannel } from "@/components/server/server-channel";

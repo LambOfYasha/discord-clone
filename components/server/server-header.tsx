@@ -9,21 +9,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  ChevronDown,
-  Edit,
-  LogOut,
-  PlusCircle,
-  Trash,
-  UserPlus,
-  Users,
-  User,
-  Hash,
-  X,
-  Folder,
-} from "lucide-react";
+import { ChevronDown, Edit, LogOut, PlusCircle, Trash, UserPlus, Users, User, Hash, X, Folder, CalendarPlus, Calendar } from "lucide-react";
 import { useModal } from "@/hooks/use-modal-store";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 interface ServerHeaderProps {
@@ -33,6 +22,7 @@ interface ServerHeaderProps {
 
 export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
   const { onOpen } = useModal();
+  const router = useRouter();
   const [isFollowing, setIsFollowing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [followLoading, setFollowLoading] = useState(false);
@@ -164,6 +154,20 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
               <Folder className="h-4 w-4 ml-auto" />
             </DropdownMenuItem>
           )}
+          <DropdownMenuItem
+            className="text-sm cursor-pointer px-3 py-2"
+            onSelect={() => onOpen("eventsList", { server, role })}
+          >
+            View Events
+            <Calendar className="h-4 w-4 ml-auto" />
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="text-sm cursor-pointer px-3 py-2"
+            onSelect={() => router.push(`/servers/${server.id}/events/create`)}
+          >
+            Create Event
+            <CalendarPlus className="h-4 w-4 ml-auto" />
+          </DropdownMenuItem>
           {isModerator && <DropdownMenuSeparator />}
           {!isLoading && (
             <DropdownMenuItem
@@ -207,7 +211,7 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         </DropdownMenuContent>
       </DropdownMenu>
       
-      {/* Member List Button */}
+      {/* Quick Actions: View Members */}
       <button
         onClick={() => onOpen("userList", { server })}
         className="px-3 h-12 hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition flex items-center"

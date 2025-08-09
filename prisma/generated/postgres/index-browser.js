@@ -279,6 +279,24 @@ exports.Prisma.NotificationScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ServerEventScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  type: 'type',
+  otherLocationType: 'otherLocationType',
+  serverId: 'serverId',
+  creatorProfileId: 'creatorProfileId',
+  voiceChannelId: 'voiceChannelId',
+  textChannelId: 'textChannelId',
+  externalUrl: 'externalUrl',
+  location: 'location',
+  scheduledStartTime: 'scheduledStartTime',
+  scheduledEndTime: 'scheduledEndTime',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -358,6 +376,17 @@ exports.NotificationType = exports.$Enums.NotificationType = {
   SERVER_INVITE: 'SERVER_INVITE'
 };
 
+exports.EventType = exports.$Enums.EventType = {
+  VOICE: 'VOICE',
+  OTHER: 'OTHER'
+};
+
+exports.OtherEventLocationType = exports.$Enums.OtherEventLocationType = {
+  TEXT_CHANNEL: 'TEXT_CHANNEL',
+  EXTERNAL: 'EXTERNAL',
+  LOCATION: 'LOCATION'
+};
+
 exports.Prisma.ModelName = {
   Profile: 'Profile',
   Server: 'Server',
@@ -374,7 +403,8 @@ exports.Prisma.ModelName = {
   Follow: 'Follow',
   ServerFollow: 'ServerFollow',
   Thread: 'Thread',
-  Notification: 'Notification'
+  Notification: 'Notification',
+  ServerEvent: 'ServerEvent'
 };
 
 /**

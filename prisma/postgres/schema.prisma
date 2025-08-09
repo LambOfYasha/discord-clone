@@ -37,6 +37,7 @@ model Profile {
   serverFollows ServerFollow[] @relation("ServerFollowerProfile")
   notificationsReceived Notification[] @relation("NotificationRecipient")
   notificationsRelated Notification[] @relation("NotificationRelatedProfile")
+  serverEventsCreated ServerEvent[] @relation("ProfileCreatedEvents")
 
   @@map("profiles")
 }
@@ -54,6 +55,7 @@ model Server {
   categories Category[]
   serverFollows ServerFollow[]
   notificationsRelated Notification[] @relation("NotificationRelatedServer")
+  events ServerEvent[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -90,6 +92,8 @@ model Channel {
   categoryId String?
   category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   threads Thread[]
+  voiceEvents ServerEvent[] @relation("VoiceChannelEvent")
+  textEvents ServerEvent[] @relation("TextChannelEvent")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -318,4 +322,40 @@ enum UserStatus {
   IDLE
   DO_NOT_DISTURB
   INVISIBLE
+}
+
+// Events feature
+model ServerEvent {
+  id String @id @default(uuid())
+  title String
+  description String?
+  type EventType
+  otherLocationType OtherEventLocationType?
+  serverId String
+  server Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  creatorProfileId String
+  creatorProfile Profile @relation("ProfileCreatedEvents", fields: [creatorProfileId], references: [id], onDelete: Cascade)
+  voiceChannelId String?
+  voiceChannel Channel? @relation("VoiceChannelEvent", fields: [voiceChannelId], references: [id], onDelete: SetNull)
+  textChannelId String?
+  textChannel Channel? @relation("TextChannelEvent", fields: [textChannelId], references: [id], onDelete: SetNull)
+  externalUrl String?
+  location String?
+  scheduledStartTime DateTime
+  scheduledEndTime DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("server_events")
+}
+
+enum EventType {
+  VOICE
+  OTHER
+}
+
+enum OtherEventLocationType {
+  TEXT_CHANNEL
+  EXTERNAL
+  LOCATION
 }
