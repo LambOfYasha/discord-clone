@@ -25,6 +25,7 @@ import { DeleteGroupConversationModal } from "@/components/modals/delete-group-c
 import { SendMessageRequestModal } from "@/components/modals/send-message-request-modal";
 import { UserProfileModal } from "@/components/modals/user-profile-modal";
 import { CreateThreadModal } from "@/components/modals/create-thread-modal";
+import { ForwardMessageModal } from "@/components/modals/forward-message-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -61,6 +62,7 @@ export const ModalProvider = () => {
       <SendMessageRequestModal />
       <UserProfileModal />
       <CreateThreadModal />
+      <ForwardMessageModal />
     </>
   );
 };

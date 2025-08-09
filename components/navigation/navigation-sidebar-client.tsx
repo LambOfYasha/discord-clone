@@ -12,6 +12,7 @@ import { NavigationItem } from "./navigation-item";
 import { useNavigationStore } from "@/hooks/use-navigation-store";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 interface NavigationSidebarClientProps {
   servers: Array<{
@@ -23,6 +24,24 @@ interface NavigationSidebarClientProps {
 
 export const NavigationSidebarClient = ({ servers }: NavigationSidebarClientProps) => {
   const { isCollapsed, toggleCollapse } = useNavigationStore();
+  const [mounted, setMounted] = useState(false);
+
+  // Delay rendering auth-dependent UI until after mount to avoid hydration mismatches
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Render a stable shell that matches on server and first client render
+  if (!mounted) {
+    return (
+      <div className={cn(
+        "space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-[#1E1F22] bg-[#E3E5E8] py-3 transition-all duration-300",
+        isCollapsed ? "w-0 overflow-hidden" : "w-[72px]"
+      )}>
+        {/* keep layout height without dynamic content */}
+      </div>
+    );
+  }
 
   return (
     <>
@@ -77,4 +96,4 @@ export const NavigationSidebarClient = ({ servers }: NavigationSidebarClientProp
       </div>
     </>
   );
-}; 
+};

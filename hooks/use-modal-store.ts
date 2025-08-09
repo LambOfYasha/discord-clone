@@ -25,7 +25,8 @@ export type ModalType =
   | "deleteGroupConversation"
   | "sendMessageRequest"
   | "userProfile"
-  | "createThread";
+  | "createThread"
+  | "forwardMessage";
 interface ModalData {
   server?: Server;
   channel?: Channel;
@@ -79,6 +80,11 @@ interface ModalData {
         imageUrl: string;
       };
     };
+  };
+  forwardMessage?: {
+    id: string;
+    content: string;
+    fileUrl?: string;
   };
 }
 interface ModalStore {
