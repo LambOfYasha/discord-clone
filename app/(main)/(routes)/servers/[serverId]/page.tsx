@@ -1,15 +1,3 @@
-"use client";
-import { useEffect } from "react";
-
-export default function ServerPage() {
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      console.log("[ServerPage] mounted");
-    }
-  }, []);
-  return null;
-}
-
 import LoadingRedirect from "@/components/loading-redirect";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
