@@ -48,12 +48,13 @@ export const MessageThread = ({
         query: socketQuery,
       });
 
-      // Check if the original message already contains quoted content
-      const hasQuotedContent = message.content.includes('> ');
+      // Extract only the non-quoted content from the original message
+      const lines = message.content.split('\n');
+      const nonQuotedLines = lines.filter(line => !line.startsWith('> '));
+      const originalContent = nonQuotedLines.join('\n').trim();
       
-      // If the original message already has quoted content, don't add it again
-      // Just use the reply content directly
-      const finalContent = hasQuotedContent ? replyContent : `> ${message.content}\n\n${replyContent}`;
+      // Create the reply with only the non-quoted content from the original message
+      const finalContent = originalContent ? `> ${originalContent}\n\n${replyContent}` : replyContent;
 
       console.log("Submitting to URL:", url);
       console.log("Request body:", {
