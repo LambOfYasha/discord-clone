@@ -4,16 +4,19 @@ import { Message } from "../../generated/mongo";
 import { ChatWelcome } from "./chat-welcome";
 import { useChatQuery } from "@/hooks/use-chat-query";
 import { Loader2, ServerCrash } from "lucide-react";
-import { ElementRef, Fragment, useRef } from "react";
+import { ElementRef, Fragment, useEffect, useRef } from "react";
 import { ChatItem } from "./chat-item";
 import { format } from "date-fns";
 import { useChatSocket } from "@/hooks/use-chat-socket";
 import { useChatScroll } from "@/hooks/use-chat-scroll";
+import { useSocket } from "@/components/providers/socket-provider";
+import { useQueryClient } from "@tanstack/react-query";
 type MessageWithMemberWithProfile = Message & {
   member: Member & {
     profile: Profile;
   };
 };
+type MessageWithReactions = MessageWithMemberWithProfile & { reactions?: any[] };
 const DATE_FORMAT = "d MMM yyyy, HH:mm";
 interface ChatMessagesProps {
   name: string;
@@ -62,6 +65,63 @@ export const ChatMessages = ({
     count: data?.pages.flatMap((page) => page.items).length ?? 0,
   });
 
+  // Reactions realtime updates
+  const { socket } = useSocket();
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (!socket) return;
+    const addReactionKey = `chat:${chatId}:reactions:add`;
+    const removeReactionKey = `chat:${chatId}:reactions:remove`;
+
+    const onAdd = (reaction: any) => {
+      queryClient.setQueryData([queryKey], (oldData: any) => {
+        if (!oldData?.pages?.length) return oldData;
+        const newPages = oldData.pages.map((page: any) => ({
+          ...page,
+          items: page.items.map((msg: any) => {
+            if (msg.id !== reaction.messageId) return msg;
+            const currentReactions = Array.isArray(msg.reactions) ? msg.reactions : [];
+            // Avoid duplicates
+            const already = currentReactions.some(
+              (r: any) => r.emoji === reaction.emoji && r.memberId === reaction.memberId
+            );
+            return already
+              ? msg
+              : { ...msg, reactions: [...currentReactions, reaction] };
+          }),
+        }));
+        return { ...oldData, pages: newPages };
+      });
+    };
+
+    const onRemove = (payload: any) => {
+      queryClient.setQueryData([queryKey], (oldData: any) => {
+        if (!oldData?.pages?.length) return oldData;
+        const newPages = oldData.pages.map((page: any) => ({
+          ...page,
+          items: page.items.map((msg: any) => {
+            if (msg.id !== payload.messageId) return msg;
+            const currentReactions = Array.isArray(msg.reactions) ? msg.reactions : [];
+            return {
+              ...msg,
+              reactions: currentReactions.filter(
+                (r: any) => !(r.emoji === payload.emoji && r.memberId === payload.memberId)
+              ),
+            };
+          }),
+        }));
+        return { ...oldData, pages: newPages };
+      });
+    };
+
+    socket.on(addReactionKey, onAdd);
+    socket.on(removeReactionKey, onRemove);
+    return () => {
+      socket.off(addReactionKey, onAdd);
+      socket.off(removeReactionKey, onRemove);
+    };
+  }, [socket, queryClient, chatId, queryKey]);
+
   if (status === "pending") {
     return (
       <div className="flex flex-col flex-1 justify-center items-center">
@@ -103,7 +163,7 @@ export const ChatMessages = ({
       <div className="flex flex-col-reverse mt-auto">
         {data?.pages?.map((group, i) => (
           <Fragment key={i}>
-            {group?.items?.map((message: MessageWithMemberWithProfile) => (
+            {group?.items?.map((message: MessageWithReactions) => (
               <ChatItem
                 currentMember={member}
                 member={message.member}
@@ -117,6 +177,7 @@ export const ChatMessages = ({
                 isUpdated={message.updatedAt !== message.createdAt}
                 socketQuery={socketQuery}
                 socketUrl={socketUrl}
+                reactions={message.reactions ?? []}
                 replyTo={message.replyTo}
               />
             ))}

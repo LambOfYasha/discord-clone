@@ -50,13 +50,13 @@ export async function GET(req: Request) {
     }
 
     // Get unique member IDs from messages
-    const memberIds = [...new Set(messages.map(message => message.memberId))];
+    const messageMemberIds = [...new Set(messages.map((message) => message.memberId))];
 
-    // Fetch member data from PostgreSQL
-    const members = await postgres.member.findMany({
+    // Fetch member data from PostgreSQL for message authors
+    const messageMembers = await postgres.member.findMany({
       where: {
         id: {
-          in: memberIds,
+          in: messageMemberIds,
         },
       },
       include: {
@@ -64,14 +64,51 @@ export async function GET(req: Request) {
       },
     });
 
-    // Create a map for quick member lookup
-    const memberMap = new Map(members.map(member => [member.id, member]));
+    const messageMemberMap = new Map(messageMembers.map((member) => [member.id, member]));
 
-    // Combine messages with member data
-    const messagesWithMembers = messages.map(message => ({
-      ...message,
-      member: memberMap.get(message.memberId),
-    })).filter(message => message.member); // Filter out messages with missing members
+    // Fetch reactions for all messages in the batch
+    const messageIds = messages.map((m) => m.id);
+    const allReactions = await mongo.reaction.findMany({
+      where: {
+        messageId: { in: messageIds },
+      },
+      orderBy: { createdAt: "asc" },
+    });
+
+    // Fetch members for reactions
+    const reactionMemberIds = [...new Set(allReactions.map((r) => r.memberId))];
+    const reactionMembers = reactionMemberIds.length
+      ? await postgres.member.findMany({
+          where: { id: { in: reactionMemberIds } },
+          include: { profile: true },
+        })
+      : [];
+    const reactionMemberMap = new Map(reactionMembers.map((m) => [m.id, m]));
+
+    // Group reactions by messageId
+    const reactionsByMessageId = new Map<string, typeof allReactions>();
+    for (const reaction of allReactions) {
+      const list = reactionsByMessageId.get(reaction.messageId) ?? [];
+      list.push(reaction);
+      reactionsByMessageId.set(reaction.messageId, list);
+    }
+
+    // Combine messages with member and enriched reaction data
+    const messagesWithMembers = messages
+      .map((message) => {
+        const author = messageMemberMap.get(message.memberId);
+        if (!author) return null;
+        const reactions = (reactionsByMessageId.get(message.id) ?? []).map((r) => ({
+          ...r,
+          member: reactionMemberMap.get(r.memberId) ?? null,
+        }));
+        return {
+          ...message,
+          member: author,
+          reactions,
+        };
+      })
+      .filter(Boolean);
 
     let nextCursor = null;
     if (messages.length === MESSAGES_BATCH) {
