@@ -102,8 +102,8 @@ const RoomPage = async ({ params, searchParams }: RoomPageProps) => {
                 profile: true,
               },
             },
+            profile: true,
           },
-          profile: true,
         },
       },
     });
@@ -135,8 +135,8 @@ const RoomPage = async ({ params, searchParams }: RoomPageProps) => {
 
   // Determine room type and get appropriate data
   const isDM = room.type === 'dm';
-  const roomName = isDM ? room.otherMember?.profile?.name : room.name;
-  const roomImage = isDM ? room.otherMember?.profile?.imageUrl : room.imageUrl;
+  const roomName = (isDM ? room.otherMember?.profile?.name : room.name) ?? "Conversation";
+  const roomImage = (isDM ? room.otherMember?.profile?.imageUrl : room.imageUrl) || undefined;
 
   return (
     <div className="bg-white dark:bg-[#313338] flex flex-col h-full">

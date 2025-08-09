@@ -4,10 +4,10 @@ import { postgres } from "@/lib/db";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: Promise<{ profileId: string }> }
+  context: any
 ) {
   try {
-    const { profileId } = await params;
+    const { profileId } = await Promise.resolve(context?.params ?? {});
     const profile = await currentProfile();
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -32,10 +32,10 @@ export async function GET(
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: Promise<{ profileId: string }> }
+  context: any
 ) {
   try {
-    const { profileId } = await params;
+    const { profileId } = await Promise.resolve(context?.params ?? {});
     const profile = await currentProfile();
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });

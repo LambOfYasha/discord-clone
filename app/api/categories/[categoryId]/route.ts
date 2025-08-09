@@ -5,13 +5,14 @@ import { NextResponse } from "next/server";
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { categoryId: string } }
+  context: any
 ) {
   try {
     const profile = await currentProfile();
     const { name } = await req.json();
     const { searchParams } = new URL(req.url);
     const serverId = searchParams.get("serverId");
+    const params = await Promise.resolve(context?.params ?? {});
 
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -63,12 +64,13 @@ export async function PATCH(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { categoryId: string } }
+  context: any
 ) {
   try {
     const profile = await currentProfile();
     const { searchParams } = new URL(req.url);
     const serverId = searchParams.get("serverId");
+    const params = await Promise.resolve(context?.params ?? {});
 
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });

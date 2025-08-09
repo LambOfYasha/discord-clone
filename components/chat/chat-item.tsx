@@ -22,6 +22,7 @@ import { Reaction } from "@/prisma/generated/mongo";
 import { EmojiPicker } from "@/components/emoji-picker";
 import { MessageThread } from "./message-thread";
 import { InviteMessageCard } from "./invite-message-card";
+import { Markdown } from "@/components/markdown";
 
 interface ChatItemProps {
   id: string;
@@ -287,16 +288,7 @@ export const ChatItem = ({
                       "italic text-zinc-500 text-xs mt-1 dark:text-zinc-400"
                   )}
                 >
-                  {content.split('\n').map((line, index) => {
-                    if (line.startsWith('> ')) {
-                      return (
-                        <div key={index} className="border-l-4 border-zinc-300 dark:border-zinc-600 pl-3 my-2 italic text-zinc-500 dark:text-zinc-400">
-                          {line.substring(2)}
-                        </div>
-                      );
-                    }
-                    return <div key={index}>{line}</div>;
-                  })}
+                  <Markdown content={content} />
                   {isUpdated && !deleted && (
                     <span className="text-[10px] mx-2 text-zinc-500 dark:text-zinc-400">
                       (edited)

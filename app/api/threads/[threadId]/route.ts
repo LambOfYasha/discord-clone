@@ -4,11 +4,12 @@ import { NextResponse } from "next/server";
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { threadId: string } }
+  context: any
 ) {
   try {
     const profile = await currentProfile();
     const { name } = await req.json();
+    const { threadId } = await Promise.resolve(context?.params ?? {});
 
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -18,14 +19,14 @@ export async function PATCH(
       return new NextResponse("Thread name is required", { status: 400 });
     }
 
-    if (!params.threadId) {
+    if (!threadId) {
       return new NextResponse("Thread ID is required", { status: 400 });
     }
 
     // Verify the thread exists and user has access
     const thread = await db.thread.findFirst({
       where: {
-        id: params.threadId,
+        id: threadId,
         channel: {
           server: {
             members: {
@@ -45,7 +46,7 @@ export async function PATCH(
     // Update thread in PostgreSQL
     const updatedThread = await db.thread.update({
       where: {
-        id: params.threadId,
+        id: threadId,
       },
       data: {
         name,
@@ -61,23 +62,24 @@ export async function PATCH(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { threadId: string } }
+  context: any
 ) {
   try {
     const profile = await currentProfile();
+    const { threadId } = await Promise.resolve(context?.params ?? {});
 
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    if (!params.threadId) {
+    if (!threadId) {
       return new NextResponse("Thread ID is required", { status: 400 });
     }
 
     // Verify the thread exists and user has access
     const thread = await db.thread.findFirst({
       where: {
-        id: params.threadId,
+        id: threadId,
         channel: {
           server: {
             members: {
@@ -98,14 +100,14 @@ export async function DELETE(
     const { mongo } = await import("@/lib/db");
     await mongo.message.deleteMany({
       where: {
-        threadId: params.threadId,
+        threadId: threadId,
       },
     });
 
     // Delete thread from PostgreSQL
     await db.thread.delete({
       where: {
-        id: params.threadId,
+        id: threadId,
       },
     });
 

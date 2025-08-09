@@ -4,13 +4,15 @@ import { postgres } from "@/lib/db";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { profileId: string } }
+  context: any
 ) {
   try {
     const currentUserProfile = await currentProfile();
     if (!currentUserProfile) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
+
+    const { profileId } = await Promise.resolve(context?.params ?? {});
 
     // Get servers where both users are members
     const mutualServers = await postgres.server.findMany({
@@ -26,7 +28,7 @@ export async function GET(
           {
             members: {
               some: {
-                profileId: params.profileId,
+                profileId: profileId,
               },
             },
           },
@@ -47,7 +49,7 @@ export async function GET(
         (member) => member.profileId === currentUserProfile.id
       );
       const targetUserMember = server.members.find(
-        (member) => member.profileId === params.profileId
+        (member) => member.profileId === profileId
       );
 
       return {

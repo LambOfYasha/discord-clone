@@ -21,7 +21,12 @@ interface ChatHeaderProps {
     id: string;
     type: "dm" | "group";
     name: string;
+    imageUrl?: string;
+    otherMember?: any;
+    currentMember?: any;
     members: any[];
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
   };
 }
 const ChatHeader = ({ 
@@ -72,3 +77,4 @@ const ChatHeader = ({
   );
 };
 export default ChatHeader;
+export { ChatHeader };

@@ -1,25 +1,20 @@
 import { currentProfile } from "@/lib/current-profile";
 import { postgres } from "@/lib/db";
 import { redirect } from "next/navigation";
-import { ChatHeader } from "@/components/chat/chat-header";
+import ChatHeader from "@/components/chat/chat-header";
 import { ChatInput } from "@/components/chat/chat-input";
 import { ChatMessages } from "@/components/chat/chat-messages";
 import { MediaRoom } from "@/components/media-room";
 
-interface GroupConversationIdPageProps {
-  params: {
-    serverId: string;
-    groupConversationId: string;
-  };
-  searchParams: {
-    video?: string;
-  };
-}
+// Use broad typing to satisfy Next.js PageProps constraints across versions
+type GroupConversationIdPageProps = any;
 
 const GroupConversationIdPage = async ({
   params,
   searchParams,
 }: GroupConversationIdPageProps) => {
+  const resolvedParams = await Promise.resolve(params as any);
+  const resolvedSearch = await Promise.resolve(searchParams as any);
   const profile = await currentProfile();
 
   if (!profile) {
@@ -28,7 +23,7 @@ const GroupConversationIdPage = async ({
 
   const groupConversation = await postgres.groupConversation.findUnique({
     where: {
-      id: params.groupConversationId,
+      id: resolvedParams.groupConversationId,
     },
     include: {
       members: {
@@ -59,7 +54,7 @@ const GroupConversationIdPage = async ({
   // Fetch server data with members
   const server = await postgres.server.findUnique({
     where: {
-      id: params.serverId,
+      id: resolvedParams.serverId,
     },
     include: {
       members: {
@@ -74,14 +69,14 @@ const GroupConversationIdPage = async ({
     return redirect("/");
   }
 
-  const video = searchParams.video;
+  const video = resolvedSearch.video;
 
   return (
     <div className="bg-white dark:bg-[#313338] flex flex-col h-full">
       <ChatHeader
         name={groupConversation.name}
-        serverId={params.serverId}
-        type="group-conversation"
+        serverId={resolvedParams.serverId}
+        type="conversation"
         server={server}
       />
       {video && (
@@ -93,7 +88,7 @@ const GroupConversationIdPage = async ({
             member={currentMember.member}
             name={groupConversation.name}
             chatId={groupConversation.id}
-            type="group-conversation"
+            type="conversation"
             apiUrl="/api/group-messages"
             paramKey="groupConversationId"
             paramValue={groupConversation.id}
@@ -104,7 +99,7 @@ const GroupConversationIdPage = async ({
           />
           <ChatInput
             name={groupConversation.name}
-            type="group-conversation"
+            type="conversation"
             apiUrl="/api/socket/group-messages"
             query={{
               groupConversationId: groupConversation.id,

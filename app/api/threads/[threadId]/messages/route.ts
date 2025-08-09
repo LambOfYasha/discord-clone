@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   req: Request,
-  { params }: { params: { threadId: string } }
+  context: any
 ) {
   try {
     const profile = await currentProfile();
@@ -17,7 +17,9 @@ export async function GET(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    if (!params.threadId) {
+    const { threadId } = await Promise.resolve(context?.params ?? {});
+
+    if (!threadId) {
       return new NextResponse("Thread ID missing", { status: 400 });
     }
 
@@ -38,7 +40,7 @@ export async function GET(
           id: cursor,
         },
         where: {
-          threadId: params.threadId,
+          threadId: threadId,
           deleted: false,
         },
         orderBy: {
@@ -50,7 +52,7 @@ export async function GET(
       messages = await mongo.message.findMany({
         take: limit,
         where: {
-          threadId: params.threadId,
+          threadId: threadId,
           deleted: false,
         },
         orderBy: {
@@ -101,11 +103,12 @@ export async function GET(
 
 export async function POST(
   req: Request,
-  { params }: { params: { threadId: string } }
+  context: any
 ) {
   try {
     const profile = await currentProfile();
     const { content, fileUrl } = await req.json();
+    const { threadId } = await Promise.resolve(context?.params ?? {});
 
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -115,7 +118,7 @@ export async function POST(
       return new NextResponse("Content missing", { status: 400 });
     }
 
-    if (!params.threadId) {
+    if (!threadId) {
       return new NextResponse("Thread ID missing", { status: 400 });
     }
 
@@ -138,7 +141,7 @@ export async function POST(
         content,
         fileUrl,
         memberId: member.id,
-        threadId: params.threadId,
+        threadId: threadId,
         channelId: "", // Will be set from thread
       },
     });
@@ -146,7 +149,7 @@ export async function POST(
     // Update thread message count in PostgreSQL (backup)
     await db.thread.update({
       where: {
-        id: params.threadId,
+        id: threadId,
       },
       data: {
         messageCount: {
