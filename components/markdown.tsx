@@ -42,8 +42,10 @@ export const Markdown: React.FC<MarkdownProps> = ({ content, className }) => {
             <ol {...props} className="list-decimal pl-6 space-y-1" />
           ),
           li: ({ node, ...props }) => <li {...props} className="leading-6" />,
-          code: ({ inline, className, children, ...props }) => {
-            if (inline) {
+          code: ({ node, className, children, ...props }) => {
+            // @ts-expect-error: react-markdown passes 'inline' prop at runtime, but it's not in the TS types
+            const isInline = props.inline;
+            if (isInline) {
               return (
                 <code
                   {...props}
