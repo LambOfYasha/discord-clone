@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { currentProfile } from "@/lib/current-profile";
 import { postgres } from "@/lib/db";
 import { MemberRole, ChannelType } from "@/prisma/generated/postgres";
+import { NotificationService } from "@/lib/notification-service";
 
 export async function GET(req: Request) {
   try {
@@ -53,7 +54,7 @@ export async function POST(req: Request) {
     });
     if (!server) return new NextResponse("Server not found", { status: 404 });
     const me = server.members.find((m) => m.profileId === profile.id);
-    if (!me || ![MemberRole.ADMIN, MemberRole.MODERATOR].includes(me.role)) {
+    if (!me || (me.role !== MemberRole.ADMIN && me.role !== MemberRole.MODERATOR)) {
       return new NextResponse("Forbidden", { status: 403 });
     }
 
@@ -109,6 +110,21 @@ export async function POST(req: Request) {
         scheduledEndTime: scheduledEndTime ? new Date(scheduledEndTime) : null,
       },
     });
+
+    // Notify server followers about the new event
+    try {
+      const when = new Date(scheduledStartTime).toLocaleString();
+      const locationLabel =
+        (type === "VOICE" && voiceChannelId) ? "(Voice)" :
+        (type === "OTHER" && otherLocationType) ? `(${otherLocationType.replace("_", " ")})` : "";
+      await NotificationService.createServerActivityNotification(
+        serverId,
+        "EVENT_CREATED",
+        `New event: ${title} ${locationLabel} starting ${when}`
+      );
+    } catch (e) {
+      console.log("[EVENTS_POST] notification failed", e);
+    }
 
     return NextResponse.json(event);
   } catch (error) {
