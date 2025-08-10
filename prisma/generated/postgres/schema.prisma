@@ -38,6 +38,7 @@ model Profile {
   notificationsReceived     Notification[]            @relation("NotificationRecipient")
   notificationsRelated      Notification[]            @relation("NotificationRelatedProfile")
   serverEventsCreated       ServerEvent[]             @relation("ProfileCreatedEvents")
+  embedsCreated             Embed[]                   @relation("ProfileCreatedEmbeds")
 
   @@map("profiles")
 }
@@ -56,6 +57,7 @@ model Server {
   serverFollows        ServerFollow[]
   notificationsRelated Notification[] @relation("NotificationRelatedServer")
   events               ServerEvent[]
+  embeds               Embed[]
   createdAt            DateTime       @default(now())
   updatedAt            DateTime       @updatedAt
 
@@ -94,6 +96,7 @@ model Channel {
   threads     Thread[]
   voiceEvents ServerEvent[] @relation("VoiceChannelEvent")
   textEvents  ServerEvent[] @relation("TextChannelEvent")
+  embeds      Embed[]
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 
@@ -347,6 +350,48 @@ model ServerEvent {
   updatedAt          DateTime                @updatedAt
 
   @@map("server_events")
+}
+
+// Embed feature
+model Embed {
+  id               String       @id @default(uuid())
+  title            String?
+  description      String?
+  url              String?
+  color            String? // Hex color code
+  imageUrl         String?
+  thumbnailUrl     String?
+  authorName       String?
+  authorUrl        String?
+  authorIconUrl    String?
+  footerText       String?
+  footerIconUrl    String?
+  timestamp        DateTime?
+  serverId         String
+  server           Server       @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  channelId        String?
+  channel          Channel?     @relation(fields: [channelId], references: [id], onDelete: SetNull)
+  creatorProfileId String
+  creatorProfile   Profile      @relation("ProfileCreatedEmbeds", fields: [creatorProfileId], references: [id], onDelete: Cascade)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  fields           EmbedField[]
+
+  @@map("embeds")
+}
+
+model EmbedField {
+  id        String   @id @default(uuid())
+  name      String
+  value     String
+  inline    Boolean  @default(false)
+  embedId   String
+  embed     Embed    @relation(fields: [embedId], references: [id], onDelete: Cascade)
+  order     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("embed_fields")
 }
 
 enum EventType {

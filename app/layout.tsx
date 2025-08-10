@@ -7,6 +7,7 @@ import { ModalProvider } from "@/components/providers/modal-provider";
 import { SocketProvider } from "@/components/providers/socket-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { ImageErrorDebugger } from "@/components/debug/image-error-debugger";
+import { Toaster } from "sonner";
 
 // Use local font instead of Google Fonts to avoid Turbopack issues
 const inter = {
@@ -60,6 +61,7 @@ export default function RootLayout({
                 {process.env.NODE_ENV === 'development' && (
                   <ImageErrorDebugger />
                 )}
+                <Toaster />
               </QueryProvider>
             </SocketProvider>
           </ThemeProvider>

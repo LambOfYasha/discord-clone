@@ -23,6 +23,7 @@ import { EmojiPicker } from "@/components/emoji-picker";
 import { MessageThread } from "./message-thread";
 import { InviteMessageCard } from "./invite-message-card";
 import { Markdown } from "@/components/markdown";
+import { EmbedMessage } from "./embed-message";
 
 interface ChatItemProps {
   id: string;
@@ -150,6 +151,34 @@ export const ChatItem = ({
   // Check if this is an invite message
   const isInviteMessage = content.includes("🎉 **Server Invitation**") && content.includes("**Invite Link:**");
   
+  // Check if this is an embed message - more flexible detection
+  const trimmedContent = content.trim();
+  const isEmbedMessage = trimmedContent.startsWith('{"type":"embed"') || 
+                        trimmedContent.includes('"type":"embed"');
+  
+  // Extract embed data from message content
+  const getEmbedData = () => {
+    if (!isEmbedMessage) return null;
+    
+    try {
+      // Try to find JSON in the content if it's not at the start
+      let jsonContent = trimmedContent;
+      if (!trimmedContent.startsWith('{')) {
+        const jsonStart = trimmedContent.indexOf('{');
+        if (jsonStart !== -1) {
+          jsonContent = trimmedContent.substring(jsonStart);
+        }
+      }
+      
+      const embedData = JSON.parse(jsonContent);
+      return embedData.type === "embed" ? embedData : null;
+    } catch (error) {
+      console.error("Failed to parse embed data:", error);
+      console.log("Raw content:", content);
+      return null;
+    }
+  };
+  
   // Extract server info from invite message
   const getInviteInfo = () => {
     if (!isInviteMessage) return null;
@@ -168,6 +197,17 @@ export const ChatItem = ({
   };
 
   const inviteInfo = getInviteInfo();
+  const embedData = getEmbedData();
+  
+  // Debug logging for embed messages
+  if (isEmbedMessage) {
+    console.log("Embed message detected:", { 
+      content: content.substring(0, 100), 
+      embedData,
+      isEmbedMessage,
+      trimmedContent: trimmedContent.substring(0, 50)
+    });
+  }
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const url = qs.stringifyUrl({
@@ -279,6 +319,15 @@ export const ChatItem = ({
                     inviteUrl={inviteInfo.inviteUrl}
                     messageId={id}
                   />
+                </div>
+              ) : isEmbedMessage && embedData ? (
+                <div className="mt-2">
+                  <EmbedMessage embedData={embedData} />
+                </div>
+              ) : isEmbedMessage ? (
+                <div className="mt-2 p-4 bg-red-100 border border-red-300 rounded">
+                  <p className="text-red-800">Failed to parse embed data</p>
+                  <pre className="text-xs mt-2">{content.substring(0, 200)}</pre>
                 </div>
               ) : (
                 <div

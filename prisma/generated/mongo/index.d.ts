@@ -43,6 +43,16 @@ export type Thread = $Result.DefaultSelection<Prisma.$ThreadPayload>
  * 
  */
 export type Reaction = $Result.DefaultSelection<Prisma.$ReactionPayload>
+/**
+ * Model Embed
+ * 
+ */
+export type Embed = $Result.DefaultSelection<Prisma.$EmbedPayload>
+/**
+ * Model EmbedField
+ * 
+ */
+export type EmbedField = $Result.DefaultSelection<Prisma.$EmbedFieldPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -195,6 +205,26 @@ export class PrismaClient<
     * ```
     */
   get reaction(): Prisma.ReactionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.embed`: Exposes CRUD operations for the **Embed** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Embeds
+    * const embeds = await prisma.embed.findMany()
+    * ```
+    */
+  get embed(): Prisma.EmbedDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.embedField`: Exposes CRUD operations for the **EmbedField** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EmbedFields
+    * const embedFields = await prisma.embedField.findMany()
+    * ```
+    */
+  get embedField(): Prisma.EmbedFieldDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -640,7 +670,9 @@ export namespace Prisma {
     GroupMessage: 'GroupMessage',
     Category: 'Category',
     Thread: 'Thread',
-    Reaction: 'Reaction'
+    Reaction: 'Reaction',
+    Embed: 'Embed',
+    EmbedField: 'EmbedField'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -659,7 +691,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "message" | "directMessage" | "groupMessage" | "category" | "thread" | "reaction"
+      modelProps: "message" | "directMessage" | "groupMessage" | "category" | "thread" | "reaction" | "embed" | "embedField"
       txIsolationLevel: never
     }
     model: {
@@ -1107,6 +1139,154 @@ export namespace Prisma {
           }
         }
       }
+      Embed: {
+        payload: Prisma.$EmbedPayload<ExtArgs>
+        fields: Prisma.EmbedFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EmbedFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmbedPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EmbedFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmbedPayload>
+          }
+          findFirst: {
+            args: Prisma.EmbedFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmbedPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EmbedFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmbedPayload>
+          }
+          findMany: {
+            args: Prisma.EmbedFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmbedPayload>[]
+          }
+          create: {
+            args: Prisma.EmbedCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmbedPayload>
+          }
+          createMany: {
+            args: Prisma.EmbedCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.EmbedDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmbedPayload>
+          }
+          update: {
+            args: Prisma.EmbedUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmbedPayload>
+          }
+          deleteMany: {
+            args: Prisma.EmbedDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EmbedUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.EmbedUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmbedPayload>
+          }
+          aggregate: {
+            args: Prisma.EmbedAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEmbed>
+          }
+          groupBy: {
+            args: Prisma.EmbedGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EmbedGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.EmbedFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.EmbedAggregateRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          count: {
+            args: Prisma.EmbedCountArgs<ExtArgs>
+            result: $Utils.Optional<EmbedCountAggregateOutputType> | number
+          }
+        }
+      }
+      EmbedField: {
+        payload: Prisma.$EmbedFieldPayload<ExtArgs>
+        fields: Prisma.EmbedFieldFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EmbedFieldFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmbedFieldPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EmbedFieldFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmbedFieldPayload>
+          }
+          findFirst: {
+            args: Prisma.EmbedFieldFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmbedFieldPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EmbedFieldFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmbedFieldPayload>
+          }
+          findMany: {
+            args: Prisma.EmbedFieldFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmbedFieldPayload>[]
+          }
+          create: {
+            args: Prisma.EmbedFieldCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmbedFieldPayload>
+          }
+          createMany: {
+            args: Prisma.EmbedFieldCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.EmbedFieldDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmbedFieldPayload>
+          }
+          update: {
+            args: Prisma.EmbedFieldUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmbedFieldPayload>
+          }
+          deleteMany: {
+            args: Prisma.EmbedFieldDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EmbedFieldUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.EmbedFieldUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmbedFieldPayload>
+          }
+          aggregate: {
+            args: Prisma.EmbedFieldAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEmbedField>
+          }
+          groupBy: {
+            args: Prisma.EmbedFieldGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EmbedFieldGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.EmbedFieldFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.EmbedFieldAggregateRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          count: {
+            args: Prisma.EmbedFieldCountArgs<ExtArgs>
+            result: $Utils.Optional<EmbedFieldCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1184,6 +1364,8 @@ export namespace Prisma {
     category?: CategoryOmit
     thread?: ThreadOmit
     reaction?: ReactionOmit
+    embed?: EmbedOmit
+    embedField?: EmbedFieldOmit
   }
 
   /* Types for Logging */
@@ -7220,6 +7402,2080 @@ export namespace Prisma {
 
 
   /**
+   * Model Embed
+   */
+
+  export type AggregateEmbed = {
+    _count: EmbedCountAggregateOutputType | null
+    _min: EmbedMinAggregateOutputType | null
+    _max: EmbedMaxAggregateOutputType | null
+  }
+
+  export type EmbedMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    description: string | null
+    url: string | null
+    color: string | null
+    imageUrl: string | null
+    thumbnailUrl: string | null
+    authorName: string | null
+    authorUrl: string | null
+    authorIconUrl: string | null
+    footerText: string | null
+    footerIconUrl: string | null
+    timestamp: Date | null
+    serverId: string | null
+    channelId: string | null
+    creatorProfileId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EmbedMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    description: string | null
+    url: string | null
+    color: string | null
+    imageUrl: string | null
+    thumbnailUrl: string | null
+    authorName: string | null
+    authorUrl: string | null
+    authorIconUrl: string | null
+    footerText: string | null
+    footerIconUrl: string | null
+    timestamp: Date | null
+    serverId: string | null
+    channelId: string | null
+    creatorProfileId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EmbedCountAggregateOutputType = {
+    id: number
+    title: number
+    description: number
+    url: number
+    color: number
+    imageUrl: number
+    thumbnailUrl: number
+    authorName: number
+    authorUrl: number
+    authorIconUrl: number
+    footerText: number
+    footerIconUrl: number
+    timestamp: number
+    serverId: number
+    channelId: number
+    creatorProfileId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type EmbedMinAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    url?: true
+    color?: true
+    imageUrl?: true
+    thumbnailUrl?: true
+    authorName?: true
+    authorUrl?: true
+    authorIconUrl?: true
+    footerText?: true
+    footerIconUrl?: true
+    timestamp?: true
+    serverId?: true
+    channelId?: true
+    creatorProfileId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EmbedMaxAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    url?: true
+    color?: true
+    imageUrl?: true
+    thumbnailUrl?: true
+    authorName?: true
+    authorUrl?: true
+    authorIconUrl?: true
+    footerText?: true
+    footerIconUrl?: true
+    timestamp?: true
+    serverId?: true
+    channelId?: true
+    creatorProfileId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EmbedCountAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    url?: true
+    color?: true
+    imageUrl?: true
+    thumbnailUrl?: true
+    authorName?: true
+    authorUrl?: true
+    authorIconUrl?: true
+    footerText?: true
+    footerIconUrl?: true
+    timestamp?: true
+    serverId?: true
+    channelId?: true
+    creatorProfileId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type EmbedAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Embed to aggregate.
+     */
+    where?: EmbedWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Embeds to fetch.
+     */
+    orderBy?: EmbedOrderByWithRelationInput | EmbedOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EmbedWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Embeds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Embeds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Embeds
+    **/
+    _count?: true | EmbedCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EmbedMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EmbedMaxAggregateInputType
+  }
+
+  export type GetEmbedAggregateType<T extends EmbedAggregateArgs> = {
+        [P in keyof T & keyof AggregateEmbed]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEmbed[P]>
+      : GetScalarType<T[P], AggregateEmbed[P]>
+  }
+
+
+
+
+  export type EmbedGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EmbedWhereInput
+    orderBy?: EmbedOrderByWithAggregationInput | EmbedOrderByWithAggregationInput[]
+    by: EmbedScalarFieldEnum[] | EmbedScalarFieldEnum
+    having?: EmbedScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EmbedCountAggregateInputType | true
+    _min?: EmbedMinAggregateInputType
+    _max?: EmbedMaxAggregateInputType
+  }
+
+  export type EmbedGroupByOutputType = {
+    id: string
+    title: string | null
+    description: string | null
+    url: string | null
+    color: string | null
+    imageUrl: string | null
+    thumbnailUrl: string | null
+    authorName: string | null
+    authorUrl: string | null
+    authorIconUrl: string | null
+    footerText: string | null
+    footerIconUrl: string | null
+    timestamp: Date | null
+    serverId: string
+    channelId: string | null
+    creatorProfileId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: EmbedCountAggregateOutputType | null
+    _min: EmbedMinAggregateOutputType | null
+    _max: EmbedMaxAggregateOutputType | null
+  }
+
+  type GetEmbedGroupByPayload<T extends EmbedGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EmbedGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EmbedGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EmbedGroupByOutputType[P]>
+            : GetScalarType<T[P], EmbedGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EmbedSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    url?: boolean
+    color?: boolean
+    imageUrl?: boolean
+    thumbnailUrl?: boolean
+    authorName?: boolean
+    authorUrl?: boolean
+    authorIconUrl?: boolean
+    footerText?: boolean
+    footerIconUrl?: boolean
+    timestamp?: boolean
+    serverId?: boolean
+    channelId?: boolean
+    creatorProfileId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["embed"]>
+
+
+
+  export type EmbedSelectScalar = {
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    url?: boolean
+    color?: boolean
+    imageUrl?: boolean
+    thumbnailUrl?: boolean
+    authorName?: boolean
+    authorUrl?: boolean
+    authorIconUrl?: boolean
+    footerText?: boolean
+    footerIconUrl?: boolean
+    timestamp?: boolean
+    serverId?: boolean
+    channelId?: boolean
+    creatorProfileId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type EmbedOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "url" | "color" | "imageUrl" | "thumbnailUrl" | "authorName" | "authorUrl" | "authorIconUrl" | "footerText" | "footerIconUrl" | "timestamp" | "serverId" | "channelId" | "creatorProfileId" | "createdAt" | "updatedAt", ExtArgs["result"]["embed"]>
+
+  export type $EmbedPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Embed"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string | null
+      description: string | null
+      url: string | null
+      color: string | null
+      imageUrl: string | null
+      thumbnailUrl: string | null
+      authorName: string | null
+      authorUrl: string | null
+      authorIconUrl: string | null
+      footerText: string | null
+      footerIconUrl: string | null
+      timestamp: Date | null
+      serverId: string
+      channelId: string | null
+      creatorProfileId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["embed"]>
+    composites: {}
+  }
+
+  type EmbedGetPayload<S extends boolean | null | undefined | EmbedDefaultArgs> = $Result.GetResult<Prisma.$EmbedPayload, S>
+
+  type EmbedCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EmbedFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EmbedCountAggregateInputType | true
+    }
+
+  export interface EmbedDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Embed'], meta: { name: 'Embed' } }
+    /**
+     * Find zero or one Embed that matches the filter.
+     * @param {EmbedFindUniqueArgs} args - Arguments to find a Embed
+     * @example
+     * // Get one Embed
+     * const embed = await prisma.embed.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EmbedFindUniqueArgs>(args: SelectSubset<T, EmbedFindUniqueArgs<ExtArgs>>): Prisma__EmbedClient<$Result.GetResult<Prisma.$EmbedPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Embed that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EmbedFindUniqueOrThrowArgs} args - Arguments to find a Embed
+     * @example
+     * // Get one Embed
+     * const embed = await prisma.embed.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EmbedFindUniqueOrThrowArgs>(args: SelectSubset<T, EmbedFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EmbedClient<$Result.GetResult<Prisma.$EmbedPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Embed that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmbedFindFirstArgs} args - Arguments to find a Embed
+     * @example
+     * // Get one Embed
+     * const embed = await prisma.embed.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EmbedFindFirstArgs>(args?: SelectSubset<T, EmbedFindFirstArgs<ExtArgs>>): Prisma__EmbedClient<$Result.GetResult<Prisma.$EmbedPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Embed that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmbedFindFirstOrThrowArgs} args - Arguments to find a Embed
+     * @example
+     * // Get one Embed
+     * const embed = await prisma.embed.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EmbedFindFirstOrThrowArgs>(args?: SelectSubset<T, EmbedFindFirstOrThrowArgs<ExtArgs>>): Prisma__EmbedClient<$Result.GetResult<Prisma.$EmbedPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Embeds that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmbedFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Embeds
+     * const embeds = await prisma.embed.findMany()
+     * 
+     * // Get first 10 Embeds
+     * const embeds = await prisma.embed.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const embedWithIdOnly = await prisma.embed.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EmbedFindManyArgs>(args?: SelectSubset<T, EmbedFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmbedPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Embed.
+     * @param {EmbedCreateArgs} args - Arguments to create a Embed.
+     * @example
+     * // Create one Embed
+     * const Embed = await prisma.embed.create({
+     *   data: {
+     *     // ... data to create a Embed
+     *   }
+     * })
+     * 
+     */
+    create<T extends EmbedCreateArgs>(args: SelectSubset<T, EmbedCreateArgs<ExtArgs>>): Prisma__EmbedClient<$Result.GetResult<Prisma.$EmbedPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Embeds.
+     * @param {EmbedCreateManyArgs} args - Arguments to create many Embeds.
+     * @example
+     * // Create many Embeds
+     * const embed = await prisma.embed.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EmbedCreateManyArgs>(args?: SelectSubset<T, EmbedCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Embed.
+     * @param {EmbedDeleteArgs} args - Arguments to delete one Embed.
+     * @example
+     * // Delete one Embed
+     * const Embed = await prisma.embed.delete({
+     *   where: {
+     *     // ... filter to delete one Embed
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EmbedDeleteArgs>(args: SelectSubset<T, EmbedDeleteArgs<ExtArgs>>): Prisma__EmbedClient<$Result.GetResult<Prisma.$EmbedPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Embed.
+     * @param {EmbedUpdateArgs} args - Arguments to update one Embed.
+     * @example
+     * // Update one Embed
+     * const embed = await prisma.embed.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EmbedUpdateArgs>(args: SelectSubset<T, EmbedUpdateArgs<ExtArgs>>): Prisma__EmbedClient<$Result.GetResult<Prisma.$EmbedPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Embeds.
+     * @param {EmbedDeleteManyArgs} args - Arguments to filter Embeds to delete.
+     * @example
+     * // Delete a few Embeds
+     * const { count } = await prisma.embed.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EmbedDeleteManyArgs>(args?: SelectSubset<T, EmbedDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Embeds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmbedUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Embeds
+     * const embed = await prisma.embed.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EmbedUpdateManyArgs>(args: SelectSubset<T, EmbedUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Embed.
+     * @param {EmbedUpsertArgs} args - Arguments to update or create a Embed.
+     * @example
+     * // Update or create a Embed
+     * const embed = await prisma.embed.upsert({
+     *   create: {
+     *     // ... data to create a Embed
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Embed we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EmbedUpsertArgs>(args: SelectSubset<T, EmbedUpsertArgs<ExtArgs>>): Prisma__EmbedClient<$Result.GetResult<Prisma.$EmbedPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Embeds that matches the filter.
+     * @param {EmbedFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const embed = await prisma.embed.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: EmbedFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a Embed.
+     * @param {EmbedAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const embed = await prisma.embed.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: EmbedAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
+
+
+    /**
+     * Count the number of Embeds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmbedCountArgs} args - Arguments to filter Embeds to count.
+     * @example
+     * // Count the number of Embeds
+     * const count = await prisma.embed.count({
+     *   where: {
+     *     // ... the filter for the Embeds we want to count
+     *   }
+     * })
+    **/
+    count<T extends EmbedCountArgs>(
+      args?: Subset<T, EmbedCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EmbedCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Embed.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmbedAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EmbedAggregateArgs>(args: Subset<T, EmbedAggregateArgs>): Prisma.PrismaPromise<GetEmbedAggregateType<T>>
+
+    /**
+     * Group by Embed.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmbedGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EmbedGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EmbedGroupByArgs['orderBy'] }
+        : { orderBy?: EmbedGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EmbedGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEmbedGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Embed model
+   */
+  readonly fields: EmbedFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Embed.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EmbedClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Embed model
+   */
+  interface EmbedFieldRefs {
+    readonly id: FieldRef<"Embed", 'String'>
+    readonly title: FieldRef<"Embed", 'String'>
+    readonly description: FieldRef<"Embed", 'String'>
+    readonly url: FieldRef<"Embed", 'String'>
+    readonly color: FieldRef<"Embed", 'String'>
+    readonly imageUrl: FieldRef<"Embed", 'String'>
+    readonly thumbnailUrl: FieldRef<"Embed", 'String'>
+    readonly authorName: FieldRef<"Embed", 'String'>
+    readonly authorUrl: FieldRef<"Embed", 'String'>
+    readonly authorIconUrl: FieldRef<"Embed", 'String'>
+    readonly footerText: FieldRef<"Embed", 'String'>
+    readonly footerIconUrl: FieldRef<"Embed", 'String'>
+    readonly timestamp: FieldRef<"Embed", 'DateTime'>
+    readonly serverId: FieldRef<"Embed", 'String'>
+    readonly channelId: FieldRef<"Embed", 'String'>
+    readonly creatorProfileId: FieldRef<"Embed", 'String'>
+    readonly createdAt: FieldRef<"Embed", 'DateTime'>
+    readonly updatedAt: FieldRef<"Embed", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Embed findUnique
+   */
+  export type EmbedFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Embed
+     */
+    select?: EmbedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Embed
+     */
+    omit?: EmbedOmit<ExtArgs> | null
+    /**
+     * Filter, which Embed to fetch.
+     */
+    where: EmbedWhereUniqueInput
+  }
+
+  /**
+   * Embed findUniqueOrThrow
+   */
+  export type EmbedFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Embed
+     */
+    select?: EmbedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Embed
+     */
+    omit?: EmbedOmit<ExtArgs> | null
+    /**
+     * Filter, which Embed to fetch.
+     */
+    where: EmbedWhereUniqueInput
+  }
+
+  /**
+   * Embed findFirst
+   */
+  export type EmbedFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Embed
+     */
+    select?: EmbedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Embed
+     */
+    omit?: EmbedOmit<ExtArgs> | null
+    /**
+     * Filter, which Embed to fetch.
+     */
+    where?: EmbedWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Embeds to fetch.
+     */
+    orderBy?: EmbedOrderByWithRelationInput | EmbedOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Embeds.
+     */
+    cursor?: EmbedWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Embeds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Embeds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Embeds.
+     */
+    distinct?: EmbedScalarFieldEnum | EmbedScalarFieldEnum[]
+  }
+
+  /**
+   * Embed findFirstOrThrow
+   */
+  export type EmbedFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Embed
+     */
+    select?: EmbedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Embed
+     */
+    omit?: EmbedOmit<ExtArgs> | null
+    /**
+     * Filter, which Embed to fetch.
+     */
+    where?: EmbedWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Embeds to fetch.
+     */
+    orderBy?: EmbedOrderByWithRelationInput | EmbedOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Embeds.
+     */
+    cursor?: EmbedWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Embeds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Embeds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Embeds.
+     */
+    distinct?: EmbedScalarFieldEnum | EmbedScalarFieldEnum[]
+  }
+
+  /**
+   * Embed findMany
+   */
+  export type EmbedFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Embed
+     */
+    select?: EmbedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Embed
+     */
+    omit?: EmbedOmit<ExtArgs> | null
+    /**
+     * Filter, which Embeds to fetch.
+     */
+    where?: EmbedWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Embeds to fetch.
+     */
+    orderBy?: EmbedOrderByWithRelationInput | EmbedOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Embeds.
+     */
+    cursor?: EmbedWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Embeds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Embeds.
+     */
+    skip?: number
+    distinct?: EmbedScalarFieldEnum | EmbedScalarFieldEnum[]
+  }
+
+  /**
+   * Embed create
+   */
+  export type EmbedCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Embed
+     */
+    select?: EmbedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Embed
+     */
+    omit?: EmbedOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Embed.
+     */
+    data: XOR<EmbedCreateInput, EmbedUncheckedCreateInput>
+  }
+
+  /**
+   * Embed createMany
+   */
+  export type EmbedCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Embeds.
+     */
+    data: EmbedCreateManyInput | EmbedCreateManyInput[]
+  }
+
+  /**
+   * Embed update
+   */
+  export type EmbedUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Embed
+     */
+    select?: EmbedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Embed
+     */
+    omit?: EmbedOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Embed.
+     */
+    data: XOR<EmbedUpdateInput, EmbedUncheckedUpdateInput>
+    /**
+     * Choose, which Embed to update.
+     */
+    where: EmbedWhereUniqueInput
+  }
+
+  /**
+   * Embed updateMany
+   */
+  export type EmbedUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Embeds.
+     */
+    data: XOR<EmbedUpdateManyMutationInput, EmbedUncheckedUpdateManyInput>
+    /**
+     * Filter which Embeds to update
+     */
+    where?: EmbedWhereInput
+    /**
+     * Limit how many Embeds to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Embed upsert
+   */
+  export type EmbedUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Embed
+     */
+    select?: EmbedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Embed
+     */
+    omit?: EmbedOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Embed to update in case it exists.
+     */
+    where: EmbedWhereUniqueInput
+    /**
+     * In case the Embed found by the `where` argument doesn't exist, create a new Embed with this data.
+     */
+    create: XOR<EmbedCreateInput, EmbedUncheckedCreateInput>
+    /**
+     * In case the Embed was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EmbedUpdateInput, EmbedUncheckedUpdateInput>
+  }
+
+  /**
+   * Embed delete
+   */
+  export type EmbedDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Embed
+     */
+    select?: EmbedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Embed
+     */
+    omit?: EmbedOmit<ExtArgs> | null
+    /**
+     * Filter which Embed to delete.
+     */
+    where: EmbedWhereUniqueInput
+  }
+
+  /**
+   * Embed deleteMany
+   */
+  export type EmbedDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Embeds to delete
+     */
+    where?: EmbedWhereInput
+    /**
+     * Limit how many Embeds to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Embed findRaw
+   */
+  export type EmbedFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Embed aggregateRaw
+   */
+  export type EmbedAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Embed without action
+   */
+  export type EmbedDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Embed
+     */
+    select?: EmbedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Embed
+     */
+    omit?: EmbedOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model EmbedField
+   */
+
+  export type AggregateEmbedField = {
+    _count: EmbedFieldCountAggregateOutputType | null
+    _avg: EmbedFieldAvgAggregateOutputType | null
+    _sum: EmbedFieldSumAggregateOutputType | null
+    _min: EmbedFieldMinAggregateOutputType | null
+    _max: EmbedFieldMaxAggregateOutputType | null
+  }
+
+  export type EmbedFieldAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type EmbedFieldSumAggregateOutputType = {
+    order: number | null
+  }
+
+  export type EmbedFieldMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    value: string | null
+    inline: boolean | null
+    embedId: string | null
+    order: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EmbedFieldMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    value: string | null
+    inline: boolean | null
+    embedId: string | null
+    order: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EmbedFieldCountAggregateOutputType = {
+    id: number
+    name: number
+    value: number
+    inline: number
+    embedId: number
+    order: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type EmbedFieldAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type EmbedFieldSumAggregateInputType = {
+    order?: true
+  }
+
+  export type EmbedFieldMinAggregateInputType = {
+    id?: true
+    name?: true
+    value?: true
+    inline?: true
+    embedId?: true
+    order?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EmbedFieldMaxAggregateInputType = {
+    id?: true
+    name?: true
+    value?: true
+    inline?: true
+    embedId?: true
+    order?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EmbedFieldCountAggregateInputType = {
+    id?: true
+    name?: true
+    value?: true
+    inline?: true
+    embedId?: true
+    order?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type EmbedFieldAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EmbedField to aggregate.
+     */
+    where?: EmbedFieldWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmbedFields to fetch.
+     */
+    orderBy?: EmbedFieldOrderByWithRelationInput | EmbedFieldOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EmbedFieldWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmbedFields from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmbedFields.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned EmbedFields
+    **/
+    _count?: true | EmbedFieldCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: EmbedFieldAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: EmbedFieldSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EmbedFieldMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EmbedFieldMaxAggregateInputType
+  }
+
+  export type GetEmbedFieldAggregateType<T extends EmbedFieldAggregateArgs> = {
+        [P in keyof T & keyof AggregateEmbedField]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEmbedField[P]>
+      : GetScalarType<T[P], AggregateEmbedField[P]>
+  }
+
+
+
+
+  export type EmbedFieldGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EmbedFieldWhereInput
+    orderBy?: EmbedFieldOrderByWithAggregationInput | EmbedFieldOrderByWithAggregationInput[]
+    by: EmbedFieldScalarFieldEnum[] | EmbedFieldScalarFieldEnum
+    having?: EmbedFieldScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EmbedFieldCountAggregateInputType | true
+    _avg?: EmbedFieldAvgAggregateInputType
+    _sum?: EmbedFieldSumAggregateInputType
+    _min?: EmbedFieldMinAggregateInputType
+    _max?: EmbedFieldMaxAggregateInputType
+  }
+
+  export type EmbedFieldGroupByOutputType = {
+    id: string
+    name: string
+    value: string
+    inline: boolean
+    embedId: string
+    order: number
+    createdAt: Date
+    updatedAt: Date
+    _count: EmbedFieldCountAggregateOutputType | null
+    _avg: EmbedFieldAvgAggregateOutputType | null
+    _sum: EmbedFieldSumAggregateOutputType | null
+    _min: EmbedFieldMinAggregateOutputType | null
+    _max: EmbedFieldMaxAggregateOutputType | null
+  }
+
+  type GetEmbedFieldGroupByPayload<T extends EmbedFieldGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EmbedFieldGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EmbedFieldGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EmbedFieldGroupByOutputType[P]>
+            : GetScalarType<T[P], EmbedFieldGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EmbedFieldSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    value?: boolean
+    inline?: boolean
+    embedId?: boolean
+    order?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["embedField"]>
+
+
+
+  export type EmbedFieldSelectScalar = {
+    id?: boolean
+    name?: boolean
+    value?: boolean
+    inline?: boolean
+    embedId?: boolean
+    order?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type EmbedFieldOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "value" | "inline" | "embedId" | "order" | "createdAt" | "updatedAt", ExtArgs["result"]["embedField"]>
+
+  export type $EmbedFieldPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "EmbedField"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      value: string
+      inline: boolean
+      embedId: string
+      order: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["embedField"]>
+    composites: {}
+  }
+
+  type EmbedFieldGetPayload<S extends boolean | null | undefined | EmbedFieldDefaultArgs> = $Result.GetResult<Prisma.$EmbedFieldPayload, S>
+
+  type EmbedFieldCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EmbedFieldFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EmbedFieldCountAggregateInputType | true
+    }
+
+  export interface EmbedFieldDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EmbedField'], meta: { name: 'EmbedField' } }
+    /**
+     * Find zero or one EmbedField that matches the filter.
+     * @param {EmbedFieldFindUniqueArgs} args - Arguments to find a EmbedField
+     * @example
+     * // Get one EmbedField
+     * const embedField = await prisma.embedField.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EmbedFieldFindUniqueArgs>(args: SelectSubset<T, EmbedFieldFindUniqueArgs<ExtArgs>>): Prisma__EmbedFieldClient<$Result.GetResult<Prisma.$EmbedFieldPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one EmbedField that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EmbedFieldFindUniqueOrThrowArgs} args - Arguments to find a EmbedField
+     * @example
+     * // Get one EmbedField
+     * const embedField = await prisma.embedField.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EmbedFieldFindUniqueOrThrowArgs>(args: SelectSubset<T, EmbedFieldFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EmbedFieldClient<$Result.GetResult<Prisma.$EmbedFieldPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EmbedField that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmbedFieldFindFirstArgs} args - Arguments to find a EmbedField
+     * @example
+     * // Get one EmbedField
+     * const embedField = await prisma.embedField.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EmbedFieldFindFirstArgs>(args?: SelectSubset<T, EmbedFieldFindFirstArgs<ExtArgs>>): Prisma__EmbedFieldClient<$Result.GetResult<Prisma.$EmbedFieldPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EmbedField that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmbedFieldFindFirstOrThrowArgs} args - Arguments to find a EmbedField
+     * @example
+     * // Get one EmbedField
+     * const embedField = await prisma.embedField.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EmbedFieldFindFirstOrThrowArgs>(args?: SelectSubset<T, EmbedFieldFindFirstOrThrowArgs<ExtArgs>>): Prisma__EmbedFieldClient<$Result.GetResult<Prisma.$EmbedFieldPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more EmbedFields that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmbedFieldFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all EmbedFields
+     * const embedFields = await prisma.embedField.findMany()
+     * 
+     * // Get first 10 EmbedFields
+     * const embedFields = await prisma.embedField.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const embedFieldWithIdOnly = await prisma.embedField.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EmbedFieldFindManyArgs>(args?: SelectSubset<T, EmbedFieldFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmbedFieldPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a EmbedField.
+     * @param {EmbedFieldCreateArgs} args - Arguments to create a EmbedField.
+     * @example
+     * // Create one EmbedField
+     * const EmbedField = await prisma.embedField.create({
+     *   data: {
+     *     // ... data to create a EmbedField
+     *   }
+     * })
+     * 
+     */
+    create<T extends EmbedFieldCreateArgs>(args: SelectSubset<T, EmbedFieldCreateArgs<ExtArgs>>): Prisma__EmbedFieldClient<$Result.GetResult<Prisma.$EmbedFieldPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many EmbedFields.
+     * @param {EmbedFieldCreateManyArgs} args - Arguments to create many EmbedFields.
+     * @example
+     * // Create many EmbedFields
+     * const embedField = await prisma.embedField.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EmbedFieldCreateManyArgs>(args?: SelectSubset<T, EmbedFieldCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a EmbedField.
+     * @param {EmbedFieldDeleteArgs} args - Arguments to delete one EmbedField.
+     * @example
+     * // Delete one EmbedField
+     * const EmbedField = await prisma.embedField.delete({
+     *   where: {
+     *     // ... filter to delete one EmbedField
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EmbedFieldDeleteArgs>(args: SelectSubset<T, EmbedFieldDeleteArgs<ExtArgs>>): Prisma__EmbedFieldClient<$Result.GetResult<Prisma.$EmbedFieldPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one EmbedField.
+     * @param {EmbedFieldUpdateArgs} args - Arguments to update one EmbedField.
+     * @example
+     * // Update one EmbedField
+     * const embedField = await prisma.embedField.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EmbedFieldUpdateArgs>(args: SelectSubset<T, EmbedFieldUpdateArgs<ExtArgs>>): Prisma__EmbedFieldClient<$Result.GetResult<Prisma.$EmbedFieldPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more EmbedFields.
+     * @param {EmbedFieldDeleteManyArgs} args - Arguments to filter EmbedFields to delete.
+     * @example
+     * // Delete a few EmbedFields
+     * const { count } = await prisma.embedField.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EmbedFieldDeleteManyArgs>(args?: SelectSubset<T, EmbedFieldDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EmbedFields.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmbedFieldUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many EmbedFields
+     * const embedField = await prisma.embedField.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EmbedFieldUpdateManyArgs>(args: SelectSubset<T, EmbedFieldUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one EmbedField.
+     * @param {EmbedFieldUpsertArgs} args - Arguments to update or create a EmbedField.
+     * @example
+     * // Update or create a EmbedField
+     * const embedField = await prisma.embedField.upsert({
+     *   create: {
+     *     // ... data to create a EmbedField
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the EmbedField we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EmbedFieldUpsertArgs>(args: SelectSubset<T, EmbedFieldUpsertArgs<ExtArgs>>): Prisma__EmbedFieldClient<$Result.GetResult<Prisma.$EmbedFieldPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more EmbedFields that matches the filter.
+     * @param {EmbedFieldFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const embedField = await prisma.embedField.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: EmbedFieldFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a EmbedField.
+     * @param {EmbedFieldAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const embedField = await prisma.embedField.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: EmbedFieldAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
+
+
+    /**
+     * Count the number of EmbedFields.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmbedFieldCountArgs} args - Arguments to filter EmbedFields to count.
+     * @example
+     * // Count the number of EmbedFields
+     * const count = await prisma.embedField.count({
+     *   where: {
+     *     // ... the filter for the EmbedFields we want to count
+     *   }
+     * })
+    **/
+    count<T extends EmbedFieldCountArgs>(
+      args?: Subset<T, EmbedFieldCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EmbedFieldCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a EmbedField.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmbedFieldAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EmbedFieldAggregateArgs>(args: Subset<T, EmbedFieldAggregateArgs>): Prisma.PrismaPromise<GetEmbedFieldAggregateType<T>>
+
+    /**
+     * Group by EmbedField.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmbedFieldGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EmbedFieldGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EmbedFieldGroupByArgs['orderBy'] }
+        : { orderBy?: EmbedFieldGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EmbedFieldGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEmbedFieldGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the EmbedField model
+   */
+  readonly fields: EmbedFieldFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for EmbedField.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EmbedFieldClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the EmbedField model
+   */
+  interface EmbedFieldFieldRefs {
+    readonly id: FieldRef<"EmbedField", 'String'>
+    readonly name: FieldRef<"EmbedField", 'String'>
+    readonly value: FieldRef<"EmbedField", 'String'>
+    readonly inline: FieldRef<"EmbedField", 'Boolean'>
+    readonly embedId: FieldRef<"EmbedField", 'String'>
+    readonly order: FieldRef<"EmbedField", 'Int'>
+    readonly createdAt: FieldRef<"EmbedField", 'DateTime'>
+    readonly updatedAt: FieldRef<"EmbedField", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * EmbedField findUnique
+   */
+  export type EmbedFieldFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmbedField
+     */
+    select?: EmbedFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmbedField
+     */
+    omit?: EmbedFieldOmit<ExtArgs> | null
+    /**
+     * Filter, which EmbedField to fetch.
+     */
+    where: EmbedFieldWhereUniqueInput
+  }
+
+  /**
+   * EmbedField findUniqueOrThrow
+   */
+  export type EmbedFieldFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmbedField
+     */
+    select?: EmbedFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmbedField
+     */
+    omit?: EmbedFieldOmit<ExtArgs> | null
+    /**
+     * Filter, which EmbedField to fetch.
+     */
+    where: EmbedFieldWhereUniqueInput
+  }
+
+  /**
+   * EmbedField findFirst
+   */
+  export type EmbedFieldFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmbedField
+     */
+    select?: EmbedFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmbedField
+     */
+    omit?: EmbedFieldOmit<ExtArgs> | null
+    /**
+     * Filter, which EmbedField to fetch.
+     */
+    where?: EmbedFieldWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmbedFields to fetch.
+     */
+    orderBy?: EmbedFieldOrderByWithRelationInput | EmbedFieldOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EmbedFields.
+     */
+    cursor?: EmbedFieldWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmbedFields from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmbedFields.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EmbedFields.
+     */
+    distinct?: EmbedFieldScalarFieldEnum | EmbedFieldScalarFieldEnum[]
+  }
+
+  /**
+   * EmbedField findFirstOrThrow
+   */
+  export type EmbedFieldFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmbedField
+     */
+    select?: EmbedFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmbedField
+     */
+    omit?: EmbedFieldOmit<ExtArgs> | null
+    /**
+     * Filter, which EmbedField to fetch.
+     */
+    where?: EmbedFieldWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmbedFields to fetch.
+     */
+    orderBy?: EmbedFieldOrderByWithRelationInput | EmbedFieldOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EmbedFields.
+     */
+    cursor?: EmbedFieldWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmbedFields from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmbedFields.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EmbedFields.
+     */
+    distinct?: EmbedFieldScalarFieldEnum | EmbedFieldScalarFieldEnum[]
+  }
+
+  /**
+   * EmbedField findMany
+   */
+  export type EmbedFieldFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmbedField
+     */
+    select?: EmbedFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmbedField
+     */
+    omit?: EmbedFieldOmit<ExtArgs> | null
+    /**
+     * Filter, which EmbedFields to fetch.
+     */
+    where?: EmbedFieldWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmbedFields to fetch.
+     */
+    orderBy?: EmbedFieldOrderByWithRelationInput | EmbedFieldOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing EmbedFields.
+     */
+    cursor?: EmbedFieldWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmbedFields from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmbedFields.
+     */
+    skip?: number
+    distinct?: EmbedFieldScalarFieldEnum | EmbedFieldScalarFieldEnum[]
+  }
+
+  /**
+   * EmbedField create
+   */
+  export type EmbedFieldCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmbedField
+     */
+    select?: EmbedFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmbedField
+     */
+    omit?: EmbedFieldOmit<ExtArgs> | null
+    /**
+     * The data needed to create a EmbedField.
+     */
+    data: XOR<EmbedFieldCreateInput, EmbedFieldUncheckedCreateInput>
+  }
+
+  /**
+   * EmbedField createMany
+   */
+  export type EmbedFieldCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many EmbedFields.
+     */
+    data: EmbedFieldCreateManyInput | EmbedFieldCreateManyInput[]
+  }
+
+  /**
+   * EmbedField update
+   */
+  export type EmbedFieldUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmbedField
+     */
+    select?: EmbedFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmbedField
+     */
+    omit?: EmbedFieldOmit<ExtArgs> | null
+    /**
+     * The data needed to update a EmbedField.
+     */
+    data: XOR<EmbedFieldUpdateInput, EmbedFieldUncheckedUpdateInput>
+    /**
+     * Choose, which EmbedField to update.
+     */
+    where: EmbedFieldWhereUniqueInput
+  }
+
+  /**
+   * EmbedField updateMany
+   */
+  export type EmbedFieldUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update EmbedFields.
+     */
+    data: XOR<EmbedFieldUpdateManyMutationInput, EmbedFieldUncheckedUpdateManyInput>
+    /**
+     * Filter which EmbedFields to update
+     */
+    where?: EmbedFieldWhereInput
+    /**
+     * Limit how many EmbedFields to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EmbedField upsert
+   */
+  export type EmbedFieldUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmbedField
+     */
+    select?: EmbedFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmbedField
+     */
+    omit?: EmbedFieldOmit<ExtArgs> | null
+    /**
+     * The filter to search for the EmbedField to update in case it exists.
+     */
+    where: EmbedFieldWhereUniqueInput
+    /**
+     * In case the EmbedField found by the `where` argument doesn't exist, create a new EmbedField with this data.
+     */
+    create: XOR<EmbedFieldCreateInput, EmbedFieldUncheckedCreateInput>
+    /**
+     * In case the EmbedField was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EmbedFieldUpdateInput, EmbedFieldUncheckedUpdateInput>
+  }
+
+  /**
+   * EmbedField delete
+   */
+  export type EmbedFieldDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmbedField
+     */
+    select?: EmbedFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmbedField
+     */
+    omit?: EmbedFieldOmit<ExtArgs> | null
+    /**
+     * Filter which EmbedField to delete.
+     */
+    where: EmbedFieldWhereUniqueInput
+  }
+
+  /**
+   * EmbedField deleteMany
+   */
+  export type EmbedFieldDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EmbedFields to delete
+     */
+    where?: EmbedFieldWhereInput
+    /**
+     * Limit how many EmbedFields to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * EmbedField findRaw
+   */
+  export type EmbedFieldFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * EmbedField aggregateRaw
+   */
+  export type EmbedFieldAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * EmbedField without action
+   */
+  export type EmbedFieldDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmbedField
+     */
+    select?: EmbedFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmbedField
+     */
+    omit?: EmbedFieldOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -7302,6 +9558,44 @@ export namespace Prisma {
   };
 
   export type ReactionScalarFieldEnum = (typeof ReactionScalarFieldEnum)[keyof typeof ReactionScalarFieldEnum]
+
+
+  export const EmbedScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    description: 'description',
+    url: 'url',
+    color: 'color',
+    imageUrl: 'imageUrl',
+    thumbnailUrl: 'thumbnailUrl',
+    authorName: 'authorName',
+    authorUrl: 'authorUrl',
+    authorIconUrl: 'authorIconUrl',
+    footerText: 'footerText',
+    footerIconUrl: 'footerIconUrl',
+    timestamp: 'timestamp',
+    serverId: 'serverId',
+    channelId: 'channelId',
+    creatorProfileId: 'creatorProfileId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type EmbedScalarFieldEnum = (typeof EmbedScalarFieldEnum)[keyof typeof EmbedScalarFieldEnum]
+
+
+  export const EmbedFieldScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    value: 'value',
+    inline: 'inline',
+    embedId: 'embedId',
+    order: 'order',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type EmbedFieldScalarFieldEnum = (typeof EmbedFieldScalarFieldEnum)[keyof typeof EmbedFieldScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -7787,6 +10081,192 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Reaction"> | Date | string
   }
 
+  export type EmbedWhereInput = {
+    AND?: EmbedWhereInput | EmbedWhereInput[]
+    OR?: EmbedWhereInput[]
+    NOT?: EmbedWhereInput | EmbedWhereInput[]
+    id?: StringFilter<"Embed"> | string
+    title?: StringNullableFilter<"Embed"> | string | null
+    description?: StringNullableFilter<"Embed"> | string | null
+    url?: StringNullableFilter<"Embed"> | string | null
+    color?: StringNullableFilter<"Embed"> | string | null
+    imageUrl?: StringNullableFilter<"Embed"> | string | null
+    thumbnailUrl?: StringNullableFilter<"Embed"> | string | null
+    authorName?: StringNullableFilter<"Embed"> | string | null
+    authorUrl?: StringNullableFilter<"Embed"> | string | null
+    authorIconUrl?: StringNullableFilter<"Embed"> | string | null
+    footerText?: StringNullableFilter<"Embed"> | string | null
+    footerIconUrl?: StringNullableFilter<"Embed"> | string | null
+    timestamp?: DateTimeNullableFilter<"Embed"> | Date | string | null
+    serverId?: StringFilter<"Embed"> | string
+    channelId?: StringNullableFilter<"Embed"> | string | null
+    creatorProfileId?: StringFilter<"Embed"> | string
+    createdAt?: DateTimeFilter<"Embed"> | Date | string
+    updatedAt?: DateTimeFilter<"Embed"> | Date | string
+  }
+
+  export type EmbedOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    url?: SortOrder
+    color?: SortOrder
+    imageUrl?: SortOrder
+    thumbnailUrl?: SortOrder
+    authorName?: SortOrder
+    authorUrl?: SortOrder
+    authorIconUrl?: SortOrder
+    footerText?: SortOrder
+    footerIconUrl?: SortOrder
+    timestamp?: SortOrder
+    serverId?: SortOrder
+    channelId?: SortOrder
+    creatorProfileId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EmbedWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: EmbedWhereInput | EmbedWhereInput[]
+    OR?: EmbedWhereInput[]
+    NOT?: EmbedWhereInput | EmbedWhereInput[]
+    title?: StringNullableFilter<"Embed"> | string | null
+    description?: StringNullableFilter<"Embed"> | string | null
+    url?: StringNullableFilter<"Embed"> | string | null
+    color?: StringNullableFilter<"Embed"> | string | null
+    imageUrl?: StringNullableFilter<"Embed"> | string | null
+    thumbnailUrl?: StringNullableFilter<"Embed"> | string | null
+    authorName?: StringNullableFilter<"Embed"> | string | null
+    authorUrl?: StringNullableFilter<"Embed"> | string | null
+    authorIconUrl?: StringNullableFilter<"Embed"> | string | null
+    footerText?: StringNullableFilter<"Embed"> | string | null
+    footerIconUrl?: StringNullableFilter<"Embed"> | string | null
+    timestamp?: DateTimeNullableFilter<"Embed"> | Date | string | null
+    serverId?: StringFilter<"Embed"> | string
+    channelId?: StringNullableFilter<"Embed"> | string | null
+    creatorProfileId?: StringFilter<"Embed"> | string
+    createdAt?: DateTimeFilter<"Embed"> | Date | string
+    updatedAt?: DateTimeFilter<"Embed"> | Date | string
+  }, "id">
+
+  export type EmbedOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    url?: SortOrder
+    color?: SortOrder
+    imageUrl?: SortOrder
+    thumbnailUrl?: SortOrder
+    authorName?: SortOrder
+    authorUrl?: SortOrder
+    authorIconUrl?: SortOrder
+    footerText?: SortOrder
+    footerIconUrl?: SortOrder
+    timestamp?: SortOrder
+    serverId?: SortOrder
+    channelId?: SortOrder
+    creatorProfileId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: EmbedCountOrderByAggregateInput
+    _max?: EmbedMaxOrderByAggregateInput
+    _min?: EmbedMinOrderByAggregateInput
+  }
+
+  export type EmbedScalarWhereWithAggregatesInput = {
+    AND?: EmbedScalarWhereWithAggregatesInput | EmbedScalarWhereWithAggregatesInput[]
+    OR?: EmbedScalarWhereWithAggregatesInput[]
+    NOT?: EmbedScalarWhereWithAggregatesInput | EmbedScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Embed"> | string
+    title?: StringNullableWithAggregatesFilter<"Embed"> | string | null
+    description?: StringNullableWithAggregatesFilter<"Embed"> | string | null
+    url?: StringNullableWithAggregatesFilter<"Embed"> | string | null
+    color?: StringNullableWithAggregatesFilter<"Embed"> | string | null
+    imageUrl?: StringNullableWithAggregatesFilter<"Embed"> | string | null
+    thumbnailUrl?: StringNullableWithAggregatesFilter<"Embed"> | string | null
+    authorName?: StringNullableWithAggregatesFilter<"Embed"> | string | null
+    authorUrl?: StringNullableWithAggregatesFilter<"Embed"> | string | null
+    authorIconUrl?: StringNullableWithAggregatesFilter<"Embed"> | string | null
+    footerText?: StringNullableWithAggregatesFilter<"Embed"> | string | null
+    footerIconUrl?: StringNullableWithAggregatesFilter<"Embed"> | string | null
+    timestamp?: DateTimeNullableWithAggregatesFilter<"Embed"> | Date | string | null
+    serverId?: StringWithAggregatesFilter<"Embed"> | string
+    channelId?: StringNullableWithAggregatesFilter<"Embed"> | string | null
+    creatorProfileId?: StringWithAggregatesFilter<"Embed"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Embed"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Embed"> | Date | string
+  }
+
+  export type EmbedFieldWhereInput = {
+    AND?: EmbedFieldWhereInput | EmbedFieldWhereInput[]
+    OR?: EmbedFieldWhereInput[]
+    NOT?: EmbedFieldWhereInput | EmbedFieldWhereInput[]
+    id?: StringFilter<"EmbedField"> | string
+    name?: StringFilter<"EmbedField"> | string
+    value?: StringFilter<"EmbedField"> | string
+    inline?: BoolFilter<"EmbedField"> | boolean
+    embedId?: StringFilter<"EmbedField"> | string
+    order?: IntFilter<"EmbedField"> | number
+    createdAt?: DateTimeFilter<"EmbedField"> | Date | string
+    updatedAt?: DateTimeFilter<"EmbedField"> | Date | string
+  }
+
+  export type EmbedFieldOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    value?: SortOrder
+    inline?: SortOrder
+    embedId?: SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EmbedFieldWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: EmbedFieldWhereInput | EmbedFieldWhereInput[]
+    OR?: EmbedFieldWhereInput[]
+    NOT?: EmbedFieldWhereInput | EmbedFieldWhereInput[]
+    name?: StringFilter<"EmbedField"> | string
+    value?: StringFilter<"EmbedField"> | string
+    inline?: BoolFilter<"EmbedField"> | boolean
+    embedId?: StringFilter<"EmbedField"> | string
+    order?: IntFilter<"EmbedField"> | number
+    createdAt?: DateTimeFilter<"EmbedField"> | Date | string
+    updatedAt?: DateTimeFilter<"EmbedField"> | Date | string
+  }, "id">
+
+  export type EmbedFieldOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    value?: SortOrder
+    inline?: SortOrder
+    embedId?: SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: EmbedFieldCountOrderByAggregateInput
+    _avg?: EmbedFieldAvgOrderByAggregateInput
+    _max?: EmbedFieldMaxOrderByAggregateInput
+    _min?: EmbedFieldMinOrderByAggregateInput
+    _sum?: EmbedFieldSumOrderByAggregateInput
+  }
+
+  export type EmbedFieldScalarWhereWithAggregatesInput = {
+    AND?: EmbedFieldScalarWhereWithAggregatesInput | EmbedFieldScalarWhereWithAggregatesInput[]
+    OR?: EmbedFieldScalarWhereWithAggregatesInput[]
+    NOT?: EmbedFieldScalarWhereWithAggregatesInput | EmbedFieldScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"EmbedField"> | string
+    name?: StringWithAggregatesFilter<"EmbedField"> | string
+    value?: StringWithAggregatesFilter<"EmbedField"> | string
+    inline?: BoolWithAggregatesFilter<"EmbedField"> | boolean
+    embedId?: StringWithAggregatesFilter<"EmbedField"> | string
+    order?: IntWithAggregatesFilter<"EmbedField"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"EmbedField"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"EmbedField"> | Date | string
+  }
+
   export type MessageCreateInput = {
     id?: string
     content: string
@@ -8207,6 +10687,222 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type EmbedCreateInput = {
+    id?: string
+    title?: string | null
+    description?: string | null
+    url?: string | null
+    color?: string | null
+    imageUrl?: string | null
+    thumbnailUrl?: string | null
+    authorName?: string | null
+    authorUrl?: string | null
+    authorIconUrl?: string | null
+    footerText?: string | null
+    footerIconUrl?: string | null
+    timestamp?: Date | string | null
+    serverId: string
+    channelId?: string | null
+    creatorProfileId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EmbedUncheckedCreateInput = {
+    id?: string
+    title?: string | null
+    description?: string | null
+    url?: string | null
+    color?: string | null
+    imageUrl?: string | null
+    thumbnailUrl?: string | null
+    authorName?: string | null
+    authorUrl?: string | null
+    authorIconUrl?: string | null
+    footerText?: string | null
+    footerIconUrl?: string | null
+    timestamp?: Date | string | null
+    serverId: string
+    channelId?: string | null
+    creatorProfileId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EmbedUpdateInput = {
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    authorUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    authorIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    footerText?: NullableStringFieldUpdateOperationsInput | string | null
+    footerIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    serverId?: StringFieldUpdateOperationsInput | string
+    channelId?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorProfileId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmbedUncheckedUpdateInput = {
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    authorUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    authorIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    footerText?: NullableStringFieldUpdateOperationsInput | string | null
+    footerIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    serverId?: StringFieldUpdateOperationsInput | string
+    channelId?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorProfileId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmbedCreateManyInput = {
+    id?: string
+    title?: string | null
+    description?: string | null
+    url?: string | null
+    color?: string | null
+    imageUrl?: string | null
+    thumbnailUrl?: string | null
+    authorName?: string | null
+    authorUrl?: string | null
+    authorIconUrl?: string | null
+    footerText?: string | null
+    footerIconUrl?: string | null
+    timestamp?: Date | string | null
+    serverId: string
+    channelId?: string | null
+    creatorProfileId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EmbedUpdateManyMutationInput = {
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    authorUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    authorIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    footerText?: NullableStringFieldUpdateOperationsInput | string | null
+    footerIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    serverId?: StringFieldUpdateOperationsInput | string
+    channelId?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorProfileId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmbedUncheckedUpdateManyInput = {
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    authorUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    authorIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    footerText?: NullableStringFieldUpdateOperationsInput | string | null
+    footerIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    serverId?: StringFieldUpdateOperationsInput | string
+    channelId?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorProfileId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmbedFieldCreateInput = {
+    id?: string
+    name: string
+    value: string
+    inline?: boolean
+    embedId: string
+    order: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EmbedFieldUncheckedCreateInput = {
+    id?: string
+    name: string
+    value: string
+    inline?: boolean
+    embedId: string
+    order: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EmbedFieldUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    inline?: BoolFieldUpdateOperationsInput | boolean
+    embedId?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmbedFieldUncheckedUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    inline?: BoolFieldUpdateOperationsInput | boolean
+    embedId?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmbedFieldCreateManyInput = {
+    id?: string
+    name: string
+    value: string
+    inline?: boolean
+    embedId: string
+    order: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EmbedFieldUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    inline?: BoolFieldUpdateOperationsInput | boolean
+    embedId?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmbedFieldUncheckedUpdateManyInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    inline?: BoolFieldUpdateOperationsInput | boolean
+    embedId?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -8558,6 +11254,137 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+    isSet?: boolean
+  }
+
+  export type EmbedCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    url?: SortOrder
+    color?: SortOrder
+    imageUrl?: SortOrder
+    thumbnailUrl?: SortOrder
+    authorName?: SortOrder
+    authorUrl?: SortOrder
+    authorIconUrl?: SortOrder
+    footerText?: SortOrder
+    footerIconUrl?: SortOrder
+    timestamp?: SortOrder
+    serverId?: SortOrder
+    channelId?: SortOrder
+    creatorProfileId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EmbedMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    url?: SortOrder
+    color?: SortOrder
+    imageUrl?: SortOrder
+    thumbnailUrl?: SortOrder
+    authorName?: SortOrder
+    authorUrl?: SortOrder
+    authorIconUrl?: SortOrder
+    footerText?: SortOrder
+    footerIconUrl?: SortOrder
+    timestamp?: SortOrder
+    serverId?: SortOrder
+    channelId?: SortOrder
+    creatorProfileId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EmbedMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    url?: SortOrder
+    color?: SortOrder
+    imageUrl?: SortOrder
+    thumbnailUrl?: SortOrder
+    authorName?: SortOrder
+    authorUrl?: SortOrder
+    authorIconUrl?: SortOrder
+    footerText?: SortOrder
+    footerIconUrl?: SortOrder
+    timestamp?: SortOrder
+    serverId?: SortOrder
+    channelId?: SortOrder
+    creatorProfileId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+    isSet?: boolean
+  }
+
+  export type EmbedFieldCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    value?: SortOrder
+    inline?: SortOrder
+    embedId?: SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EmbedFieldAvgOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type EmbedFieldMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    value?: SortOrder
+    inline?: SortOrder
+    embedId?: SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EmbedFieldMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    value?: SortOrder
+    inline?: SortOrder
+    embedId?: SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EmbedFieldSumOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
   export type ReactionCreateNestedManyWithoutMessageInput = {
     create?: XOR<ReactionCreateWithoutMessageInput, ReactionUncheckedCreateWithoutMessageInput> | ReactionCreateWithoutMessageInput[] | ReactionUncheckedCreateWithoutMessageInput[]
     connectOrCreate?: ReactionCreateOrConnectWithoutMessageInput | ReactionCreateOrConnectWithoutMessageInput[]
@@ -8637,6 +11464,11 @@ export namespace Prisma {
     upsert?: MessageUpsertWithoutReactionsInput
     connect?: MessageWhereUniqueInput
     update?: XOR<XOR<MessageUpdateToOneWithWhereWithoutReactionsInput, MessageUpdateWithoutReactionsInput>, MessageUncheckedUpdateWithoutReactionsInput>
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+    unset?: boolean
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -8789,6 +11621,33 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+    isSet?: boolean
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type ReactionCreateWithoutMessageInput = {

@@ -176,6 +176,38 @@ exports.Prisma.ReactionScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.EmbedScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  url: 'url',
+  color: 'color',
+  imageUrl: 'imageUrl',
+  thumbnailUrl: 'thumbnailUrl',
+  authorName: 'authorName',
+  authorUrl: 'authorUrl',
+  authorIconUrl: 'authorIconUrl',
+  footerText: 'footerText',
+  footerIconUrl: 'footerIconUrl',
+  timestamp: 'timestamp',
+  serverId: 'serverId',
+  channelId: 'channelId',
+  creatorProfileId: 'creatorProfileId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EmbedFieldScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  value: 'value',
+  inline: 'inline',
+  embedId: 'embedId',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -193,7 +225,9 @@ exports.Prisma.ModelName = {
   GroupMessage: 'GroupMessage',
   Category: 'Category',
   Thread: 'Thread',
-  Reaction: 'Reaction'
+  Reaction: 'Reaction',
+  Embed: 'Embed',
+  EmbedField: 'EmbedField'
 };
 
 /**

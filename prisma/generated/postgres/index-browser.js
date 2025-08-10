@@ -297,6 +297,38 @@ exports.Prisma.ServerEventScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.EmbedScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  url: 'url',
+  color: 'color',
+  imageUrl: 'imageUrl',
+  thumbnailUrl: 'thumbnailUrl',
+  authorName: 'authorName',
+  authorUrl: 'authorUrl',
+  authorIconUrl: 'authorIconUrl',
+  footerText: 'footerText',
+  footerIconUrl: 'footerIconUrl',
+  timestamp: 'timestamp',
+  serverId: 'serverId',
+  channelId: 'channelId',
+  creatorProfileId: 'creatorProfileId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EmbedFieldScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  value: 'value',
+  inline: 'inline',
+  embedId: 'embedId',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -404,7 +436,9 @@ exports.Prisma.ModelName = {
   ServerFollow: 'ServerFollow',
   Thread: 'Thread',
   Notification: 'Notification',
-  ServerEvent: 'ServerEvent'
+  ServerEvent: 'ServerEvent',
+  Embed: 'Embed',
+  EmbedField: 'EmbedField'
 };
 
 /**

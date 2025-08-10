@@ -1,0 +1,478 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+import { Plus, Trash2, Eye, Save, ArrowLeft, Trash } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { EmbedPreview } from "./embed-preview";
+import { EmbedWithCreator } from "@/types";
+import { Channel } from "@prisma/generated/postgres";
+
+interface EmbedField {
+  id: string;
+  name: string;
+  value: string;
+  inline: boolean;
+}
+
+interface EmbedData {
+  title: string;
+  description: string;
+  url: string;
+  color: string;
+  imageUrl: string;
+  thumbnailUrl: string;
+  authorName: string;
+  authorUrl: string;
+  authorIconUrl: string;
+  footerText: string;
+  footerIconUrl: string;
+  timestamp: string;
+  channelId: string;
+  fields: EmbedField[];
+}
+
+interface EmbedEditorProps {
+  serverId: string;
+  embedId: string;
+  initialData: EmbedWithCreator;
+  channels: Channel[];
+}
+
+export const EmbedEditor = ({ serverId, embedId, initialData, channels }: EmbedEditorProps) => {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPreview, setShowPreview] = useState(true);
+
+  const [embedData, setEmbedData] = useState<EmbedData>({
+    title: initialData.title || "",
+    description: initialData.description || "",
+    url: initialData.url || "",
+    color: initialData.color || "#5865F2",
+    imageUrl: initialData.imageUrl || "",
+    thumbnailUrl: initialData.thumbnailUrl || "",
+    authorName: initialData.authorName || "",
+    authorUrl: initialData.authorUrl || "",
+    authorIconUrl: initialData.authorIconUrl || "",
+    footerText: initialData.footerText || "",
+    footerIconUrl: initialData.footerIconUrl || "",
+    timestamp: initialData.timestamp ? new Date(initialData.timestamp).toISOString().slice(0, 16) : "",
+    channelId: initialData.channelId || "",
+    fields: initialData.fields.map(field => ({
+      id: field.id,
+      name: field.name,
+      value: field.value,
+      inline: field.inline,
+    })),
+  });
+
+  const addField = () => {
+    const newField: EmbedField = {
+      id: Date.now().toString(),
+      name: "",
+      value: "",
+      inline: false,
+    };
+    setEmbedData(prev => ({
+      ...prev,
+      fields: [...prev.fields, newField],
+    }));
+  };
+
+  const removeField = (fieldId: string) => {
+    setEmbedData(prev => ({
+      ...prev,
+      fields: prev.fields.filter(field => field.id !== fieldId),
+    }));
+  };
+
+  const updateField = (fieldId: string, field: Partial<EmbedField>) => {
+    setEmbedData(prev => ({
+      ...prev,
+      fields: prev.fields.map(f => 
+        f.id === fieldId ? { ...f, ...field } : f
+      ),
+    }));
+  };
+
+  const handleSave = async () => {
+    if (!embedData.channelId) {
+      toast.error("Please select a channel for your embed");
+      return;
+    }
+
+    if (!embedData.title && !embedData.description && embedData.fields.length === 0) {
+      toast.error("Please add at least a title, description, or field to your embed");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const response = await fetch(`/api/servers/${serverId}/embeds/${embedId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...embedData,
+          timestamp: embedData.timestamp ? new Date(embedData.timestamp).toISOString() : null,
+        }),
+      });
+
+      if (response.ok) {
+        toast.success("Embed updated successfully!");
+      } else {
+        const error = await response.text();
+        toast.error(error || "Failed to update embed");
+      }
+    } catch (error) {
+      console.error("Error updating embed:", error);
+      toast.error("Failed to update embed");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!confirm("Are you sure you want to delete this embed? This action cannot be undone.")) {
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const response = await fetch(`/api/servers/${serverId}/embeds/${embedId}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        toast.success("Embed deleted successfully!");
+        router.push(`/servers/${serverId}`);
+      } else {
+        const error = await response.text();
+        toast.error(error || "Failed to delete embed");
+      }
+    } catch (error) {
+      console.error("Error deleting embed:", error);
+      toast.error("Failed to delete embed");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Form Section */}
+      <div className="space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Eye className="h-5 w-5" />
+              Embed Settings
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="channel">Channel</Label>
+              <select
+                id="channel"
+                value={embedData.channelId}
+                onChange={(e) => setEmbedData(prev => ({ ...prev, channelId: e.target.value }))}
+                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              >
+                <option value="">Select a channel</option>
+                {channels.map((channel) => (
+                  <option key={channel.id} value={channel.id}>
+                    #{channel.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="title">Title</Label>
+              <Input
+                id="title"
+                placeholder="Embed title"
+                value={embedData.title}
+                onChange={(e) => setEmbedData(prev => ({ ...prev, title: e.target.value }))}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="description">Description</Label>
+              <Textarea
+                id="description"
+                placeholder="Embed description"
+                value={embedData.description}
+                onChange={(e) => setEmbedData(prev => ({ ...prev, description: e.target.value }))}
+                rows={3}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="url">URL</Label>
+              <Input
+                id="url"
+                type="url"
+                placeholder="https://example.com"
+                value={embedData.url}
+                onChange={(e) => setEmbedData(prev => ({ ...prev, url: e.target.value }))}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="color">Color</Label>
+              <div className="flex gap-2">
+                <Input
+                  id="color"
+                  type="color"
+                  value={embedData.color}
+                  onChange={(e) => setEmbedData(prev => ({ ...prev, color: e.target.value }))}
+                  className="w-16 h-10 p-1"
+                />
+                <Input
+                  value={embedData.color}
+                  onChange={(e) => setEmbedData(prev => ({ ...prev, color: e.target.value }))}
+                  placeholder="#5865F2"
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Media</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="imageUrl">Image URL</Label>
+              <Input
+                id="imageUrl"
+                type="url"
+                placeholder="https://example.com/image.png"
+                value={embedData.imageUrl}
+                onChange={(e) => setEmbedData(prev => ({ ...prev, imageUrl: e.target.value }))}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="thumbnailUrl">Thumbnail URL</Label>
+              <Input
+                id="thumbnailUrl"
+                type="url"
+                placeholder="https://example.com/thumbnail.png"
+                value={embedData.thumbnailUrl}
+                onChange={(e) => setEmbedData(prev => ({ ...prev, thumbnailUrl: e.target.value }))}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Author</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="authorName">Author Name</Label>
+              <Input
+                id="authorName"
+                placeholder="Author name"
+                value={embedData.authorName}
+                onChange={(e) => setEmbedData(prev => ({ ...prev, authorName: e.target.value }))}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="authorUrl">Author URL</Label>
+              <Input
+                id="authorUrl"
+                type="url"
+                placeholder="https://example.com"
+                value={embedData.authorUrl}
+                onChange={(e) => setEmbedData(prev => ({ ...prev, authorUrl: e.target.value }))}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="authorIconUrl">Author Icon URL</Label>
+              <Input
+                id="authorIconUrl"
+                type="url"
+                placeholder="https://example.com/icon.png"
+                value={embedData.authorIconUrl}
+                onChange={(e) => setEmbedData(prev => ({ ...prev, authorIconUrl: e.target.value }))}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Footer</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="footerText">Footer Text</Label>
+              <Input
+                id="footerText"
+                placeholder="Footer text"
+                value={embedData.footerText}
+                onChange={(e) => setEmbedData(prev => ({ ...prev, footerText: e.target.value }))}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="footerIconUrl">Footer Icon URL</Label>
+              <Input
+                id="footerIconUrl"
+                type="url"
+                placeholder="https://example.com/icon.png"
+                value={embedData.footerIconUrl}
+                onChange={(e) => setEmbedData(prev => ({ ...prev, footerIconUrl: e.target.value }))}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="timestamp">Timestamp</Label>
+              <Input
+                id="timestamp"
+                type="datetime-local"
+                value={embedData.timestamp}
+                onChange={(e) => setEmbedData(prev => ({ ...prev, timestamp: e.target.value }))}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center justify-between">
+              Fields
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={addField}
+                className="h-8"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Add Field
+              </Button>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {embedData.fields.length === 0 ? (
+              <p className="text-sm text-zinc-500 dark:text-zinc-400 text-center py-4">
+                No fields added yet. Click "Add Field" to get started.
+              </p>
+            ) : (
+              embedData.fields.map((field, index) => (
+                <div key={field.id} className="space-y-3 p-4 border rounded-lg">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium">Field {index + 1}</span>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => removeField(field.id)}
+                      className="h-8 w-8 p-0 text-red-500 hover:text-red-700"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>Name</Label>
+                    <Input
+                      placeholder="Field name"
+                      value={field.name}
+                      onChange={(e) => updateField(field.id, { name: e.target.value })}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>Value</Label>
+                    <Textarea
+                      placeholder="Field value"
+                      value={field.value}
+                      onChange={(e) => updateField(field.id, { value: e.target.value })}
+                      rows={2}
+                    />
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      id={`inline-${field.id}`}
+                      checked={field.inline}
+                      onChange={(e) => updateField(field.id, { inline: e.target.checked })}
+                      className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                    />
+                    <Label htmlFor={`inline-${field.id}`}>Inline</Label>
+                  </div>
+                </div>
+              ))
+            )}
+          </CardContent>
+        </Card>
+
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            onClick={() => router.push(`/servers/${serverId}`)}
+            className="flex-1"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Server
+          </Button>
+          <Button
+            onClick={handleSave}
+            disabled={isLoading}
+            className="flex-1"
+          >
+            <Save className="h-4 w-4 mr-2" />
+            {isLoading ? "Saving..." : "Save Changes"}
+          </Button>
+          <Button
+            variant="destructive"
+            onClick={handleDelete}
+            disabled={isLoading}
+          >
+            <Trash className="h-4 w-4 mr-2" />
+            Delete
+          </Button>
+        </div>
+      </div>
+
+      {/* Preview Section */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-semibold">Live Preview</h3>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowPreview(!showPreview)}
+          >
+            {showPreview ? "Hide" : "Show"} Preview
+          </Button>
+        </div>
+
+        {showPreview && (
+          <Card className="min-h-[400px]">
+            <CardContent className="p-4">
+              <EmbedPreview embed={embedData} />
+            </CardContent>
+          </Card>
+        )}
+      </div>
+    </div>
+  );
+};

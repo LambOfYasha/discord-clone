@@ -85,3 +85,40 @@ model Reaction {
   @@unique([messageId, memberId, emoji])
   @@map("reactions")
 }
+
+// Embed feature
+model Embed {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  title String?
+  description String?
+  url String?
+  color String? // Hex color code
+  imageUrl String?
+  thumbnailUrl String?
+  authorName String?
+  authorUrl String?
+  authorIconUrl String?
+  footerText String?
+  footerIconUrl String?
+  timestamp DateTime?
+  serverId String
+  channelId String?
+  creatorProfileId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("embeds")
+}
+
+model EmbedField {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  value String
+  inline Boolean @default(false)
+  embedId String
+  order Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("embed_fields")
+}

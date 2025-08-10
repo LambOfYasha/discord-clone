@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, Edit, LogOut, PlusCircle, Trash, UserPlus, Users, User, Hash, X, Folder, CalendarPlus, Calendar } from "lucide-react";
+import { ChevronDown, Edit, LogOut, PlusCircle, Trash, UserPlus, Users, User, Hash, X, Folder, CalendarPlus, Calendar, MessageSquare } from "lucide-react";
 import { useModal } from "@/hooks/use-modal-store";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -152,6 +152,22 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
             >
               Create Category
               <Folder className="h-4 w-4 ml-auto" />
+            </DropdownMenuItem>
+          )}
+          <DropdownMenuItem
+            className="text-sm cursor-pointer px-3 py-2"
+            onClick={() => router.push(`/servers/${server.id}/embeds`)}
+          >
+            View Embeds
+            <MessageSquare className="h-4 w-4 ml-auto" />
+          </DropdownMenuItem>
+          {isModerator && (
+            <DropdownMenuItem
+              className="text-sm cursor-pointer px-3 py-2"
+              onClick={() => router.push(`/servers/${server.id}/embeds/create`)}
+            >
+              Create Embed
+              <MessageSquare className="h-4 w-4 ml-auto" />
             </DropdownMenuItem>
           )}
           <DropdownMenuItem
