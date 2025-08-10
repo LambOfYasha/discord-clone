@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, Edit, LogOut, PlusCircle, Trash, UserPlus, Users, User, Hash, X, Folder, CalendarPlus, Calendar, MessageSquare } from "lucide-react";
+import { ChevronDown, Edit, LogOut, PlusCircle, Trash, UserPlus, Users, User, Hash, X, Folder, CalendarPlus, Calendar, MessageSquare, Megaphone } from "lucide-react";
 import { useModal } from "@/hooks/use-modal-store";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -184,6 +184,22 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
             Create Event
             <CalendarPlus className="h-4 w-4 ml-auto" />
           </DropdownMenuItem>
+          <DropdownMenuItem
+            className="text-sm cursor-pointer px-3 py-2"
+            onSelect={() => router.push(`/servers/${server.id}/announcements`)}
+          >
+            View Announcements
+            <Megaphone className="h-4 w-4 ml-auto" />
+          </DropdownMenuItem>
+          {isModerator && (
+            <DropdownMenuItem
+              className="text-sm cursor-pointer px-3 py-2"
+              onSelect={() => router.push(`/servers/${server.id}/announcements/create`)}
+            >
+              Create Announcement
+              <Megaphone className="h-4 w-4 ml-auto" />
+            </DropdownMenuItem>
+          )}
           {isModerator && <DropdownMenuSeparator />}
           {!isLoading && (
             <DropdownMenuItem

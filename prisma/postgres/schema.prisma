@@ -39,6 +39,7 @@ model Profile {
   notificationsRelated Notification[] @relation("NotificationRelatedProfile")
   serverEventsCreated ServerEvent[] @relation("ProfileCreatedEvents")
   embedsCreated Embed[] @relation("ProfileCreatedEmbeds")
+  scheduledAnnouncementsCreated ScheduledAnnouncement[] @relation("ProfileCreatedAnnouncements")
 
   @@map("profiles")
 }
@@ -58,6 +59,7 @@ model Server {
   notificationsRelated Notification[] @relation("NotificationRelatedServer")
   events ServerEvent[]
   embeds Embed[]
+  scheduledAnnouncements ScheduledAnnouncement[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -97,6 +99,7 @@ model Channel {
   voiceEvents ServerEvent[] @relation("VoiceChannelEvent")
   textEvents ServerEvent[] @relation("TextChannelEvent")
   embeds Embed[]
+  scheduledAnnouncements ScheduledAnnouncement[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -394,6 +397,28 @@ model EmbedField {
   @@map("embed_fields")
 }
 
+// Scheduled Announcements feature
+model ScheduledAnnouncement {
+  id String @id @default(uuid())
+  title String
+  message String
+  serverId String
+  server Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  channelId String
+  channel Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  creatorProfileId String
+  creatorProfile Profile @relation("ProfileCreatedAnnouncements", fields: [creatorProfileId], references: [id], onDelete: Cascade)
+  scheduleType ScheduleType
+  scheduleData Json // Stores schedule-specific data (cron expression, interval, etc.)
+  isActive Boolean @default(true)
+  lastSentAt DateTime?
+  nextSendAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("scheduled_announcements")
+}
+
 enum EventType {
   VOICE
   OTHER
@@ -403,4 +428,11 @@ enum OtherEventLocationType {
   TEXT_CHANNEL
   EXTERNAL
   LOCATION
+}
+
+enum ScheduleType {
+  DAILY
+  WEEKLY
+  MONTHLY
+  CUSTOM
 }

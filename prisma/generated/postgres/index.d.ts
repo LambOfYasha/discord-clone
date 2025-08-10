@@ -108,6 +108,11 @@ export type Embed = $Result.DefaultSelection<Prisma.$EmbedPayload>
  * 
  */
 export type EmbedField = $Result.DefaultSelection<Prisma.$EmbedFieldPayload>
+/**
+ * Model ScheduledAnnouncement
+ * 
+ */
+export type ScheduledAnnouncement = $Result.DefaultSelection<Prisma.$ScheduledAnnouncementPayload>
 
 /**
  * Enums
@@ -207,6 +212,16 @@ export const OtherEventLocationType: {
 
 export type OtherEventLocationType = (typeof OtherEventLocationType)[keyof typeof OtherEventLocationType]
 
+
+export const ScheduleType: {
+  DAILY: 'DAILY',
+  WEEKLY: 'WEEKLY',
+  MONTHLY: 'MONTHLY',
+  CUSTOM: 'CUSTOM'
+};
+
+export type ScheduleType = (typeof ScheduleType)[keyof typeof ScheduleType]
+
 }
 
 export type MemberRole = $Enums.MemberRole
@@ -248,6 +263,10 @@ export const EventType: typeof $Enums.EventType
 export type OtherEventLocationType = $Enums.OtherEventLocationType
 
 export const OtherEventLocationType: typeof $Enums.OtherEventLocationType
+
+export type ScheduleType = $Enums.ScheduleType
+
+export const ScheduleType: typeof $Enums.ScheduleType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -563,6 +582,16 @@ export class PrismaClient<
     * ```
     */
   get embedField(): Prisma.EmbedFieldDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.scheduledAnnouncement`: Exposes CRUD operations for the **ScheduledAnnouncement** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ScheduledAnnouncements
+    * const scheduledAnnouncements = await prisma.scheduledAnnouncement.findMany()
+    * ```
+    */
+  get scheduledAnnouncement(): Prisma.ScheduledAnnouncementDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1021,7 +1050,8 @@ export namespace Prisma {
     Notification: 'Notification',
     ServerEvent: 'ServerEvent',
     Embed: 'Embed',
-    EmbedField: 'EmbedField'
+    EmbedField: 'EmbedField',
+    ScheduledAnnouncement: 'ScheduledAnnouncement'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1040,7 +1070,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "profile" | "server" | "member" | "channel" | "category" | "conversation" | "groupConversation" | "groupConversationMember" | "groupMessage" | "directMessage" | "friendRequest" | "messageRequest" | "follow" | "serverFollow" | "thread" | "notification" | "serverEvent" | "embed" | "embedField"
+      modelProps: "profile" | "server" | "member" | "channel" | "category" | "conversation" | "groupConversation" | "groupConversationMember" | "groupMessage" | "directMessage" | "friendRequest" | "messageRequest" | "follow" | "serverFollow" | "thread" | "notification" | "serverEvent" | "embed" | "embedField" | "scheduledAnnouncement"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2450,6 +2480,80 @@ export namespace Prisma {
           }
         }
       }
+      ScheduledAnnouncement: {
+        payload: Prisma.$ScheduledAnnouncementPayload<ExtArgs>
+        fields: Prisma.ScheduledAnnouncementFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ScheduledAnnouncementFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledAnnouncementPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ScheduledAnnouncementFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledAnnouncementPayload>
+          }
+          findFirst: {
+            args: Prisma.ScheduledAnnouncementFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledAnnouncementPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ScheduledAnnouncementFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledAnnouncementPayload>
+          }
+          findMany: {
+            args: Prisma.ScheduledAnnouncementFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledAnnouncementPayload>[]
+          }
+          create: {
+            args: Prisma.ScheduledAnnouncementCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledAnnouncementPayload>
+          }
+          createMany: {
+            args: Prisma.ScheduledAnnouncementCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ScheduledAnnouncementCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledAnnouncementPayload>[]
+          }
+          delete: {
+            args: Prisma.ScheduledAnnouncementDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledAnnouncementPayload>
+          }
+          update: {
+            args: Prisma.ScheduledAnnouncementUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledAnnouncementPayload>
+          }
+          deleteMany: {
+            args: Prisma.ScheduledAnnouncementDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ScheduledAnnouncementUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ScheduledAnnouncementUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledAnnouncementPayload>[]
+          }
+          upsert: {
+            args: Prisma.ScheduledAnnouncementUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledAnnouncementPayload>
+          }
+          aggregate: {
+            args: Prisma.ScheduledAnnouncementAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateScheduledAnnouncement>
+          }
+          groupBy: {
+            args: Prisma.ScheduledAnnouncementGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ScheduledAnnouncementGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ScheduledAnnouncementCountArgs<ExtArgs>
+            result: $Utils.Optional<ScheduledAnnouncementCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2553,6 +2657,7 @@ export namespace Prisma {
     serverEvent?: ServerEventOmit
     embed?: EmbedOmit
     embedField?: EmbedFieldOmit
+    scheduledAnnouncement?: ScheduledAnnouncementOmit
   }
 
   /* Types for Logging */
@@ -2664,6 +2769,7 @@ export namespace Prisma {
     notificationsRelated: number
     serverEventsCreated: number
     embedsCreated: number
+    scheduledAnnouncementsCreated: number
   }
 
   export type ProfileCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2684,6 +2790,7 @@ export namespace Prisma {
     notificationsRelated?: boolean | ProfileCountOutputTypeCountNotificationsRelatedArgs
     serverEventsCreated?: boolean | ProfileCountOutputTypeCountServerEventsCreatedArgs
     embedsCreated?: boolean | ProfileCountOutputTypeCountEmbedsCreatedArgs
+    scheduledAnnouncementsCreated?: boolean | ProfileCountOutputTypeCountScheduledAnnouncementsCreatedArgs
   }
 
   // Custom InputTypes
@@ -2816,6 +2923,13 @@ export namespace Prisma {
     where?: EmbedWhereInput
   }
 
+  /**
+   * ProfileCountOutputType without action
+   */
+  export type ProfileCountOutputTypeCountScheduledAnnouncementsCreatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScheduledAnnouncementWhereInput
+  }
+
 
   /**
    * Count Type ServerCountOutputType
@@ -2829,6 +2943,7 @@ export namespace Prisma {
     notificationsRelated: number
     events: number
     embeds: number
+    scheduledAnnouncements: number
   }
 
   export type ServerCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2839,6 +2954,7 @@ export namespace Prisma {
     notificationsRelated?: boolean | ServerCountOutputTypeCountNotificationsRelatedArgs
     events?: boolean | ServerCountOutputTypeCountEventsArgs
     embeds?: boolean | ServerCountOutputTypeCountEmbedsArgs
+    scheduledAnnouncements?: boolean | ServerCountOutputTypeCountScheduledAnnouncementsArgs
   }
 
   // Custom InputTypes
@@ -2899,6 +3015,13 @@ export namespace Prisma {
    */
   export type ServerCountOutputTypeCountEmbedsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: EmbedWhereInput
+  }
+
+  /**
+   * ServerCountOutputType without action
+   */
+  export type ServerCountOutputTypeCountScheduledAnnouncementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScheduledAnnouncementWhereInput
   }
 
 
@@ -2978,6 +3101,7 @@ export namespace Prisma {
     voiceEvents: number
     textEvents: number
     embeds: number
+    scheduledAnnouncements: number
   }
 
   export type ChannelCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2985,6 +3109,7 @@ export namespace Prisma {
     voiceEvents?: boolean | ChannelCountOutputTypeCountVoiceEventsArgs
     textEvents?: boolean | ChannelCountOutputTypeCountTextEventsArgs
     embeds?: boolean | ChannelCountOutputTypeCountEmbedsArgs
+    scheduledAnnouncements?: boolean | ChannelCountOutputTypeCountScheduledAnnouncementsArgs
   }
 
   // Custom InputTypes
@@ -3024,6 +3149,13 @@ export namespace Prisma {
    */
   export type ChannelCountOutputTypeCountEmbedsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: EmbedWhereInput
+  }
+
+  /**
+   * ChannelCountOutputType without action
+   */
+  export type ChannelCountOutputTypeCountScheduledAnnouncementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScheduledAnnouncementWhereInput
   }
 
 
@@ -3397,6 +3529,7 @@ export namespace Prisma {
     notificationsRelated?: boolean | Profile$notificationsRelatedArgs<ExtArgs>
     serverEventsCreated?: boolean | Profile$serverEventsCreatedArgs<ExtArgs>
     embedsCreated?: boolean | Profile$embedsCreatedArgs<ExtArgs>
+    scheduledAnnouncementsCreated?: boolean | Profile$scheduledAnnouncementsCreatedArgs<ExtArgs>
     _count?: boolean | ProfileCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["profile"]>
 
@@ -3464,6 +3597,7 @@ export namespace Prisma {
     notificationsRelated?: boolean | Profile$notificationsRelatedArgs<ExtArgs>
     serverEventsCreated?: boolean | Profile$serverEventsCreatedArgs<ExtArgs>
     embedsCreated?: boolean | Profile$embedsCreatedArgs<ExtArgs>
+    scheduledAnnouncementsCreated?: boolean | Profile$scheduledAnnouncementsCreatedArgs<ExtArgs>
     _count?: boolean | ProfileCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProfileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3489,6 +3623,7 @@ export namespace Prisma {
       notificationsRelated: Prisma.$NotificationPayload<ExtArgs>[]
       serverEventsCreated: Prisma.$ServerEventPayload<ExtArgs>[]
       embedsCreated: Prisma.$EmbedPayload<ExtArgs>[]
+      scheduledAnnouncementsCreated: Prisma.$ScheduledAnnouncementPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3914,6 +4049,7 @@ export namespace Prisma {
     notificationsRelated<T extends Profile$notificationsRelatedArgs<ExtArgs> = {}>(args?: Subset<T, Profile$notificationsRelatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     serverEventsCreated<T extends Profile$serverEventsCreatedArgs<ExtArgs> = {}>(args?: Subset<T, Profile$serverEventsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServerEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     embedsCreated<T extends Profile$embedsCreatedArgs<ExtArgs> = {}>(args?: Subset<T, Profile$embedsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmbedPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    scheduledAnnouncementsCreated<T extends Profile$scheduledAnnouncementsCreatedArgs<ExtArgs> = {}>(args?: Subset<T, Profile$scheduledAnnouncementsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduledAnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4751,6 +4887,30 @@ export namespace Prisma {
   }
 
   /**
+   * Profile.scheduledAnnouncementsCreated
+   */
+  export type Profile$scheduledAnnouncementsCreatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledAnnouncement
+     */
+    select?: ScheduledAnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledAnnouncement
+     */
+    omit?: ScheduledAnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledAnnouncementInclude<ExtArgs> | null
+    where?: ScheduledAnnouncementWhereInput
+    orderBy?: ScheduledAnnouncementOrderByWithRelationInput | ScheduledAnnouncementOrderByWithRelationInput[]
+    cursor?: ScheduledAnnouncementWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ScheduledAnnouncementScalarFieldEnum | ScheduledAnnouncementScalarFieldEnum[]
+  }
+
+  /**
    * Profile without action
    */
   export type ProfileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4965,6 +5125,7 @@ export namespace Prisma {
     notificationsRelated?: boolean | Server$notificationsRelatedArgs<ExtArgs>
     events?: boolean | Server$eventsArgs<ExtArgs>
     embeds?: boolean | Server$embedsArgs<ExtArgs>
+    scheduledAnnouncements?: boolean | Server$scheduledAnnouncementsArgs<ExtArgs>
     _count?: boolean | ServerCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["server"]>
 
@@ -5013,6 +5174,7 @@ export namespace Prisma {
     notificationsRelated?: boolean | Server$notificationsRelatedArgs<ExtArgs>
     events?: boolean | Server$eventsArgs<ExtArgs>
     embeds?: boolean | Server$embedsArgs<ExtArgs>
+    scheduledAnnouncements?: boolean | Server$scheduledAnnouncementsArgs<ExtArgs>
     _count?: boolean | ServerCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ServerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5033,6 +5195,7 @@ export namespace Prisma {
       notificationsRelated: Prisma.$NotificationPayload<ExtArgs>[]
       events: Prisma.$ServerEventPayload<ExtArgs>[]
       embeds: Prisma.$EmbedPayload<ExtArgs>[]
+      scheduledAnnouncements: Prisma.$ScheduledAnnouncementPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5445,6 +5608,7 @@ export namespace Prisma {
     notificationsRelated<T extends Server$notificationsRelatedArgs<ExtArgs> = {}>(args?: Subset<T, Server$notificationsRelatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     events<T extends Server$eventsArgs<ExtArgs> = {}>(args?: Subset<T, Server$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServerEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     embeds<T extends Server$embedsArgs<ExtArgs> = {}>(args?: Subset<T, Server$embedsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmbedPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    scheduledAnnouncements<T extends Server$scheduledAnnouncementsArgs<ExtArgs> = {}>(args?: Subset<T, Server$scheduledAnnouncementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduledAnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6043,6 +6207,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: EmbedScalarFieldEnum | EmbedScalarFieldEnum[]
+  }
+
+  /**
+   * Server.scheduledAnnouncements
+   */
+  export type Server$scheduledAnnouncementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledAnnouncement
+     */
+    select?: ScheduledAnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledAnnouncement
+     */
+    omit?: ScheduledAnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledAnnouncementInclude<ExtArgs> | null
+    where?: ScheduledAnnouncementWhereInput
+    orderBy?: ScheduledAnnouncementOrderByWithRelationInput | ScheduledAnnouncementOrderByWithRelationInput[]
+    cursor?: ScheduledAnnouncementWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ScheduledAnnouncementScalarFieldEnum | ScheduledAnnouncementScalarFieldEnum[]
   }
 
   /**
@@ -7480,6 +7668,7 @@ export namespace Prisma {
     voiceEvents?: boolean | Channel$voiceEventsArgs<ExtArgs>
     textEvents?: boolean | Channel$textEventsArgs<ExtArgs>
     embeds?: boolean | Channel$embedsArgs<ExtArgs>
+    scheduledAnnouncements?: boolean | Channel$scheduledAnnouncementsArgs<ExtArgs>
     _count?: boolean | ChannelCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["channel"]>
 
@@ -7531,6 +7720,7 @@ export namespace Prisma {
     voiceEvents?: boolean | Channel$voiceEventsArgs<ExtArgs>
     textEvents?: boolean | Channel$textEventsArgs<ExtArgs>
     embeds?: boolean | Channel$embedsArgs<ExtArgs>
+    scheduledAnnouncements?: boolean | Channel$scheduledAnnouncementsArgs<ExtArgs>
     _count?: boolean | ChannelCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ChannelIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7554,6 +7744,7 @@ export namespace Prisma {
       voiceEvents: Prisma.$ServerEventPayload<ExtArgs>[]
       textEvents: Prisma.$ServerEventPayload<ExtArgs>[]
       embeds: Prisma.$EmbedPayload<ExtArgs>[]
+      scheduledAnnouncements: Prisma.$ScheduledAnnouncementPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7965,6 +8156,7 @@ export namespace Prisma {
     voiceEvents<T extends Channel$voiceEventsArgs<ExtArgs> = {}>(args?: Subset<T, Channel$voiceEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServerEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     textEvents<T extends Channel$textEventsArgs<ExtArgs> = {}>(args?: Subset<T, Channel$textEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServerEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     embeds<T extends Channel$embedsArgs<ExtArgs> = {}>(args?: Subset<T, Channel$embedsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmbedPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    scheduledAnnouncements<T extends Channel$scheduledAnnouncementsArgs<ExtArgs> = {}>(args?: Subset<T, Channel$scheduledAnnouncementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduledAnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8510,6 +8702,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: EmbedScalarFieldEnum | EmbedScalarFieldEnum[]
+  }
+
+  /**
+   * Channel.scheduledAnnouncements
+   */
+  export type Channel$scheduledAnnouncementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledAnnouncement
+     */
+    select?: ScheduledAnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledAnnouncement
+     */
+    omit?: ScheduledAnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledAnnouncementInclude<ExtArgs> | null
+    where?: ScheduledAnnouncementWhereInput
+    orderBy?: ScheduledAnnouncementOrderByWithRelationInput | ScheduledAnnouncementOrderByWithRelationInput[]
+    cursor?: ScheduledAnnouncementWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ScheduledAnnouncementScalarFieldEnum | ScheduledAnnouncementScalarFieldEnum[]
   }
 
   /**
@@ -25408,6 +25624,1180 @@ export namespace Prisma {
 
 
   /**
+   * Model ScheduledAnnouncement
+   */
+
+  export type AggregateScheduledAnnouncement = {
+    _count: ScheduledAnnouncementCountAggregateOutputType | null
+    _min: ScheduledAnnouncementMinAggregateOutputType | null
+    _max: ScheduledAnnouncementMaxAggregateOutputType | null
+  }
+
+  export type ScheduledAnnouncementMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    message: string | null
+    serverId: string | null
+    channelId: string | null
+    creatorProfileId: string | null
+    scheduleType: $Enums.ScheduleType | null
+    isActive: boolean | null
+    lastSentAt: Date | null
+    nextSendAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ScheduledAnnouncementMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    message: string | null
+    serverId: string | null
+    channelId: string | null
+    creatorProfileId: string | null
+    scheduleType: $Enums.ScheduleType | null
+    isActive: boolean | null
+    lastSentAt: Date | null
+    nextSendAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ScheduledAnnouncementCountAggregateOutputType = {
+    id: number
+    title: number
+    message: number
+    serverId: number
+    channelId: number
+    creatorProfileId: number
+    scheduleType: number
+    scheduleData: number
+    isActive: number
+    lastSentAt: number
+    nextSendAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ScheduledAnnouncementMinAggregateInputType = {
+    id?: true
+    title?: true
+    message?: true
+    serverId?: true
+    channelId?: true
+    creatorProfileId?: true
+    scheduleType?: true
+    isActive?: true
+    lastSentAt?: true
+    nextSendAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ScheduledAnnouncementMaxAggregateInputType = {
+    id?: true
+    title?: true
+    message?: true
+    serverId?: true
+    channelId?: true
+    creatorProfileId?: true
+    scheduleType?: true
+    isActive?: true
+    lastSentAt?: true
+    nextSendAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ScheduledAnnouncementCountAggregateInputType = {
+    id?: true
+    title?: true
+    message?: true
+    serverId?: true
+    channelId?: true
+    creatorProfileId?: true
+    scheduleType?: true
+    scheduleData?: true
+    isActive?: true
+    lastSentAt?: true
+    nextSendAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ScheduledAnnouncementAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ScheduledAnnouncement to aggregate.
+     */
+    where?: ScheduledAnnouncementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScheduledAnnouncements to fetch.
+     */
+    orderBy?: ScheduledAnnouncementOrderByWithRelationInput | ScheduledAnnouncementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ScheduledAnnouncementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScheduledAnnouncements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScheduledAnnouncements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ScheduledAnnouncements
+    **/
+    _count?: true | ScheduledAnnouncementCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ScheduledAnnouncementMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ScheduledAnnouncementMaxAggregateInputType
+  }
+
+  export type GetScheduledAnnouncementAggregateType<T extends ScheduledAnnouncementAggregateArgs> = {
+        [P in keyof T & keyof AggregateScheduledAnnouncement]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateScheduledAnnouncement[P]>
+      : GetScalarType<T[P], AggregateScheduledAnnouncement[P]>
+  }
+
+
+
+
+  export type ScheduledAnnouncementGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScheduledAnnouncementWhereInput
+    orderBy?: ScheduledAnnouncementOrderByWithAggregationInput | ScheduledAnnouncementOrderByWithAggregationInput[]
+    by: ScheduledAnnouncementScalarFieldEnum[] | ScheduledAnnouncementScalarFieldEnum
+    having?: ScheduledAnnouncementScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ScheduledAnnouncementCountAggregateInputType | true
+    _min?: ScheduledAnnouncementMinAggregateInputType
+    _max?: ScheduledAnnouncementMaxAggregateInputType
+  }
+
+  export type ScheduledAnnouncementGroupByOutputType = {
+    id: string
+    title: string
+    message: string
+    serverId: string
+    channelId: string
+    creatorProfileId: string
+    scheduleType: $Enums.ScheduleType
+    scheduleData: JsonValue
+    isActive: boolean
+    lastSentAt: Date | null
+    nextSendAt: Date
+    createdAt: Date
+    updatedAt: Date
+    _count: ScheduledAnnouncementCountAggregateOutputType | null
+    _min: ScheduledAnnouncementMinAggregateOutputType | null
+    _max: ScheduledAnnouncementMaxAggregateOutputType | null
+  }
+
+  type GetScheduledAnnouncementGroupByPayload<T extends ScheduledAnnouncementGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ScheduledAnnouncementGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ScheduledAnnouncementGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ScheduledAnnouncementGroupByOutputType[P]>
+            : GetScalarType<T[P], ScheduledAnnouncementGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ScheduledAnnouncementSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    message?: boolean
+    serverId?: boolean
+    channelId?: boolean
+    creatorProfileId?: boolean
+    scheduleType?: boolean
+    scheduleData?: boolean
+    isActive?: boolean
+    lastSentAt?: boolean
+    nextSendAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    server?: boolean | ServerDefaultArgs<ExtArgs>
+    channel?: boolean | ChannelDefaultArgs<ExtArgs>
+    creatorProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["scheduledAnnouncement"]>
+
+  export type ScheduledAnnouncementSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    message?: boolean
+    serverId?: boolean
+    channelId?: boolean
+    creatorProfileId?: boolean
+    scheduleType?: boolean
+    scheduleData?: boolean
+    isActive?: boolean
+    lastSentAt?: boolean
+    nextSendAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    server?: boolean | ServerDefaultArgs<ExtArgs>
+    channel?: boolean | ChannelDefaultArgs<ExtArgs>
+    creatorProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["scheduledAnnouncement"]>
+
+  export type ScheduledAnnouncementSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    message?: boolean
+    serverId?: boolean
+    channelId?: boolean
+    creatorProfileId?: boolean
+    scheduleType?: boolean
+    scheduleData?: boolean
+    isActive?: boolean
+    lastSentAt?: boolean
+    nextSendAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    server?: boolean | ServerDefaultArgs<ExtArgs>
+    channel?: boolean | ChannelDefaultArgs<ExtArgs>
+    creatorProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["scheduledAnnouncement"]>
+
+  export type ScheduledAnnouncementSelectScalar = {
+    id?: boolean
+    title?: boolean
+    message?: boolean
+    serverId?: boolean
+    channelId?: boolean
+    creatorProfileId?: boolean
+    scheduleType?: boolean
+    scheduleData?: boolean
+    isActive?: boolean
+    lastSentAt?: boolean
+    nextSendAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ScheduledAnnouncementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "message" | "serverId" | "channelId" | "creatorProfileId" | "scheduleType" | "scheduleData" | "isActive" | "lastSentAt" | "nextSendAt" | "createdAt" | "updatedAt", ExtArgs["result"]["scheduledAnnouncement"]>
+  export type ScheduledAnnouncementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    server?: boolean | ServerDefaultArgs<ExtArgs>
+    channel?: boolean | ChannelDefaultArgs<ExtArgs>
+    creatorProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+  }
+  export type ScheduledAnnouncementIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    server?: boolean | ServerDefaultArgs<ExtArgs>
+    channel?: boolean | ChannelDefaultArgs<ExtArgs>
+    creatorProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+  }
+  export type ScheduledAnnouncementIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    server?: boolean | ServerDefaultArgs<ExtArgs>
+    channel?: boolean | ChannelDefaultArgs<ExtArgs>
+    creatorProfile?: boolean | ProfileDefaultArgs<ExtArgs>
+  }
+
+  export type $ScheduledAnnouncementPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ScheduledAnnouncement"
+    objects: {
+      server: Prisma.$ServerPayload<ExtArgs>
+      channel: Prisma.$ChannelPayload<ExtArgs>
+      creatorProfile: Prisma.$ProfilePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      message: string
+      serverId: string
+      channelId: string
+      creatorProfileId: string
+      scheduleType: $Enums.ScheduleType
+      scheduleData: Prisma.JsonValue
+      isActive: boolean
+      lastSentAt: Date | null
+      nextSendAt: Date
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["scheduledAnnouncement"]>
+    composites: {}
+  }
+
+  type ScheduledAnnouncementGetPayload<S extends boolean | null | undefined | ScheduledAnnouncementDefaultArgs> = $Result.GetResult<Prisma.$ScheduledAnnouncementPayload, S>
+
+  type ScheduledAnnouncementCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ScheduledAnnouncementFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ScheduledAnnouncementCountAggregateInputType | true
+    }
+
+  export interface ScheduledAnnouncementDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ScheduledAnnouncement'], meta: { name: 'ScheduledAnnouncement' } }
+    /**
+     * Find zero or one ScheduledAnnouncement that matches the filter.
+     * @param {ScheduledAnnouncementFindUniqueArgs} args - Arguments to find a ScheduledAnnouncement
+     * @example
+     * // Get one ScheduledAnnouncement
+     * const scheduledAnnouncement = await prisma.scheduledAnnouncement.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ScheduledAnnouncementFindUniqueArgs>(args: SelectSubset<T, ScheduledAnnouncementFindUniqueArgs<ExtArgs>>): Prisma__ScheduledAnnouncementClient<$Result.GetResult<Prisma.$ScheduledAnnouncementPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ScheduledAnnouncement that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ScheduledAnnouncementFindUniqueOrThrowArgs} args - Arguments to find a ScheduledAnnouncement
+     * @example
+     * // Get one ScheduledAnnouncement
+     * const scheduledAnnouncement = await prisma.scheduledAnnouncement.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ScheduledAnnouncementFindUniqueOrThrowArgs>(args: SelectSubset<T, ScheduledAnnouncementFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ScheduledAnnouncementClient<$Result.GetResult<Prisma.$ScheduledAnnouncementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ScheduledAnnouncement that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduledAnnouncementFindFirstArgs} args - Arguments to find a ScheduledAnnouncement
+     * @example
+     * // Get one ScheduledAnnouncement
+     * const scheduledAnnouncement = await prisma.scheduledAnnouncement.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ScheduledAnnouncementFindFirstArgs>(args?: SelectSubset<T, ScheduledAnnouncementFindFirstArgs<ExtArgs>>): Prisma__ScheduledAnnouncementClient<$Result.GetResult<Prisma.$ScheduledAnnouncementPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ScheduledAnnouncement that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduledAnnouncementFindFirstOrThrowArgs} args - Arguments to find a ScheduledAnnouncement
+     * @example
+     * // Get one ScheduledAnnouncement
+     * const scheduledAnnouncement = await prisma.scheduledAnnouncement.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ScheduledAnnouncementFindFirstOrThrowArgs>(args?: SelectSubset<T, ScheduledAnnouncementFindFirstOrThrowArgs<ExtArgs>>): Prisma__ScheduledAnnouncementClient<$Result.GetResult<Prisma.$ScheduledAnnouncementPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ScheduledAnnouncements that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduledAnnouncementFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ScheduledAnnouncements
+     * const scheduledAnnouncements = await prisma.scheduledAnnouncement.findMany()
+     * 
+     * // Get first 10 ScheduledAnnouncements
+     * const scheduledAnnouncements = await prisma.scheduledAnnouncement.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const scheduledAnnouncementWithIdOnly = await prisma.scheduledAnnouncement.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ScheduledAnnouncementFindManyArgs>(args?: SelectSubset<T, ScheduledAnnouncementFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduledAnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ScheduledAnnouncement.
+     * @param {ScheduledAnnouncementCreateArgs} args - Arguments to create a ScheduledAnnouncement.
+     * @example
+     * // Create one ScheduledAnnouncement
+     * const ScheduledAnnouncement = await prisma.scheduledAnnouncement.create({
+     *   data: {
+     *     // ... data to create a ScheduledAnnouncement
+     *   }
+     * })
+     * 
+     */
+    create<T extends ScheduledAnnouncementCreateArgs>(args: SelectSubset<T, ScheduledAnnouncementCreateArgs<ExtArgs>>): Prisma__ScheduledAnnouncementClient<$Result.GetResult<Prisma.$ScheduledAnnouncementPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ScheduledAnnouncements.
+     * @param {ScheduledAnnouncementCreateManyArgs} args - Arguments to create many ScheduledAnnouncements.
+     * @example
+     * // Create many ScheduledAnnouncements
+     * const scheduledAnnouncement = await prisma.scheduledAnnouncement.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ScheduledAnnouncementCreateManyArgs>(args?: SelectSubset<T, ScheduledAnnouncementCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ScheduledAnnouncements and returns the data saved in the database.
+     * @param {ScheduledAnnouncementCreateManyAndReturnArgs} args - Arguments to create many ScheduledAnnouncements.
+     * @example
+     * // Create many ScheduledAnnouncements
+     * const scheduledAnnouncement = await prisma.scheduledAnnouncement.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ScheduledAnnouncements and only return the `id`
+     * const scheduledAnnouncementWithIdOnly = await prisma.scheduledAnnouncement.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ScheduledAnnouncementCreateManyAndReturnArgs>(args?: SelectSubset<T, ScheduledAnnouncementCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduledAnnouncementPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ScheduledAnnouncement.
+     * @param {ScheduledAnnouncementDeleteArgs} args - Arguments to delete one ScheduledAnnouncement.
+     * @example
+     * // Delete one ScheduledAnnouncement
+     * const ScheduledAnnouncement = await prisma.scheduledAnnouncement.delete({
+     *   where: {
+     *     // ... filter to delete one ScheduledAnnouncement
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ScheduledAnnouncementDeleteArgs>(args: SelectSubset<T, ScheduledAnnouncementDeleteArgs<ExtArgs>>): Prisma__ScheduledAnnouncementClient<$Result.GetResult<Prisma.$ScheduledAnnouncementPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ScheduledAnnouncement.
+     * @param {ScheduledAnnouncementUpdateArgs} args - Arguments to update one ScheduledAnnouncement.
+     * @example
+     * // Update one ScheduledAnnouncement
+     * const scheduledAnnouncement = await prisma.scheduledAnnouncement.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ScheduledAnnouncementUpdateArgs>(args: SelectSubset<T, ScheduledAnnouncementUpdateArgs<ExtArgs>>): Prisma__ScheduledAnnouncementClient<$Result.GetResult<Prisma.$ScheduledAnnouncementPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ScheduledAnnouncements.
+     * @param {ScheduledAnnouncementDeleteManyArgs} args - Arguments to filter ScheduledAnnouncements to delete.
+     * @example
+     * // Delete a few ScheduledAnnouncements
+     * const { count } = await prisma.scheduledAnnouncement.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ScheduledAnnouncementDeleteManyArgs>(args?: SelectSubset<T, ScheduledAnnouncementDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ScheduledAnnouncements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduledAnnouncementUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ScheduledAnnouncements
+     * const scheduledAnnouncement = await prisma.scheduledAnnouncement.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ScheduledAnnouncementUpdateManyArgs>(args: SelectSubset<T, ScheduledAnnouncementUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ScheduledAnnouncements and returns the data updated in the database.
+     * @param {ScheduledAnnouncementUpdateManyAndReturnArgs} args - Arguments to update many ScheduledAnnouncements.
+     * @example
+     * // Update many ScheduledAnnouncements
+     * const scheduledAnnouncement = await prisma.scheduledAnnouncement.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ScheduledAnnouncements and only return the `id`
+     * const scheduledAnnouncementWithIdOnly = await prisma.scheduledAnnouncement.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ScheduledAnnouncementUpdateManyAndReturnArgs>(args: SelectSubset<T, ScheduledAnnouncementUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduledAnnouncementPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ScheduledAnnouncement.
+     * @param {ScheduledAnnouncementUpsertArgs} args - Arguments to update or create a ScheduledAnnouncement.
+     * @example
+     * // Update or create a ScheduledAnnouncement
+     * const scheduledAnnouncement = await prisma.scheduledAnnouncement.upsert({
+     *   create: {
+     *     // ... data to create a ScheduledAnnouncement
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ScheduledAnnouncement we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ScheduledAnnouncementUpsertArgs>(args: SelectSubset<T, ScheduledAnnouncementUpsertArgs<ExtArgs>>): Prisma__ScheduledAnnouncementClient<$Result.GetResult<Prisma.$ScheduledAnnouncementPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ScheduledAnnouncements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduledAnnouncementCountArgs} args - Arguments to filter ScheduledAnnouncements to count.
+     * @example
+     * // Count the number of ScheduledAnnouncements
+     * const count = await prisma.scheduledAnnouncement.count({
+     *   where: {
+     *     // ... the filter for the ScheduledAnnouncements we want to count
+     *   }
+     * })
+    **/
+    count<T extends ScheduledAnnouncementCountArgs>(
+      args?: Subset<T, ScheduledAnnouncementCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ScheduledAnnouncementCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ScheduledAnnouncement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduledAnnouncementAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ScheduledAnnouncementAggregateArgs>(args: Subset<T, ScheduledAnnouncementAggregateArgs>): Prisma.PrismaPromise<GetScheduledAnnouncementAggregateType<T>>
+
+    /**
+     * Group by ScheduledAnnouncement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduledAnnouncementGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ScheduledAnnouncementGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ScheduledAnnouncementGroupByArgs['orderBy'] }
+        : { orderBy?: ScheduledAnnouncementGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ScheduledAnnouncementGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetScheduledAnnouncementGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ScheduledAnnouncement model
+   */
+  readonly fields: ScheduledAnnouncementFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ScheduledAnnouncement.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ScheduledAnnouncementClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    server<T extends ServerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServerDefaultArgs<ExtArgs>>): Prisma__ServerClient<$Result.GetResult<Prisma.$ServerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    channel<T extends ChannelDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ChannelDefaultArgs<ExtArgs>>): Prisma__ChannelClient<$Result.GetResult<Prisma.$ChannelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    creatorProfile<T extends ProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProfileDefaultArgs<ExtArgs>>): Prisma__ProfileClient<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ScheduledAnnouncement model
+   */
+  interface ScheduledAnnouncementFieldRefs {
+    readonly id: FieldRef<"ScheduledAnnouncement", 'String'>
+    readonly title: FieldRef<"ScheduledAnnouncement", 'String'>
+    readonly message: FieldRef<"ScheduledAnnouncement", 'String'>
+    readonly serverId: FieldRef<"ScheduledAnnouncement", 'String'>
+    readonly channelId: FieldRef<"ScheduledAnnouncement", 'String'>
+    readonly creatorProfileId: FieldRef<"ScheduledAnnouncement", 'String'>
+    readonly scheduleType: FieldRef<"ScheduledAnnouncement", 'ScheduleType'>
+    readonly scheduleData: FieldRef<"ScheduledAnnouncement", 'Json'>
+    readonly isActive: FieldRef<"ScheduledAnnouncement", 'Boolean'>
+    readonly lastSentAt: FieldRef<"ScheduledAnnouncement", 'DateTime'>
+    readonly nextSendAt: FieldRef<"ScheduledAnnouncement", 'DateTime'>
+    readonly createdAt: FieldRef<"ScheduledAnnouncement", 'DateTime'>
+    readonly updatedAt: FieldRef<"ScheduledAnnouncement", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ScheduledAnnouncement findUnique
+   */
+  export type ScheduledAnnouncementFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledAnnouncement
+     */
+    select?: ScheduledAnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledAnnouncement
+     */
+    omit?: ScheduledAnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledAnnouncementInclude<ExtArgs> | null
+    /**
+     * Filter, which ScheduledAnnouncement to fetch.
+     */
+    where: ScheduledAnnouncementWhereUniqueInput
+  }
+
+  /**
+   * ScheduledAnnouncement findUniqueOrThrow
+   */
+  export type ScheduledAnnouncementFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledAnnouncement
+     */
+    select?: ScheduledAnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledAnnouncement
+     */
+    omit?: ScheduledAnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledAnnouncementInclude<ExtArgs> | null
+    /**
+     * Filter, which ScheduledAnnouncement to fetch.
+     */
+    where: ScheduledAnnouncementWhereUniqueInput
+  }
+
+  /**
+   * ScheduledAnnouncement findFirst
+   */
+  export type ScheduledAnnouncementFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledAnnouncement
+     */
+    select?: ScheduledAnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledAnnouncement
+     */
+    omit?: ScheduledAnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledAnnouncementInclude<ExtArgs> | null
+    /**
+     * Filter, which ScheduledAnnouncement to fetch.
+     */
+    where?: ScheduledAnnouncementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScheduledAnnouncements to fetch.
+     */
+    orderBy?: ScheduledAnnouncementOrderByWithRelationInput | ScheduledAnnouncementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScheduledAnnouncements.
+     */
+    cursor?: ScheduledAnnouncementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScheduledAnnouncements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScheduledAnnouncements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScheduledAnnouncements.
+     */
+    distinct?: ScheduledAnnouncementScalarFieldEnum | ScheduledAnnouncementScalarFieldEnum[]
+  }
+
+  /**
+   * ScheduledAnnouncement findFirstOrThrow
+   */
+  export type ScheduledAnnouncementFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledAnnouncement
+     */
+    select?: ScheduledAnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledAnnouncement
+     */
+    omit?: ScheduledAnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledAnnouncementInclude<ExtArgs> | null
+    /**
+     * Filter, which ScheduledAnnouncement to fetch.
+     */
+    where?: ScheduledAnnouncementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScheduledAnnouncements to fetch.
+     */
+    orderBy?: ScheduledAnnouncementOrderByWithRelationInput | ScheduledAnnouncementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScheduledAnnouncements.
+     */
+    cursor?: ScheduledAnnouncementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScheduledAnnouncements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScheduledAnnouncements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScheduledAnnouncements.
+     */
+    distinct?: ScheduledAnnouncementScalarFieldEnum | ScheduledAnnouncementScalarFieldEnum[]
+  }
+
+  /**
+   * ScheduledAnnouncement findMany
+   */
+  export type ScheduledAnnouncementFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledAnnouncement
+     */
+    select?: ScheduledAnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledAnnouncement
+     */
+    omit?: ScheduledAnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledAnnouncementInclude<ExtArgs> | null
+    /**
+     * Filter, which ScheduledAnnouncements to fetch.
+     */
+    where?: ScheduledAnnouncementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScheduledAnnouncements to fetch.
+     */
+    orderBy?: ScheduledAnnouncementOrderByWithRelationInput | ScheduledAnnouncementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ScheduledAnnouncements.
+     */
+    cursor?: ScheduledAnnouncementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScheduledAnnouncements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScheduledAnnouncements.
+     */
+    skip?: number
+    distinct?: ScheduledAnnouncementScalarFieldEnum | ScheduledAnnouncementScalarFieldEnum[]
+  }
+
+  /**
+   * ScheduledAnnouncement create
+   */
+  export type ScheduledAnnouncementCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledAnnouncement
+     */
+    select?: ScheduledAnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledAnnouncement
+     */
+    omit?: ScheduledAnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledAnnouncementInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ScheduledAnnouncement.
+     */
+    data: XOR<ScheduledAnnouncementCreateInput, ScheduledAnnouncementUncheckedCreateInput>
+  }
+
+  /**
+   * ScheduledAnnouncement createMany
+   */
+  export type ScheduledAnnouncementCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ScheduledAnnouncements.
+     */
+    data: ScheduledAnnouncementCreateManyInput | ScheduledAnnouncementCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ScheduledAnnouncement createManyAndReturn
+   */
+  export type ScheduledAnnouncementCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledAnnouncement
+     */
+    select?: ScheduledAnnouncementSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledAnnouncement
+     */
+    omit?: ScheduledAnnouncementOmit<ExtArgs> | null
+    /**
+     * The data used to create many ScheduledAnnouncements.
+     */
+    data: ScheduledAnnouncementCreateManyInput | ScheduledAnnouncementCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledAnnouncementIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ScheduledAnnouncement update
+   */
+  export type ScheduledAnnouncementUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledAnnouncement
+     */
+    select?: ScheduledAnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledAnnouncement
+     */
+    omit?: ScheduledAnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledAnnouncementInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ScheduledAnnouncement.
+     */
+    data: XOR<ScheduledAnnouncementUpdateInput, ScheduledAnnouncementUncheckedUpdateInput>
+    /**
+     * Choose, which ScheduledAnnouncement to update.
+     */
+    where: ScheduledAnnouncementWhereUniqueInput
+  }
+
+  /**
+   * ScheduledAnnouncement updateMany
+   */
+  export type ScheduledAnnouncementUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ScheduledAnnouncements.
+     */
+    data: XOR<ScheduledAnnouncementUpdateManyMutationInput, ScheduledAnnouncementUncheckedUpdateManyInput>
+    /**
+     * Filter which ScheduledAnnouncements to update
+     */
+    where?: ScheduledAnnouncementWhereInput
+    /**
+     * Limit how many ScheduledAnnouncements to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ScheduledAnnouncement updateManyAndReturn
+   */
+  export type ScheduledAnnouncementUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledAnnouncement
+     */
+    select?: ScheduledAnnouncementSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledAnnouncement
+     */
+    omit?: ScheduledAnnouncementOmit<ExtArgs> | null
+    /**
+     * The data used to update ScheduledAnnouncements.
+     */
+    data: XOR<ScheduledAnnouncementUpdateManyMutationInput, ScheduledAnnouncementUncheckedUpdateManyInput>
+    /**
+     * Filter which ScheduledAnnouncements to update
+     */
+    where?: ScheduledAnnouncementWhereInput
+    /**
+     * Limit how many ScheduledAnnouncements to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledAnnouncementIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ScheduledAnnouncement upsert
+   */
+  export type ScheduledAnnouncementUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledAnnouncement
+     */
+    select?: ScheduledAnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledAnnouncement
+     */
+    omit?: ScheduledAnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledAnnouncementInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ScheduledAnnouncement to update in case it exists.
+     */
+    where: ScheduledAnnouncementWhereUniqueInput
+    /**
+     * In case the ScheduledAnnouncement found by the `where` argument doesn't exist, create a new ScheduledAnnouncement with this data.
+     */
+    create: XOR<ScheduledAnnouncementCreateInput, ScheduledAnnouncementUncheckedCreateInput>
+    /**
+     * In case the ScheduledAnnouncement was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ScheduledAnnouncementUpdateInput, ScheduledAnnouncementUncheckedUpdateInput>
+  }
+
+  /**
+   * ScheduledAnnouncement delete
+   */
+  export type ScheduledAnnouncementDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledAnnouncement
+     */
+    select?: ScheduledAnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledAnnouncement
+     */
+    omit?: ScheduledAnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledAnnouncementInclude<ExtArgs> | null
+    /**
+     * Filter which ScheduledAnnouncement to delete.
+     */
+    where: ScheduledAnnouncementWhereUniqueInput
+  }
+
+  /**
+   * ScheduledAnnouncement deleteMany
+   */
+  export type ScheduledAnnouncementDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ScheduledAnnouncements to delete
+     */
+    where?: ScheduledAnnouncementWhereInput
+    /**
+     * Limit how many ScheduledAnnouncements to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ScheduledAnnouncement without action
+   */
+  export type ScheduledAnnouncementDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledAnnouncement
+     */
+    select?: ScheduledAnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledAnnouncement
+     */
+    omit?: ScheduledAnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledAnnouncementInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -25687,6 +27077,25 @@ export namespace Prisma {
   export type EmbedFieldScalarFieldEnum = (typeof EmbedFieldScalarFieldEnum)[keyof typeof EmbedFieldScalarFieldEnum]
 
 
+  export const ScheduledAnnouncementScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    message: 'message',
+    serverId: 'serverId',
+    channelId: 'channelId',
+    creatorProfileId: 'creatorProfileId',
+    scheduleType: 'scheduleType',
+    scheduleData: 'scheduleData',
+    isActive: 'isActive',
+    lastSentAt: 'lastSentAt',
+    nextSendAt: 'nextSendAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ScheduledAnnouncementScalarFieldEnum = (typeof ScheduledAnnouncementScalarFieldEnum)[keyof typeof ScheduledAnnouncementScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -25701,6 +27110,13 @@ export namespace Prisma {
   };
 
   export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
   export const QueryMode: {
@@ -25937,6 +27353,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ScheduleType'
+   */
+  export type EnumScheduleTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ScheduleType'>
+    
+
+
+  /**
+   * Reference to a field of type 'ScheduleType[]'
+   */
+  export type ListEnumScheduleTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ScheduleType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -25986,6 +27416,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationListRelationFilter
     serverEventsCreated?: ServerEventListRelationFilter
     embedsCreated?: EmbedListRelationFilter
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementListRelationFilter
   }
 
   export type ProfileOrderByWithRelationInput = {
@@ -26018,6 +27449,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationOrderByRelationAggregateInput
     serverEventsCreated?: ServerEventOrderByRelationAggregateInput
     embedsCreated?: EmbedOrderByRelationAggregateInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementOrderByRelationAggregateInput
   }
 
   export type ProfileWhereUniqueInput = Prisma.AtLeast<{
@@ -26053,6 +27485,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationListRelationFilter
     serverEventsCreated?: ServerEventListRelationFilter
     embedsCreated?: EmbedListRelationFilter
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementListRelationFilter
   }, "id" | "userId">
 
   export type ProfileOrderByWithAggregationInput = {
@@ -26111,6 +27544,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationListRelationFilter
     events?: ServerEventListRelationFilter
     embeds?: EmbedListRelationFilter
+    scheduledAnnouncements?: ScheduledAnnouncementListRelationFilter
   }
 
   export type ServerOrderByWithRelationInput = {
@@ -26130,6 +27564,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationOrderByRelationAggregateInput
     events?: ServerEventOrderByRelationAggregateInput
     embeds?: EmbedOrderByRelationAggregateInput
+    scheduledAnnouncements?: ScheduledAnnouncementOrderByRelationAggregateInput
   }
 
   export type ServerWhereUniqueInput = Prisma.AtLeast<{
@@ -26152,6 +27587,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationListRelationFilter
     events?: ServerEventListRelationFilter
     embeds?: EmbedListRelationFilter
+    scheduledAnnouncements?: ScheduledAnnouncementListRelationFilter
   }, "id" | "inviteCode">
 
   export type ServerOrderByWithAggregationInput = {
@@ -26280,6 +27716,7 @@ export namespace Prisma {
     voiceEvents?: ServerEventListRelationFilter
     textEvents?: ServerEventListRelationFilter
     embeds?: EmbedListRelationFilter
+    scheduledAnnouncements?: ScheduledAnnouncementListRelationFilter
   }
 
   export type ChannelOrderByWithRelationInput = {
@@ -26298,6 +27735,7 @@ export namespace Prisma {
     voiceEvents?: ServerEventOrderByRelationAggregateInput
     textEvents?: ServerEventOrderByRelationAggregateInput
     embeds?: EmbedOrderByRelationAggregateInput
+    scheduledAnnouncements?: ScheduledAnnouncementOrderByRelationAggregateInput
   }
 
   export type ChannelWhereUniqueInput = Prisma.AtLeast<{
@@ -26319,6 +27757,7 @@ export namespace Prisma {
     voiceEvents?: ServerEventListRelationFilter
     textEvents?: ServerEventListRelationFilter
     embeds?: EmbedListRelationFilter
+    scheduledAnnouncements?: ScheduledAnnouncementListRelationFilter
   }, "id">
 
   export type ChannelOrderByWithAggregationInput = {
@@ -27464,6 +28903,107 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"EmbedField"> | Date | string
   }
 
+  export type ScheduledAnnouncementWhereInput = {
+    AND?: ScheduledAnnouncementWhereInput | ScheduledAnnouncementWhereInput[]
+    OR?: ScheduledAnnouncementWhereInput[]
+    NOT?: ScheduledAnnouncementWhereInput | ScheduledAnnouncementWhereInput[]
+    id?: StringFilter<"ScheduledAnnouncement"> | string
+    title?: StringFilter<"ScheduledAnnouncement"> | string
+    message?: StringFilter<"ScheduledAnnouncement"> | string
+    serverId?: StringFilter<"ScheduledAnnouncement"> | string
+    channelId?: StringFilter<"ScheduledAnnouncement"> | string
+    creatorProfileId?: StringFilter<"ScheduledAnnouncement"> | string
+    scheduleType?: EnumScheduleTypeFilter<"ScheduledAnnouncement"> | $Enums.ScheduleType
+    scheduleData?: JsonFilter<"ScheduledAnnouncement">
+    isActive?: BoolFilter<"ScheduledAnnouncement"> | boolean
+    lastSentAt?: DateTimeNullableFilter<"ScheduledAnnouncement"> | Date | string | null
+    nextSendAt?: DateTimeFilter<"ScheduledAnnouncement"> | Date | string
+    createdAt?: DateTimeFilter<"ScheduledAnnouncement"> | Date | string
+    updatedAt?: DateTimeFilter<"ScheduledAnnouncement"> | Date | string
+    server?: XOR<ServerScalarRelationFilter, ServerWhereInput>
+    channel?: XOR<ChannelScalarRelationFilter, ChannelWhereInput>
+    creatorProfile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
+  }
+
+  export type ScheduledAnnouncementOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    serverId?: SortOrder
+    channelId?: SortOrder
+    creatorProfileId?: SortOrder
+    scheduleType?: SortOrder
+    scheduleData?: SortOrder
+    isActive?: SortOrder
+    lastSentAt?: SortOrderInput | SortOrder
+    nextSendAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    server?: ServerOrderByWithRelationInput
+    channel?: ChannelOrderByWithRelationInput
+    creatorProfile?: ProfileOrderByWithRelationInput
+  }
+
+  export type ScheduledAnnouncementWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ScheduledAnnouncementWhereInput | ScheduledAnnouncementWhereInput[]
+    OR?: ScheduledAnnouncementWhereInput[]
+    NOT?: ScheduledAnnouncementWhereInput | ScheduledAnnouncementWhereInput[]
+    title?: StringFilter<"ScheduledAnnouncement"> | string
+    message?: StringFilter<"ScheduledAnnouncement"> | string
+    serverId?: StringFilter<"ScheduledAnnouncement"> | string
+    channelId?: StringFilter<"ScheduledAnnouncement"> | string
+    creatorProfileId?: StringFilter<"ScheduledAnnouncement"> | string
+    scheduleType?: EnumScheduleTypeFilter<"ScheduledAnnouncement"> | $Enums.ScheduleType
+    scheduleData?: JsonFilter<"ScheduledAnnouncement">
+    isActive?: BoolFilter<"ScheduledAnnouncement"> | boolean
+    lastSentAt?: DateTimeNullableFilter<"ScheduledAnnouncement"> | Date | string | null
+    nextSendAt?: DateTimeFilter<"ScheduledAnnouncement"> | Date | string
+    createdAt?: DateTimeFilter<"ScheduledAnnouncement"> | Date | string
+    updatedAt?: DateTimeFilter<"ScheduledAnnouncement"> | Date | string
+    server?: XOR<ServerScalarRelationFilter, ServerWhereInput>
+    channel?: XOR<ChannelScalarRelationFilter, ChannelWhereInput>
+    creatorProfile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
+  }, "id">
+
+  export type ScheduledAnnouncementOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    serverId?: SortOrder
+    channelId?: SortOrder
+    creatorProfileId?: SortOrder
+    scheduleType?: SortOrder
+    scheduleData?: SortOrder
+    isActive?: SortOrder
+    lastSentAt?: SortOrderInput | SortOrder
+    nextSendAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ScheduledAnnouncementCountOrderByAggregateInput
+    _max?: ScheduledAnnouncementMaxOrderByAggregateInput
+    _min?: ScheduledAnnouncementMinOrderByAggregateInput
+  }
+
+  export type ScheduledAnnouncementScalarWhereWithAggregatesInput = {
+    AND?: ScheduledAnnouncementScalarWhereWithAggregatesInput | ScheduledAnnouncementScalarWhereWithAggregatesInput[]
+    OR?: ScheduledAnnouncementScalarWhereWithAggregatesInput[]
+    NOT?: ScheduledAnnouncementScalarWhereWithAggregatesInput | ScheduledAnnouncementScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ScheduledAnnouncement"> | string
+    title?: StringWithAggregatesFilter<"ScheduledAnnouncement"> | string
+    message?: StringWithAggregatesFilter<"ScheduledAnnouncement"> | string
+    serverId?: StringWithAggregatesFilter<"ScheduledAnnouncement"> | string
+    channelId?: StringWithAggregatesFilter<"ScheduledAnnouncement"> | string
+    creatorProfileId?: StringWithAggregatesFilter<"ScheduledAnnouncement"> | string
+    scheduleType?: EnumScheduleTypeWithAggregatesFilter<"ScheduledAnnouncement"> | $Enums.ScheduleType
+    scheduleData?: JsonWithAggregatesFilter<"ScheduledAnnouncement">
+    isActive?: BoolWithAggregatesFilter<"ScheduledAnnouncement"> | boolean
+    lastSentAt?: DateTimeNullableWithAggregatesFilter<"ScheduledAnnouncement"> | Date | string | null
+    nextSendAt?: DateTimeWithAggregatesFilter<"ScheduledAnnouncement"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"ScheduledAnnouncement"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ScheduledAnnouncement"> | Date | string
+  }
+
   export type ProfileCreateInput = {
     id?: string
     userId: string
@@ -27494,6 +29034,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateInput = {
@@ -27526,6 +29067,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedUncheckedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUpdateInput = {
@@ -27558,6 +29100,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateInput = {
@@ -27590,6 +29133,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUncheckedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileCreateManyInput = {
@@ -27653,6 +29197,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedServerInput
     events?: ServerEventCreateNestedManyWithoutServerInput
     embeds?: EmbedCreateNestedManyWithoutServerInput
+    scheduledAnnouncements?: ScheduledAnnouncementCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateInput = {
@@ -27671,6 +29216,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedServerInput
     events?: ServerEventUncheckedCreateNestedManyWithoutServerInput
     embeds?: EmbedUncheckedCreateNestedManyWithoutServerInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerUpdateInput = {
@@ -27689,6 +29235,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUpdateManyWithoutRelatedServerNestedInput
     events?: ServerEventUpdateManyWithoutServerNestedInput
     embeds?: EmbedUpdateManyWithoutServerNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateInput = {
@@ -27707,6 +29254,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedServerNestedInput
     events?: ServerEventUncheckedUpdateManyWithoutServerNestedInput
     embeds?: EmbedUncheckedUpdateManyWithoutServerNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type ServerCreateManyInput = {
@@ -27835,6 +29383,7 @@ export namespace Prisma {
     voiceEvents?: ServerEventCreateNestedManyWithoutVoiceChannelInput
     textEvents?: ServerEventCreateNestedManyWithoutTextChannelInput
     embeds?: EmbedCreateNestedManyWithoutChannelInput
+    scheduledAnnouncements?: ScheduledAnnouncementCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelUncheckedCreateInput = {
@@ -27850,6 +29399,7 @@ export namespace Prisma {
     voiceEvents?: ServerEventUncheckedCreateNestedManyWithoutVoiceChannelInput
     textEvents?: ServerEventUncheckedCreateNestedManyWithoutTextChannelInput
     embeds?: EmbedUncheckedCreateNestedManyWithoutChannelInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelUpdateInput = {
@@ -27865,6 +29415,7 @@ export namespace Prisma {
     voiceEvents?: ServerEventUpdateManyWithoutVoiceChannelNestedInput
     textEvents?: ServerEventUpdateManyWithoutTextChannelNestedInput
     embeds?: EmbedUpdateManyWithoutChannelNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUpdateManyWithoutChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateInput = {
@@ -27880,6 +29431,7 @@ export namespace Prisma {
     voiceEvents?: ServerEventUncheckedUpdateManyWithoutVoiceChannelNestedInput
     textEvents?: ServerEventUncheckedUpdateManyWithoutTextChannelNestedInput
     embeds?: EmbedUncheckedUpdateManyWithoutChannelNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedUpdateManyWithoutChannelNestedInput
   }
 
   export type ChannelCreateManyInput = {
@@ -29041,6 +30593,115 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ScheduledAnnouncementCreateInput = {
+    id?: string
+    title: string
+    message: string
+    scheduleType: $Enums.ScheduleType
+    scheduleData: JsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    server: ServerCreateNestedOneWithoutScheduledAnnouncementsInput
+    channel: ChannelCreateNestedOneWithoutScheduledAnnouncementsInput
+    creatorProfile: ProfileCreateNestedOneWithoutScheduledAnnouncementsCreatedInput
+  }
+
+  export type ScheduledAnnouncementUncheckedCreateInput = {
+    id?: string
+    title: string
+    message: string
+    serverId: string
+    channelId: string
+    creatorProfileId: string
+    scheduleType: $Enums.ScheduleType
+    scheduleData: JsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScheduledAnnouncementUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    scheduleType?: EnumScheduleTypeFieldUpdateOperationsInput | $Enums.ScheduleType
+    scheduleData?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    server?: ServerUpdateOneRequiredWithoutScheduledAnnouncementsNestedInput
+    channel?: ChannelUpdateOneRequiredWithoutScheduledAnnouncementsNestedInput
+    creatorProfile?: ProfileUpdateOneRequiredWithoutScheduledAnnouncementsCreatedNestedInput
+  }
+
+  export type ScheduledAnnouncementUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    serverId?: StringFieldUpdateOperationsInput | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    creatorProfileId?: StringFieldUpdateOperationsInput | string
+    scheduleType?: EnumScheduleTypeFieldUpdateOperationsInput | $Enums.ScheduleType
+    scheduleData?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduledAnnouncementCreateManyInput = {
+    id?: string
+    title: string
+    message: string
+    serverId: string
+    channelId: string
+    creatorProfileId: string
+    scheduleType: $Enums.ScheduleType
+    scheduleData: JsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScheduledAnnouncementUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    scheduleType?: EnumScheduleTypeFieldUpdateOperationsInput | $Enums.ScheduleType
+    scheduleData?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduledAnnouncementUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    serverId?: StringFieldUpdateOperationsInput | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    creatorProfileId?: StringFieldUpdateOperationsInput | string
+    scheduleType?: EnumScheduleTypeFieldUpdateOperationsInput | $Enums.ScheduleType
+    scheduleData?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -29190,6 +30851,12 @@ export namespace Prisma {
     none?: EmbedWhereInput
   }
 
+  export type ScheduledAnnouncementListRelationFilter = {
+    every?: ScheduledAnnouncementWhereInput
+    some?: ScheduledAnnouncementWhereInput
+    none?: ScheduledAnnouncementWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -29244,6 +30911,10 @@ export namespace Prisma {
   }
 
   export type EmbedOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ScheduledAnnouncementOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -30327,6 +31998,118 @@ export namespace Prisma {
     order?: SortOrder
   }
 
+  export type EnumScheduleTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScheduleType | EnumScheduleTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ScheduleType[] | ListEnumScheduleTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScheduleType[] | ListEnumScheduleTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumScheduleTypeFilter<$PrismaModel> | $Enums.ScheduleType
+  }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type ScheduledAnnouncementCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    serverId?: SortOrder
+    channelId?: SortOrder
+    creatorProfileId?: SortOrder
+    scheduleType?: SortOrder
+    scheduleData?: SortOrder
+    isActive?: SortOrder
+    lastSentAt?: SortOrder
+    nextSendAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ScheduledAnnouncementMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    serverId?: SortOrder
+    channelId?: SortOrder
+    creatorProfileId?: SortOrder
+    scheduleType?: SortOrder
+    isActive?: SortOrder
+    lastSentAt?: SortOrder
+    nextSendAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ScheduledAnnouncementMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    serverId?: SortOrder
+    channelId?: SortOrder
+    creatorProfileId?: SortOrder
+    scheduleType?: SortOrder
+    isActive?: SortOrder
+    lastSentAt?: SortOrder
+    nextSendAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumScheduleTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScheduleType | EnumScheduleTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ScheduleType[] | ListEnumScheduleTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScheduleType[] | ListEnumScheduleTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumScheduleTypeWithAggregatesFilter<$PrismaModel> | $Enums.ScheduleType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumScheduleTypeFilter<$PrismaModel>
+    _max?: NestedEnumScheduleTypeFilter<$PrismaModel>
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
+
   export type ServerCreateNestedManyWithoutProfileInput = {
     create?: XOR<ServerCreateWithoutProfileInput, ServerUncheckedCreateWithoutProfileInput> | ServerCreateWithoutProfileInput[] | ServerUncheckedCreateWithoutProfileInput[]
     connectOrCreate?: ServerCreateOrConnectWithoutProfileInput | ServerCreateOrConnectWithoutProfileInput[]
@@ -30446,6 +32229,13 @@ export namespace Prisma {
     connect?: EmbedWhereUniqueInput | EmbedWhereUniqueInput[]
   }
 
+  export type ScheduledAnnouncementCreateNestedManyWithoutCreatorProfileInput = {
+    create?: XOR<ScheduledAnnouncementCreateWithoutCreatorProfileInput, ScheduledAnnouncementUncheckedCreateWithoutCreatorProfileInput> | ScheduledAnnouncementCreateWithoutCreatorProfileInput[] | ScheduledAnnouncementUncheckedCreateWithoutCreatorProfileInput[]
+    connectOrCreate?: ScheduledAnnouncementCreateOrConnectWithoutCreatorProfileInput | ScheduledAnnouncementCreateOrConnectWithoutCreatorProfileInput[]
+    createMany?: ScheduledAnnouncementCreateManyCreatorProfileInputEnvelope
+    connect?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+  }
+
   export type ServerUncheckedCreateNestedManyWithoutProfileInput = {
     create?: XOR<ServerCreateWithoutProfileInput, ServerUncheckedCreateWithoutProfileInput> | ServerCreateWithoutProfileInput[] | ServerUncheckedCreateWithoutProfileInput[]
     connectOrCreate?: ServerCreateOrConnectWithoutProfileInput | ServerCreateOrConnectWithoutProfileInput[]
@@ -30563,6 +32353,13 @@ export namespace Prisma {
     connectOrCreate?: EmbedCreateOrConnectWithoutCreatorProfileInput | EmbedCreateOrConnectWithoutCreatorProfileInput[]
     createMany?: EmbedCreateManyCreatorProfileInputEnvelope
     connect?: EmbedWhereUniqueInput | EmbedWhereUniqueInput[]
+  }
+
+  export type ScheduledAnnouncementUncheckedCreateNestedManyWithoutCreatorProfileInput = {
+    create?: XOR<ScheduledAnnouncementCreateWithoutCreatorProfileInput, ScheduledAnnouncementUncheckedCreateWithoutCreatorProfileInput> | ScheduledAnnouncementCreateWithoutCreatorProfileInput[] | ScheduledAnnouncementUncheckedCreateWithoutCreatorProfileInput[]
+    connectOrCreate?: ScheduledAnnouncementCreateOrConnectWithoutCreatorProfileInput | ScheduledAnnouncementCreateOrConnectWithoutCreatorProfileInput[]
+    createMany?: ScheduledAnnouncementCreateManyCreatorProfileInputEnvelope
+    connect?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -30819,6 +32616,20 @@ export namespace Prisma {
     deleteMany?: EmbedScalarWhereInput | EmbedScalarWhereInput[]
   }
 
+  export type ScheduledAnnouncementUpdateManyWithoutCreatorProfileNestedInput = {
+    create?: XOR<ScheduledAnnouncementCreateWithoutCreatorProfileInput, ScheduledAnnouncementUncheckedCreateWithoutCreatorProfileInput> | ScheduledAnnouncementCreateWithoutCreatorProfileInput[] | ScheduledAnnouncementUncheckedCreateWithoutCreatorProfileInput[]
+    connectOrCreate?: ScheduledAnnouncementCreateOrConnectWithoutCreatorProfileInput | ScheduledAnnouncementCreateOrConnectWithoutCreatorProfileInput[]
+    upsert?: ScheduledAnnouncementUpsertWithWhereUniqueWithoutCreatorProfileInput | ScheduledAnnouncementUpsertWithWhereUniqueWithoutCreatorProfileInput[]
+    createMany?: ScheduledAnnouncementCreateManyCreatorProfileInputEnvelope
+    set?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    disconnect?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    delete?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    connect?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    update?: ScheduledAnnouncementUpdateWithWhereUniqueWithoutCreatorProfileInput | ScheduledAnnouncementUpdateWithWhereUniqueWithoutCreatorProfileInput[]
+    updateMany?: ScheduledAnnouncementUpdateManyWithWhereWithoutCreatorProfileInput | ScheduledAnnouncementUpdateManyWithWhereWithoutCreatorProfileInput[]
+    deleteMany?: ScheduledAnnouncementScalarWhereInput | ScheduledAnnouncementScalarWhereInput[]
+  }
+
   export type ServerUncheckedUpdateManyWithoutProfileNestedInput = {
     create?: XOR<ServerCreateWithoutProfileInput, ServerUncheckedCreateWithoutProfileInput> | ServerCreateWithoutProfileInput[] | ServerUncheckedCreateWithoutProfileInput[]
     connectOrCreate?: ServerCreateOrConnectWithoutProfileInput | ServerCreateOrConnectWithoutProfileInput[]
@@ -31057,6 +32868,20 @@ export namespace Prisma {
     deleteMany?: EmbedScalarWhereInput | EmbedScalarWhereInput[]
   }
 
+  export type ScheduledAnnouncementUncheckedUpdateManyWithoutCreatorProfileNestedInput = {
+    create?: XOR<ScheduledAnnouncementCreateWithoutCreatorProfileInput, ScheduledAnnouncementUncheckedCreateWithoutCreatorProfileInput> | ScheduledAnnouncementCreateWithoutCreatorProfileInput[] | ScheduledAnnouncementUncheckedCreateWithoutCreatorProfileInput[]
+    connectOrCreate?: ScheduledAnnouncementCreateOrConnectWithoutCreatorProfileInput | ScheduledAnnouncementCreateOrConnectWithoutCreatorProfileInput[]
+    upsert?: ScheduledAnnouncementUpsertWithWhereUniqueWithoutCreatorProfileInput | ScheduledAnnouncementUpsertWithWhereUniqueWithoutCreatorProfileInput[]
+    createMany?: ScheduledAnnouncementCreateManyCreatorProfileInputEnvelope
+    set?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    disconnect?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    delete?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    connect?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    update?: ScheduledAnnouncementUpdateWithWhereUniqueWithoutCreatorProfileInput | ScheduledAnnouncementUpdateWithWhereUniqueWithoutCreatorProfileInput[]
+    updateMany?: ScheduledAnnouncementUpdateManyWithWhereWithoutCreatorProfileInput | ScheduledAnnouncementUpdateManyWithWhereWithoutCreatorProfileInput[]
+    deleteMany?: ScheduledAnnouncementScalarWhereInput | ScheduledAnnouncementScalarWhereInput[]
+  }
+
   export type ProfileCreateNestedOneWithoutServersInput = {
     create?: XOR<ProfileCreateWithoutServersInput, ProfileUncheckedCreateWithoutServersInput>
     connectOrCreate?: ProfileCreateOrConnectWithoutServersInput
@@ -31112,6 +32937,13 @@ export namespace Prisma {
     connect?: EmbedWhereUniqueInput | EmbedWhereUniqueInput[]
   }
 
+  export type ScheduledAnnouncementCreateNestedManyWithoutServerInput = {
+    create?: XOR<ScheduledAnnouncementCreateWithoutServerInput, ScheduledAnnouncementUncheckedCreateWithoutServerInput> | ScheduledAnnouncementCreateWithoutServerInput[] | ScheduledAnnouncementUncheckedCreateWithoutServerInput[]
+    connectOrCreate?: ScheduledAnnouncementCreateOrConnectWithoutServerInput | ScheduledAnnouncementCreateOrConnectWithoutServerInput[]
+    createMany?: ScheduledAnnouncementCreateManyServerInputEnvelope
+    connect?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+  }
+
   export type MemberUncheckedCreateNestedManyWithoutServerInput = {
     create?: XOR<MemberCreateWithoutServerInput, MemberUncheckedCreateWithoutServerInput> | MemberCreateWithoutServerInput[] | MemberUncheckedCreateWithoutServerInput[]
     connectOrCreate?: MemberCreateOrConnectWithoutServerInput | MemberCreateOrConnectWithoutServerInput[]
@@ -31159,6 +32991,13 @@ export namespace Prisma {
     connectOrCreate?: EmbedCreateOrConnectWithoutServerInput | EmbedCreateOrConnectWithoutServerInput[]
     createMany?: EmbedCreateManyServerInputEnvelope
     connect?: EmbedWhereUniqueInput | EmbedWhereUniqueInput[]
+  }
+
+  export type ScheduledAnnouncementUncheckedCreateNestedManyWithoutServerInput = {
+    create?: XOR<ScheduledAnnouncementCreateWithoutServerInput, ScheduledAnnouncementUncheckedCreateWithoutServerInput> | ScheduledAnnouncementCreateWithoutServerInput[] | ScheduledAnnouncementUncheckedCreateWithoutServerInput[]
+    connectOrCreate?: ScheduledAnnouncementCreateOrConnectWithoutServerInput | ScheduledAnnouncementCreateOrConnectWithoutServerInput[]
+    createMany?: ScheduledAnnouncementCreateManyServerInputEnvelope
+    connect?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
   }
 
   export type EnumServerCategoryFieldUpdateOperationsInput = {
@@ -31271,6 +33110,20 @@ export namespace Prisma {
     deleteMany?: EmbedScalarWhereInput | EmbedScalarWhereInput[]
   }
 
+  export type ScheduledAnnouncementUpdateManyWithoutServerNestedInput = {
+    create?: XOR<ScheduledAnnouncementCreateWithoutServerInput, ScheduledAnnouncementUncheckedCreateWithoutServerInput> | ScheduledAnnouncementCreateWithoutServerInput[] | ScheduledAnnouncementUncheckedCreateWithoutServerInput[]
+    connectOrCreate?: ScheduledAnnouncementCreateOrConnectWithoutServerInput | ScheduledAnnouncementCreateOrConnectWithoutServerInput[]
+    upsert?: ScheduledAnnouncementUpsertWithWhereUniqueWithoutServerInput | ScheduledAnnouncementUpsertWithWhereUniqueWithoutServerInput[]
+    createMany?: ScheduledAnnouncementCreateManyServerInputEnvelope
+    set?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    disconnect?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    delete?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    connect?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    update?: ScheduledAnnouncementUpdateWithWhereUniqueWithoutServerInput | ScheduledAnnouncementUpdateWithWhereUniqueWithoutServerInput[]
+    updateMany?: ScheduledAnnouncementUpdateManyWithWhereWithoutServerInput | ScheduledAnnouncementUpdateManyWithWhereWithoutServerInput[]
+    deleteMany?: ScheduledAnnouncementScalarWhereInput | ScheduledAnnouncementScalarWhereInput[]
+  }
+
   export type MemberUncheckedUpdateManyWithoutServerNestedInput = {
     create?: XOR<MemberCreateWithoutServerInput, MemberUncheckedCreateWithoutServerInput> | MemberCreateWithoutServerInput[] | MemberUncheckedCreateWithoutServerInput[]
     connectOrCreate?: MemberCreateOrConnectWithoutServerInput | MemberCreateOrConnectWithoutServerInput[]
@@ -31367,6 +33220,20 @@ export namespace Prisma {
     update?: EmbedUpdateWithWhereUniqueWithoutServerInput | EmbedUpdateWithWhereUniqueWithoutServerInput[]
     updateMany?: EmbedUpdateManyWithWhereWithoutServerInput | EmbedUpdateManyWithWhereWithoutServerInput[]
     deleteMany?: EmbedScalarWhereInput | EmbedScalarWhereInput[]
+  }
+
+  export type ScheduledAnnouncementUncheckedUpdateManyWithoutServerNestedInput = {
+    create?: XOR<ScheduledAnnouncementCreateWithoutServerInput, ScheduledAnnouncementUncheckedCreateWithoutServerInput> | ScheduledAnnouncementCreateWithoutServerInput[] | ScheduledAnnouncementUncheckedCreateWithoutServerInput[]
+    connectOrCreate?: ScheduledAnnouncementCreateOrConnectWithoutServerInput | ScheduledAnnouncementCreateOrConnectWithoutServerInput[]
+    upsert?: ScheduledAnnouncementUpsertWithWhereUniqueWithoutServerInput | ScheduledAnnouncementUpsertWithWhereUniqueWithoutServerInput[]
+    createMany?: ScheduledAnnouncementCreateManyServerInputEnvelope
+    set?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    disconnect?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    delete?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    connect?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    update?: ScheduledAnnouncementUpdateWithWhereUniqueWithoutServerInput | ScheduledAnnouncementUpdateWithWhereUniqueWithoutServerInput[]
+    updateMany?: ScheduledAnnouncementUpdateManyWithWhereWithoutServerInput | ScheduledAnnouncementUpdateManyWithWhereWithoutServerInput[]
+    deleteMany?: ScheduledAnnouncementScalarWhereInput | ScheduledAnnouncementScalarWhereInput[]
   }
 
   export type ProfileCreateNestedOneWithoutMembersInput = {
@@ -31657,6 +33524,13 @@ export namespace Prisma {
     connect?: EmbedWhereUniqueInput | EmbedWhereUniqueInput[]
   }
 
+  export type ScheduledAnnouncementCreateNestedManyWithoutChannelInput = {
+    create?: XOR<ScheduledAnnouncementCreateWithoutChannelInput, ScheduledAnnouncementUncheckedCreateWithoutChannelInput> | ScheduledAnnouncementCreateWithoutChannelInput[] | ScheduledAnnouncementUncheckedCreateWithoutChannelInput[]
+    connectOrCreate?: ScheduledAnnouncementCreateOrConnectWithoutChannelInput | ScheduledAnnouncementCreateOrConnectWithoutChannelInput[]
+    createMany?: ScheduledAnnouncementCreateManyChannelInputEnvelope
+    connect?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+  }
+
   export type ThreadUncheckedCreateNestedManyWithoutChannelInput = {
     create?: XOR<ThreadCreateWithoutChannelInput, ThreadUncheckedCreateWithoutChannelInput> | ThreadCreateWithoutChannelInput[] | ThreadUncheckedCreateWithoutChannelInput[]
     connectOrCreate?: ThreadCreateOrConnectWithoutChannelInput | ThreadCreateOrConnectWithoutChannelInput[]
@@ -31683,6 +33557,13 @@ export namespace Prisma {
     connectOrCreate?: EmbedCreateOrConnectWithoutChannelInput | EmbedCreateOrConnectWithoutChannelInput[]
     createMany?: EmbedCreateManyChannelInputEnvelope
     connect?: EmbedWhereUniqueInput | EmbedWhereUniqueInput[]
+  }
+
+  export type ScheduledAnnouncementUncheckedCreateNestedManyWithoutChannelInput = {
+    create?: XOR<ScheduledAnnouncementCreateWithoutChannelInput, ScheduledAnnouncementUncheckedCreateWithoutChannelInput> | ScheduledAnnouncementCreateWithoutChannelInput[] | ScheduledAnnouncementUncheckedCreateWithoutChannelInput[]
+    connectOrCreate?: ScheduledAnnouncementCreateOrConnectWithoutChannelInput | ScheduledAnnouncementCreateOrConnectWithoutChannelInput[]
+    createMany?: ScheduledAnnouncementCreateManyChannelInputEnvelope
+    connect?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
   }
 
   export type EnumChannelTypeFieldUpdateOperationsInput = {
@@ -31771,6 +33652,20 @@ export namespace Prisma {
     deleteMany?: EmbedScalarWhereInput | EmbedScalarWhereInput[]
   }
 
+  export type ScheduledAnnouncementUpdateManyWithoutChannelNestedInput = {
+    create?: XOR<ScheduledAnnouncementCreateWithoutChannelInput, ScheduledAnnouncementUncheckedCreateWithoutChannelInput> | ScheduledAnnouncementCreateWithoutChannelInput[] | ScheduledAnnouncementUncheckedCreateWithoutChannelInput[]
+    connectOrCreate?: ScheduledAnnouncementCreateOrConnectWithoutChannelInput | ScheduledAnnouncementCreateOrConnectWithoutChannelInput[]
+    upsert?: ScheduledAnnouncementUpsertWithWhereUniqueWithoutChannelInput | ScheduledAnnouncementUpsertWithWhereUniqueWithoutChannelInput[]
+    createMany?: ScheduledAnnouncementCreateManyChannelInputEnvelope
+    set?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    disconnect?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    delete?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    connect?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    update?: ScheduledAnnouncementUpdateWithWhereUniqueWithoutChannelInput | ScheduledAnnouncementUpdateWithWhereUniqueWithoutChannelInput[]
+    updateMany?: ScheduledAnnouncementUpdateManyWithWhereWithoutChannelInput | ScheduledAnnouncementUpdateManyWithWhereWithoutChannelInput[]
+    deleteMany?: ScheduledAnnouncementScalarWhereInput | ScheduledAnnouncementScalarWhereInput[]
+  }
+
   export type ThreadUncheckedUpdateManyWithoutChannelNestedInput = {
     create?: XOR<ThreadCreateWithoutChannelInput, ThreadUncheckedCreateWithoutChannelInput> | ThreadCreateWithoutChannelInput[] | ThreadUncheckedCreateWithoutChannelInput[]
     connectOrCreate?: ThreadCreateOrConnectWithoutChannelInput | ThreadCreateOrConnectWithoutChannelInput[]
@@ -31825,6 +33720,20 @@ export namespace Prisma {
     update?: EmbedUpdateWithWhereUniqueWithoutChannelInput | EmbedUpdateWithWhereUniqueWithoutChannelInput[]
     updateMany?: EmbedUpdateManyWithWhereWithoutChannelInput | EmbedUpdateManyWithWhereWithoutChannelInput[]
     deleteMany?: EmbedScalarWhereInput | EmbedScalarWhereInput[]
+  }
+
+  export type ScheduledAnnouncementUncheckedUpdateManyWithoutChannelNestedInput = {
+    create?: XOR<ScheduledAnnouncementCreateWithoutChannelInput, ScheduledAnnouncementUncheckedCreateWithoutChannelInput> | ScheduledAnnouncementCreateWithoutChannelInput[] | ScheduledAnnouncementUncheckedCreateWithoutChannelInput[]
+    connectOrCreate?: ScheduledAnnouncementCreateOrConnectWithoutChannelInput | ScheduledAnnouncementCreateOrConnectWithoutChannelInput[]
+    upsert?: ScheduledAnnouncementUpsertWithWhereUniqueWithoutChannelInput | ScheduledAnnouncementUpsertWithWhereUniqueWithoutChannelInput[]
+    createMany?: ScheduledAnnouncementCreateManyChannelInputEnvelope
+    set?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    disconnect?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    delete?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    connect?: ScheduledAnnouncementWhereUniqueInput | ScheduledAnnouncementWhereUniqueInput[]
+    update?: ScheduledAnnouncementUpdateWithWhereUniqueWithoutChannelInput | ScheduledAnnouncementUpdateWithWhereUniqueWithoutChannelInput[]
+    updateMany?: ScheduledAnnouncementUpdateManyWithWhereWithoutChannelInput | ScheduledAnnouncementUpdateManyWithWhereWithoutChannelInput[]
+    deleteMany?: ScheduledAnnouncementScalarWhereInput | ScheduledAnnouncementScalarWhereInput[]
   }
 
   export type ServerCreateNestedOneWithoutCategoriesInput = {
@@ -32535,6 +34444,52 @@ export namespace Prisma {
     update?: XOR<XOR<EmbedUpdateToOneWithWhereWithoutFieldsInput, EmbedUpdateWithoutFieldsInput>, EmbedUncheckedUpdateWithoutFieldsInput>
   }
 
+  export type ServerCreateNestedOneWithoutScheduledAnnouncementsInput = {
+    create?: XOR<ServerCreateWithoutScheduledAnnouncementsInput, ServerUncheckedCreateWithoutScheduledAnnouncementsInput>
+    connectOrCreate?: ServerCreateOrConnectWithoutScheduledAnnouncementsInput
+    connect?: ServerWhereUniqueInput
+  }
+
+  export type ChannelCreateNestedOneWithoutScheduledAnnouncementsInput = {
+    create?: XOR<ChannelCreateWithoutScheduledAnnouncementsInput, ChannelUncheckedCreateWithoutScheduledAnnouncementsInput>
+    connectOrCreate?: ChannelCreateOrConnectWithoutScheduledAnnouncementsInput
+    connect?: ChannelWhereUniqueInput
+  }
+
+  export type ProfileCreateNestedOneWithoutScheduledAnnouncementsCreatedInput = {
+    create?: XOR<ProfileCreateWithoutScheduledAnnouncementsCreatedInput, ProfileUncheckedCreateWithoutScheduledAnnouncementsCreatedInput>
+    connectOrCreate?: ProfileCreateOrConnectWithoutScheduledAnnouncementsCreatedInput
+    connect?: ProfileWhereUniqueInput
+  }
+
+  export type EnumScheduleTypeFieldUpdateOperationsInput = {
+    set?: $Enums.ScheduleType
+  }
+
+  export type ServerUpdateOneRequiredWithoutScheduledAnnouncementsNestedInput = {
+    create?: XOR<ServerCreateWithoutScheduledAnnouncementsInput, ServerUncheckedCreateWithoutScheduledAnnouncementsInput>
+    connectOrCreate?: ServerCreateOrConnectWithoutScheduledAnnouncementsInput
+    upsert?: ServerUpsertWithoutScheduledAnnouncementsInput
+    connect?: ServerWhereUniqueInput
+    update?: XOR<XOR<ServerUpdateToOneWithWhereWithoutScheduledAnnouncementsInput, ServerUpdateWithoutScheduledAnnouncementsInput>, ServerUncheckedUpdateWithoutScheduledAnnouncementsInput>
+  }
+
+  export type ChannelUpdateOneRequiredWithoutScheduledAnnouncementsNestedInput = {
+    create?: XOR<ChannelCreateWithoutScheduledAnnouncementsInput, ChannelUncheckedCreateWithoutScheduledAnnouncementsInput>
+    connectOrCreate?: ChannelCreateOrConnectWithoutScheduledAnnouncementsInput
+    upsert?: ChannelUpsertWithoutScheduledAnnouncementsInput
+    connect?: ChannelWhereUniqueInput
+    update?: XOR<XOR<ChannelUpdateToOneWithWhereWithoutScheduledAnnouncementsInput, ChannelUpdateWithoutScheduledAnnouncementsInput>, ChannelUncheckedUpdateWithoutScheduledAnnouncementsInput>
+  }
+
+  export type ProfileUpdateOneRequiredWithoutScheduledAnnouncementsCreatedNestedInput = {
+    create?: XOR<ProfileCreateWithoutScheduledAnnouncementsCreatedInput, ProfileUncheckedCreateWithoutScheduledAnnouncementsCreatedInput>
+    connectOrCreate?: ProfileCreateOrConnectWithoutScheduledAnnouncementsCreatedInput
+    upsert?: ProfileUpsertWithoutScheduledAnnouncementsCreatedInput
+    connect?: ProfileWhereUniqueInput
+    update?: XOR<XOR<ProfileUpdateToOneWithWhereWithoutScheduledAnnouncementsCreatedInput, ProfileUpdateWithoutScheduledAnnouncementsCreatedInput>, ProfileUncheckedUpdateWithoutScheduledAnnouncementsCreatedInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -32902,6 +34857,46 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumScheduleTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScheduleType | EnumScheduleTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ScheduleType[] | ListEnumScheduleTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScheduleType[] | ListEnumScheduleTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumScheduleTypeFilter<$PrismaModel> | $Enums.ScheduleType
+  }
+
+  export type NestedEnumScheduleTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScheduleType | EnumScheduleTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ScheduleType[] | ListEnumScheduleTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScheduleType[] | ListEnumScheduleTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumScheduleTypeWithAggregatesFilter<$PrismaModel> | $Enums.ScheduleType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumScheduleTypeFilter<$PrismaModel>
+    _max?: NestedEnumScheduleTypeFilter<$PrismaModel>
+  }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
   export type ServerCreateWithoutProfileInput = {
     id?: string
     name: string
@@ -32917,6 +34912,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedServerInput
     events?: ServerEventCreateNestedManyWithoutServerInput
     embeds?: EmbedCreateNestedManyWithoutServerInput
+    scheduledAnnouncements?: ScheduledAnnouncementCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateWithoutProfileInput = {
@@ -32934,6 +34930,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedServerInput
     events?: ServerEventUncheckedCreateNestedManyWithoutServerInput
     embeds?: EmbedUncheckedCreateNestedManyWithoutServerInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerCreateOrConnectWithoutProfileInput = {
@@ -32994,6 +34991,7 @@ export namespace Prisma {
     voiceEvents?: ServerEventCreateNestedManyWithoutVoiceChannelInput
     textEvents?: ServerEventCreateNestedManyWithoutTextChannelInput
     embeds?: EmbedCreateNestedManyWithoutChannelInput
+    scheduledAnnouncements?: ScheduledAnnouncementCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelUncheckedCreateWithoutProfileInput = {
@@ -33008,6 +35006,7 @@ export namespace Prisma {
     voiceEvents?: ServerEventUncheckedCreateNestedManyWithoutVoiceChannelInput
     textEvents?: ServerEventUncheckedCreateNestedManyWithoutTextChannelInput
     embeds?: EmbedUncheckedCreateNestedManyWithoutChannelInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelCreateOrConnectWithoutProfileInput = {
@@ -33437,6 +35436,46 @@ export namespace Prisma {
 
   export type EmbedCreateManyCreatorProfileInputEnvelope = {
     data: EmbedCreateManyCreatorProfileInput | EmbedCreateManyCreatorProfileInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ScheduledAnnouncementCreateWithoutCreatorProfileInput = {
+    id?: string
+    title: string
+    message: string
+    scheduleType: $Enums.ScheduleType
+    scheduleData: JsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    server: ServerCreateNestedOneWithoutScheduledAnnouncementsInput
+    channel: ChannelCreateNestedOneWithoutScheduledAnnouncementsInput
+  }
+
+  export type ScheduledAnnouncementUncheckedCreateWithoutCreatorProfileInput = {
+    id?: string
+    title: string
+    message: string
+    serverId: string
+    channelId: string
+    scheduleType: $Enums.ScheduleType
+    scheduleData: JsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScheduledAnnouncementCreateOrConnectWithoutCreatorProfileInput = {
+    where: ScheduledAnnouncementWhereUniqueInput
+    create: XOR<ScheduledAnnouncementCreateWithoutCreatorProfileInput, ScheduledAnnouncementUncheckedCreateWithoutCreatorProfileInput>
+  }
+
+  export type ScheduledAnnouncementCreateManyCreatorProfileInputEnvelope = {
+    data: ScheduledAnnouncementCreateManyCreatorProfileInput | ScheduledAnnouncementCreateManyCreatorProfileInput[]
     skipDuplicates?: boolean
   }
 
@@ -33894,6 +35933,41 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Embed"> | Date | string
   }
 
+  export type ScheduledAnnouncementUpsertWithWhereUniqueWithoutCreatorProfileInput = {
+    where: ScheduledAnnouncementWhereUniqueInput
+    update: XOR<ScheduledAnnouncementUpdateWithoutCreatorProfileInput, ScheduledAnnouncementUncheckedUpdateWithoutCreatorProfileInput>
+    create: XOR<ScheduledAnnouncementCreateWithoutCreatorProfileInput, ScheduledAnnouncementUncheckedCreateWithoutCreatorProfileInput>
+  }
+
+  export type ScheduledAnnouncementUpdateWithWhereUniqueWithoutCreatorProfileInput = {
+    where: ScheduledAnnouncementWhereUniqueInput
+    data: XOR<ScheduledAnnouncementUpdateWithoutCreatorProfileInput, ScheduledAnnouncementUncheckedUpdateWithoutCreatorProfileInput>
+  }
+
+  export type ScheduledAnnouncementUpdateManyWithWhereWithoutCreatorProfileInput = {
+    where: ScheduledAnnouncementScalarWhereInput
+    data: XOR<ScheduledAnnouncementUpdateManyMutationInput, ScheduledAnnouncementUncheckedUpdateManyWithoutCreatorProfileInput>
+  }
+
+  export type ScheduledAnnouncementScalarWhereInput = {
+    AND?: ScheduledAnnouncementScalarWhereInput | ScheduledAnnouncementScalarWhereInput[]
+    OR?: ScheduledAnnouncementScalarWhereInput[]
+    NOT?: ScheduledAnnouncementScalarWhereInput | ScheduledAnnouncementScalarWhereInput[]
+    id?: StringFilter<"ScheduledAnnouncement"> | string
+    title?: StringFilter<"ScheduledAnnouncement"> | string
+    message?: StringFilter<"ScheduledAnnouncement"> | string
+    serverId?: StringFilter<"ScheduledAnnouncement"> | string
+    channelId?: StringFilter<"ScheduledAnnouncement"> | string
+    creatorProfileId?: StringFilter<"ScheduledAnnouncement"> | string
+    scheduleType?: EnumScheduleTypeFilter<"ScheduledAnnouncement"> | $Enums.ScheduleType
+    scheduleData?: JsonFilter<"ScheduledAnnouncement">
+    isActive?: BoolFilter<"ScheduledAnnouncement"> | boolean
+    lastSentAt?: DateTimeNullableFilter<"ScheduledAnnouncement"> | Date | string | null
+    nextSendAt?: DateTimeFilter<"ScheduledAnnouncement"> | Date | string
+    createdAt?: DateTimeFilter<"ScheduledAnnouncement"> | Date | string
+    updatedAt?: DateTimeFilter<"ScheduledAnnouncement"> | Date | string
+  }
+
   export type ProfileCreateWithoutServersInput = {
     id?: string
     userId: string
@@ -33923,6 +35997,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutServersInput = {
@@ -33954,6 +36029,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedUncheckedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutServersInput = {
@@ -34009,6 +36085,7 @@ export namespace Prisma {
     voiceEvents?: ServerEventCreateNestedManyWithoutVoiceChannelInput
     textEvents?: ServerEventCreateNestedManyWithoutTextChannelInput
     embeds?: EmbedCreateNestedManyWithoutChannelInput
+    scheduledAnnouncements?: ScheduledAnnouncementCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelUncheckedCreateWithoutServerInput = {
@@ -34023,6 +36100,7 @@ export namespace Prisma {
     voiceEvents?: ServerEventUncheckedCreateNestedManyWithoutVoiceChannelInput
     textEvents?: ServerEventUncheckedCreateNestedManyWithoutTextChannelInput
     embeds?: EmbedUncheckedCreateNestedManyWithoutChannelInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelCreateOrConnectWithoutServerInput = {
@@ -34211,6 +36289,46 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ScheduledAnnouncementCreateWithoutServerInput = {
+    id?: string
+    title: string
+    message: string
+    scheduleType: $Enums.ScheduleType
+    scheduleData: JsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    channel: ChannelCreateNestedOneWithoutScheduledAnnouncementsInput
+    creatorProfile: ProfileCreateNestedOneWithoutScheduledAnnouncementsCreatedInput
+  }
+
+  export type ScheduledAnnouncementUncheckedCreateWithoutServerInput = {
+    id?: string
+    title: string
+    message: string
+    channelId: string
+    creatorProfileId: string
+    scheduleType: $Enums.ScheduleType
+    scheduleData: JsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScheduledAnnouncementCreateOrConnectWithoutServerInput = {
+    where: ScheduledAnnouncementWhereUniqueInput
+    create: XOR<ScheduledAnnouncementCreateWithoutServerInput, ScheduledAnnouncementUncheckedCreateWithoutServerInput>
+  }
+
+  export type ScheduledAnnouncementCreateManyServerInputEnvelope = {
+    data: ScheduledAnnouncementCreateManyServerInput | ScheduledAnnouncementCreateManyServerInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ProfileUpsertWithoutServersInput = {
     update: XOR<ProfileUpdateWithoutServersInput, ProfileUncheckedUpdateWithoutServersInput>
     create: XOR<ProfileCreateWithoutServersInput, ProfileUncheckedCreateWithoutServersInput>
@@ -34251,6 +36369,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutServersInput = {
@@ -34282,6 +36401,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUncheckedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type MemberUpsertWithWhereUniqueWithoutServerInput = {
@@ -34407,6 +36527,22 @@ export namespace Prisma {
     data: XOR<EmbedUpdateManyMutationInput, EmbedUncheckedUpdateManyWithoutServerInput>
   }
 
+  export type ScheduledAnnouncementUpsertWithWhereUniqueWithoutServerInput = {
+    where: ScheduledAnnouncementWhereUniqueInput
+    update: XOR<ScheduledAnnouncementUpdateWithoutServerInput, ScheduledAnnouncementUncheckedUpdateWithoutServerInput>
+    create: XOR<ScheduledAnnouncementCreateWithoutServerInput, ScheduledAnnouncementUncheckedCreateWithoutServerInput>
+  }
+
+  export type ScheduledAnnouncementUpdateWithWhereUniqueWithoutServerInput = {
+    where: ScheduledAnnouncementWhereUniqueInput
+    data: XOR<ScheduledAnnouncementUpdateWithoutServerInput, ScheduledAnnouncementUncheckedUpdateWithoutServerInput>
+  }
+
+  export type ScheduledAnnouncementUpdateManyWithWhereWithoutServerInput = {
+    where: ScheduledAnnouncementScalarWhereInput
+    data: XOR<ScheduledAnnouncementUpdateManyMutationInput, ScheduledAnnouncementUncheckedUpdateManyWithoutServerInput>
+  }
+
   export type ProfileCreateWithoutMembersInput = {
     id?: string
     userId: string
@@ -34436,6 +36572,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutMembersInput = {
@@ -34467,6 +36604,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedUncheckedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutMembersInput = {
@@ -34489,6 +36627,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedServerInput
     events?: ServerEventCreateNestedManyWithoutServerInput
     embeds?: EmbedCreateNestedManyWithoutServerInput
+    scheduledAnnouncements?: ScheduledAnnouncementCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateWithoutMembersInput = {
@@ -34506,6 +36645,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedServerInput
     events?: ServerEventUncheckedCreateNestedManyWithoutServerInput
     embeds?: EmbedUncheckedCreateNestedManyWithoutServerInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerCreateOrConnectWithoutMembersInput = {
@@ -34697,6 +36837,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutMembersInput = {
@@ -34728,6 +36869,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUncheckedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ServerUpsertWithoutMembersInput = {
@@ -34756,6 +36898,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUpdateManyWithoutRelatedServerNestedInput
     events?: ServerEventUpdateManyWithoutServerNestedInput
     embeds?: EmbedUpdateManyWithoutServerNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutMembersInput = {
@@ -34773,6 +36916,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedServerNestedInput
     events?: ServerEventUncheckedUpdateManyWithoutServerNestedInput
     embeds?: EmbedUncheckedUpdateManyWithoutServerNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type ConversationUpsertWithWhereUniqueWithoutMemberOneInput = {
@@ -34912,6 +37056,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutChannelsInput = {
@@ -34943,6 +37088,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedUncheckedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutChannelsInput = {
@@ -34965,6 +37111,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedServerInput
     events?: ServerEventCreateNestedManyWithoutServerInput
     embeds?: EmbedCreateNestedManyWithoutServerInput
+    scheduledAnnouncements?: ScheduledAnnouncementCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateWithoutChannelsInput = {
@@ -34982,6 +37129,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedServerInput
     events?: ServerEventUncheckedCreateNestedManyWithoutServerInput
     embeds?: EmbedUncheckedCreateNestedManyWithoutServerInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerCreateOrConnectWithoutChannelsInput = {
@@ -35178,6 +37326,46 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ScheduledAnnouncementCreateWithoutChannelInput = {
+    id?: string
+    title: string
+    message: string
+    scheduleType: $Enums.ScheduleType
+    scheduleData: JsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    server: ServerCreateNestedOneWithoutScheduledAnnouncementsInput
+    creatorProfile: ProfileCreateNestedOneWithoutScheduledAnnouncementsCreatedInput
+  }
+
+  export type ScheduledAnnouncementUncheckedCreateWithoutChannelInput = {
+    id?: string
+    title: string
+    message: string
+    serverId: string
+    creatorProfileId: string
+    scheduleType: $Enums.ScheduleType
+    scheduleData: JsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScheduledAnnouncementCreateOrConnectWithoutChannelInput = {
+    where: ScheduledAnnouncementWhereUniqueInput
+    create: XOR<ScheduledAnnouncementCreateWithoutChannelInput, ScheduledAnnouncementUncheckedCreateWithoutChannelInput>
+  }
+
+  export type ScheduledAnnouncementCreateManyChannelInputEnvelope = {
+    data: ScheduledAnnouncementCreateManyChannelInput | ScheduledAnnouncementCreateManyChannelInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ProfileUpsertWithoutChannelsInput = {
     update: XOR<ProfileUpdateWithoutChannelsInput, ProfileUncheckedUpdateWithoutChannelsInput>
     create: XOR<ProfileCreateWithoutChannelsInput, ProfileUncheckedCreateWithoutChannelsInput>
@@ -35218,6 +37406,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutChannelsInput = {
@@ -35249,6 +37438,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUncheckedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ServerUpsertWithoutChannelsInput = {
@@ -35277,6 +37467,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUpdateManyWithoutRelatedServerNestedInput
     events?: ServerEventUpdateManyWithoutServerNestedInput
     embeds?: EmbedUpdateManyWithoutServerNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutChannelsInput = {
@@ -35294,6 +37485,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedServerNestedInput
     events?: ServerEventUncheckedUpdateManyWithoutServerNestedInput
     embeds?: EmbedUncheckedUpdateManyWithoutServerNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type CategoryUpsertWithoutChannelsInput = {
@@ -35400,6 +37592,22 @@ export namespace Prisma {
     data: XOR<EmbedUpdateManyMutationInput, EmbedUncheckedUpdateManyWithoutChannelInput>
   }
 
+  export type ScheduledAnnouncementUpsertWithWhereUniqueWithoutChannelInput = {
+    where: ScheduledAnnouncementWhereUniqueInput
+    update: XOR<ScheduledAnnouncementUpdateWithoutChannelInput, ScheduledAnnouncementUncheckedUpdateWithoutChannelInput>
+    create: XOR<ScheduledAnnouncementCreateWithoutChannelInput, ScheduledAnnouncementUncheckedCreateWithoutChannelInput>
+  }
+
+  export type ScheduledAnnouncementUpdateWithWhereUniqueWithoutChannelInput = {
+    where: ScheduledAnnouncementWhereUniqueInput
+    data: XOR<ScheduledAnnouncementUpdateWithoutChannelInput, ScheduledAnnouncementUncheckedUpdateWithoutChannelInput>
+  }
+
+  export type ScheduledAnnouncementUpdateManyWithWhereWithoutChannelInput = {
+    where: ScheduledAnnouncementScalarWhereInput
+    data: XOR<ScheduledAnnouncementUpdateManyMutationInput, ScheduledAnnouncementUncheckedUpdateManyWithoutChannelInput>
+  }
+
   export type ServerCreateWithoutCategoriesInput = {
     id?: string
     name: string
@@ -35415,6 +37623,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedServerInput
     events?: ServerEventCreateNestedManyWithoutServerInput
     embeds?: EmbedCreateNestedManyWithoutServerInput
+    scheduledAnnouncements?: ScheduledAnnouncementCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateWithoutCategoriesInput = {
@@ -35432,6 +37641,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedServerInput
     events?: ServerEventUncheckedCreateNestedManyWithoutServerInput
     embeds?: EmbedUncheckedCreateNestedManyWithoutServerInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerCreateOrConnectWithoutCategoriesInput = {
@@ -35451,6 +37661,7 @@ export namespace Prisma {
     voiceEvents?: ServerEventCreateNestedManyWithoutVoiceChannelInput
     textEvents?: ServerEventCreateNestedManyWithoutTextChannelInput
     embeds?: EmbedCreateNestedManyWithoutChannelInput
+    scheduledAnnouncements?: ScheduledAnnouncementCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelUncheckedCreateWithoutCategoryInput = {
@@ -35465,6 +37676,7 @@ export namespace Prisma {
     voiceEvents?: ServerEventUncheckedCreateNestedManyWithoutVoiceChannelInput
     textEvents?: ServerEventUncheckedCreateNestedManyWithoutTextChannelInput
     embeds?: EmbedUncheckedCreateNestedManyWithoutChannelInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelCreateOrConnectWithoutCategoryInput = {
@@ -35503,6 +37715,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUpdateManyWithoutRelatedServerNestedInput
     events?: ServerEventUpdateManyWithoutServerNestedInput
     embeds?: EmbedUpdateManyWithoutServerNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutCategoriesInput = {
@@ -35520,6 +37733,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedServerNestedInput
     events?: ServerEventUncheckedUpdateManyWithoutServerNestedInput
     embeds?: EmbedUncheckedUpdateManyWithoutServerNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type ChannelUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -35629,6 +37843,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutConversationsInput = {
@@ -35660,6 +37875,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedUncheckedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutConversationsInput = {
@@ -35811,6 +38027,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutConversationsInput = {
@@ -35842,6 +38059,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUncheckedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type DirectMessageUpsertWithWhereUniqueWithoutConversationInput = {
@@ -35889,6 +38107,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutGroupConversationsCreatedInput = {
@@ -35920,6 +38139,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedUncheckedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutGroupConversationsCreatedInput = {
@@ -36025,6 +38245,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutGroupConversationsCreatedInput = {
@@ -36056,6 +38277,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUncheckedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type GroupConversationMemberUpsertWithWhereUniqueWithoutGroupConversationInput = {
@@ -36119,6 +38341,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutGroupConversationsInput = {
@@ -36150,6 +38373,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedUncheckedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutGroupConversationsInput = {
@@ -36253,6 +38477,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutGroupConversationsInput = {
@@ -36284,6 +38509,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUncheckedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type MemberUpsertWithoutGroupConversationsInput = {
@@ -36627,6 +38853,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutFriendRequestsSentInput = {
@@ -36658,6 +38885,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedUncheckedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutFriendRequestsSentInput = {
@@ -36694,6 +38922,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutFriendRequestsReceivedInput = {
@@ -36725,6 +38954,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedUncheckedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutFriendRequestsReceivedInput = {
@@ -36772,6 +39002,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutFriendRequestsSentInput = {
@@ -36803,6 +39034,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUncheckedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUpsertWithoutFriendRequestsReceivedInput = {
@@ -36845,6 +39077,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutFriendRequestsReceivedInput = {
@@ -36876,6 +39109,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUncheckedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileCreateWithoutMessageRequestsSentInput = {
@@ -36907,6 +39141,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutMessageRequestsSentInput = {
@@ -36938,6 +39173,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedUncheckedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutMessageRequestsSentInput = {
@@ -36974,6 +39210,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutMessageRequestsReceivedInput = {
@@ -37005,6 +39242,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedUncheckedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutMessageRequestsReceivedInput = {
@@ -37052,6 +39290,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutMessageRequestsSentInput = {
@@ -37083,6 +39322,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUncheckedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUpsertWithoutMessageRequestsReceivedInput = {
@@ -37125,6 +39365,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutMessageRequestsReceivedInput = {
@@ -37156,6 +39397,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUncheckedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileCreateWithoutFollowsSentInput = {
@@ -37187,6 +39429,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutFollowsSentInput = {
@@ -37218,6 +39461,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedUncheckedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutFollowsSentInput = {
@@ -37254,6 +39498,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutFollowsReceivedInput = {
@@ -37285,6 +39530,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedUncheckedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutFollowsReceivedInput = {
@@ -37332,6 +39578,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutFollowsSentInput = {
@@ -37363,6 +39610,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUncheckedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUpsertWithoutFollowsReceivedInput = {
@@ -37405,6 +39653,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutFollowsReceivedInput = {
@@ -37436,6 +39685,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUncheckedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileCreateWithoutServerFollowsInput = {
@@ -37467,6 +39717,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutServerFollowsInput = {
@@ -37498,6 +39749,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedUncheckedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutServerFollowsInput = {
@@ -37520,6 +39772,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedServerInput
     events?: ServerEventCreateNestedManyWithoutServerInput
     embeds?: EmbedCreateNestedManyWithoutServerInput
+    scheduledAnnouncements?: ScheduledAnnouncementCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateWithoutServerFollowsInput = {
@@ -37537,6 +39790,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedServerInput
     events?: ServerEventUncheckedCreateNestedManyWithoutServerInput
     embeds?: EmbedUncheckedCreateNestedManyWithoutServerInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerCreateOrConnectWithoutServerFollowsInput = {
@@ -37584,6 +39838,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutServerFollowsInput = {
@@ -37615,6 +39870,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUncheckedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ServerUpsertWithoutServerFollowsInput = {
@@ -37643,6 +39899,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUpdateManyWithoutRelatedServerNestedInput
     events?: ServerEventUpdateManyWithoutServerNestedInput
     embeds?: EmbedUpdateManyWithoutServerNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutServerFollowsInput = {
@@ -37660,6 +39917,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedServerNestedInput
     events?: ServerEventUncheckedUpdateManyWithoutServerNestedInput
     embeds?: EmbedUncheckedUpdateManyWithoutServerNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type ChannelCreateWithoutThreadsInput = {
@@ -37674,6 +39932,7 @@ export namespace Prisma {
     voiceEvents?: ServerEventCreateNestedManyWithoutVoiceChannelInput
     textEvents?: ServerEventCreateNestedManyWithoutTextChannelInput
     embeds?: EmbedCreateNestedManyWithoutChannelInput
+    scheduledAnnouncements?: ScheduledAnnouncementCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelUncheckedCreateWithoutThreadsInput = {
@@ -37688,6 +39947,7 @@ export namespace Prisma {
     voiceEvents?: ServerEventUncheckedCreateNestedManyWithoutVoiceChannelInput
     textEvents?: ServerEventUncheckedCreateNestedManyWithoutTextChannelInput
     embeds?: EmbedUncheckedCreateNestedManyWithoutChannelInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelCreateOrConnectWithoutThreadsInput = {
@@ -37718,6 +39978,7 @@ export namespace Prisma {
     voiceEvents?: ServerEventUpdateManyWithoutVoiceChannelNestedInput
     textEvents?: ServerEventUpdateManyWithoutTextChannelNestedInput
     embeds?: EmbedUpdateManyWithoutChannelNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUpdateManyWithoutChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateWithoutThreadsInput = {
@@ -37732,6 +39993,7 @@ export namespace Prisma {
     voiceEvents?: ServerEventUncheckedUpdateManyWithoutVoiceChannelNestedInput
     textEvents?: ServerEventUncheckedUpdateManyWithoutTextChannelNestedInput
     embeds?: EmbedUncheckedUpdateManyWithoutChannelNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedUpdateManyWithoutChannelNestedInput
   }
 
   export type ProfileCreateWithoutNotificationsReceivedInput = {
@@ -37763,6 +40025,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutNotificationsReceivedInput = {
@@ -37794,6 +40057,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedUncheckedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutNotificationsReceivedInput = {
@@ -37830,6 +40094,7 @@ export namespace Prisma {
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
     serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutNotificationsRelatedInput = {
@@ -37861,6 +40126,7 @@ export namespace Prisma {
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
     serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
     embedsCreated?: EmbedUncheckedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutNotificationsRelatedInput = {
@@ -37883,6 +40149,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowCreateNestedManyWithoutServerInput
     events?: ServerEventCreateNestedManyWithoutServerInput
     embeds?: EmbedCreateNestedManyWithoutServerInput
+    scheduledAnnouncements?: ScheduledAnnouncementCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateWithoutNotificationsRelatedInput = {
@@ -37900,6 +40167,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutServerInput
     events?: ServerEventUncheckedCreateNestedManyWithoutServerInput
     embeds?: EmbedUncheckedCreateNestedManyWithoutServerInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerCreateOrConnectWithoutNotificationsRelatedInput = {
@@ -37947,6 +40215,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutNotificationsReceivedInput = {
@@ -37978,6 +40247,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUncheckedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUpsertWithoutNotificationsRelatedInput = {
@@ -38020,6 +40290,7 @@ export namespace Prisma {
     notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
     serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutNotificationsRelatedInput = {
@@ -38051,6 +40322,7 @@ export namespace Prisma {
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
     serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
     embedsCreated?: EmbedUncheckedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ServerUpsertWithoutNotificationsRelatedInput = {
@@ -38079,6 +40351,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUpdateManyWithoutServerNestedInput
     events?: ServerEventUpdateManyWithoutServerNestedInput
     embeds?: EmbedUpdateManyWithoutServerNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutNotificationsRelatedInput = {
@@ -38096,6 +40369,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutServerNestedInput
     events?: ServerEventUncheckedUpdateManyWithoutServerNestedInput
     embeds?: EmbedUncheckedUpdateManyWithoutServerNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type ServerCreateWithoutEventsInput = {
@@ -38113,6 +40387,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowCreateNestedManyWithoutServerInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedServerInput
     embeds?: EmbedCreateNestedManyWithoutServerInput
+    scheduledAnnouncements?: ScheduledAnnouncementCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateWithoutEventsInput = {
@@ -38130,6 +40405,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutServerInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedServerInput
     embeds?: EmbedUncheckedCreateNestedManyWithoutServerInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerCreateOrConnectWithoutEventsInput = {
@@ -38166,6 +40442,7 @@ export namespace Prisma {
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
     embedsCreated?: EmbedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutServerEventsCreatedInput = {
@@ -38197,6 +40474,7 @@ export namespace Prisma {
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
     embedsCreated?: EmbedUncheckedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutServerEventsCreatedInput = {
@@ -38216,6 +40494,7 @@ export namespace Prisma {
     threads?: ThreadCreateNestedManyWithoutChannelInput
     textEvents?: ServerEventCreateNestedManyWithoutTextChannelInput
     embeds?: EmbedCreateNestedManyWithoutChannelInput
+    scheduledAnnouncements?: ScheduledAnnouncementCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelUncheckedCreateWithoutVoiceEventsInput = {
@@ -38230,6 +40509,7 @@ export namespace Prisma {
     threads?: ThreadUncheckedCreateNestedManyWithoutChannelInput
     textEvents?: ServerEventUncheckedCreateNestedManyWithoutTextChannelInput
     embeds?: EmbedUncheckedCreateNestedManyWithoutChannelInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelCreateOrConnectWithoutVoiceEventsInput = {
@@ -38249,6 +40529,7 @@ export namespace Prisma {
     threads?: ThreadCreateNestedManyWithoutChannelInput
     voiceEvents?: ServerEventCreateNestedManyWithoutVoiceChannelInput
     embeds?: EmbedCreateNestedManyWithoutChannelInput
+    scheduledAnnouncements?: ScheduledAnnouncementCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelUncheckedCreateWithoutTextEventsInput = {
@@ -38263,6 +40544,7 @@ export namespace Prisma {
     threads?: ThreadUncheckedCreateNestedManyWithoutChannelInput
     voiceEvents?: ServerEventUncheckedCreateNestedManyWithoutVoiceChannelInput
     embeds?: EmbedUncheckedCreateNestedManyWithoutChannelInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelCreateOrConnectWithoutTextEventsInput = {
@@ -38296,6 +40578,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUpdateManyWithoutServerNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedServerNestedInput
     embeds?: EmbedUpdateManyWithoutServerNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutEventsInput = {
@@ -38313,6 +40596,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutServerNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedServerNestedInput
     embeds?: EmbedUncheckedUpdateManyWithoutServerNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type ProfileUpsertWithoutServerEventsCreatedInput = {
@@ -38355,6 +40639,7 @@ export namespace Prisma {
     notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
     embedsCreated?: EmbedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutServerEventsCreatedInput = {
@@ -38386,6 +40671,7 @@ export namespace Prisma {
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
     embedsCreated?: EmbedUncheckedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ChannelUpsertWithoutVoiceEventsInput = {
@@ -38411,6 +40697,7 @@ export namespace Prisma {
     threads?: ThreadUpdateManyWithoutChannelNestedInput
     textEvents?: ServerEventUpdateManyWithoutTextChannelNestedInput
     embeds?: EmbedUpdateManyWithoutChannelNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUpdateManyWithoutChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateWithoutVoiceEventsInput = {
@@ -38425,6 +40712,7 @@ export namespace Prisma {
     threads?: ThreadUncheckedUpdateManyWithoutChannelNestedInput
     textEvents?: ServerEventUncheckedUpdateManyWithoutTextChannelNestedInput
     embeds?: EmbedUncheckedUpdateManyWithoutChannelNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedUpdateManyWithoutChannelNestedInput
   }
 
   export type ChannelUpsertWithoutTextEventsInput = {
@@ -38450,6 +40738,7 @@ export namespace Prisma {
     threads?: ThreadUpdateManyWithoutChannelNestedInput
     voiceEvents?: ServerEventUpdateManyWithoutVoiceChannelNestedInput
     embeds?: EmbedUpdateManyWithoutChannelNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUpdateManyWithoutChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateWithoutTextEventsInput = {
@@ -38464,6 +40753,7 @@ export namespace Prisma {
     threads?: ThreadUncheckedUpdateManyWithoutChannelNestedInput
     voiceEvents?: ServerEventUncheckedUpdateManyWithoutVoiceChannelNestedInput
     embeds?: EmbedUncheckedUpdateManyWithoutChannelNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedUpdateManyWithoutChannelNestedInput
   }
 
   export type ServerCreateWithoutEmbedsInput = {
@@ -38481,6 +40771,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowCreateNestedManyWithoutServerInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedServerInput
     events?: ServerEventCreateNestedManyWithoutServerInput
+    scheduledAnnouncements?: ScheduledAnnouncementCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateWithoutEmbedsInput = {
@@ -38498,6 +40789,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutServerInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedServerInput
     events?: ServerEventUncheckedCreateNestedManyWithoutServerInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerCreateOrConnectWithoutEmbedsInput = {
@@ -38517,6 +40809,7 @@ export namespace Prisma {
     threads?: ThreadCreateNestedManyWithoutChannelInput
     voiceEvents?: ServerEventCreateNestedManyWithoutVoiceChannelInput
     textEvents?: ServerEventCreateNestedManyWithoutTextChannelInput
+    scheduledAnnouncements?: ScheduledAnnouncementCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelUncheckedCreateWithoutEmbedsInput = {
@@ -38531,6 +40824,7 @@ export namespace Prisma {
     threads?: ThreadUncheckedCreateNestedManyWithoutChannelInput
     voiceEvents?: ServerEventUncheckedCreateNestedManyWithoutVoiceChannelInput
     textEvents?: ServerEventUncheckedCreateNestedManyWithoutTextChannelInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutChannelInput
   }
 
   export type ChannelCreateOrConnectWithoutEmbedsInput = {
@@ -38567,6 +40861,7 @@ export namespace Prisma {
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileUncheckedCreateWithoutEmbedsCreatedInput = {
@@ -38598,6 +40893,7 @@ export namespace Prisma {
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
     notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
     serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedCreateNestedManyWithoutCreatorProfileInput
   }
 
   export type ProfileCreateOrConnectWithoutEmbedsCreatedInput = {
@@ -38661,6 +40957,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUpdateManyWithoutServerNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedServerNestedInput
     events?: ServerEventUpdateManyWithoutServerNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutEmbedsInput = {
@@ -38678,6 +40975,7 @@ export namespace Prisma {
     serverFollows?: ServerFollowUncheckedUpdateManyWithoutServerNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedServerNestedInput
     events?: ServerEventUncheckedUpdateManyWithoutServerNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type ChannelUpsertWithoutEmbedsInput = {
@@ -38703,6 +41001,7 @@ export namespace Prisma {
     threads?: ThreadUpdateManyWithoutChannelNestedInput
     voiceEvents?: ServerEventUpdateManyWithoutVoiceChannelNestedInput
     textEvents?: ServerEventUpdateManyWithoutTextChannelNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUpdateManyWithoutChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateWithoutEmbedsInput = {
@@ -38717,6 +41016,7 @@ export namespace Prisma {
     threads?: ThreadUncheckedUpdateManyWithoutChannelNestedInput
     voiceEvents?: ServerEventUncheckedUpdateManyWithoutVoiceChannelNestedInput
     textEvents?: ServerEventUncheckedUpdateManyWithoutTextChannelNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedUpdateManyWithoutChannelNestedInput
   }
 
   export type ProfileUpsertWithoutEmbedsCreatedInput = {
@@ -38759,6 +41059,7 @@ export namespace Prisma {
     notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutEmbedsCreatedInput = {
@@ -38790,6 +41091,7 @@ export namespace Prisma {
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
     serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
+    scheduledAnnouncementsCreated?: ScheduledAnnouncementUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type EmbedFieldUpsertWithWhereUniqueWithoutEmbedInput = {
@@ -38920,6 +41222,314 @@ export namespace Prisma {
     creatorProfileId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServerCreateWithoutScheduledAnnouncementsInput = {
+    id?: string
+    name: string
+    imageUrl: string
+    inviteCode: string
+    category?: $Enums.ServerCategory
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    profile: ProfileCreateNestedOneWithoutServersInput
+    members?: MemberCreateNestedManyWithoutServerInput
+    channels?: ChannelCreateNestedManyWithoutServerInput
+    categories?: CategoryCreateNestedManyWithoutServerInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutServerInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedServerInput
+    events?: ServerEventCreateNestedManyWithoutServerInput
+    embeds?: EmbedCreateNestedManyWithoutServerInput
+  }
+
+  export type ServerUncheckedCreateWithoutScheduledAnnouncementsInput = {
+    id?: string
+    name: string
+    imageUrl: string
+    inviteCode: string
+    category?: $Enums.ServerCategory
+    profileId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: MemberUncheckedCreateNestedManyWithoutServerInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutServerInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutServerInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutServerInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedServerInput
+    events?: ServerEventUncheckedCreateNestedManyWithoutServerInput
+    embeds?: EmbedUncheckedCreateNestedManyWithoutServerInput
+  }
+
+  export type ServerCreateOrConnectWithoutScheduledAnnouncementsInput = {
+    where: ServerWhereUniqueInput
+    create: XOR<ServerCreateWithoutScheduledAnnouncementsInput, ServerUncheckedCreateWithoutScheduledAnnouncementsInput>
+  }
+
+  export type ChannelCreateWithoutScheduledAnnouncementsInput = {
+    id?: string
+    name: string
+    type?: $Enums.ChannelType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    profile: ProfileCreateNestedOneWithoutChannelsInput
+    server: ServerCreateNestedOneWithoutChannelsInput
+    category?: CategoryCreateNestedOneWithoutChannelsInput
+    threads?: ThreadCreateNestedManyWithoutChannelInput
+    voiceEvents?: ServerEventCreateNestedManyWithoutVoiceChannelInput
+    textEvents?: ServerEventCreateNestedManyWithoutTextChannelInput
+    embeds?: EmbedCreateNestedManyWithoutChannelInput
+  }
+
+  export type ChannelUncheckedCreateWithoutScheduledAnnouncementsInput = {
+    id?: string
+    name: string
+    type?: $Enums.ChannelType
+    profileId: string
+    serverId: string
+    categoryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    threads?: ThreadUncheckedCreateNestedManyWithoutChannelInput
+    voiceEvents?: ServerEventUncheckedCreateNestedManyWithoutVoiceChannelInput
+    textEvents?: ServerEventUncheckedCreateNestedManyWithoutTextChannelInput
+    embeds?: EmbedUncheckedCreateNestedManyWithoutChannelInput
+  }
+
+  export type ChannelCreateOrConnectWithoutScheduledAnnouncementsInput = {
+    where: ChannelWhereUniqueInput
+    create: XOR<ChannelCreateWithoutScheduledAnnouncementsInput, ChannelUncheckedCreateWithoutScheduledAnnouncementsInput>
+  }
+
+  export type ProfileCreateWithoutScheduledAnnouncementsCreatedInput = {
+    id?: string
+    userId: string
+    name: string
+    nickname?: string | null
+    imageUrl: string
+    email: string
+    status?: $Enums.UserStatus
+    bio?: string | null
+    website?: string | null
+    socialMedia?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    servers?: ServerCreateNestedManyWithoutProfileInput
+    members?: MemberCreateNestedManyWithoutProfileInput
+    channels?: ChannelCreateNestedManyWithoutProfileInput
+    conversations?: ConversationCreateNestedManyWithoutProfileInput
+    groupConversations?: GroupConversationMemberCreateNestedManyWithoutProfileInput
+    groupConversationsCreated?: GroupConversationCreateNestedManyWithoutProfileInput
+    friendRequestsSent?: FriendRequestCreateNestedManyWithoutRequesterProfileInput
+    friendRequestsReceived?: FriendRequestCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventCreateNestedManyWithoutCreatorProfileInput
+    embedsCreated?: EmbedCreateNestedManyWithoutCreatorProfileInput
+  }
+
+  export type ProfileUncheckedCreateWithoutScheduledAnnouncementsCreatedInput = {
+    id?: string
+    userId: string
+    name: string
+    nickname?: string | null
+    imageUrl: string
+    email: string
+    status?: $Enums.UserStatus
+    bio?: string | null
+    website?: string | null
+    socialMedia?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    servers?: ServerUncheckedCreateNestedManyWithoutProfileInput
+    members?: MemberUncheckedCreateNestedManyWithoutProfileInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutProfileInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutProfileInput
+    groupConversations?: GroupConversationMemberUncheckedCreateNestedManyWithoutProfileInput
+    groupConversationsCreated?: GroupConversationUncheckedCreateNestedManyWithoutProfileInput
+    friendRequestsSent?: FriendRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    friendRequestsReceived?: FriendRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    messageRequestsSent?: MessageRequestUncheckedCreateNestedManyWithoutRequesterProfileInput
+    messageRequestsReceived?: MessageRequestUncheckedCreateNestedManyWithoutTargetProfileInput
+    followsSent?: FollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    followsReceived?: FollowUncheckedCreateNestedManyWithoutFollowingProfileInput
+    serverFollows?: ServerFollowUncheckedCreateNestedManyWithoutFollowerProfileInput
+    notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientProfileInput
+    notificationsRelated?: NotificationUncheckedCreateNestedManyWithoutRelatedProfileInput
+    serverEventsCreated?: ServerEventUncheckedCreateNestedManyWithoutCreatorProfileInput
+    embedsCreated?: EmbedUncheckedCreateNestedManyWithoutCreatorProfileInput
+  }
+
+  export type ProfileCreateOrConnectWithoutScheduledAnnouncementsCreatedInput = {
+    where: ProfileWhereUniqueInput
+    create: XOR<ProfileCreateWithoutScheduledAnnouncementsCreatedInput, ProfileUncheckedCreateWithoutScheduledAnnouncementsCreatedInput>
+  }
+
+  export type ServerUpsertWithoutScheduledAnnouncementsInput = {
+    update: XOR<ServerUpdateWithoutScheduledAnnouncementsInput, ServerUncheckedUpdateWithoutScheduledAnnouncementsInput>
+    create: XOR<ServerCreateWithoutScheduledAnnouncementsInput, ServerUncheckedCreateWithoutScheduledAnnouncementsInput>
+    where?: ServerWhereInput
+  }
+
+  export type ServerUpdateToOneWithWhereWithoutScheduledAnnouncementsInput = {
+    where?: ServerWhereInput
+    data: XOR<ServerUpdateWithoutScheduledAnnouncementsInput, ServerUncheckedUpdateWithoutScheduledAnnouncementsInput>
+  }
+
+  export type ServerUpdateWithoutScheduledAnnouncementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    category?: EnumServerCategoryFieldUpdateOperationsInput | $Enums.ServerCategory
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    profile?: ProfileUpdateOneRequiredWithoutServersNestedInput
+    members?: MemberUpdateManyWithoutServerNestedInput
+    channels?: ChannelUpdateManyWithoutServerNestedInput
+    categories?: CategoryUpdateManyWithoutServerNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutServerNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedServerNestedInput
+    events?: ServerEventUpdateManyWithoutServerNestedInput
+    embeds?: EmbedUpdateManyWithoutServerNestedInput
+  }
+
+  export type ServerUncheckedUpdateWithoutScheduledAnnouncementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    category?: EnumServerCategoryFieldUpdateOperationsInput | $Enums.ServerCategory
+    profileId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: MemberUncheckedUpdateManyWithoutServerNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutServerNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutServerNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutServerNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedServerNestedInput
+    events?: ServerEventUncheckedUpdateManyWithoutServerNestedInput
+    embeds?: EmbedUncheckedUpdateManyWithoutServerNestedInput
+  }
+
+  export type ChannelUpsertWithoutScheduledAnnouncementsInput = {
+    update: XOR<ChannelUpdateWithoutScheduledAnnouncementsInput, ChannelUncheckedUpdateWithoutScheduledAnnouncementsInput>
+    create: XOR<ChannelCreateWithoutScheduledAnnouncementsInput, ChannelUncheckedCreateWithoutScheduledAnnouncementsInput>
+    where?: ChannelWhereInput
+  }
+
+  export type ChannelUpdateToOneWithWhereWithoutScheduledAnnouncementsInput = {
+    where?: ChannelWhereInput
+    data: XOR<ChannelUpdateWithoutScheduledAnnouncementsInput, ChannelUncheckedUpdateWithoutScheduledAnnouncementsInput>
+  }
+
+  export type ChannelUpdateWithoutScheduledAnnouncementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumChannelTypeFieldUpdateOperationsInput | $Enums.ChannelType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    profile?: ProfileUpdateOneRequiredWithoutChannelsNestedInput
+    server?: ServerUpdateOneRequiredWithoutChannelsNestedInput
+    category?: CategoryUpdateOneWithoutChannelsNestedInput
+    threads?: ThreadUpdateManyWithoutChannelNestedInput
+    voiceEvents?: ServerEventUpdateManyWithoutVoiceChannelNestedInput
+    textEvents?: ServerEventUpdateManyWithoutTextChannelNestedInput
+    embeds?: EmbedUpdateManyWithoutChannelNestedInput
+  }
+
+  export type ChannelUncheckedUpdateWithoutScheduledAnnouncementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumChannelTypeFieldUpdateOperationsInput | $Enums.ChannelType
+    profileId?: StringFieldUpdateOperationsInput | string
+    serverId?: StringFieldUpdateOperationsInput | string
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    threads?: ThreadUncheckedUpdateManyWithoutChannelNestedInput
+    voiceEvents?: ServerEventUncheckedUpdateManyWithoutVoiceChannelNestedInput
+    textEvents?: ServerEventUncheckedUpdateManyWithoutTextChannelNestedInput
+    embeds?: EmbedUncheckedUpdateManyWithoutChannelNestedInput
+  }
+
+  export type ProfileUpsertWithoutScheduledAnnouncementsCreatedInput = {
+    update: XOR<ProfileUpdateWithoutScheduledAnnouncementsCreatedInput, ProfileUncheckedUpdateWithoutScheduledAnnouncementsCreatedInput>
+    create: XOR<ProfileCreateWithoutScheduledAnnouncementsCreatedInput, ProfileUncheckedCreateWithoutScheduledAnnouncementsCreatedInput>
+    where?: ProfileWhereInput
+  }
+
+  export type ProfileUpdateToOneWithWhereWithoutScheduledAnnouncementsCreatedInput = {
+    where?: ProfileWhereInput
+    data: XOR<ProfileUpdateWithoutScheduledAnnouncementsCreatedInput, ProfileUncheckedUpdateWithoutScheduledAnnouncementsCreatedInput>
+  }
+
+  export type ProfileUpdateWithoutScheduledAnnouncementsCreatedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    socialMedia?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    servers?: ServerUpdateManyWithoutProfileNestedInput
+    members?: MemberUpdateManyWithoutProfileNestedInput
+    channels?: ChannelUpdateManyWithoutProfileNestedInput
+    conversations?: ConversationUpdateManyWithoutProfileNestedInput
+    groupConversations?: GroupConversationMemberUpdateManyWithoutProfileNestedInput
+    groupConversationsCreated?: GroupConversationUpdateManyWithoutProfileNestedInput
+    friendRequestsSent?: FriendRequestUpdateManyWithoutRequesterProfileNestedInput
+    friendRequestsReceived?: FriendRequestUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUpdateManyWithoutCreatorProfileNestedInput
+    embedsCreated?: EmbedUpdateManyWithoutCreatorProfileNestedInput
+  }
+
+  export type ProfileUncheckedUpdateWithoutScheduledAnnouncementsCreatedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    socialMedia?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    servers?: ServerUncheckedUpdateManyWithoutProfileNestedInput
+    members?: MemberUncheckedUpdateManyWithoutProfileNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutProfileNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutProfileNestedInput
+    groupConversations?: GroupConversationMemberUncheckedUpdateManyWithoutProfileNestedInput
+    groupConversationsCreated?: GroupConversationUncheckedUpdateManyWithoutProfileNestedInput
+    friendRequestsSent?: FriendRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    friendRequestsReceived?: FriendRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    messageRequestsSent?: MessageRequestUncheckedUpdateManyWithoutRequesterProfileNestedInput
+    messageRequestsReceived?: MessageRequestUncheckedUpdateManyWithoutTargetProfileNestedInput
+    followsSent?: FollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    followsReceived?: FollowUncheckedUpdateManyWithoutFollowingProfileNestedInput
+    serverFollows?: ServerFollowUncheckedUpdateManyWithoutFollowerProfileNestedInput
+    notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientProfileNestedInput
+    notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedProfileNestedInput
+    serverEventsCreated?: ServerEventUncheckedUpdateManyWithoutCreatorProfileNestedInput
+    embedsCreated?: EmbedUncheckedUpdateManyWithoutCreatorProfileNestedInput
   }
 
   export type ServerCreateManyProfileInput = {
@@ -39086,6 +41696,21 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ScheduledAnnouncementCreateManyCreatorProfileInput = {
+    id?: string
+    title: string
+    message: string
+    serverId: string
+    channelId: string
+    scheduleType: $Enums.ScheduleType
+    scheduleData: JsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ServerUpdateWithoutProfileInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -39101,6 +41726,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUpdateManyWithoutRelatedServerNestedInput
     events?: ServerEventUpdateManyWithoutServerNestedInput
     embeds?: EmbedUpdateManyWithoutServerNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutProfileInput = {
@@ -39118,6 +41744,7 @@ export namespace Prisma {
     notificationsRelated?: NotificationUncheckedUpdateManyWithoutRelatedServerNestedInput
     events?: ServerEventUncheckedUpdateManyWithoutServerNestedInput
     embeds?: EmbedUncheckedUpdateManyWithoutServerNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateManyWithoutProfileInput = {
@@ -39176,6 +41803,7 @@ export namespace Prisma {
     voiceEvents?: ServerEventUpdateManyWithoutVoiceChannelNestedInput
     textEvents?: ServerEventUpdateManyWithoutTextChannelNestedInput
     embeds?: EmbedUpdateManyWithoutChannelNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUpdateManyWithoutChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateWithoutProfileInput = {
@@ -39190,6 +41818,7 @@ export namespace Prisma {
     voiceEvents?: ServerEventUncheckedUpdateManyWithoutVoiceChannelNestedInput
     textEvents?: ServerEventUncheckedUpdateManyWithoutTextChannelNestedInput
     embeds?: EmbedUncheckedUpdateManyWithoutChannelNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedUpdateManyWithoutChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateManyWithoutProfileInput = {
@@ -39618,6 +42247,51 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ScheduledAnnouncementUpdateWithoutCreatorProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    scheduleType?: EnumScheduleTypeFieldUpdateOperationsInput | $Enums.ScheduleType
+    scheduleData?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    server?: ServerUpdateOneRequiredWithoutScheduledAnnouncementsNestedInput
+    channel?: ChannelUpdateOneRequiredWithoutScheduledAnnouncementsNestedInput
+  }
+
+  export type ScheduledAnnouncementUncheckedUpdateWithoutCreatorProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    serverId?: StringFieldUpdateOperationsInput | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    scheduleType?: EnumScheduleTypeFieldUpdateOperationsInput | $Enums.ScheduleType
+    scheduleData?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduledAnnouncementUncheckedUpdateManyWithoutCreatorProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    serverId?: StringFieldUpdateOperationsInput | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    scheduleType?: EnumScheduleTypeFieldUpdateOperationsInput | $Enums.ScheduleType
+    scheduleData?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type MemberCreateManyServerInput = {
     id?: string
     role?: $Enums.MemberRole
@@ -39697,6 +42371,21 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ScheduledAnnouncementCreateManyServerInput = {
+    id?: string
+    title: string
+    message: string
+    channelId: string
+    creatorProfileId: string
+    scheduleType: $Enums.ScheduleType
+    scheduleData: JsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type MemberUpdateWithoutServerInput = {
     id?: StringFieldUpdateOperationsInput | string
     role?: EnumMemberRoleFieldUpdateOperationsInput | $Enums.MemberRole
@@ -39743,6 +42432,7 @@ export namespace Prisma {
     voiceEvents?: ServerEventUpdateManyWithoutVoiceChannelNestedInput
     textEvents?: ServerEventUpdateManyWithoutTextChannelNestedInput
     embeds?: EmbedUpdateManyWithoutChannelNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUpdateManyWithoutChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateWithoutServerInput = {
@@ -39757,6 +42447,7 @@ export namespace Prisma {
     voiceEvents?: ServerEventUncheckedUpdateManyWithoutVoiceChannelNestedInput
     textEvents?: ServerEventUncheckedUpdateManyWithoutTextChannelNestedInput
     embeds?: EmbedUncheckedUpdateManyWithoutChannelNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedUpdateManyWithoutChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateManyWithoutServerInput = {
@@ -39952,6 +42643,51 @@ export namespace Prisma {
     timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     channelId?: NullableStringFieldUpdateOperationsInput | string | null
     creatorProfileId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduledAnnouncementUpdateWithoutServerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    scheduleType?: EnumScheduleTypeFieldUpdateOperationsInput | $Enums.ScheduleType
+    scheduleData?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    channel?: ChannelUpdateOneRequiredWithoutScheduledAnnouncementsNestedInput
+    creatorProfile?: ProfileUpdateOneRequiredWithoutScheduledAnnouncementsCreatedNestedInput
+  }
+
+  export type ScheduledAnnouncementUncheckedUpdateWithoutServerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    creatorProfileId?: StringFieldUpdateOperationsInput | string
+    scheduleType?: EnumScheduleTypeFieldUpdateOperationsInput | $Enums.ScheduleType
+    scheduleData?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduledAnnouncementUncheckedUpdateManyWithoutServerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    creatorProfileId?: StringFieldUpdateOperationsInput | string
+    scheduleType?: EnumScheduleTypeFieldUpdateOperationsInput | $Enums.ScheduleType
+    scheduleData?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -40203,6 +42939,21 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ScheduledAnnouncementCreateManyChannelInput = {
+    id?: string
+    title: string
+    message: string
+    serverId: string
+    creatorProfileId: string
+    scheduleType: $Enums.ScheduleType
+    scheduleData: JsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ThreadUpdateWithoutChannelInput = {
     id?: StringFieldUpdateOperationsInput | string
     parentMessageId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -40394,6 +43145,51 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ScheduledAnnouncementUpdateWithoutChannelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    scheduleType?: EnumScheduleTypeFieldUpdateOperationsInput | $Enums.ScheduleType
+    scheduleData?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    server?: ServerUpdateOneRequiredWithoutScheduledAnnouncementsNestedInput
+    creatorProfile?: ProfileUpdateOneRequiredWithoutScheduledAnnouncementsCreatedNestedInput
+  }
+
+  export type ScheduledAnnouncementUncheckedUpdateWithoutChannelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    serverId?: StringFieldUpdateOperationsInput | string
+    creatorProfileId?: StringFieldUpdateOperationsInput | string
+    scheduleType?: EnumScheduleTypeFieldUpdateOperationsInput | $Enums.ScheduleType
+    scheduleData?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduledAnnouncementUncheckedUpdateManyWithoutChannelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    serverId?: StringFieldUpdateOperationsInput | string
+    creatorProfileId?: StringFieldUpdateOperationsInput | string
+    scheduleType?: EnumScheduleTypeFieldUpdateOperationsInput | $Enums.ScheduleType
+    scheduleData?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ChannelCreateManyCategoryInput = {
     id?: string
     name: string
@@ -40416,6 +43212,7 @@ export namespace Prisma {
     voiceEvents?: ServerEventUpdateManyWithoutVoiceChannelNestedInput
     textEvents?: ServerEventUpdateManyWithoutTextChannelNestedInput
     embeds?: EmbedUpdateManyWithoutChannelNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUpdateManyWithoutChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateWithoutCategoryInput = {
@@ -40430,6 +43227,7 @@ export namespace Prisma {
     voiceEvents?: ServerEventUncheckedUpdateManyWithoutVoiceChannelNestedInput
     textEvents?: ServerEventUncheckedUpdateManyWithoutTextChannelNestedInput
     embeds?: EmbedUncheckedUpdateManyWithoutChannelNestedInput
+    scheduledAnnouncements?: ScheduledAnnouncementUncheckedUpdateManyWithoutChannelNestedInput
   }
 
   export type ChannelUncheckedUpdateManyWithoutCategoryInput = {

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ChevronLeft, ChevronRight, Users, Activity } from "lucide-react";
+import { ChevronLeft, ChevronRight, Users, Activity, Megaphone } from "lucide-react";
 import { useModal } from "@/hooks/use-modal-store";
 
 interface ActiveNowSidebarProps {
@@ -18,6 +18,7 @@ export const ActiveNowSidebar = ({ initialCollapsed = false, collapsed, onToggle
   const [activeFriends, setActiveFriends] = useState<any[]>([]);
   const [followedUsers, setFollowedUsers] = useState<any[]>([]);
   const [followedServers, setFollowedServers] = useState<any[]>([]);
+  const [recentAnnouncements, setRecentAnnouncements] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { onOpen } = useModal();
   const isCollapsed = typeof collapsed === 'boolean' ? collapsed : internalCollapsed;
@@ -54,6 +55,13 @@ export const ActiveNowSidebar = ({ initialCollapsed = false, collapsed, onToggle
       if (serverFollowsResponse.ok) {
         const serverFollowsData = await serverFollowsResponse.json();
         setFollowedServers(serverFollowsData.following || []);
+      }
+
+      // Fetch recent announcements
+      const announcementsResponse = await fetch("/api/announcements/recent?limit=5");
+      if (announcementsResponse.ok) {
+        const announcementsData = await announcementsResponse.json();
+        setRecentAnnouncements(announcementsData || []);
       }
     } catch (error) {
       console.error("Failed to fetch data:", error);
@@ -199,8 +207,58 @@ export const ActiveNowSidebar = ({ initialCollapsed = false, collapsed, onToggle
                   </div>
                 )}
 
+                {/* Recent Announcements Section */}
+                {recentAnnouncements.length > 0 && (
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <Megaphone className="h-4 w-4 text-gray-400" />
+                      <h3 className="text-sm font-semibold text-gray-400">
+                        Recent Announcements — {recentAnnouncements.length}
+                      </h3>
+                    </div>
+                    <div className="space-y-2">
+                      {recentAnnouncements.map((announcement) => (
+                        <div key={announcement.id} className="p-2 rounded-lg hover:bg-[#1E1F22] cursor-pointer">
+                          <div className="flex items-start space-x-3">
+                            <Avatar className="w-8 h-8 flex-shrink-0">
+                              <AvatarImage src={announcement.server.imageUrl} />
+                              <AvatarFallback className="bg-orange-500">
+                                <span className="text-white text-xs font-semibold">
+                                  {announcement.server.name.charAt(0).toUpperCase()}
+                                </span>
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-1 mb-1">
+                                <p className="text-xs text-white font-medium truncate">
+                                  {announcement.title}
+                                </p>
+                                <span className="text-xs text-gray-400">•</span>
+                                <p className="text-xs text-gray-400 truncate">
+                                  {announcement.server.name}
+                                </p>
+                              </div>
+                              <p className="text-xs text-gray-400 line-clamp-2">
+                                {announcement.message.length > 60 
+                                  ? announcement.message.substring(0, 60) + "..." 
+                                  : announcement.message
+                                }
+                              </p>
+                              {announcement.lastSentAt && (
+                                <p className="text-xs text-gray-500 mt-1">
+                                  Sent {new Date(announcement.lastSentAt).toLocaleDateString()}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {/* Empty State */}
-                {activeFriends.length === 0 && followedUsers.length === 0 && followedServers.length === 0 && (
+                {activeFriends.length === 0 && followedUsers.length === 0 && followedServers.length === 0 && recentAnnouncements.length === 0 && (
                   <div className="text-center py-8">
                     <div className="text-gray-400 text-sm">
                       <p className="mb-2">It's quiet for now...</p>

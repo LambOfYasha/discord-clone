@@ -329,6 +329,22 @@ exports.Prisma.EmbedFieldScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ScheduledAnnouncementScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  message: 'message',
+  serverId: 'serverId',
+  channelId: 'channelId',
+  creatorProfileId: 'creatorProfileId',
+  scheduleType: 'scheduleType',
+  scheduleData: 'scheduleData',
+  isActive: 'isActive',
+  lastSentAt: 'lastSentAt',
+  nextSendAt: 'nextSendAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -336,6 +352,10 @@ exports.Prisma.SortOrder = {
 
 exports.Prisma.NullableJsonNullValueInput = {
   DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
@@ -419,6 +439,13 @@ exports.OtherEventLocationType = exports.$Enums.OtherEventLocationType = {
   LOCATION: 'LOCATION'
 };
 
+exports.ScheduleType = exports.$Enums.ScheduleType = {
+  DAILY: 'DAILY',
+  WEEKLY: 'WEEKLY',
+  MONTHLY: 'MONTHLY',
+  CUSTOM: 'CUSTOM'
+};
+
 exports.Prisma.ModelName = {
   Profile: 'Profile',
   Server: 'Server',
@@ -438,7 +465,8 @@ exports.Prisma.ModelName = {
   Notification: 'Notification',
   ServerEvent: 'ServerEvent',
   Embed: 'Embed',
-  EmbedField: 'EmbedField'
+  EmbedField: 'EmbedField',
+  ScheduledAnnouncement: 'ScheduledAnnouncement'
 };
 
 /**

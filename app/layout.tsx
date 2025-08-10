@@ -9,6 +9,9 @@ import { QueryProvider } from "@/components/providers/query-provider";
 import { ImageErrorDebugger } from "@/components/debug/image-error-debugger";
 import { Toaster } from "sonner";
 
+// Initialize the announcement scheduler
+import "@/lib/init-scheduler";
+
 // Use local font instead of Google Fonts to avoid Turbopack issues
 const inter = {
   className: "font-sans",

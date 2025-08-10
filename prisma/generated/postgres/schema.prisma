@@ -22,44 +22,46 @@ model Profile {
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 
-  servers                   Server[]
-  members                   Member[]
-  channels                  Channel[]
-  conversations             Conversation[]
-  groupConversations        GroupConversationMember[]
-  groupConversationsCreated GroupConversation[]
-  friendRequestsSent        FriendRequest[]           @relation("FriendRequestRequester")
-  friendRequestsReceived    FriendRequest[]           @relation("FriendRequestTarget")
-  messageRequestsSent       MessageRequest[]          @relation("MessageRequestRequester")
-  messageRequestsReceived   MessageRequest[]          @relation("MessageRequestTarget")
-  followsSent               Follow[]                  @relation("FollowerProfile")
-  followsReceived           Follow[]                  @relation("FollowingProfile")
-  serverFollows             ServerFollow[]            @relation("ServerFollowerProfile")
-  notificationsReceived     Notification[]            @relation("NotificationRecipient")
-  notificationsRelated      Notification[]            @relation("NotificationRelatedProfile")
-  serverEventsCreated       ServerEvent[]             @relation("ProfileCreatedEvents")
-  embedsCreated             Embed[]                   @relation("ProfileCreatedEmbeds")
+  servers                       Server[]
+  members                       Member[]
+  channels                      Channel[]
+  conversations                 Conversation[]
+  groupConversations            GroupConversationMember[]
+  groupConversationsCreated     GroupConversation[]
+  friendRequestsSent            FriendRequest[]           @relation("FriendRequestRequester")
+  friendRequestsReceived        FriendRequest[]           @relation("FriendRequestTarget")
+  messageRequestsSent           MessageRequest[]          @relation("MessageRequestRequester")
+  messageRequestsReceived       MessageRequest[]          @relation("MessageRequestTarget")
+  followsSent                   Follow[]                  @relation("FollowerProfile")
+  followsReceived               Follow[]                  @relation("FollowingProfile")
+  serverFollows                 ServerFollow[]            @relation("ServerFollowerProfile")
+  notificationsReceived         Notification[]            @relation("NotificationRecipient")
+  notificationsRelated          Notification[]            @relation("NotificationRelatedProfile")
+  serverEventsCreated           ServerEvent[]             @relation("ProfileCreatedEvents")
+  embedsCreated                 Embed[]                   @relation("ProfileCreatedEmbeds")
+  scheduledAnnouncementsCreated ScheduledAnnouncement[]   @relation("ProfileCreatedAnnouncements")
 
   @@map("profiles")
 }
 
 model Server {
-  id                   String         @id @default(uuid())
-  name                 String
-  imageUrl             String
-  inviteCode           String         @unique
-  category             ServerCategory @default(POPULAR)
-  profileId            String
-  profile              Profile        @relation(fields: [profileId], references: [id], onDelete: Cascade)
-  members              Member[]
-  channels             Channel[]
-  categories           Category[]
-  serverFollows        ServerFollow[]
-  notificationsRelated Notification[] @relation("NotificationRelatedServer")
-  events               ServerEvent[]
-  embeds               Embed[]
-  createdAt            DateTime       @default(now())
-  updatedAt            DateTime       @updatedAt
+  id                     String                  @id @default(uuid())
+  name                   String
+  imageUrl               String
+  inviteCode             String                  @unique
+  category               ServerCategory          @default(POPULAR)
+  profileId              String
+  profile                Profile                 @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  members                Member[]
+  channels               Channel[]
+  categories             Category[]
+  serverFollows          ServerFollow[]
+  notificationsRelated   Notification[]          @relation("NotificationRelatedServer")
+  events                 ServerEvent[]
+  embeds                 Embed[]
+  scheduledAnnouncements ScheduledAnnouncement[]
+  createdAt              DateTime                @default(now())
+  updatedAt              DateTime                @updatedAt
 
   @@map("servers")
 }
@@ -84,21 +86,22 @@ model Member {
 }
 
 model Channel {
-  id          String        @id @default(uuid())
-  name        String
-  type        ChannelType   @default(TEXT)
-  profileId   String
-  profile     Profile       @relation(fields: [profileId], references: [id], onDelete: Cascade)
-  serverId    String
-  server      Server        @relation(fields: [serverId], references: [id], onDelete: Cascade)
-  categoryId  String?
-  category    Category?     @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-  threads     Thread[]
-  voiceEvents ServerEvent[] @relation("VoiceChannelEvent")
-  textEvents  ServerEvent[] @relation("TextChannelEvent")
-  embeds      Embed[]
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  id                     String                  @id @default(uuid())
+  name                   String
+  type                   ChannelType             @default(TEXT)
+  profileId              String
+  profile                Profile                 @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  serverId               String
+  server                 Server                  @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  categoryId             String?
+  category               Category?               @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  threads                Thread[]
+  voiceEvents            ServerEvent[]           @relation("VoiceChannelEvent")
+  textEvents             ServerEvent[]           @relation("TextChannelEvent")
+  embeds                 Embed[]
+  scheduledAnnouncements ScheduledAnnouncement[]
+  createdAt              DateTime                @default(now())
+  updatedAt              DateTime                @updatedAt
 
   @@map("channels")
 }
@@ -394,6 +397,28 @@ model EmbedField {
   @@map("embed_fields")
 }
 
+// Scheduled Announcements feature
+model ScheduledAnnouncement {
+  id               String       @id @default(uuid())
+  title            String
+  message          String
+  serverId         String
+  server           Server       @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  channelId        String
+  channel          Channel      @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  creatorProfileId String
+  creatorProfile   Profile      @relation("ProfileCreatedAnnouncements", fields: [creatorProfileId], references: [id], onDelete: Cascade)
+  scheduleType     ScheduleType
+  scheduleData     Json // Stores schedule-specific data (cron expression, interval, etc.)
+  isActive         Boolean      @default(true)
+  lastSentAt       DateTime?
+  nextSendAt       DateTime
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  @@map("scheduled_announcements")
+}
+
 enum EventType {
   VOICE
   OTHER
@@ -403,4 +428,11 @@ enum OtherEventLocationType {
   TEXT_CHANNEL
   EXTERNAL
   LOCATION
+}
+
+enum ScheduleType {
+  DAILY
+  WEEKLY
+  MONTHLY
+  CUSTOM
 }
