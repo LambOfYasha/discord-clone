@@ -213,6 +213,21 @@ exports.Prisma.GroupMessageScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.MessageScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  fileUrl: 'fileUrl',
+  memberId: 'memberId',
+  channelId: 'channelId',
+  deleted: 'deleted',
+  pinned: 'pinned',
+  replyTo: 'replyTo',
+  threadId: 'threadId',
+  threadParentId: 'threadParentId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.DirectMessageScalarFieldEnum = {
   id: 'id',
   content: 'content',
@@ -345,6 +360,47 @@ exports.Prisma.ScheduledAnnouncementScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.TicketSystemScalarFieldEnum = {
+  id: 'id',
+  serverId: 'serverId',
+  channelId: 'channelId',
+  isActive: 'isActive',
+  welcomeMessage: 'welcomeMessage',
+  maxOpenTickets: 'maxOpenTickets',
+  autoCloseHours: 'autoCloseHours',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TicketScalarFieldEnum = {
+  id: 'id',
+  ticketNumber: 'ticketNumber',
+  title: 'title',
+  description: 'description',
+  status: 'status',
+  priority: 'priority',
+  category: 'category',
+  requesterProfileId: 'requesterProfileId',
+  assignedProfileId: 'assignedProfileId',
+  serverId: 'serverId',
+  ticketSystemId: 'ticketSystemId',
+  channelId: 'channelId',
+  lastActivity: 'lastActivity',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TicketMessageScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  fileUrl: 'fileUrl',
+  isInternal: 'isInternal',
+  ticketId: 'ticketId',
+  senderProfileId: 'senderProfileId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -446,6 +502,30 @@ exports.ScheduleType = exports.$Enums.ScheduleType = {
   CUSTOM: 'CUSTOM'
 };
 
+exports.TicketStatus = exports.$Enums.TicketStatus = {
+  OPEN: 'OPEN',
+  IN_PROGRESS: 'IN_PROGRESS',
+  WAITING_FOR_USER: 'WAITING_FOR_USER',
+  RESOLVED: 'RESOLVED',
+  CLOSED: 'CLOSED'
+};
+
+exports.TicketPriority = exports.$Enums.TicketPriority = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  URGENT: 'URGENT'
+};
+
+exports.TicketCategory = exports.$Enums.TicketCategory = {
+  GENERAL: 'GENERAL',
+  TECHNICAL: 'TECHNICAL',
+  BILLING: 'BILLING',
+  FEATURE_REQUEST: 'FEATURE_REQUEST',
+  BUG_REPORT: 'BUG_REPORT',
+  OTHER: 'OTHER'
+};
+
 exports.Prisma.ModelName = {
   Profile: 'Profile',
   Server: 'Server',
@@ -456,6 +536,7 @@ exports.Prisma.ModelName = {
   GroupConversation: 'GroupConversation',
   GroupConversationMember: 'GroupConversationMember',
   GroupMessage: 'GroupMessage',
+  Message: 'Message',
   DirectMessage: 'DirectMessage',
   FriendRequest: 'FriendRequest',
   MessageRequest: 'MessageRequest',
@@ -466,7 +547,10 @@ exports.Prisma.ModelName = {
   ServerEvent: 'ServerEvent',
   Embed: 'Embed',
   EmbedField: 'EmbedField',
-  ScheduledAnnouncement: 'ScheduledAnnouncement'
+  ScheduledAnnouncement: 'ScheduledAnnouncement',
+  TicketSystem: 'TicketSystem',
+  Ticket: 'Ticket',
+  TicketMessage: 'TicketMessage'
 };
 
 /**

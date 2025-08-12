@@ -40,6 +40,9 @@ model Profile {
   serverEventsCreated ServerEvent[] @relation("ProfileCreatedEvents")
   embedsCreated Embed[] @relation("ProfileCreatedEmbeds")
   scheduledAnnouncementsCreated ScheduledAnnouncement[] @relation("ProfileCreatedAnnouncements")
+  ticketsRequested Ticket[] @relation("TicketRequester")
+  ticketsAssigned Ticket[] @relation("TicketAssigned")
+  ticketMessagesSent TicketMessage[] @relation("TicketMessageSender")
 
   @@map("profiles")
 }
@@ -60,6 +63,8 @@ model Server {
   events ServerEvent[]
   embeds Embed[]
   scheduledAnnouncements ScheduledAnnouncement[]
+  ticketSystem TicketSystem?
+  tickets Ticket[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -78,6 +83,7 @@ model Member {
   groupConversations GroupConversationMember[]
   groupMessages GroupMessage[]
   directMessages DirectMessage[]
+  messages Message[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -100,6 +106,9 @@ model Channel {
   textEvents ServerEvent[] @relation("TextChannelEvent")
   embeds Embed[]
   scheduledAnnouncements ScheduledAnnouncement[]
+  ticketSystem TicketSystem?
+  tickets Ticket[]
+  messages Message[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -177,6 +186,25 @@ model GroupMessage {
   updatedAt DateTime @updatedAt
 
   @@map("group_messages")
+}
+
+model Message {
+  id String @id @default(uuid())
+  content String
+  fileUrl String?
+  memberId String
+  channelId String
+  deleted Boolean @default(false)
+  pinned Boolean @default(false)
+  replyTo String?
+  threadId String?
+  threadParentId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  channel Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+  @@map("messages")
 }
 
 model DirectMessage {
@@ -435,4 +463,87 @@ enum ScheduleType {
   WEEKLY
   MONTHLY
   CUSTOM
+}
+
+// Ticket Support System
+model TicketSystem {
+  id String @id @default(uuid())
+  serverId String @unique
+  server Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  channelId String @unique
+  channel Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  isActive Boolean @default(true)
+  welcomeMessage String? // Message shown when ticket system is accessed
+  maxOpenTickets Int @default(3) // Maximum open tickets per user
+  autoCloseHours Int @default(72) // Auto-close tickets after X hours of inactivity
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tickets Ticket[]
+
+  @@map("ticket_systems")
+}
+
+model Ticket {
+  id String @id @default(uuid())
+  ticketNumber String @unique // Human-readable ticket number like #TICKET-001
+  title String
+  description String
+  status TicketStatus @default(OPEN)
+  priority TicketPriority @default(MEDIUM)
+  category TicketCategory @default(GENERAL)
+  requesterProfileId String
+  requesterProfile Profile @relation("TicketRequester", fields: [requesterProfileId], references: [id], onDelete: Cascade)
+  assignedProfileId String?
+  assignedProfile Profile? @relation("TicketAssigned", fields: [assignedProfileId], references: [id], onDelete: SetNull)
+  serverId String
+  server Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  ticketSystemId String
+  ticketSystem TicketSystem @relation(fields: [ticketSystemId], references: [id], onDelete: Cascade)
+  channelId String?
+  channel Channel? @relation(fields: [channelId], references: [id], onDelete: SetNull)
+  lastActivity DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  messages TicketMessage[]
+
+  @@map("tickets")
+}
+
+model TicketMessage {
+  id String @id @default(uuid())
+  content String
+  fileUrl String?
+  isInternal Boolean @default(false) // Internal notes visible only to staff
+  ticketId String
+  ticket Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  senderProfileId String
+  senderProfile Profile @relation("TicketMessageSender", fields: [senderProfileId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("ticket_messages")
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  WAITING_FOR_USER
+  RESOLVED
+  CLOSED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum TicketCategory {
+  GENERAL
+  TECHNICAL
+  BILLING
+  FEATURE_REQUEST
+  BUG_REPORT
+  OTHER
 }

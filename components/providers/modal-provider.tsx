@@ -28,6 +28,10 @@ import { CreateThreadModal } from "@/components/modals/create-thread-modal";
 import { ForwardMessageModal } from "@/components/modals/forward-message-modal";
 import { CreateEventModal } from "@/components/modals/create-event-modal";
 import { EventsModal } from "@/components/modals/events-modal";
+import { TicketSystemSetupModal } from "@/components/modals/ticket-system-setup-modal";
+import { EditTicketSystemModal } from "@/components/modals/edit-ticket-system-modal";
+import { DeleteTicketSystemModal } from "@/components/modals/delete-ticket-system-modal";
+import { CreateTicketModal } from "@/components/modals/create-ticket-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -70,6 +74,10 @@ export const ModalProvider = () => {
       <ForwardMessageModal />
       <CreateEventModal />
       <EventsModal />
+      <TicketSystemSetupModal />
+      <EditTicketSystemModal />
+      <DeleteTicketSystemModal />
+      <CreateTicketModal />
     </>
   );
 };

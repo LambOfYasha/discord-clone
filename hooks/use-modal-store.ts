@@ -28,9 +28,15 @@ export type ModalType =
   | "createThread"
   | "createEvent"
   | "eventsList"
-  | "forwardMessage";
+  | "forwardMessage"
+  | "ticketSystemSetup"
+  | "editTicketSystem"
+  | "deleteTicketSystem"
+  | "createTicket"
+  | "viewTickets";
 interface ModalData {
   server?: Server;
+  serverId?: string;
   event?: any;
   role?: MemberRole;
   channel?: Channel;
@@ -89,6 +95,15 @@ interface ModalData {
     id: string;
     content: string;
     fileUrl?: string;
+  };
+  ticketSystem?: {
+    id: string;
+    isActive: boolean;
+    channel: {
+      name: string;
+    };
+    maxOpenTickets: number;
+    autoCloseHours: number;
   };
 }
 interface ModalStore {
