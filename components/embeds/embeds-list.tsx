@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Edit, Eye, Trash2, Calendar, User, MessageSquare, Plus } from "lucide-react";
+import { Edit, Eye, Trash2, Calendar, User, MessageSquare, Plus, Clock } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { EmbedWithCreator } from "@/types";
 import { format } from "date-fns";
@@ -67,6 +67,12 @@ export const EmbedsList = ({ embeds, serverId }: EmbedsListProps) => {
                 <Badge variant="secondary">
                   {embed.fields.length} field{embed.fields.length !== 1 ? 's' : ''}
                 </Badge>
+                {embed.isScheduled && (
+                  <Badge variant="outline" className="flex items-center gap-1">
+                    <Clock className="h-3 w-3" />
+                    Scheduled
+                  </Badge>
+                )}
               </div>
             </div>
           </CardHeader>
@@ -75,6 +81,28 @@ export const EmbedsList = ({ embeds, serverId }: EmbedsListProps) => {
               <p className="text-sm text-zinc-600 dark:text-zinc-300 mb-4 line-clamp-2">
                 {embed.description}
               </p>
+            )}
+            
+            {embed.isScheduled && (
+              <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                <div className="flex items-center gap-2 text-sm text-blue-700 dark:text-blue-300">
+                  <Clock className="h-4 w-4" />
+                  <span>
+                    <strong>Next post:</strong> {embed.nextSendAt ? 
+                      format(new Date(embed.nextSendAt), 'MMM d, yyyy \'at\' h:mm a') : 
+                      'Not scheduled'
+                    }
+                  </span>
+                </div>
+                {embed.repeatType !== "none" && (
+                  <div className="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                    Repeats: {embed.repeatType === "daily" ? "Every day" :
+                      embed.repeatType === "weekly" ? "Weekly" :
+                      embed.repeatType === "monthly" ? "Monthly" : "Custom"
+                    }
+                  </div>
+                )}
+              </div>
             )}
             <div className="flex items-center gap-2">
               <Button

@@ -357,6 +357,13 @@ exports.Prisma.EmbedScalarFieldEnum = {
   serverId: 'serverId',
   channelId: 'channelId',
   creatorProfileId: 'creatorProfileId',
+  isScheduled: 'isScheduled',
+  scheduledDate: 'scheduledDate',
+  repeatType: 'repeatType',
+  repeatDays: 'repeatDays',
+  isActive: 'isActive',
+  lastSentAt: 'lastSentAt',
+  nextSendAt: 'nextSendAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

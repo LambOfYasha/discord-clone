@@ -1,118 +1,75 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { toast } from "sonner";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/button";
 
 export default function TestSchedulerPage() {
-  const [isRunning, setIsRunning] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [result, setResult] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
 
-  const checkSchedulerStatus = async () => {
+  const triggerScheduler = async () => {
+    setLoading(true);
     try {
-      const response = await fetch("/api/announcements/start-scheduler");
-      const data = await response.json();
-      setIsRunning(data.isRunning);
-    } catch (error) {
-      console.error("Error checking scheduler status:", error);
-    }
-  };
-
-  const startScheduler = async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetch("/api/announcements/start-scheduler", {
-        method: "POST",
+      const response = await fetch('/api/test-scheduler', {
+        method: 'POST',
       });
       const data = await response.json();
-      
-      if (data.success) {
-        toast.success("Scheduler started successfully!");
-        setIsRunning(true);
-      } else {
-        toast.error("Failed to start scheduler");
-      }
+      setResult(data);
     } catch (error) {
-      console.error("Error starting scheduler:", error);
-      toast.error("Failed to start scheduler");
+      console.error('Error triggering scheduler:', error);
+      setResult({ error: 'Failed to trigger scheduler' });
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
-  const processNow = async () => {
-    setIsLoading(true);
+  const checkScheduledEmbeds = async () => {
+    setLoading(true);
     try {
-      const response = await fetch("/api/announcements/start-scheduler", {
-        method: "PUT",
+      const response = await fetch('/api/test-scheduler', {
+        method: 'GET',
       });
       const data = await response.json();
-      
-      if (data.success) {
-        toast.success("Manual processing completed!");
-      } else {
-        toast.error("Failed to process announcements");
-      }
+      setResult(data);
     } catch (error) {
-      console.error("Error processing announcements:", error);
-      toast.error("Failed to process announcements");
+      console.error('Error checking scheduled embeds:', error);
+      setResult({ error: 'Failed to check scheduled embeds' });
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
-
-  useEffect(() => {
-    checkSchedulerStatus();
-  }, []);
 
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-      <Card>
-        <CardHeader>
-          <CardTitle>Announcement Scheduler Test</CardTitle>
-          <CardDescription>
-            Test and control the announcement scheduler
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-center gap-2">
-            <span>Status:</span>
-            <Badge variant={isRunning ? "default" : "secondary"}>
-              {isRunning ? "Running" : "Stopped"}
-            </Badge>
-          </div>
+    <div className="container mx-auto p-6">
+      <h1 className="text-2xl font-bold mb-6">Scheduler Test Page</h1>
+      
+      <div className="space-y-4">
+        <Button 
+          onClick={triggerScheduler} 
+          disabled={loading}
+          className="mr-4"
+        >
+          {loading ? 'Processing...' : 'Trigger Scheduler'}
+        </Button>
+        
+        <Button 
+          onClick={checkScheduledEmbeds} 
+          disabled={loading}
+          variant="outline"
+        >
+          Check Scheduled Embeds
+        </Button>
+      </div>
 
-          <div className="flex gap-2">
-            <Button 
-              onClick={startScheduler} 
-              disabled={isLoading || isRunning}
-            >
-              {isLoading ? "Starting..." : "Start Scheduler"}
-            </Button>
-            <Button 
-              onClick={processNow} 
-              disabled={isLoading}
-              variant="outline"
-            >
-              Process Now
-            </Button>
-            <Button 
-              onClick={checkSchedulerStatus} 
-              variant="outline"
-            >
-              Refresh Status
-            </Button>
-          </div>
-
-          <div className="text-sm text-muted-foreground">
-            <p>• The scheduler checks for due announcements every minute</p>
-            <p>• Make sure you have active announcements scheduled</p>
-            <p>• Check the console for scheduler logs</p>
-          </div>
-        </CardContent>
-      </Card>
+      {result && (
+        <div className="mt-6">
+          <h2 className="text-lg font-semibold mb-2">Result:</h2>
+          <pre className="bg-gray-100 p-4 rounded overflow-auto">
+            {JSON.stringify(result, null, 2)}
+          </pre>
+        </div>
+      )}
     </div>
   );
 }

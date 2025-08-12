@@ -447,6 +447,14 @@ model Embed {
   channel Channel? @relation(fields: [channelId], references: [id], onDelete: SetNull)
   creatorProfileId String
   creatorProfile Profile @relation("ProfileCreatedEmbeds", fields: [creatorProfileId], references: [id], onDelete: Cascade)
+  // Scheduling fields
+  isScheduled Boolean @default(false)
+  scheduledDate DateTime?
+  repeatType String @default("none") // "none", "daily", "weekly", "monthly"
+  repeatDays Json? // Array of day numbers for weekly repeat
+  isActive Boolean @default(true)
+  lastSentAt DateTime?
+  nextSendAt DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   fields EmbedField[]

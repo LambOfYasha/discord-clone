@@ -30,6 +30,12 @@ export async function POST(
       timestamp,
       channelId,
       fields,
+      // Scheduling data
+      isScheduled,
+      scheduledDate,
+      scheduledTime,
+      repeatType,
+      repeatDays,
     } = body;
 
     // Validate server membership and permissions
@@ -59,6 +65,15 @@ export async function POST(
       return new NextResponse("Forbidden", { status: 403 });
     }
 
+    // Calculate scheduled date and time
+    let scheduledDateTime = null;
+    let nextSendAt = null;
+    
+    if (isScheduled && scheduledDate && scheduledTime) {
+      scheduledDateTime = new Date(`${scheduledDate}T${scheduledTime}`);
+      nextSendAt = scheduledDateTime;
+    }
+
     // Create embed in PostgreSQL (primary database)
     const embed = await db.embed.create({
       data: {
@@ -77,6 +92,13 @@ export async function POST(
         serverId,
         channelId: channelId || null,
         creatorProfileId: profile.id,
+        // Scheduling fields
+        isScheduled: isScheduled || false,
+        scheduledDate: scheduledDateTime,
+        repeatType: repeatType || "none",
+        repeatDays: repeatDays || [],
+        isActive: isScheduled || false,
+        nextSendAt,
       },
     });
 
@@ -102,7 +124,8 @@ export async function POST(
     // MongoDB is only used for messages (which include embed data as JSON)
 
     // Create a message in the selected channel with the embed data
-    if (channelId) {
+    // Only create message immediately if not scheduled
+    if (channelId && !isScheduled) {
       try {
         // Create embed content as JSON string
         const embedContent = JSON.stringify({
@@ -137,6 +160,11 @@ export async function POST(
         console.error("Failed to create embed message:", messageError);
         // Continue even if message creation fails - the embed is still saved
       }
+    }
+
+    // If scheduled, log the scheduling info
+    if (isScheduled) {
+      console.log(`Scheduled embed created: ${embed.id} for ${scheduledDateTime}`);
     }
 
     return NextResponse.json(embed);

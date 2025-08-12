@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
-import { Plus, Trash2, Eye, Save } from "lucide-react";
+import { Plus, Trash2, Eye, Save, Clock, Calendar } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { EmbedPreview } from "./embed-preview";
@@ -36,6 +36,12 @@ interface EmbedData {
   timestamp: string;
   channelId: string;
   fields: EmbedField[];
+  // Scheduling fields
+  isScheduled: boolean;
+  scheduledDate: string;
+  scheduledTime: string;
+  repeatType: "none" | "daily" | "weekly" | "monthly";
+  repeatDays: string[];
 }
 
 interface EmbedCreatorProps {
@@ -63,6 +69,12 @@ export const EmbedCreator = ({ serverId, channels }: EmbedCreatorProps) => {
     timestamp: "",
     channelId: "",
     fields: [],
+    // Scheduling defaults
+    isScheduled: false,
+    scheduledDate: "",
+    scheduledTime: "",
+    repeatType: "none",
+    repeatDays: [],
   });
 
   const addField = () => {
@@ -105,6 +117,16 @@ export const EmbedCreator = ({ serverId, channels }: EmbedCreatorProps) => {
       return;
     }
 
+    if (embedData.isScheduled && (!embedData.scheduledDate || !embedData.scheduledTime)) {
+      toast.error("Please select both date and time for scheduled embed");
+      return;
+    }
+
+    if (embedData.isScheduled && embedData.repeatType === "weekly" && embedData.repeatDays.length === 0) {
+      toast.error("Please select at least one day for weekly repeat");
+      return;
+    }
+
     setIsLoading(true);
     try {
       const response = await fetch(`/api/servers/${serverId}/embeds`, {
@@ -115,6 +137,12 @@ export const EmbedCreator = ({ serverId, channels }: EmbedCreatorProps) => {
         body: JSON.stringify({
           ...embedData,
           timestamp: embedData.timestamp ? new Date(embedData.timestamp).toISOString() : null,
+          // Include scheduling data
+          isScheduled: embedData.isScheduled,
+          scheduledDate: embedData.isScheduled ? embedData.scheduledDate : null,
+          scheduledTime: embedData.isScheduled ? embedData.scheduledTime : null,
+          repeatType: embedData.isScheduled ? embedData.repeatType : "none",
+          repeatDays: embedData.isScheduled ? embedData.repeatDays : [],
         }),
       });
 
@@ -317,6 +345,125 @@ export const EmbedCreator = ({ serverId, channels }: EmbedCreatorProps) => {
                 onChange={(e) => setEmbedData(prev => ({ ...prev, timestamp: e.target.value }))}
               />
             </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Clock className="h-5 w-5" />
+              Scheduling
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                id="isScheduled"
+                checked={embedData.isScheduled}
+                onChange={(e) => setEmbedData(prev => ({ ...prev, isScheduled: e.target.checked }))}
+                className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+              />
+              <Label htmlFor="isScheduled">Schedule this embed</Label>
+            </div>
+
+            {embedData.isScheduled && (
+              <div className="space-y-4 pl-6 border-l-2 border-zinc-200 dark:border-zinc-700">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="scheduledDate">Date</Label>
+                    <Input
+                      id="scheduledDate"
+                      type="date"
+                      value={embedData.scheduledDate}
+                      onChange={(e) => setEmbedData(prev => ({ ...prev, scheduledDate: e.target.value }))}
+                      min={new Date().toISOString().split('T')[0]}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="scheduledTime">Time</Label>
+                    <Input
+                      id="scheduledTime"
+                      type="time"
+                      value={embedData.scheduledTime}
+                      onChange={(e) => setEmbedData(prev => ({ ...prev, scheduledTime: e.target.value }))}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="repeatType">Repeat</Label>
+                  <select
+                    id="repeatType"
+                    value={embedData.repeatType}
+                    onChange={(e) => setEmbedData(prev => ({ 
+                      ...prev, 
+                      repeatType: e.target.value as "none" | "daily" | "weekly" | "monthly",
+                      repeatDays: e.target.value === "none" ? [] : prev.repeatDays
+                    }))}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  >
+                    <option value="none">No repeat</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                  </select>
+                </div>
+
+                {embedData.repeatType === "weekly" && (
+                  <div className="space-y-2">
+                    <Label>Repeat on days</Label>
+                    <div className="grid grid-cols-7 gap-2">
+                      {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day, index) => (
+                        <div key={day} className="flex items-center space-x-1">
+                          <input
+                            type="checkbox"
+                            id={`day-${index}`}
+                            checked={embedData.repeatDays.includes(index.toString())}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                setEmbedData(prev => ({
+                                  ...prev,
+                                  repeatDays: [...prev.repeatDays, index.toString()]
+                                }));
+                              } else {
+                                setEmbedData(prev => ({
+                                  ...prev,
+                                  repeatDays: prev.repeatDays.filter(d => d !== index.toString())
+                                }));
+                              }
+                            }}
+                            className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                          />
+                          <Label htmlFor={`day-${index}`} className="text-xs">{day}</Label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {embedData.isScheduled && (
+                  <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                    <p className="text-sm text-blue-700 dark:text-blue-300">
+                      <strong>Scheduled for:</strong> {embedData.scheduledDate && embedData.scheduledTime ? 
+                        `${new Date(`${embedData.scheduledDate}T${embedData.scheduledTime}`).toLocaleString()}` : 
+                        "Please select date and time"
+                      }
+                      {embedData.repeatType !== "none" && (
+                        <span className="block mt-1">
+                          <strong>Repeats:</strong> {embedData.repeatType === "daily" ? "Every day" :
+                            embedData.repeatType === "weekly" ? `Every ${embedData.repeatDays.length > 0 ? 
+                              embedData.repeatDays.map(d => ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][parseInt(d)]).join(", ") : 
+                              "week"}` :
+                            "Every month"
+                          }
+                        </span>
+                      )}
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
           </CardContent>
         </Card>
 

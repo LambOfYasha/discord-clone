@@ -85,6 +85,12 @@ export async function PUT(
       timestamp,
       channelId,
       fields,
+      // Scheduling data
+      isScheduled,
+      scheduledDate,
+      scheduledTime,
+      repeatType,
+      repeatDays,
     } = body;
 
     // Validate server membership and permissions
@@ -131,6 +137,15 @@ export async function PUT(
       return new NextResponse("Forbidden", { status: 403 });
     }
 
+    // Calculate scheduled date and time
+    let scheduledDateTime = null;
+    let nextSendAt = null;
+    
+    if (isScheduled && scheduledDate && scheduledTime) {
+      scheduledDateTime = new Date(`${scheduledDate}T${scheduledTime}`);
+      nextSendAt = scheduledDateTime;
+    }
+
     // Update embed in PostgreSQL (primary database)
     const embed = await db.embed.update({
       where: {
@@ -150,6 +165,13 @@ export async function PUT(
         footerIconUrl: footerIconUrl || null,
         timestamp: timestamp ? new Date(timestamp) : null,
         channelId: channelId || null,
+        // Scheduling fields
+        isScheduled: isScheduled || false,
+        scheduledDate: scheduledDateTime,
+        repeatType: repeatType || "none",
+        repeatDays: repeatDays || [],
+        isActive: isScheduled || false,
+        nextSendAt,
       },
     });
 
@@ -181,7 +203,8 @@ export async function PUT(
     // MongoDB is only used for messages (which include embed data as JSON)
 
     // Update or create message in the selected channel with the embed data
-    if (channelId) {
+    // Only create/update message immediately if not scheduled
+    if (channelId && !isScheduled) {
       try {
         // Create embed content as JSON string
         const embedContent = JSON.stringify({
@@ -234,11 +257,16 @@ export async function PUT(
           });
           console.log(`New embed message created in channel ${channelId}`);
         }
-      } catch (messageError) {
-        console.error("Failed to update embed message:", messageError);
-        // Continue even if message update fails - the embed is still updated
+              } catch (messageError) {
+          console.error("Failed to update embed message:", messageError);
+          // Continue even if message update fails - the embed is still updated
+        }
       }
-    }
+
+      // If scheduled, log the scheduling info
+      if (isScheduled) {
+        console.log(`Scheduled embed updated: ${embed.id} for ${scheduledDateTime}`);
+      }
 
     return NextResponse.json(embed);
   } catch (error) {

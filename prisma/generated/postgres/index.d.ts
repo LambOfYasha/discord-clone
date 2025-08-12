@@ -28940,6 +28940,12 @@ export namespace Prisma {
     serverId: string | null
     channelId: string | null
     creatorProfileId: string | null
+    isScheduled: boolean | null
+    scheduledDate: Date | null
+    repeatType: string | null
+    isActive: boolean | null
+    lastSentAt: Date | null
+    nextSendAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -28961,6 +28967,12 @@ export namespace Prisma {
     serverId: string | null
     channelId: string | null
     creatorProfileId: string | null
+    isScheduled: boolean | null
+    scheduledDate: Date | null
+    repeatType: string | null
+    isActive: boolean | null
+    lastSentAt: Date | null
+    nextSendAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -28982,6 +28994,13 @@ export namespace Prisma {
     serverId: number
     channelId: number
     creatorProfileId: number
+    isScheduled: number
+    scheduledDate: number
+    repeatType: number
+    repeatDays: number
+    isActive: number
+    lastSentAt: number
+    nextSendAt: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -29005,6 +29024,12 @@ export namespace Prisma {
     serverId?: true
     channelId?: true
     creatorProfileId?: true
+    isScheduled?: true
+    scheduledDate?: true
+    repeatType?: true
+    isActive?: true
+    lastSentAt?: true
+    nextSendAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -29026,6 +29051,12 @@ export namespace Prisma {
     serverId?: true
     channelId?: true
     creatorProfileId?: true
+    isScheduled?: true
+    scheduledDate?: true
+    repeatType?: true
+    isActive?: true
+    lastSentAt?: true
+    nextSendAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -29047,6 +29078,13 @@ export namespace Prisma {
     serverId?: true
     channelId?: true
     creatorProfileId?: true
+    isScheduled?: true
+    scheduledDate?: true
+    repeatType?: true
+    repeatDays?: true
+    isActive?: true
+    lastSentAt?: true
+    nextSendAt?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -29141,6 +29179,13 @@ export namespace Prisma {
     serverId: string
     channelId: string | null
     creatorProfileId: string
+    isScheduled: boolean
+    scheduledDate: Date | null
+    repeatType: string
+    repeatDays: JsonValue | null
+    isActive: boolean
+    lastSentAt: Date | null
+    nextSendAt: Date | null
     createdAt: Date
     updatedAt: Date
     _count: EmbedCountAggregateOutputType | null
@@ -29179,6 +29224,13 @@ export namespace Prisma {
     serverId?: boolean
     channelId?: boolean
     creatorProfileId?: boolean
+    isScheduled?: boolean
+    scheduledDate?: boolean
+    repeatType?: boolean
+    repeatDays?: boolean
+    isActive?: boolean
+    lastSentAt?: boolean
+    nextSendAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     server?: boolean | ServerDefaultArgs<ExtArgs>
@@ -29205,6 +29257,13 @@ export namespace Prisma {
     serverId?: boolean
     channelId?: boolean
     creatorProfileId?: boolean
+    isScheduled?: boolean
+    scheduledDate?: boolean
+    repeatType?: boolean
+    repeatDays?: boolean
+    isActive?: boolean
+    lastSentAt?: boolean
+    nextSendAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     server?: boolean | ServerDefaultArgs<ExtArgs>
@@ -29229,6 +29288,13 @@ export namespace Prisma {
     serverId?: boolean
     channelId?: boolean
     creatorProfileId?: boolean
+    isScheduled?: boolean
+    scheduledDate?: boolean
+    repeatType?: boolean
+    repeatDays?: boolean
+    isActive?: boolean
+    lastSentAt?: boolean
+    nextSendAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     server?: boolean | ServerDefaultArgs<ExtArgs>
@@ -29253,11 +29319,18 @@ export namespace Prisma {
     serverId?: boolean
     channelId?: boolean
     creatorProfileId?: boolean
+    isScheduled?: boolean
+    scheduledDate?: boolean
+    repeatType?: boolean
+    repeatDays?: boolean
+    isActive?: boolean
+    lastSentAt?: boolean
+    nextSendAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type EmbedOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "url" | "color" | "imageUrl" | "thumbnailUrl" | "authorName" | "authorUrl" | "authorIconUrl" | "footerText" | "footerIconUrl" | "timestamp" | "serverId" | "channelId" | "creatorProfileId" | "createdAt" | "updatedAt", ExtArgs["result"]["embed"]>
+  export type EmbedOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "url" | "color" | "imageUrl" | "thumbnailUrl" | "authorName" | "authorUrl" | "authorIconUrl" | "footerText" | "footerIconUrl" | "timestamp" | "serverId" | "channelId" | "creatorProfileId" | "isScheduled" | "scheduledDate" | "repeatType" | "repeatDays" | "isActive" | "lastSentAt" | "nextSendAt" | "createdAt" | "updatedAt", ExtArgs["result"]["embed"]>
   export type EmbedInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     server?: boolean | ServerDefaultArgs<ExtArgs>
     channel?: boolean | Embed$channelArgs<ExtArgs>
@@ -29301,6 +29374,13 @@ export namespace Prisma {
       serverId: string
       channelId: string | null
       creatorProfileId: string
+      isScheduled: boolean
+      scheduledDate: Date | null
+      repeatType: string
+      repeatDays: Prisma.JsonValue | null
+      isActive: boolean
+      lastSentAt: Date | null
+      nextSendAt: Date | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["embed"]>
@@ -29746,6 +29826,13 @@ export namespace Prisma {
     readonly serverId: FieldRef<"Embed", 'String'>
     readonly channelId: FieldRef<"Embed", 'String'>
     readonly creatorProfileId: FieldRef<"Embed", 'String'>
+    readonly isScheduled: FieldRef<"Embed", 'Boolean'>
+    readonly scheduledDate: FieldRef<"Embed", 'DateTime'>
+    readonly repeatType: FieldRef<"Embed", 'String'>
+    readonly repeatDays: FieldRef<"Embed", 'Json'>
+    readonly isActive: FieldRef<"Embed", 'Boolean'>
+    readonly lastSentAt: FieldRef<"Embed", 'DateTime'>
+    readonly nextSendAt: FieldRef<"Embed", 'DateTime'>
     readonly createdAt: FieldRef<"Embed", 'DateTime'>
     readonly updatedAt: FieldRef<"Embed", 'DateTime'>
   }
@@ -36403,6 +36490,13 @@ export namespace Prisma {
     serverId: 'serverId',
     channelId: 'channelId',
     creatorProfileId: 'creatorProfileId',
+    isScheduled: 'isScheduled',
+    scheduledDate: 'scheduledDate',
+    repeatType: 'repeatType',
+    repeatDays: 'repeatDays',
+    isActive: 'isActive',
+    lastSentAt: 'lastSentAt',
+    nextSendAt: 'nextSendAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -38486,6 +38580,13 @@ export namespace Prisma {
     serverId?: StringFilter<"Embed"> | string
     channelId?: StringNullableFilter<"Embed"> | string | null
     creatorProfileId?: StringFilter<"Embed"> | string
+    isScheduled?: BoolFilter<"Embed"> | boolean
+    scheduledDate?: DateTimeNullableFilter<"Embed"> | Date | string | null
+    repeatType?: StringFilter<"Embed"> | string
+    repeatDays?: JsonNullableFilter<"Embed">
+    isActive?: BoolFilter<"Embed"> | boolean
+    lastSentAt?: DateTimeNullableFilter<"Embed"> | Date | string | null
+    nextSendAt?: DateTimeNullableFilter<"Embed"> | Date | string | null
     createdAt?: DateTimeFilter<"Embed"> | Date | string
     updatedAt?: DateTimeFilter<"Embed"> | Date | string
     server?: XOR<ServerScalarRelationFilter, ServerWhereInput>
@@ -38511,6 +38612,13 @@ export namespace Prisma {
     serverId?: SortOrder
     channelId?: SortOrderInput | SortOrder
     creatorProfileId?: SortOrder
+    isScheduled?: SortOrder
+    scheduledDate?: SortOrderInput | SortOrder
+    repeatType?: SortOrder
+    repeatDays?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    lastSentAt?: SortOrderInput | SortOrder
+    nextSendAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     server?: ServerOrderByWithRelationInput
@@ -38539,6 +38647,13 @@ export namespace Prisma {
     serverId?: StringFilter<"Embed"> | string
     channelId?: StringNullableFilter<"Embed"> | string | null
     creatorProfileId?: StringFilter<"Embed"> | string
+    isScheduled?: BoolFilter<"Embed"> | boolean
+    scheduledDate?: DateTimeNullableFilter<"Embed"> | Date | string | null
+    repeatType?: StringFilter<"Embed"> | string
+    repeatDays?: JsonNullableFilter<"Embed">
+    isActive?: BoolFilter<"Embed"> | boolean
+    lastSentAt?: DateTimeNullableFilter<"Embed"> | Date | string | null
+    nextSendAt?: DateTimeNullableFilter<"Embed"> | Date | string | null
     createdAt?: DateTimeFilter<"Embed"> | Date | string
     updatedAt?: DateTimeFilter<"Embed"> | Date | string
     server?: XOR<ServerScalarRelationFilter, ServerWhereInput>
@@ -38564,6 +38679,13 @@ export namespace Prisma {
     serverId?: SortOrder
     channelId?: SortOrderInput | SortOrder
     creatorProfileId?: SortOrder
+    isScheduled?: SortOrder
+    scheduledDate?: SortOrderInput | SortOrder
+    repeatType?: SortOrder
+    repeatDays?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    lastSentAt?: SortOrderInput | SortOrder
+    nextSendAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: EmbedCountOrderByAggregateInput
@@ -38591,6 +38713,13 @@ export namespace Prisma {
     serverId?: StringWithAggregatesFilter<"Embed"> | string
     channelId?: StringNullableWithAggregatesFilter<"Embed"> | string | null
     creatorProfileId?: StringWithAggregatesFilter<"Embed"> | string
+    isScheduled?: BoolWithAggregatesFilter<"Embed"> | boolean
+    scheduledDate?: DateTimeNullableWithAggregatesFilter<"Embed"> | Date | string | null
+    repeatType?: StringWithAggregatesFilter<"Embed"> | string
+    repeatDays?: JsonNullableWithAggregatesFilter<"Embed">
+    isActive?: BoolWithAggregatesFilter<"Embed"> | boolean
+    lastSentAt?: DateTimeNullableWithAggregatesFilter<"Embed"> | Date | string | null
+    nextSendAt?: DateTimeNullableWithAggregatesFilter<"Embed"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Embed"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Embed"> | Date | string
   }
@@ -40770,6 +40899,13 @@ export namespace Prisma {
     footerText?: string | null
     footerIconUrl?: string | null
     timestamp?: Date | string | null
+    isScheduled?: boolean
+    scheduledDate?: Date | string | null
+    repeatType?: string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     server: ServerCreateNestedOneWithoutEmbedsInput
@@ -40795,6 +40931,13 @@ export namespace Prisma {
     serverId: string
     channelId?: string | null
     creatorProfileId: string
+    isScheduled?: boolean
+    scheduledDate?: Date | string | null
+    repeatType?: string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     fields?: EmbedFieldUncheckedCreateNestedManyWithoutEmbedInput
@@ -40814,6 +40957,13 @@ export namespace Prisma {
     footerText?: NullableStringFieldUpdateOperationsInput | string | null
     footerIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isScheduled?: BoolFieldUpdateOperationsInput | boolean
+    scheduledDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    repeatType?: StringFieldUpdateOperationsInput | string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     server?: ServerUpdateOneRequiredWithoutEmbedsNestedInput
@@ -40839,6 +40989,13 @@ export namespace Prisma {
     serverId?: StringFieldUpdateOperationsInput | string
     channelId?: NullableStringFieldUpdateOperationsInput | string | null
     creatorProfileId?: StringFieldUpdateOperationsInput | string
+    isScheduled?: BoolFieldUpdateOperationsInput | boolean
+    scheduledDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    repeatType?: StringFieldUpdateOperationsInput | string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     fields?: EmbedFieldUncheckedUpdateManyWithoutEmbedNestedInput
@@ -40861,6 +41018,13 @@ export namespace Prisma {
     serverId: string
     channelId?: string | null
     creatorProfileId: string
+    isScheduled?: boolean
+    scheduledDate?: Date | string | null
+    repeatType?: string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -40879,6 +41043,13 @@ export namespace Prisma {
     footerText?: NullableStringFieldUpdateOperationsInput | string | null
     footerIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isScheduled?: BoolFieldUpdateOperationsInput | boolean
+    scheduledDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    repeatType?: StringFieldUpdateOperationsInput | string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -40900,6 +41071,13 @@ export namespace Prisma {
     serverId?: StringFieldUpdateOperationsInput | string
     channelId?: NullableStringFieldUpdateOperationsInput | string | null
     creatorProfileId?: StringFieldUpdateOperationsInput | string
+    isScheduled?: BoolFieldUpdateOperationsInput | boolean
+    scheduledDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    repeatType?: StringFieldUpdateOperationsInput | string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -42799,6 +42977,13 @@ export namespace Prisma {
     serverId?: SortOrder
     channelId?: SortOrder
     creatorProfileId?: SortOrder
+    isScheduled?: SortOrder
+    scheduledDate?: SortOrder
+    repeatType?: SortOrder
+    repeatDays?: SortOrder
+    isActive?: SortOrder
+    lastSentAt?: SortOrder
+    nextSendAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -42820,6 +43005,12 @@ export namespace Prisma {
     serverId?: SortOrder
     channelId?: SortOrder
     creatorProfileId?: SortOrder
+    isScheduled?: SortOrder
+    scheduledDate?: SortOrder
+    repeatType?: SortOrder
+    isActive?: SortOrder
+    lastSentAt?: SortOrder
+    nextSendAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -42841,6 +43032,12 @@ export namespace Prisma {
     serverId?: SortOrder
     channelId?: SortOrder
     creatorProfileId?: SortOrder
+    isScheduled?: SortOrder
+    scheduledDate?: SortOrder
+    repeatType?: SortOrder
+    isActive?: SortOrder
+    lastSentAt?: SortOrder
+    nextSendAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -47391,6 +47588,13 @@ export namespace Prisma {
     footerText?: string | null
     footerIconUrl?: string | null
     timestamp?: Date | string | null
+    isScheduled?: boolean
+    scheduledDate?: Date | string | null
+    repeatType?: string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     server: ServerCreateNestedOneWithoutEmbedsInput
@@ -47414,6 +47618,13 @@ export namespace Prisma {
     timestamp?: Date | string | null
     serverId: string
     channelId?: string | null
+    isScheduled?: boolean
+    scheduledDate?: Date | string | null
+    repeatType?: string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     fields?: EmbedFieldUncheckedCreateNestedManyWithoutEmbedInput
@@ -48041,6 +48252,13 @@ export namespace Prisma {
     serverId?: StringFilter<"Embed"> | string
     channelId?: StringNullableFilter<"Embed"> | string | null
     creatorProfileId?: StringFilter<"Embed"> | string
+    isScheduled?: BoolFilter<"Embed"> | boolean
+    scheduledDate?: DateTimeNullableFilter<"Embed"> | Date | string | null
+    repeatType?: StringFilter<"Embed"> | string
+    repeatDays?: JsonNullableFilter<"Embed">
+    isActive?: BoolFilter<"Embed"> | boolean
+    lastSentAt?: DateTimeNullableFilter<"Embed"> | Date | string | null
+    nextSendAt?: DateTimeNullableFilter<"Embed"> | Date | string | null
     createdAt?: DateTimeFilter<"Embed"> | Date | string
     updatedAt?: DateTimeFilter<"Embed"> | Date | string
   }
@@ -48462,6 +48680,13 @@ export namespace Prisma {
     footerText?: string | null
     footerIconUrl?: string | null
     timestamp?: Date | string | null
+    isScheduled?: boolean
+    scheduledDate?: Date | string | null
+    repeatType?: string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     channel?: ChannelCreateNestedOneWithoutEmbedsInput
@@ -48485,6 +48710,13 @@ export namespace Prisma {
     timestamp?: Date | string | null
     channelId?: string | null
     creatorProfileId: string
+    isScheduled?: boolean
+    scheduledDate?: Date | string | null
+    repeatType?: string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     fields?: EmbedFieldUncheckedCreateNestedManyWithoutEmbedInput
@@ -49784,6 +50016,13 @@ export namespace Prisma {
     footerText?: string | null
     footerIconUrl?: string | null
     timestamp?: Date | string | null
+    isScheduled?: boolean
+    scheduledDate?: Date | string | null
+    repeatType?: string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     server: ServerCreateNestedOneWithoutEmbedsInput
@@ -49807,6 +50046,13 @@ export namespace Prisma {
     timestamp?: Date | string | null
     serverId: string
     creatorProfileId: string
+    isScheduled?: boolean
+    scheduledDate?: Date | string | null
+    repeatType?: string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     fields?: EmbedFieldUncheckedCreateNestedManyWithoutEmbedInput
@@ -54698,6 +54944,13 @@ export namespace Prisma {
     footerText?: string | null
     footerIconUrl?: string | null
     timestamp?: Date | string | null
+    isScheduled?: boolean
+    scheduledDate?: Date | string | null
+    repeatType?: string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     server: ServerCreateNestedOneWithoutEmbedsInput
@@ -54722,6 +54975,13 @@ export namespace Prisma {
     serverId: string
     channelId?: string | null
     creatorProfileId: string
+    isScheduled?: boolean
+    scheduledDate?: Date | string | null
+    repeatType?: string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -54756,6 +55016,13 @@ export namespace Prisma {
     footerText?: NullableStringFieldUpdateOperationsInput | string | null
     footerIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isScheduled?: BoolFieldUpdateOperationsInput | boolean
+    scheduledDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    repeatType?: StringFieldUpdateOperationsInput | string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     server?: ServerUpdateOneRequiredWithoutEmbedsNestedInput
@@ -54780,6 +55047,13 @@ export namespace Prisma {
     serverId?: StringFieldUpdateOperationsInput | string
     channelId?: NullableStringFieldUpdateOperationsInput | string | null
     creatorProfileId?: StringFieldUpdateOperationsInput | string
+    isScheduled?: BoolFieldUpdateOperationsInput | boolean
+    scheduledDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    repeatType?: StringFieldUpdateOperationsInput | string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -56380,6 +56654,13 @@ export namespace Prisma {
     timestamp?: Date | string | null
     serverId: string
     channelId?: string | null
+    isScheduled?: boolean
+    scheduledDate?: Date | string | null
+    repeatType?: string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -56945,6 +57226,13 @@ export namespace Prisma {
     footerText?: NullableStringFieldUpdateOperationsInput | string | null
     footerIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isScheduled?: BoolFieldUpdateOperationsInput | boolean
+    scheduledDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    repeatType?: StringFieldUpdateOperationsInput | string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     server?: ServerUpdateOneRequiredWithoutEmbedsNestedInput
@@ -56968,6 +57256,13 @@ export namespace Prisma {
     timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     serverId?: StringFieldUpdateOperationsInput | string
     channelId?: NullableStringFieldUpdateOperationsInput | string | null
+    isScheduled?: BoolFieldUpdateOperationsInput | boolean
+    scheduledDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    repeatType?: StringFieldUpdateOperationsInput | string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     fields?: EmbedFieldUncheckedUpdateManyWithoutEmbedNestedInput
@@ -56989,6 +57284,13 @@ export namespace Prisma {
     timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     serverId?: StringFieldUpdateOperationsInput | string
     channelId?: NullableStringFieldUpdateOperationsInput | string | null
+    isScheduled?: BoolFieldUpdateOperationsInput | boolean
+    scheduledDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    repeatType?: StringFieldUpdateOperationsInput | string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -57249,6 +57551,13 @@ export namespace Prisma {
     timestamp?: Date | string | null
     channelId?: string | null
     creatorProfileId: string
+    isScheduled?: boolean
+    scheduledDate?: Date | string | null
+    repeatType?: string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -57508,6 +57817,13 @@ export namespace Prisma {
     footerText?: NullableStringFieldUpdateOperationsInput | string | null
     footerIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isScheduled?: BoolFieldUpdateOperationsInput | boolean
+    scheduledDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    repeatType?: StringFieldUpdateOperationsInput | string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     channel?: ChannelUpdateOneWithoutEmbedsNestedInput
@@ -57531,6 +57847,13 @@ export namespace Prisma {
     timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     channelId?: NullableStringFieldUpdateOperationsInput | string | null
     creatorProfileId?: StringFieldUpdateOperationsInput | string
+    isScheduled?: BoolFieldUpdateOperationsInput | boolean
+    scheduledDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    repeatType?: StringFieldUpdateOperationsInput | string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     fields?: EmbedFieldUncheckedUpdateManyWithoutEmbedNestedInput
@@ -57552,6 +57875,13 @@ export namespace Prisma {
     timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     channelId?: NullableStringFieldUpdateOperationsInput | string | null
     creatorProfileId?: StringFieldUpdateOperationsInput | string
+    isScheduled?: BoolFieldUpdateOperationsInput | boolean
+    scheduledDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    repeatType?: StringFieldUpdateOperationsInput | string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -57981,6 +58311,13 @@ export namespace Prisma {
     timestamp?: Date | string | null
     serverId: string
     creatorProfileId: string
+    isScheduled?: boolean
+    scheduledDate?: Date | string | null
+    repeatType?: string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    lastSentAt?: Date | string | null
+    nextSendAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -58175,6 +58512,13 @@ export namespace Prisma {
     footerText?: NullableStringFieldUpdateOperationsInput | string | null
     footerIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isScheduled?: BoolFieldUpdateOperationsInput | boolean
+    scheduledDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    repeatType?: StringFieldUpdateOperationsInput | string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     server?: ServerUpdateOneRequiredWithoutEmbedsNestedInput
@@ -58198,6 +58542,13 @@ export namespace Prisma {
     timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     serverId?: StringFieldUpdateOperationsInput | string
     creatorProfileId?: StringFieldUpdateOperationsInput | string
+    isScheduled?: BoolFieldUpdateOperationsInput | boolean
+    scheduledDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    repeatType?: StringFieldUpdateOperationsInput | string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     fields?: EmbedFieldUncheckedUpdateManyWithoutEmbedNestedInput
@@ -58219,6 +58570,13 @@ export namespace Prisma {
     timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     serverId?: StringFieldUpdateOperationsInput | string
     creatorProfileId?: StringFieldUpdateOperationsInput | string
+    isScheduled?: BoolFieldUpdateOperationsInput | boolean
+    scheduledDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    repeatType?: StringFieldUpdateOperationsInput | string
+    repeatDays?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextSendAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
