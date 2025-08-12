@@ -33,7 +33,8 @@ export type ModalType =
   | "editTicketSystem"
   | "deleteTicketSystem"
   | "createTicket"
-  | "viewTickets";
+  | "viewTickets"
+  | "createPoll";
 interface ModalData {
   server?: Server;
   serverId?: string;

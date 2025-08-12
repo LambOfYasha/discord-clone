@@ -1,6 +1,6 @@
 "use client";
 import { Member, Profile } from "../../prisma/generated/postgres";
-import { Message } from "../../generated/mongo";
+import { Message } from "@/prisma/generated/mongo";
 import { ChatWelcome } from "./chat-welcome";
 import { useChatQuery } from "@/hooks/use-chat-query";
 import { Loader2, ServerCrash } from "lucide-react";
@@ -16,7 +16,11 @@ type MessageWithMemberWithProfile = Message & {
     profile: Profile;
   };
 };
-type MessageWithReactions = MessageWithMemberWithProfile & { reactions?: any[] };
+type MessageWithReactions = MessageWithMemberWithProfile & { 
+  reactions?: any[];
+  poll?: any;
+  userVotes?: string[];
+};
 const DATE_FORMAT = "d MMM yyyy, HH:mm";
 interface ChatMessagesProps {
   name: string;
@@ -179,6 +183,8 @@ export const ChatMessages = ({
                 socketUrl={socketUrl}
                 reactions={message.reactions ?? []}
                 replyTo={message.replyTo}
+                poll={message.poll}
+                userVotes={message.userVotes ?? []}
               />
             ))}
           </Fragment>

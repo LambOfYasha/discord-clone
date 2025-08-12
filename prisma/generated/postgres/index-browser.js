@@ -224,8 +224,36 @@ exports.Prisma.MessageScalarFieldEnum = {
   replyTo: 'replyTo',
   threadId: 'threadId',
   threadParentId: 'threadParentId',
+  pollId: 'pollId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PollScalarFieldEnum = {
+  id: 'id',
+  question: 'question',
+  expiresAt: 'expiresAt',
+  allowMultipleVotes: 'allowMultipleVotes',
+  isActive: 'isActive',
+  totalVotes: 'totalVotes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PollOptionScalarFieldEnum = {
+  id: 'id',
+  text: 'text',
+  votes: 'votes',
+  pollId: 'pollId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PollVoteScalarFieldEnum = {
+  id: 'id',
+  memberId: 'memberId',
+  pollOptionId: 'pollOptionId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.DirectMessageScalarFieldEnum = {
@@ -537,6 +565,9 @@ exports.Prisma.ModelName = {
   GroupConversationMember: 'GroupConversationMember',
   GroupMessage: 'GroupMessage',
   Message: 'Message',
+  Poll: 'Poll',
+  PollOption: 'PollOption',
+  PollVote: 'PollVote',
   DirectMessage: 'DirectMessage',
   FriendRequest: 'FriendRequest',
   MessageRequest: 'MessageRequest',

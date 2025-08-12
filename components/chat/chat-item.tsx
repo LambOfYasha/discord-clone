@@ -24,6 +24,7 @@ import { MessageThread } from "./message-thread";
 import { InviteMessageCard } from "./invite-message-card";
 import { Markdown } from "@/components/markdown";
 import { EmbedMessage } from "./embed-message";
+import { PollDisplay } from "@/components/poll/poll-display";
 
 interface ChatItemProps {
   id: string;
@@ -45,6 +46,20 @@ interface ChatItemProps {
     };
   })[];
   replyTo?: string;
+  poll?: {
+    id: string;
+    question: string;
+    options: {
+      id: string;
+      text: string;
+      votes: number;
+    }[];
+    totalVotes: number;
+    expiresAt?: Date;
+    allowMultipleVotes: boolean;
+    isActive: boolean;
+  };
+  userVotes?: string[];
 }
 const roleIconMap = {
   GUEST: null,
@@ -68,6 +83,8 @@ export const ChatItem = ({
   socketQuery,
   reactions = [],
   replyTo,
+  poll,
+  userVotes = [],
 }: ChatItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [showThread, setShowThread] = useState(false);
@@ -342,6 +359,19 @@ export const ChatItem = ({
                     <span className="text-[10px] mx-2 text-zinc-500 dark:text-zinc-400">
                       (edited)
                     </span>
+                  )}
+                  
+                  {poll && (
+                    <div className="mt-3">
+                      <PollDisplay 
+                        poll={poll} 
+                        userVotes={userVotes}
+                        onVote={() => {
+                          // Refresh the page to update poll data
+                          router.refresh();
+                        }}
+                      />
+                    </div>
                   )}
                 </div>
               )}

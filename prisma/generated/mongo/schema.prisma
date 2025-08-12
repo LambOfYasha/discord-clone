@@ -19,11 +19,52 @@ model Message {
   replyTo        String?
   threadId       String?
   threadParentId String?
+  pollId         String?
+  poll           Poll?      @relation(fields: [pollId], references: [id], onDelete: SetNull)
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
   reactions      Reaction[]
 
   @@map("messages")
+}
+
+model Poll {
+  id                 String       @id @default(auto()) @map("_id") @db.ObjectId
+  question           String
+  options            PollOption[]
+  expiresAt          DateTime?
+  allowMultipleVotes Boolean      @default(false)
+  isActive           Boolean      @default(true)
+  totalVotes         Int          @default(0)
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+  messages           Message[]
+
+  @@map("polls")
+}
+
+model PollOption {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  text      String
+  votes     Int        @default(0)
+  pollId    String
+  poll      Poll       @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  votesCast PollVote[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@map("poll_options")
+}
+
+model PollVote {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  memberId     String
+  pollOptionId String
+  pollOption   PollOption @relation(fields: [pollOptionId], references: [id], onDelete: Cascade)
+  createdAt    DateTime   @default(now())
+
+  @@unique([memberId, pollOptionId])
+  @@map("poll_votes")
 }
 
 model DirectMessage {

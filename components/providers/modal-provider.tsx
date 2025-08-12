@@ -32,6 +32,7 @@ import { TicketSystemSetupModal } from "@/components/modals/ticket-system-setup-
 import { EditTicketSystemModal } from "@/components/modals/edit-ticket-system-modal";
 import { DeleteTicketSystemModal } from "@/components/modals/delete-ticket-system-modal";
 import { CreateTicketModal } from "@/components/modals/create-ticket-modal";
+import { CreatePollModal } from "@/components/modals/create-poll-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -78,6 +79,7 @@ export const ModalProvider = () => {
       <EditTicketSystemModal />
       <DeleteTicketSystemModal />
       <CreateTicketModal />
+      <CreatePollModal />
     </>
   );
 };

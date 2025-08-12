@@ -4,7 +4,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, MessageSquare, Paperclip, Bold, Italic, Strikethrough, Code, Quote, Link, List, ListOrdered, ChevronDown, ChevronUp } from "lucide-react";
+import { Plus, MessageSquare, Paperclip, Bold, Italic, Strikethrough, Code, Quote, Link, List, ListOrdered, ChevronDown, ChevronUp, BarChart3 } from "lucide-react";
 import qs from "query-string";
 import axios from "axios";
 import { useModal } from "@/hooks/use-modal-store";
@@ -212,6 +212,13 @@ export const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
                       >
                         <MessageSquare className="h-4 w-4" />
                         <span>Create Thread</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => onOpen("createPoll", { apiUrl, query })}
+                        className="flex items-center gap-x-2 cursor-pointer"
+                      >
+                        <BarChart3 className="h-4 w-4" />
+                        <span>Create Poll</span>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>

@@ -75,6 +75,38 @@ export async function GET(req: Request) {
       orderBy: { createdAt: "asc" },
     });
 
+    // Fetch polls for messages that have them
+    const messagesWithPolls = messages.filter(m => m.pollId);
+    const pollIds = messagesWithPolls.map(m => m.pollId!);
+    const polls = pollIds.length > 0 ? await mongo.poll.findMany({
+      where: {
+        id: { in: pollIds },
+      },
+      include: {
+        options: true,
+      },
+    }) : [];
+
+    const pollMap = new Map(polls.map(poll => [poll.id, poll]));
+
+    // Fetch user votes for polls
+    const userVotes: string[] = [];
+    if (pollIds.length > 0) {
+      const userVoteRecords = await mongo.pollVote.findMany({
+        where: {
+          pollOption: {
+            pollId: { in: pollIds },
+          },
+          memberId: profile.id,
+        },
+        include: {
+          pollOption: true,
+        },
+      });
+      
+      userVotes.push(...userVoteRecords.map(vote => vote.pollOptionId));
+    }
+
     // Fetch members for reactions
     const reactionMemberIds = [...new Set(allReactions.map((r) => r.memberId))];
     const reactionMembers = reactionMemberIds.length
@@ -102,10 +134,16 @@ export async function GET(req: Request) {
           ...r,
           member: reactionMemberMap.get(r.memberId) ?? null,
         }));
+        
+        // Get poll data if message has a poll
+        const poll = message.pollId ? pollMap.get(message.pollId) : null;
+        
         return {
           ...message,
           member: author,
           reactions,
+          poll,
+          userVotes,
         };
       })
       .filter(Boolean);
