@@ -1,8 +1,32 @@
 import https from 'https';
 import http from 'http';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-// Replace this with your actual ngrok URL
-const NGROK_URL = process.env.NGROK_URL || 'https://your-ngrok-url.ngrok.io';
+// Get __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Load environment variables from .env file
+function loadEnvFile() {
+  const envPath = path.join(__dirname, '..', '.env');
+  if (fs.existsSync(envPath)) {
+    const envContent = fs.readFileSync(envPath, 'utf8');
+    const lines = envContent.split('\n');
+    lines.forEach(line => {
+      const [key, value] = line.split('=');
+      if (key && value) {
+        process.env[key.trim()] = value.trim();
+      }
+    });
+  }
+}
+
+loadEnvFile();
+
+// Your actual ngrok URL
+const NGROK_URL = 'https://cadb7cf122f0.ngrok-free.app';
 
 async function testNgrokConnection() {
   console.log('🔍 Testing ngrok tunnel connection...');
@@ -17,7 +41,7 @@ async function testNgrokConnection() {
     
     // Test with authorization
     const headers = {
-      'Authorization': `Bearer ${process.env.CRON_SECRET_KEY || 'your-secret-key'}`,
+      'Authorization': `Bearer ${process.env.CRON_SECRET_KEY}`,
       'Content-Type': 'application/json'
     };
     
