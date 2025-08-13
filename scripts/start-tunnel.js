@@ -1,4 +1,4 @@
-const { spawn } = require('child_process');
+import { spawn } from 'child_process';
 
 console.log('🚀 Starting ngrok tunnel for localhost:3000...');
 console.log('📝 This will expose your local development server to the internet');
