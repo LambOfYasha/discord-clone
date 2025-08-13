@@ -1,0 +1,42 @@
+name: Embed Scheduler
+
+on:
+  schedule:
+    - cron: '* * * * *'  # Every minute
+  workflow_dispatch:     # Manual trigger
+
+jobs:
+  scheduler:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Trigger Scheduler
+        run: |
+          echo "🕐 Running embed scheduler at $(date)"
+          echo "📍 Target URL: ${{ secrets.APP_URL }}/api/cron/scheduler"
+          
+          response=$(curl -s -w "\n%{http_code}" -X POST \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET_KEY }}" \
+            -H "Content-Type: application/json" \
+            "${{ secrets.APP_URL }}/api/cron/scheduler")
+          
+          # Extract status code and response body
+          http_code=$(echo "$response" | tail -n1)
+          response_body=$(echo "$response" | head -n -1)
+          
+          echo "📊 Response Status: $http_code"
+          echo "📄 Response Body: $response_body"
+          
+          # Check if the request was successful
+          if [ "$http_code" -eq 200 ]; then
+            echo "✅ Scheduler executed successfully"
+          else
+            echo "❌ Scheduler failed with status $http_code"
+            exit 1
+          fi
+
+      - name: Log completion
+        run: |
+          echo "🏁 Scheduler job completed at $(date)"
