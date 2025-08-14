@@ -51,22 +51,20 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     optimizePackageImports: ['@clerk/nextjs', 'lucide-react', '@radix-ui/react-icons'],
-    // Enable server components optimization
-    serverComponentsExternalPackages: ['@prisma/client'],
-    // Enable turbo for faster builds
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
+  },
+  // Enable server components optimization
+  serverExternalPackages: ['@prisma/client'],
+  // Enable turbo for faster builds
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
       },
     },
   },
   // Enable compression
   compress: true,
-  // Optimize bundle size
-  swcMinify: true,
   // Enable static optimization
   trailingSlash: false,
   eslint: {

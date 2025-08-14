@@ -21,14 +21,20 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
+    // Get the base URL for Socket.IO connection
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 
+                   (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000');
+    
+    console.log('Connecting to Socket.IO at:', baseUrl);
+    
     const socketInstance = new (ClientIO as any)(
-      process.env.NEXT_PUBLIC_SITE_URL!,
+      baseUrl,
       {
         path: "/api/socket/io",
         addTrailingSlash: false,
-        // Performance optimizations
-        transports: ['websocket'], // Force WebSocket for better performance
-        upgrade: false, // Disable polling upgrade
+        // Performance optimizations with fallback
+        transports: ['polling', 'websocket'], // Start with polling, upgrade to websocket
+        upgrade: true, // Allow upgrade to WebSocket
         rememberUpgrade: true, // Remember WebSocket preference
         timeout: 20000, // Connection timeout
         forceNew: false, // Reuse existing connections
@@ -42,6 +48,14 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         // Ping/pong for connection health
         pingTimeout: 60000,
         pingInterval: 25000,
+        // Additional stability settings
+        autoConnect: true,
+        query: {},
+        // WebSocket specific settings
+        perMessageDeflate: false,
+        // Connection strategy
+        upgradeTimeout: 10000,
+        maxHttpBufferSize: 1e6,
       }
     );
 
@@ -57,6 +71,12 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
     socketInstance.on("connect_error", (error: any) => {
       console.error("Socket connection error:", error);
+      console.error("Error details:", {
+        message: error.message,
+        description: error.description,
+        context: error.context,
+        type: error.type
+      });
       setIsConnected(false);
     });
 
@@ -67,6 +87,24 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
     socketInstance.on("reconnect_error", (error: any) => {
       console.error("Socket reconnection error:", error);
+    });
+
+    socketInstance.on("connect_timeout", () => {
+      console.error("Socket connection timeout");
+      setIsConnected(false);
+    });
+
+    socketInstance.on("error", (error: any) => {
+      console.error("Socket general error:", error);
+      setIsConnected(false);
+    });
+
+    socketInstance.on("upgrade", () => {
+      console.log("Socket transport upgraded to WebSocket");
+    });
+
+    socketInstance.on("upgradeError", (error: any) => {
+      console.error("Socket upgrade error:", error);
     });
 
     setSocket(socketInstance);
