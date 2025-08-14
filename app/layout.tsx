@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { ModalProvider } from "@/components/providers/modal-provider";
 import { SocketProvider } from "@/components/providers/socket-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
-import { ImageErrorDebugger } from "@/components/debug/image-error-debugger";
+
 import { Toaster } from "sonner";
 
 // Initialize the announcement scheduler
@@ -61,9 +61,6 @@ export default function RootLayout({
               <ModalProvider />
               <QueryProvider>
                 {children}
-                {process.env.NODE_ENV === 'development' && (
-                  <ImageErrorDebugger />
-                )}
                 <Toaster />
               </QueryProvider>
             </SocketProvider>
