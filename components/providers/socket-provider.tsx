@@ -21,10 +21,28 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    // Get the base URL for Socket.IO connection
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 
-                   (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000');
+    // Get the base URL for Socket.IO connection with better fallbacks
+    const getBaseUrl = () => {
+      // Check for environment variable first
+      if (process.env.NEXT_PUBLIC_SITE_URL) {
+        return process.env.NEXT_PUBLIC_SITE_URL;
+      }
+      
+      // Check for APP_URL (from your .env.local)
+      if (process.env.NEXT_PUBLIC_APP_URL) {
+        return process.env.NEXT_PUBLIC_APP_URL;
+      }
+      
+      // Fallback to window.location.origin in browser
+      if (typeof window !== 'undefined') {
+        return window.location.origin;
+      }
+      
+      // Final fallback for server-side rendering
+      return 'http://localhost:3000';
+    };
     
+    const baseUrl = getBaseUrl();
     console.log('Connecting to Socket.IO at:', baseUrl);
     
     const socketInstance = new (ClientIO as any)(
@@ -60,7 +78,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     );
 
     socketInstance.on("connect", () => {
-      console.log("Socket connected");
+      console.log("Socket connected successfully");
       setIsConnected(true);
     });
 
@@ -75,7 +93,8 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         message: error.message,
         description: error.description,
         context: error.context,
-        type: error.type
+        type: error.type,
+        baseUrl: baseUrl
       });
       setIsConnected(false);
     });

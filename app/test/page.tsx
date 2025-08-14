@@ -19,7 +19,8 @@ import {
   AlertCircle,
   CheckCircle,
   Database,
-  Shield
+  Shield,
+  Wifi
 } from "lucide-react";
 import Link from "next/link";
 
@@ -86,6 +87,13 @@ export default function TestIndexPage() {
       description: "Test the announcement and embed scheduling functionality",
       href: "/test-scheduler",
       icon: Clock,
+      status: "active"
+    },
+    {
+      title: "Socket.IO Connection",
+      description: "Test Socket.IO connection, emit, receive, and disconnect functionality",
+      href: "/test-socket",
+      icon: Wifi,
       status: "active"
     },
     {
