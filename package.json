@@ -9,7 +9,11 @@
     "db:generate": "prisma generate --schema=./prisma/postgres/schema.prisma",
     "db:push": "prisma db push --schema=./prisma/postgres/schema.prisma",
     "db:migrate": "prisma migrate dev --schema=./prisma/postgres/schema.prisma",
-    "db:studio": "prisma studio --schema=./prisma/postgres/schema.prisma"
+    "db:studio": "prisma studio --schema=./prisma/postgres/schema.prisma",
+    "db:index": "node scripts/add-database-indexes.js",
+    "optimize": "npm run db:index",
+    "test:performance": "node scripts/performance-test.js",
+    "test:perf": "npm run test:performance"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.23.3",
@@ -47,9 +51,11 @@
     "livekit-client": "^2.6.0",
     "livekit-server-sdk": "^2.13.1",
     "lucide-react": "^0.525.0",
+    "mongodb": "^6.18.0",
     "next": "15.3.5",
     "next-themes": "^0.4.6",
     "prisma-client": "^0.0.0",
+    "puppeteer": "^24.16.1",
     "query-string": "^9.2.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

@@ -1,46 +1,81 @@
-import { v4 as uuidv4 } from "uuid";
-import { initialProfile } from "@/lib/initial.profile";
+import { currentProfile } from "@/lib/current-profile";
 import { postgres } from "@/lib/db";
 import { NextResponse } from "next/server";
-import { MemberRole } from "@/prisma/generated/postgres";
+
+// Cache configuration for static data
+export const revalidate = 300; // 5 minutes
+export const dynamic = 'force-dynamic'; // Override for user-specific data
+
+export async function GET() {
+  try {
+    const profile = await currentProfile();
+
+    if (!profile) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const servers = await postgres.server.findMany({
+      include: {
+        members: {
+          include: {
+            profile: true,
+          },
+        },
+      },
+    });
+
+    return NextResponse.json(servers);
+  } catch (error) {
+    console.log("[SERVERS_GET]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
 
 export async function POST(req: Request) {
   try {
-    const { name, imageUrl, category } = await req.json();
-    console.log("Creating server with:", { name, imageUrl, category });
-    
-    const profile = await initialProfile();
-    console.log("Current profile:", profile);
-    
+    const profile = await currentProfile();
+    const { name, imageUrl } = await req.json();
+
     if (!profile) {
-      console.log("No profile found - user not authenticated");
       return new NextResponse("Unauthorized", { status: 401 });
     }
+
+    if (!name) {
+      return new NextResponse("Name is required", { status: 400 });
+    }
+
+    if (!imageUrl) {
+      return new NextResponse("Image is required", { status: 400 });
+    }
+
     const server = await postgres.server.create({
       data: {
         profileId: profile.id,
         name,
         imageUrl,
-        category: category || "POPULAR",
-        inviteCode: uuidv4(),
+        inviteCode: crypto.randomUUID(),
         channels: {
-          create: [{ name: "general", profileId: profile.id }],
+          create: [
+            {
+              name: "general",
+              profileId: profile.id,
+            },
+          ],
         },
         members: {
           create: [
             {
               profileId: profile.id,
-              role: MemberRole.ADMIN,
+              role: "ADMIN",
             },
           ],
         },
       },
     });
+
     return NextResponse.json(server);
-  } catch (error: unknown) {
-    console.error("Server creation error:", error);
-    const message =
-      error instanceof Error ? error.message : "Internal Server Error";
-    return new NextResponse(message, { status: 500 });
+  } catch (error) {
+    console.log("[SERVERS_POST]", error);
+    return new NextResponse("Internal Error", { status: 500 });
   }
 }
